@@ -1,35 +1,10 @@
-var width = 960,
-  height = 960,
-  speed = -1e-2,
-  start = Date.now();
-
-var places_multi = {
-  path1: {
-    HNL: [-157 - 55 / 60 - 21 / 3600, 21 + 19 / 60 + 07 / 3600],
-    HKG: [113 + 54 / 60 + 53 / 3600, 22 + 18 / 60 + 32 / 3600],
-    SVO: [37 + 24 / 60 + 53 / 3600, 55 + 58 / 60 + 22 / 3600],
-    HAV: [-82 - 24 / 60 - 33 / 3600, 22 + 59 / 60 + 21 / 3600],
-    CCS: [-66 - 59 / 60 - 26 / 3600, 10 + 36 / 60 + 11 / 3600],
-    UIO: [-78 - 21 / 60 - 31 / 3600, 0 + 06 / 60 + 48 / 3600]
-  },
-  path2: {
-    BOS: [-71.115704, 42.410161],
-    HKG: [113 + 54 / 60 + 53 / 3600, 22 + 18 / 60 + 32 / 3600]
-  }
-
+Object.size = function(obj) {
+    var size = 0, key;
+    for (key in obj) {
+        if (obj.hasOwnProperty(key)) size++;
+    }
+    return size;
 };
-
-var curPath = 0; //the path that is currently showing
-
-var route_multi = {};
-
-for (k in places_multi) {
-  route_multi[k] = {};
-  route_multi[k].type = "LineString";
-  route_multi[k].coordinates = [];
-  for (m in places_multi[k])
-    route_multi[k].coordinates.push(places_multi[k][m]);
-}
 
 var getNode = function(placeList, i) { //get the certain node from the place list
   var item = 0;
@@ -73,6 +48,44 @@ function translateAlong(path, m) {
   }
 }
 
+
+var places_multi = {
+  path1: {
+    HNL: [-157 - 55 / 60 - 21 / 3600, 21 + 19 / 60 + 07 / 3600],
+    HKG: [113 + 54 / 60 + 53 / 3600, 22 + 18 / 60 + 32 / 3600],
+    SVO: [37 + 24 / 60 + 53 / 3600, 55 + 58 / 60 + 22 / 3600],
+    HAV: [-82 - 24 / 60 - 33 / 3600, 22 + 59 / 60 + 21 / 3600],
+    CCS: [-66 - 59 / 60 - 26 / 3600, 10 + 36 / 60 + 11 / 3600],
+    UIO: [-78 - 21 / 60 - 31 / 3600, 0 + 06 / 60 + 48 / 3600]
+  },
+  path2: {
+    BOS: [-71.115704, 42.410161],
+    HKG: [113 + 54 / 60 + 53 / 3600, 22 + 18 / 60 + 32 / 3600]
+  },
+  path3: {
+    BOS: [-71.115704, 42.410161],
+    BKL: [-122.252430,37.866487]
+  }
+};
+
+var width = 960,
+  height = 960,
+  speed = -1e-2,
+  start = Date.now();
+
+var pathNum = Object.size(places_multi);//how many path is in the data list
+var curPath = 0; //the path that is currently showing
+
+var route_multi = {};
+
+for (k in places_multi) {
+  route_multi[k] = {};
+  route_multi[k].type = "LineString";
+  route_multi[k].coordinates = [];
+  for (m in places_multi[k])
+    route_multi[k].coordinates.push(places_multi[k][m]);
+}
+
 var projection = d3.geo.orthographic()
   .scale(width / 2.1)
   .translate([width / 2, height / 2])
@@ -101,10 +114,14 @@ var svg0 = d3.select("#draw").append("svg").attr("class", "mysvg")
   .attr("height", height);
 var svg = svg0.append("g");
 
+//add check box for paths
+for (var i = 0;i<pathNum;i++){
+  d3.select(".options")
+  .append("div")
+  .attr("id", i).append("p")
+  .text("No."+(i+1)+" Path");
 
-
-
-
+}
 
 var path = d3.geo.path()
   .projection(projection)
@@ -122,8 +139,6 @@ var point;
 var show = function(current) {
   mytest++;
 
-
-
   svg.append('rect')
     .attr('class', 'overlay')
     .attr('width', width)
@@ -137,8 +152,6 @@ var show = function(current) {
     .attr("cy", 25)
     .attr("r", 10)
     .style("display", "none");
-
-
 
   myroute = svg.append("path")
     .datum(route)
@@ -220,8 +233,6 @@ var show = function(current) {
 
 
     d3.timer(function() {
-      console.log("mytest" + mytest);
-
       count += 1;
       var timephase = count % oneMove; //the current phase of this move
       var phasePercentage = timephase / oneMove; //the completion percentage of the current move
@@ -405,24 +416,12 @@ var update = function(current) {
 
 }
 
-
-
 var main = function() {
   $('.options div').click(
     function() {
       var thisid = $(this).attr("id");
-      if (thisid === "p1") {
-        curPath = 0;
-
-        update(curPath);
-      } else if (thisid === "p2") {
-        curPath = 1;
-
-        update(curPath);
-      }
-
-
-
+      curPath = +thisid;
+      update(curPath);
     }
   );
 };
