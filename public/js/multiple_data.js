@@ -201,7 +201,7 @@ var show = function(current) {
 
 
 
-  d3.json("http://bl.ocks.org/mbostock/raw/4090846/world-110m.json", function(error, topo) {
+  d3.json("https://bl.ocks.org/mbostock/raw/4090846/world-110m.json", function(error, topo) {
     if (error) throw error;
 
     var land = topojson.feature(topo, topo.objects.land),
