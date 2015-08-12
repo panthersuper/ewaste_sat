@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<style>
+
+body {
+  background: black;
+}
+
+.points circle {
+  fill: none;
+  stroke: white;
+  stroke-width: 2px;
+}
+
+.points text {
+  font: 11px sans-serif;
+  text-anchor: middle;
+  text-shadow: 0 1px 0 #fff, 0 -1px 0 #fff, 1px 0 0 #fff, -1px 0 0 #fff;
+}
+
+    .mysvg {
+      position: absolute;
+      top: 0;
+      left: 0;
+    }
+    rect { fill: transparent; }
+
+    .mycanvas {
+      position: absolute;
+      top: 0;
+      left: 0;
+
+    }
+    .route {
+      fill: none;
+      stroke: #abacaa;
+      stroke-width: 2px;
+}
+
+    .curroute{
+      fill: none;
+      stroke: #abacaa;
+      stroke-width: 5px;
+
+    }
+
+    #tablepath {
+        float: right;
+        color: white;
+        background-color: #474747;
+        width: 100px;
+        display: inline-block;
+    }
+
+    #tablepath div {
+        border-bottom:1px solid black;
+    }
+
+    p {
+        font-family: roboto;
+    }
+
+
+    .options div:hover{
+        color: red;
+    }
+
+    #draw {
+        display: block;
+        background: none;
+        width: 960px;
+        height:960px;
+        left:0px;
+        top:0px;
+        position: absolute;
+    }
+
+    svg{
+        float:left;
+    }
+
+
+
+
+</style>
+<body>
+<link href='http://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.5/d3.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/topojson/1.6.19/topojson.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+
+<!-- /* <script src ="modified.js"></script>
+*/ -->
+
+
+
+<div id="draw">
+
+</div>
+
+<div id="tablepath">
+        <div ><p><strong>Paths</strong></p></div>
+        <g class = "options">
+        <div id = "p1"><p>1st path</p></div>
+        <div id = "p2"><p>2nd path</p></div>
+        </g>
+</div>
+
+
+
+
+
+<script src ="js/multiple_data.js"></script>
+
+</body>

@@ -13,3 +13,8 @@ exports.index = function(req, res) {
 	console.log('main page requested');
 	res.render('index.html');
 }
+
+exports.viz = function(req, res) {
+	console.log('visualization page requested');
+	res.render('viz.html');
+}
