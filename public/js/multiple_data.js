@@ -85,7 +85,6 @@ var projection = d3.geo.orthographic()
   .translate([width / 2, height / 2])
   .precision(.5);
 var graticule = d3.geo.graticule();
-var mytest = 0;
 var target;
 var myroute;
 var CuRoute;
@@ -113,9 +112,9 @@ var patho = d3.geo.path()
 var sphere = {
   type: "Sphere"
 };
-var nodeNum;
+var nodeNum;//total node amount
 var nowNum = 1; //current node to target to
-var oneMove = 200; //the interval for each focus
+var oneMove = 100; //the interval for each focus
 var count = 0; //to measure the interval
 var point;
 var track;
@@ -172,7 +171,6 @@ d3.csv("monitoring2.csv", function(error, data) {
 
   nodeNum = route.coordinates.length //the total number of nodes
 
-  mytest++;
 
 
   svg.append('rect')
@@ -255,6 +253,8 @@ d3.csv("monitoring2.csv", function(error, data) {
 
 
     d3.timer(function() {
+      console.log("Current Path:"+curPath+"||Current Node:"+nowNum+"||Total Node:"+nodeNum);
+
       count += 1;
       var timephase = count % oneMove; //the current phase of this move
       var phasePercentage = timephase / oneMove; //the completion percentage of the current move
@@ -266,9 +266,10 @@ d3.csv("monitoring2.csv", function(error, data) {
       //0: far! at the middle of two nodes
 
       if (phasePercentage === 0) { //one move is finished, start the next one
-
         nowNum = nowNum + 1;
-        nowNum = nowNum % nodeNum;
+        nowNum = nowNum % nodeNum;   //cycle the loop
+
+        if (nowNum===0) nowNum = 1; //skip the first move
       }
 
       lat_old = getNode(places, (nowNum - 1 + nodeNum) % nodeNum)[0];
@@ -335,7 +336,7 @@ d3.csv("monitoring2.csv", function(error, data) {
       context.translate(ptnow[0], ptnow[1]);
       context.scale(test, test);
 
-      track.attr("r", closeRate * 18 + 2);
+      track.attr("r", closeRate * 18 + 2);//change the tracker's r according to closerate
 
 
 
