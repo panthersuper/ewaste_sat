@@ -48,7 +48,7 @@ function ready(error, data) {
     places_multi[data[i]["group"]] = {};
   };
   for (var i = 0; i < num; i++) {
-    places_multi[data[i]["group"]][data[i]["nr"]+","+data[i]["address"]] = [data[i]["lon"], data[i]["lat"]];
+    places_multi[data[i]["group"]][data[i]["address"]] = [data[i]["lon"], data[i]["lat"]];
   };
 
 

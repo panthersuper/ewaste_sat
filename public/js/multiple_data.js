@@ -49,8 +49,8 @@ var translateAlong = function(path, m) {
   }
 }
 
-var distanceSQ = function(nodeA,nodeB){
-  return (nodeA[0]-nodeB[0])*(nodeA[0]-nodeB[0])+(nodeA[1]-nodeB[1])*(nodeA[1]-nodeB[1]);
+var distanceSQ = function(nodeA, nodeB) {
+  return (nodeA[0] - nodeB[0]) * (nodeA[0] - nodeB[0]) + (nodeA[1] - nodeB[1]) * (nodeA[1] - nodeB[1]);
 }
 
 /*var places_multi_test = {
@@ -115,9 +115,10 @@ var patho = d3.geo.path()
 var sphere = {
   type: "Sphere"
 };
-var nodeNum;//total node amount
+var nodeNum; //total node amount
 var nowNum = 1; //current node to target to
-var oneMove = 30; //the interval for each focus
+var oneMove = 100; //the interval for each focus
+var countmove = 1;
 var count = 0; //to measure the interval
 var point;
 var track;
@@ -166,7 +167,7 @@ d3.csv("monitoring2.csv", function(error, data) {
       .append("div")
       .attr("class", "thepaths")
       .attr("id", i).append("p")
-      .text("No." + (i + 1) + " Path :" +data[i]["group"]);
+      .text("No." + (i + 1) + " Path :" + data[i]["group"]);
   }
 
 
@@ -236,7 +237,6 @@ d3.csv("monitoring2.csv", function(error, data) {
   lng = getNode(places, nowNum)[1];
 
 
-
   d3.json("world-110m.json", function(error, topo) {
     if (error) throw error;
 
@@ -256,26 +256,26 @@ d3.csv("monitoring2.csv", function(error, data) {
 
 
     d3.timer(function() {
-      console.log("Current Path:"+curPath+"||Current Node:"+nowNum+"||Total Node:"+nodeNum);
-      var dis = distanceSQ([lat_old,lng_old],[lat,lng]);
-      console.log(dis);
-      if (dis<1) count +=1;
-      else count += 0.25;
+      console.log("Current Path:" + curPath + "||Current Node:" + nowNum + "||Total Node:" + nodeNum);
+      var dis = distanceSQ([lat_old, lng_old], [lat, lng]);
+      console.log("distance:" + dis);
+      console.log(count);
+      
+      if (dis < 100) {
+        countmove = 4;
+      } else { countmove = 1;
+      }
+      count +=countmove;
       var timephase = count % oneMove; //the current phase of this move
       var phasePercentage = timephase / oneMove; //the completion percentage of the current move
 
       context.clearRect(0, 0, width, height);
-
+      console.log(phasePercentage);
       //rate the closeness to nodes
       //0.5: close! at nodes
       //0: far! at the middle of two nodes
 
-      if (phasePercentage === 0) { //one move is finished, start the next one
-        nowNum = nowNum + 1;
-        nowNum = nowNum % nodeNum;   //cycle the loop
 
-        if (nowNum===0) nowNum = 1; //skip the first move
-      }
 
       lat_old = getNode(places, (nowNum - 1 + nodeNum) % nodeNum)[0];
       lng_old = getNode(places, (nowNum - 1 + nodeNum) % nodeNum)[1];
@@ -283,9 +283,6 @@ d3.csv("monitoring2.csv", function(error, data) {
       //the target of this move
       lat = getNode(places, nowNum)[0];
       lng = getNode(places, nowNum)[1];
-
-
-      //dis = 1;
 
       var intertarget = interPt([lat_old, lng_old], [lat, lng], phasePercentage);
 
@@ -334,8 +331,8 @@ d3.csv("monitoring2.csv", function(error, data) {
 
 
       var test = closeRate * 3 + 1;
-      if (dis<1){
-        test = closeRate/2 + 2.25;
+      if (dis < 100) {
+        test = closeRate / 2 + 2.25;
       }
 
 
@@ -346,7 +343,7 @@ d3.csv("monitoring2.csv", function(error, data) {
       context.translate(ptnow[0], ptnow[1]);
       context.scale(test, test);
 
-      track.attr("r", closeRate * 18 + 2);//change the tracker's r according to closerate
+      track.attr("r", closeRate * 18 + 2); //change the tracker's r according to closerate
 
 
 
@@ -382,6 +379,19 @@ d3.csv("monitoring2.csv", function(error, data) {
       context.stroke();
 
       projection.clipAngle(0); //clip the back half of the land
+
+
+
+
+      if (Math.abs(count - oneMove) <= countmove) { //one move is finished, start the next one
+        count = 0
+
+        nowNum = nowNum + 1;
+        nowNum = nowNum % nodeNum; //cycle the loop
+
+        if (nowNum === 0) nowNum = 1; //skip the first move
+      }
+
 
     });
   });
@@ -435,7 +445,7 @@ var update = function(current) {
 
   nodeNum = route.coordinates.length; //the total number of nodes
   nowNum = 1; //current node to target to
-  oneMove = 200; //the interval for each focus
+  oneMove = 30; //the interval for each focus
   count = 0; //to measure the interval
 
 }
