@@ -38,7 +38,7 @@ var interPt = function(ptA, ptB, t) {
   return [x, y];
 }
 
-function translateAlong(path, m) {
+var translateAlong = function(path, m) {
   var l = path.getTotalLength();
 
   return function(i) {
@@ -49,6 +49,9 @@ function translateAlong(path, m) {
   }
 }
 
+var distanceSQ = function(nodeA,nodeB){
+  return (nodeA[0]-nodeB[0])*(nodeA[0]-nodeB[0])+(nodeA[1]-nodeB[1])*(nodeA[1]-nodeB[1]);
+}
 
 /*var places_multi_test = {
   path1: {
@@ -114,7 +117,7 @@ var sphere = {
 };
 var nodeNum;//total node amount
 var nowNum = 1; //current node to target to
-var oneMove = 100; //the interval for each focus
+var oneMove = 30; //the interval for each focus
 var count = 0; //to measure the interval
 var point;
 var track;
@@ -254,8 +257,10 @@ d3.csv("monitoring2.csv", function(error, data) {
 
     d3.timer(function() {
       console.log("Current Path:"+curPath+"||Current Node:"+nowNum+"||Total Node:"+nodeNum);
-
-      count += 1;
+      var dis = distanceSQ([lat_old,lng_old],[lat,lng]);
+      console.log(dis);
+      if (dis<1) count +=1;
+      else count += 0.25;
       var timephase = count % oneMove; //the current phase of this move
       var phasePercentage = timephase / oneMove; //the completion percentage of the current move
 
@@ -280,6 +285,7 @@ d3.csv("monitoring2.csv", function(error, data) {
       lng = getNode(places, nowNum)[1];
 
 
+      //dis = 1;
 
       var intertarget = interPt([lat_old, lng_old], [lat, lng], phasePercentage);
 
@@ -326,10 +332,14 @@ d3.csv("monitoring2.csv", function(error, data) {
 
       var closeRate = Math.abs(0.5 - phasePercentage);
 
+
       var test = closeRate * 3 + 1;
+      if (dis<1){
+        test = closeRate/2 + 2.25;
+      }
 
 
-
+      //move the camera and rescale the canvas
       var ptnow = [-width / 2 * (test - 1), -height / 2 * (test - 1)];
       svg.attr("transform", "translate(" + ptnow + ")scale(" + test + ")");
       context.setTransform(1, 0, 0, 1, 0, 0);
