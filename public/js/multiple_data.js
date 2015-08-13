@@ -211,24 +211,22 @@ d3.csv("monitoring2.csv", function(error, data) {
   track = svg.append("g")
     .append("circle")
     .attr("class", "track")
-    .attr("r", 6)
-    .attr("fill", "rgba(206, 18, 18, 0.6)")
-    .attr("stroke", "#ce1212")
-    .attr("stroke-width", "0.5px")
+    .attr("r", 4)
+    .attr("fill", "none")
+    .attr("stroke", "rgba(206, 18, 18, 0.6)")
+    .attr("stroke-width", "3px")
     .attr("transform", "translate(100,100)");
 
-
   point.append("circle") //show circle on each point
-    .attr("r", 4.5);
+    .attr("r", 3);
 
   point.append("text") //show text on each point
     .attr("y", 10)
     .attr("dy", ".71em")
+    .attr("class", "locName")
     .text(function(d) {
-      return d.key;
+      return d.key.split("_")[1];
     });
-
-
 
   lat_old = getNode(places, (nowNum - 1 + nodeNum) % nodeNum)[0];
   lng_old = getNode(places, (nowNum - 1 + nodeNum) % nodeNum)[1];
@@ -330,12 +328,10 @@ d3.csv("monitoring2.csv", function(error, data) {
 
       var closeRate = Math.abs(0.5 - phasePercentage);
 
-
       var test = closeRate * 3 + 1;
       if (dis < 100) {
         test = 2.5;
       }
-
 
       //move the camera and rescale the canvas
       var ptnow = [-width / 2 * (test - 1), -height / 2 * (test - 1)];
@@ -344,7 +340,7 @@ d3.csv("monitoring2.csv", function(error, data) {
       context.translate(ptnow[0], ptnow[1]);
       context.scale(test, test);
 
-      track.attr("r", closeRate * 18 + 2); //change the tracker's r according to closerate
+      track.attr("r", closeRate * 12+2); //change the tracker's r according to closerate
 
 
 
@@ -440,8 +436,9 @@ var update = function(current) {
   point.append("text") //show text on each point
     .attr("y", 10)
     .attr("dy", ".71em")
+    .attr("class", "locName")
     .text(function(d) {
-      return d.key;
+      return d.key.split("_")[1];
     });
 
   nodeNum = route.coordinates.length; //the total number of nodes
