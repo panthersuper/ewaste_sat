@@ -163,12 +163,12 @@ d3.csv("monitoring2.csv", function(error, data) {
 
   var pathNum = Object.size(places_multi); //how many path is in the data list
   //add check box for paths
-  for (var i = 0; i < pathNum; i++) {
+  for (key in places_multi) {
     d3.select("#tablepath")
       .append("div")
       .attr("class", "thepaths")
       .attr("id", i).append("p")
-      .text("No." + (i + 1) + " Path :" + data[i]["group"]);
+      .text(key);
   }
 
 
@@ -225,7 +225,7 @@ d3.csv("monitoring2.csv", function(error, data) {
     .attr("dy", ".71em")
     .attr("class", "locName")
     .text(function(d) {
-      return d.key.split("_")[1];
+      return d.key.split("_")[1].split(" ")[0].split(",")[0];
     });
 
   lat_old = getNode(places, (nowNum - 1 + nodeNum) % nodeNum)[0];
@@ -438,7 +438,7 @@ var update = function(current) {
     .attr("dy", ".71em")
     .attr("class", "locName")
     .text(function(d) {
-      return d.key.split("_")[1];
+      return d.key.split("_")[1].split(" ")[0].split(",")[0];
     });
 
   nodeNum = route.coordinates.length; //the total number of nodes
