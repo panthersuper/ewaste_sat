@@ -18,3 +18,8 @@ exports.viz = function(req, res) {
 	console.log('visualization page requested');
 	res.render('viz.html');
 }
+
+exports.csv = function(req, res) {
+	console.log('csv page requested');
+	res.render('readCSV.html');
+}

@@ -1,9 +1,10 @@
 Object.size = function(obj) {
-    var size = 0, key;
-    for (key in obj) {
-        if (obj.hasOwnProperty(key)) size++;
-    }
-    return size;
+  var size = 0,
+    key;
+  for (key in obj) {
+    if (obj.hasOwnProperty(key)) size++;
+  }
+  return size;
 };
 
 var getNode = function(placeList, i) { //get the certain node from the place list
@@ -49,7 +50,7 @@ function translateAlong(path, m) {
 }
 
 
-var places_multi = {
+/*var places_multi_test = {
   path1: {
     HNL: [-157 - 55 / 60 - 21 / 3600, 21 + 19 / 60 + 07 / 3600],
     HKG: [113 + 54 / 60 + 53 / 3600, 22 + 18 / 60 + 32 / 3600],
@@ -66,43 +67,31 @@ var places_multi = {
     BOS: [-71.115704, 42.410161],
     BKL: [-122.252430,37.866487]
   }
-};
+};*/
 
 var width = 960,
   height = 960,
   speed = -1e-2,
   start = Date.now();
 
-var pathNum = Object.size(places_multi);//how many path is in the data list
-var curPath = 0; //the path that is currently showing
 
+
+var places_multi = {};
 var route_multi = {};
 
-for (k in places_multi) {
-  route_multi[k] = {};
-  route_multi[k].type = "LineString";
-  route_multi[k].coordinates = [];
-  for (m in places_multi[k])
-    route_multi[k].coordinates.push(places_multi[k][m]);
-}
-
+var curPath = 0; //the path that is currently showing
 var projection = d3.geo.orthographic()
   .scale(width / 2.1)
   .translate([width / 2, height / 2])
   .precision(.5);
-
 var graticule = d3.geo.graticule();
-
-var sphere = {
-  type: "Sphere"
-};
-
 var mytest = 0;
-var places = getNode(places_multi, curPath);
-var route = getNode(route_multi, curPath);
 var target;
 var myroute;
 var CuRoute;
+var places;
+var route;
+
 var canvas = d3.select("#draw").append("canvas").attr("class", "mycanvas")
   .attr("width", width)
   .attr("height", height);
@@ -114,15 +103,6 @@ var svg0 = d3.select("#draw").append("svg").attr("class", "mysvg")
   .attr("height", height);
 var svg = svg0.append("g");
 
-//add check box for paths
-for (var i = 0;i<pathNum;i++){
-  d3.select(".options")
-  .append("div")
-  .attr("id", i).append("p")
-  .text("No."+(i+1)+" Path");
-
-}
-
 var path = d3.geo.path()
   .projection(projection)
   .context(context);
@@ -130,14 +110,70 @@ var path = d3.geo.path()
 var patho = d3.geo.path()
   .projection(projection);
 
-var nodeNum = route.coordinates.length //the total number of nodes
+var sphere = {
+  type: "Sphere"
+};
+var nodeNum;
 var nowNum = 1; //current node to target to
 var oneMove = 200; //the interval for each focus
 var count = 0; //to measure the interval
 var point;
+var track;
 
-var show = function(current) {
+var lat_old = 0;
+var lng_old = 0;
+var lat = 0;
+var lng = 0;
+var scaleFactor = 1;
+var transx = 0;
+var transy = 0;
+var nowx = 0;
+var nowy = 0;
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+d3.csv("monitoring2.csv", function(error, data) {
+  //data is numbered by the row number... 
+  //head is not counted as a row.
+  //each item in the data list is a dictionary, key is indicated by the head
+
+  var num = data.length;
+  for (var i = 0; i < num; i++) {
+    places_multi[data[i]["group"]] = {};
+  };
+  for (var i = 0; i < num; i++) {
+    places_multi[data[i]["group"]][data[i]["nr"] + "_" + data[i]["address"]] = [+data[i]["lon"], +data[i]["lat"]];
+  };
+
+  for (k in places_multi) {
+    route_multi[k] = {};
+    route_multi[k].type = "LineString";
+    route_multi[k].coordinates = [];
+    for (m in places_multi[k])
+      route_multi[k].coordinates.push(places_multi[k][m]);
+  }
+
+
+  places = getNode(places_multi, curPath);
+  route = getNode(route_multi, curPath);
+
+  var pathNum = Object.size(places_multi); //how many path is in the data list
+  //add check box for paths
+  for (var i = 0; i < pathNum; i++) {
+    d3.select("#tablepath")
+      .append("div")
+      .attr("class", "thepaths")
+      .attr("id", i).append("p")
+      .text("No." + (i + 1) + " Path :" +data[i]["group"]);
+  }
+
+
+  $(document).ready(main); //run jquery after csv loaded so path button initialized
+
+  nodeNum = route.coordinates.length //the total number of nodes
+
   mytest++;
+
 
   svg.append('rect')
     .attr('class', 'overlay')
@@ -152,7 +188,6 @@ var show = function(current) {
     .attr("cy", 25)
     .attr("r", 10)
     .style("display", "none");
-
   myroute = svg.append("path")
     .datum(route)
     .attr("class", "route")
@@ -170,7 +205,7 @@ var show = function(current) {
       return "translate(" + projection(d.value) + ")";
     });
 
-  var track = svg.append("g")
+  track = svg.append("g")
     .append("circle")
     .attr("class", "track")
     .attr("r", 6)
@@ -178,7 +213,6 @@ var show = function(current) {
     .attr("stroke", "#ce1212")
     .attr("stroke-width", "0.5px")
     .attr("transform", "translate(100,100)");
-
 
 
   point.append("circle") //show circle on each point
@@ -190,18 +224,6 @@ var show = function(current) {
     .text(function(d) {
       return d.key;
     });
-
-
-
-  var lat_old = 0;
-  var lng_old = 0;
-  var lat = 0;
-  var lng = 0;
-  var scaleFactor = 1;
-  var transx = 0;
-  var transy = 0;
-  var nowx = 0;
-  var nowy = 0;
 
 
 
@@ -308,7 +330,6 @@ var show = function(current) {
 
 
       var ptnow = [-width / 2 * (test - 1), -height / 2 * (test - 1)];
-      //console.log(phasePercentage);
       svg.attr("transform", "translate(" + ptnow + ")scale(" + test + ")");
       context.setTransform(1, 0, 0, 1, 0, 0);
       context.translate(ptnow[0], ptnow[1]);
@@ -357,15 +378,11 @@ var show = function(current) {
 
 
   d3.select(self.frameElement).style("height", height + "px");
+});
 
 
-};
 
-//jquery begin here;
-
-
-show(curPath);
-
+//update content after selecting a specific path
 var update = function(current) {
   places = getNode(places_multi, current);
   route = getNode(route_multi, current);
@@ -405,19 +422,16 @@ var update = function(current) {
       return d.key;
     });
 
-
-  nodeNum = route.coordinates.length //the total number of nodes
-  console.log(nodeNum);
+  nodeNum = route.coordinates.length; //the total number of nodes
   nowNum = 1; //current node to target to
   oneMove = 200; //the interval for each focus
   count = 0; //to measure the interval
 
-
-
 }
 
+//main jquery function
 var main = function() {
-  $('.options div').click(
+  $(".thepaths").click(
     function() {
       var thisid = $(this).attr("id");
       curPath = +thisid;
@@ -425,7 +439,3 @@ var main = function() {
     }
   );
 };
-
-
-
-$(document).ready(main);

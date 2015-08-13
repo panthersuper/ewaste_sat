@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+  <meta charset = "utf-8">
+  <style>
+
+  .chart rect {
+    fill: steelblue;
+  }
+
+.chart text {
+  fill: white;
+  font: 10 px sans - serif;
+  text - anchor: middle;
+}
+
+</style> 
+
+<svg class = "chart"> </svg> 
+<script src = "http://d3js.org/d3.v3.min.js"></script> 
+<script src="/js/queue.v1.min.js"></script>
+<script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=false"></script>
+
+<script>
+
+var width = 960,
+  height = 500;
+
+var y = d3.scale.linear()
+  .range([height, 0]);
+
+var chart = d3.select(".chart")
+  .attr("width", width)
+  .attr("height", height);
+
+var places_multi = {};
+
+queue() 
+      .defer(d3.csv, "monitoring2.csv")
+      .await(ready); 
+
+GetLocation();
+
+
+
+function ready(error, data) { 
+    
+  var num = data.length;
+  for (var i = 0; i < num; i++) {
+    places_multi[data[i]["group"]] = {};
+  };
+  for (var i = 0; i < num; i++) {
+    places_multi[data[i]["group"]][data[i]["nr"]+","+data[i]["address"]] = [data[i]["lon"], data[i]["lat"]];
+  };
+
+
+  console.log(places_multi);
+  }
+
+function GetLocation(address) {
+  var geocoder = new google.maps.Geocoder();
+  var address = address;
+  geocoder.geocode({ 'address': address }, function (results, status) {
+    if (status == google.maps.GeocoderStatus.OK) {
+      var latitude = results[0].geometry.location.lat();
+      var longitude = results[0].geometry.location.lng();
+      return [latitude, longitude];
+
+  } else {
+      return null;
+    }
+  });
+};
+
+
+
+</script>
