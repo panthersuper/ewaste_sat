@@ -117,7 +117,8 @@ var sphere = {
 };
 var nodeNum; //total node amount
 var nowNum = 1; //current node to target to
-var oneMove = 100; //the interval for each focus
+var oneMove_default = 100;
+var oneMove = oneMove_default; //the interval for each focus
 var countmove = 1;
 var count = 0; //to measure the interval
 var point;
@@ -332,7 +333,7 @@ d3.csv("monitoring2.csv", function(error, data) {
 
       var test = closeRate * 3 + 1;
       if (dis < 100) {
-        test = closeRate / 2 + 2.25;
+        test = 2.5;
       }
 
 
@@ -445,7 +446,7 @@ var update = function(current) {
 
   nodeNum = route.coordinates.length; //the total number of nodes
   nowNum = 1; //current node to target to
-  oneMove = 30; //the interval for each focus
+  oneMove = oneMove_default; //the interval for each focus
   count = 0; //to measure the interval
 
 }

@@ -39,10 +39,8 @@ queue()
 
 GetLocation();
 
-
-
-function ready(error, data) { 
-    
+function ready(error, data) {
+  
   var num = data.length;
   for (var i = 0; i < num; i++) {
     places_multi[data[i]["group"]] = {};
@@ -50,7 +48,6 @@ function ready(error, data) {
   for (var i = 0; i < num; i++) {
     places_multi[data[i]["group"]][data[i]["address"]] = [data[i]["lon"], data[i]["lat"]];
   };
-
 
   console.log(places_multi);
   }
