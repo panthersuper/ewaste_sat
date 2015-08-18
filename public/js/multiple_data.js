@@ -328,15 +328,15 @@ d3.csv("new_monitor_sim.csv", function(error, data) {
       console.log("Current Path:" + curPath + "||Current Node:" + nowNum + "||Total Node:" + nodeNum);
       console.log(phasePercentage);
 
-      track.transition()
-        .attrTween("transform", translateAlong(CuRoute.node(), phasePercentage));
       
       //if dis is small enough, jump to the next node
       if(dis<100)
       track.transition()
         .attrTween("transform", translateAlong(CuRoute.node(), 0));
-
-
+      else
+      track.transition()
+        .attrTween("transform", translateAlong(CuRoute.node(), phasePercentage));
+      
       point.attr("transform", function(d) { //rotate the nodes
         return "translate(" + projection(d.value) + ")";
       });
