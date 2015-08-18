@@ -157,18 +157,21 @@ d3.csv("monitoring2.csv", function(error, data) {
       route_multi[k].coordinates.push(places_multi[k][m]);
   }
 
-
   places = getNode(places_multi, curPath);
   route = getNode(route_multi, curPath);
 
   var pathNum = Object.size(places_multi); //how many path is in the data list
   //add check box for paths
+
+  var i = 0;
   for (key in places_multi) {
+
     d3.select("#tablepath")
       .append("div")
       .attr("class", "thepaths")
       .attr("id", i).append("p")
       .text(key);
+      i++;
   }
 
 
@@ -453,6 +456,7 @@ var main = function() {
   $(".thepaths").click(
     function() {
       var thisid = $(this).attr("id");
+      console.log("myid"+thisid);
       curPath = +thisid;
       update(curPath);
     }
