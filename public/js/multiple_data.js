@@ -73,16 +73,14 @@ var distanceSQ = function(nodeA, nodeB) {
 };*/
 
 var width = 960,
-  height = 960,
-  speed = -1e-2,
-  start = Date.now();
+  height = 960;
 
 
 
 var places_multi = {};
 var route_multi = {};
 
-var curPath = 0; //the path that is currently showing
+var curPath = 1; //the path that is currently showing
 var projection = d3.geo.orthographic()
   .scale(width / 2.1)
   .translate([width / 2, height / 2])
@@ -136,17 +134,17 @@ var nowy = 0;
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-d3.csv("monitoring2.csv", function(error, data) {
+d3.csv("new_monitor_sim.csv", function(error, data) {
   //data is numbered by the row number... 
   //head is not counted as a row.
   //each item in the data list is a dictionary, key is indicated by the head
 
   var num = data.length;
   for (var i = 0; i < num; i++) {
-    places_multi[data[i]["group"]] = {};
+    places_multi[data[i]["deviceID"]] = {};
   };
   for (var i = 0; i < num; i++) {
-    places_multi[data[i]["group"]][data[i]["nr"] + "_" + data[i]["address"]] = [+data[i]["lon"], +data[i]["lat"]];
+    places_multi[data[i]["deviceID"]][data[i]["sequence"]] = [+data[i]["longitude"], +data[i]["latitude"]];
   };
 
   for (k in places_multi) {
@@ -163,15 +161,15 @@ d3.csv("monitoring2.csv", function(error, data) {
   var pathNum = Object.size(places_multi); //how many path is in the data list
   //add check box for paths
 
-  var i = 0;
+  var id = 0;
   for (key in places_multi) {
 
     d3.select("#tablepath")
       .append("div")
       .attr("class", "thepaths")
-      .attr("id", i).append("p")
+      .attr("id", id).append("p")
       .text(key);
-      i++;
+      id++;
   }
 
 
@@ -221,15 +219,15 @@ d3.csv("monitoring2.csv", function(error, data) {
     .attr("transform", "translate(100,100)");
 
   point.append("circle") //show circle on each point
-    .attr("r", 3);
+    .attr("r", 2);
 
-  point.append("text") //show text on each point
+/*  point.append("text") //show text on each point
     .attr("y", 10)
     .attr("dy", ".71em")
     .attr("class", "locName")
     .text(function(d) {
       return d.key.split("_")[1].split(" ")[0].split(",")[0];
-    });
+    });*/
 
   lat_old = getNode(places, (nowNum - 1 + nodeNum) % nodeNum)[0];
   lng_old = getNode(places, (nowNum - 1 + nodeNum) % nodeNum)[1];
@@ -258,26 +256,14 @@ d3.csv("monitoring2.csv", function(error, data) {
 
 
     d3.timer(function() {
-      console.log("Current Path:" + curPath + "||Current Node:" + nowNum + "||Total Node:" + nodeNum);
-      var dis = distanceSQ([lat_old, lng_old], [lat, lng]);
-      console.log("distance:" + dis);
-      console.log(count);
-      
-      if (dis < 100) {
-        countmove = 4;
-      } else { countmove = 1;
+
+      if (Math.abs(count - oneMove) < countmove) { //one move is finished, start the next one
+        count = 0
+        nowNum = nowNum + 1;//next node to target
+        nowNum = nowNum % nodeNum; //cycle the loop
+
+        if (nowNum === 0) nowNum = 1; //skip the first move
       }
-      count +=countmove;
-      var timephase = count % oneMove; //the current phase of this move
-      var phasePercentage = timephase / oneMove; //the completion percentage of the current move
-
-      context.clearRect(0, 0, width, height);
-      console.log(phasePercentage);
-      //rate the closeness to nodes
-      //0.5: close! at nodes
-      //0: far! at the middle of two nodes
-
-
 
       lat_old = getNode(places, (nowNum - 1 + nodeNum) % nodeNum)[0];
       lng_old = getNode(places, (nowNum - 1 + nodeNum) % nodeNum)[1];
@@ -285,6 +271,23 @@ d3.csv("monitoring2.csv", function(error, data) {
       //the target of this move
       lat = getNode(places, nowNum)[0];
       lng = getNode(places, nowNum)[1];
+
+      
+      var dis = distanceSQ([lat_old, lng_old], [lat, lng]);
+      
+      if (dis < 100) {
+        countmove = 10;
+      } else { countmove = 1;
+      }
+      
+      var timephase = count % oneMove; //the current phase of this move
+      var phasePercentage = timephase / oneMove; //the completion percentage of the current move
+
+      context.clearRect(0, 0, width, height);
+      count +=countmove;
+      //rate the closeness to nodes
+      //0.5: close! at nodes
+      //0: far! at the middle of two nodes
 
       var intertarget = interPt([lat_old, lng_old], [lat, lng], phasePercentage);
 
@@ -320,9 +323,18 @@ d3.csv("monitoring2.csv", function(error, data) {
         .attr("class", "curroute")
         .attr("d", patho);
 
+
+
+      console.log("Current Path:" + curPath + "||Current Node:" + nowNum + "||Total Node:" + nodeNum);
+      console.log(phasePercentage);
+
       track.transition()
         .attrTween("transform", translateAlong(CuRoute.node(), phasePercentage));
-
+      
+      //if dis is small enough, jump to the next node
+      if(dis<100)
+      track.transition()
+        .attrTween("transform", translateAlong(CuRoute.node(), 0));
 
 
       point.attr("transform", function(d) { //rotate the nodes
@@ -331,7 +343,7 @@ d3.csv("monitoring2.csv", function(error, data) {
 
       var closeRate = Math.abs(0.5 - phasePercentage);
 
-      var test = closeRate * 3 + 1;
+      var test = closeRate * 3 + 1;//scale factor
       if (dis < 100) {
         test = 2.5;
       }
@@ -343,7 +355,7 @@ d3.csv("monitoring2.csv", function(error, data) {
       context.translate(ptnow[0], ptnow[1]);
       context.scale(test, test);
 
-      track.attr("r", closeRate * 12+2); //change the tracker's r according to closerate
+      track.attr("r", closeRate * 10+2); //change the tracker's r according to closerate
 
 
 
@@ -352,7 +364,7 @@ d3.csv("monitoring2.csv", function(error, data) {
       context.lineWidth = 3;
       context.strokeStyle = "#000";
       context.stroke();
-      context.fillStyle = "#131a1b";
+      context.fillStyle = "#0b0e0f";
       context.fill();
 
       projection.clipAngle(180); //clip the grid and land, 180 means no clipping
@@ -383,14 +395,6 @@ d3.csv("monitoring2.csv", function(error, data) {
 
 
 
-      if (Math.abs(count - oneMove) <= countmove) { //one move is finished, start the next one
-        count = 0
-
-        nowNum = nowNum + 1;
-        nowNum = nowNum % nodeNum; //cycle the loop
-
-        if (nowNum === 0) nowNum = 1; //skip the first move
-      }
 
 
     });
@@ -424,6 +428,8 @@ var update = function(current) {
   CuRoute
     .attr("class", "curroute")
 
+
+
   $(".points").remove();
   point = svg.append("g")
     .attr("class", "points")
@@ -434,15 +440,15 @@ var update = function(current) {
       return "translate(" + projection(d.value) + ")";
     });
   point.append("circle") //show circle on each point
-    .attr("r", 4.5);
+    .attr("r", 2);
 
-  point.append("text") //show text on each point
+/*  point.append("text") //show text on each point
     .attr("y", 10)
     .attr("dy", ".71em")
     .attr("class", "locName")
     .text(function(d) {
       return d.key.split("_")[1].split(" ")[0].split(",")[0];
-    });
+    });*/
 
   nodeNum = route.coordinates.length; //the total number of nodes
   nowNum = 1; //current node to target to
@@ -456,7 +462,6 @@ var main = function() {
   $(".thepaths").click(
     function() {
       var thisid = $(this).attr("id");
-      console.log("myid"+thisid);
       curPath = +thisid;
       update(curPath);
     }
