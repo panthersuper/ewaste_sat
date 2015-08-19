@@ -269,9 +269,9 @@ d3.csv("new_monitor_sim.csv", function(error, data) {
   timeMark = svg0.append("g")//time mark
     .append("circle")
     .attr("class", "timemark")
-    .attr("r", 2)
+    .attr("r", 3)
     .attr("fill", "none")
-    .attr("stroke", "rgba(206, 18, 18, 0.6)")
+    .attr("stroke", "rgba(206, 18, 18, 0.8)")
     .attr("stroke-width", "3px")
     .attr("transform", "translate(100,"+(height - margin.top - margin.bottom)+")");
 
@@ -380,7 +380,7 @@ d3.csv("new_monitor_sim.csv", function(error, data) {
 
 
       console.log("Current Path:" + curPath + "||Current Node:" + nowNum + "||Total Node:" + nodeNum);
-      timeMark.attr("transform", "translate("+xScale(getNode(places, nowNum)[2])+","+(height - margin.top - margin.bottom+2)+")");
+      timeMark.attr("transform", "translate("+xScale(getNode(places, nowNum)[2])+","+(height - margin.top - margin.bottom+3)+")");
       console.log(getNode(places, nowNum)[2]);
       console.log(xScale(getNode(places, nowNum)[2]));
       console.log(phasePercentage);
@@ -416,24 +416,19 @@ d3.csv("new_monitor_sim.csv", function(error, data) {
 
       context.beginPath(); //draw the outbound of the sphere
       path(sphere);
-      context.lineWidth = 3;
-      context.strokeStyle = "#000";
+      context.lineWidth = 5;
+      context.strokeStyle = "#999";
       context.stroke();
       context.fillStyle = "#0b0e0f";
       context.fill();
 
       projection.clipAngle(180); //clip the grid and land, 180 means no clipping
 
-      context.beginPath();
+      context.beginPath();//land
       path(land);
       context.fillStyle = "#0d0d08";
       context.fill();
 
-      context.beginPath();
-      path(grid);
-      context.lineWidth = .5;
-      context.strokeStyle = "rgba(119,119,119,.5)";
-      context.stroke();
 
       projection.clipAngle(90); //clip the back half of the land
 
@@ -445,7 +440,13 @@ d3.csv("new_monitor_sim.csv", function(error, data) {
       context.strokeStyle = "#000";
       context.stroke();
 
-      projection.clipAngle(0); //clip the back half of the land
+      context.beginPath();//grid
+      path(grid);
+      context.lineWidth = .5;
+      context.strokeStyle = "rgba(119,119,119,.5)";
+      context.stroke();
+
+      //projection.clipAngle(180); //clip the back half of the land
 
 
 
