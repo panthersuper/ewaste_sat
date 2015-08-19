@@ -248,17 +248,18 @@ var datelst = []
       return "translate(" + projection(d.value) + ")";
     });
 
+  point.append("circle") //show circle on each point
+    .attr("r", 1);
   track = svg.append("g")//red circle
     .append("circle")
     .attr("class", "track")
-    .attr("r", 3)
+    .attr("r", 2)
     .attr("fill", "none")
     .attr("stroke", "rgba(206, 18, 18, 0.8)")
     .attr("stroke-width", "1px")
     .attr("transform", "translate(100,100)");
 
-  point.append("circle") //show circle on each point
-    .attr("r", 2);
+
   
   svg0.append('g')
     .attr('class', 'xaxis')
@@ -406,7 +407,7 @@ var datelst = []
       context.translate(ptnow[0], ptnow[1]);
       context.scale(test, test);
 
-      track.attr("r", closeRate * 4+1); //change the tracker's r according to closerate
+      track.attr("r", closeRate * 2+1); //change the tracker's r according to closerate
 
       context.beginPath(); //draw the outbound of the sphere
       path(sphere);
@@ -490,7 +491,17 @@ var update = function(current) {
       return "translate(" + projection(d.value) + ")";
     });
   point.append("circle") //show circle on each point
-    .attr("r", 2);
+    .attr("r", 1);
+
+  $(".track").remove();
+    track = svg.append("g")//red circle
+    .append("circle")
+    .attr("class", "track")
+    .attr("r", 2)
+    .attr("fill", "none")
+    .attr("stroke", "rgba(206, 18, 18, 0.8)")
+    .attr("stroke-width", "1px")
+    .attr("transform", "translate(100,100)");
 
 /*  point.append("text") //show text on each point
     .attr("y", 10)
