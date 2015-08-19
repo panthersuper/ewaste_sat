@@ -39,18 +39,41 @@ queue()
 
 GetLocation();
 
+var date = getDate(1414536767);
+
+console.log(date);
+console.log(date.getDate());
+
+console.log(date.getMonth());
+
+console.log(date.getFullYear());
+
 function ready(error, data) {
-  console.log(data);
   var num = data.length;
   for (var i = 0; i < num; i++) {
     places_multi[data[i]["deviceID"]] = {};
   };
   for (var i = 0; i < num; i++) {
-    places_multi[data[i]["deviceID"]][data[i]["sequence"]] = [+data[i]["longitude"], +data[i]["latitude"]];
+    var date = getDate(data[i]["timestamp"]);
+    var Date = date.getDate();
+    var Month = date.getMonth()+1;
+    var Year = date.getFullYear();
+
+
+
+
+    places_multi[data[i]["deviceID"]][data[i]["sequence"]] = [+data[i]["longitude"], +data[i]["latitude"],Date, Month, Year];
   };
 
   console.log(places_multi);
   }
+
+
+function getDate(time){
+    var myDate = new Date( time *1000);
+    return myDate;
+}
+
 
 function GetLocation(address) {
   var geocoder = new google.maps.Geocoder();

@@ -53,6 +53,11 @@ var distanceSQ = function(nodeA, nodeB) {
   return (nodeA[0] - nodeB[0]) * (nodeA[0] - nodeB[0]) + (nodeA[1] - nodeB[1]) * (nodeA[1] - nodeB[1]);
 }
 
+function getDate(time){
+    var myDate = new Date( time *1000);
+    return myDate;
+}
+
 /*var places_multi_test = {
   path1: {
     HNL: [-157 - 55 / 60 - 21 / 3600, 21 + 19 / 60 + 07 / 3600],
@@ -132,6 +137,13 @@ var transy = 0;
 var nowx = 0;
 var nowy = 0;
 
+/*var xScale = d3.time.scale()
+    .domain([t0, t3])
+    .range([t0, t3].map(d3.time.scale()
+      .domain([t1, t2])
+      .range([0, width])));
+*/
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 d3.csv("new_monitor_sim.csv", function(error, data) {
@@ -144,7 +156,13 @@ d3.csv("new_monitor_sim.csv", function(error, data) {
     places_multi[data[i]["deviceID"]] = {};
   };
   for (var i = 0; i < num; i++) {
-    places_multi[data[i]["deviceID"]][data[i]["sequence"]] = [+data[i]["longitude"], +data[i]["latitude"]];
+    var date = getDate(data[i]["timestamp"]);
+    var Date = date.getDate();
+    var Month = date.getMonth()+1;
+    var Year = date.getFullYear();
+
+
+    places_multi[data[i]["deviceID"]][data[i]["sequence"]] = [+data[i]["longitude"], +data[i]["latitude"],Date, Month, Year];
   };
 
   for (k in places_multi) {
@@ -330,10 +348,10 @@ d3.csv("new_monitor_sim.csv", function(error, data) {
 
       
       //if dis is small enough, jump to the next node
-      if(dis<100)
+/*      if(dis<100)
       track.transition()
         .attrTween("transform", translateAlong(CuRoute.node(), 0));
-      else
+      else*/
       track.transition()
         .attrTween("transform", translateAlong(CuRoute.node(), phasePercentage));
       
@@ -356,8 +374,6 @@ d3.csv("new_monitor_sim.csv", function(error, data) {
       context.scale(test, test);
 
       track.attr("r", closeRate * 10+2); //change the tracker's r according to closerate
-
-
 
       context.beginPath(); //draw the outbound of the sphere
       path(sphere);
