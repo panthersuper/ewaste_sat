@@ -58,6 +58,26 @@ function getDate(time){
     return myDate;
 }
 
+var cleanLst = function(places, thresh){
+  //delete the first data if distance is too close
+
+  var num =  Object.size(places);
+  console.log(places);
+  var keys = Object.keys(places);
+  console.log(num);
+
+  for (var i = 0;i<num-1;i++){
+    var a = [places[keys[i]][0],places[keys[i]][1]];
+    var b = [places[keys[i+1]][0],places[keys[i+1]][1]];
+    dis = distanceSQ(a,b);
+    if (dis<thresh){
+      delete places[keys[i]];
+    }
+
+  }
+    console.log(Object.size(places));
+
+}
 /*var places_multi_test = {
   path1: {
     HNL: [-157 - 55 / 60 - 21 / 3600, 21 + 19 / 60 + 07 / 3600],
@@ -145,7 +165,7 @@ var xScale;
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-  d3.csv("new_monitor_sim_time.csv", function(error, data) {
+  d3.csv("new_monitor_sim.csv", function(error, data) {
   //d3.csv("test.csv", function(error, data) {
   //data is numbered by the row number... 
   //head is not counted as a row.
@@ -162,6 +182,13 @@ var xScale;
 
     places_multi[data[i]["deviceID"]][data[i]["sequence"]] = [+data[i]["longitude"], +data[i]["latitude"],date];
   };
+
+  for (k in places_multi){
+    cleanLst(places_multi[k],10);
+  }
+
+
+
 
   for (k in places_multi) {
     route_multi[k] = {};
