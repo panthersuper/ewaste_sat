@@ -192,7 +192,7 @@ d3.csv("new_monitor_sim.csv", function(error, data) {
   var xAxis = d3.svg.axis()
     .scale(xScale)
     .orient('bottom')
-    .ticks(d3.time.month, 3)
+    .ticks(d3.time.month, 1)
     .tickFormat(d3.time.format('%b %Y'))
     .tickSize(5)
     .tickPadding(8);
