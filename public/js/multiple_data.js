@@ -251,10 +251,10 @@ var datelst = []
   track = svg.append("g")//red circle
     .append("circle")
     .attr("class", "track")
-    .attr("r", 4)
+    .attr("r", 3)
     .attr("fill", "none")
-    .attr("stroke", "rgba(206, 18, 18, 0.6)")
-    .attr("stroke-width", "3px")
+    .attr("stroke", "rgba(206, 18, 18, 0.8)")
+    .attr("stroke-width", "1px")
     .attr("transform", "translate(100,100)");
 
   point.append("circle") //show circle on each point
@@ -371,22 +371,21 @@ var datelst = []
       curData.coordinates.push([lat_old, lng_old]);
       curData.coordinates.push([lat, lng]);
 
-
       CuRoute //create current route
         .datum(curData)
         .attr("class", "curroute")
         .attr("d", patho);
 
-
-
       console.log("Current Path:" + curPath + "||Current Node:" + nowNum + "||Total Node:" + nodeNum);
       timeMark.attr("transform", "translate("+xScale(getNode(places, nowNum)[2])+","+(height - margin.top - margin.bottom+3)+")");
       console.log(phasePercentage);
 
-
+      if(dis<100)
+      track.transition()
+        .attrTween("transform", translateAlong(CuRoute.node(), (phasePercentage+0.1)%1));
+      else
       track.transition()
         .attrTween("transform", translateAlong(CuRoute.node(), (phasePercentage+0.01)%1));
-      
 
 
       point.attr("transform", function(d) { //rotate the nodes
@@ -407,7 +406,7 @@ var datelst = []
       context.translate(ptnow[0], ptnow[1]);
       context.scale(test, test);
 
-      track.attr("r", closeRate * 10+2); //change the tracker's r according to closerate
+      track.attr("r", closeRate * 4+1); //change the tracker's r according to closerate
 
       context.beginPath(); //draw the outbound of the sphere
       path(sphere);
