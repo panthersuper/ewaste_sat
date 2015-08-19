@@ -79,7 +79,7 @@ function getDate(time){
 
 var width = 960,
   height = 960;
-
+var margin = {top: 40, right: 40, bottom: 40, left:40};
 
 
 var places_multi = {};
@@ -96,6 +96,7 @@ var myroute;
 var CuRoute;
 var places;
 var route;
+var timeMark;
 
 var canvas = d3.select("#draw").append("canvas").attr("class", "mycanvas")
   .attr("width", width)
@@ -137,12 +138,9 @@ var transy = 0;
 var nowx = 0;
 var nowy = 0;
 
-/*var xScale = d3.time.scale()
-    .domain([t0, t3])
-    .range([t0, t3].map(d3.time.scale()
-      .domain([t1, t2])
-      .range([0, width])));
-*/
+var datelst = []
+
+
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -155,14 +153,12 @@ d3.csv("new_monitor_sim.csv", function(error, data) {
   for (var i = 0; i < num; i++) {
     places_multi[data[i]["deviceID"]] = {};
   };
+
   for (var i = 0; i < num; i++) {
     var date = getDate(data[i]["timestamp"]);
-    var Date = date.getDate();
-    var Month = date.getMonth()+1;
-    var Year = date.getFullYear();
+    datelst.push(data[i]["timestamp"]);
 
-
-    places_multi[data[i]["deviceID"]][data[i]["sequence"]] = [+data[i]["longitude"], +data[i]["latitude"],Date, Month, Year];
+    places_multi[data[i]["deviceID"]][data[i]["sequence"]] = [+data[i]["longitude"], +data[i]["latitude"],date];
   };
 
   for (k in places_multi) {
@@ -175,6 +171,31 @@ d3.csv("new_monitor_sim.csv", function(error, data) {
 
   places = getNode(places_multi, curPath);
   route = getNode(route_multi, curPath);
+  datelst.sort();
+  var newdl = []
+  for (i in datelst){
+    newdl.push(getDate(datelst[i]));
+  }
+
+  var minDate = newdl[0],
+      maxDate = newdl[newdl.length-1];
+
+  var xScale = d3.time.scale()
+    .domain([minDate, maxDate])
+    .range([margin.left, width-margin.right-margin.left]);
+
+
+  console.log(minDate);
+  console.log(maxDate);
+  console.log(xScale(getDate(1414644958)));
+
+  var xAxis = d3.svg.axis()
+    .scale(xScale)
+    .orient('bottom')
+    .ticks(d3.time.month, 3)
+    .tickFormat(d3.time.format('%b %Y'))
+    .tickSize(5)
+    .tickPadding(8);
 
   var pathNum = Object.size(places_multi); //how many path is in the data list
   //add check box for paths
@@ -203,13 +224,14 @@ d3.csv("new_monitor_sim.csv", function(error, data) {
     .attr('height', height)
     .attr("fill", "black");
 
-  target = svg.append("g")
+  target = svg.append("g")//rotate the globe 
     .attr("class", "target")
     .append("circle")
     .attr("cx", 25)
     .attr("cy", 25)
     .attr("r", 10)
     .style("display", "none");
+
   myroute = svg.append("path")
     .datum(route)
     .attr("class", "route")
@@ -227,7 +249,7 @@ d3.csv("new_monitor_sim.csv", function(error, data) {
       return "translate(" + projection(d.value) + ")";
     });
 
-  track = svg.append("g")
+  track = svg.append("g")//red circle
     .append("circle")
     .attr("class", "track")
     .attr("r", 4)
@@ -238,6 +260,20 @@ d3.csv("new_monitor_sim.csv", function(error, data) {
 
   point.append("circle") //show circle on each point
     .attr("r", 2);
+  
+  svg0.append('g')
+    .attr('class', 'xaxis')
+    .attr('transform', 'translate('+margin.left+', ' + (height - margin.top - margin.bottom) + ')')
+    .call(xAxis);
+
+  timeMark = svg0.append("g")//time mark
+    .append("circle")
+    .attr("class", "timemark")
+    .attr("r", 2)
+    .attr("fill", "none")
+    .attr("stroke", "rgba(206, 18, 18, 0.6)")
+    .attr("stroke-width", "3px")
+    .attr("transform", "translate(100,"+(height - margin.top - margin.bottom)+")");
 
 /*  point.append("text") //show text on each point
     .attr("y", 10)
@@ -344,6 +380,9 @@ d3.csv("new_monitor_sim.csv", function(error, data) {
 
 
       console.log("Current Path:" + curPath + "||Current Node:" + nowNum + "||Total Node:" + nodeNum);
+      timeMark.attr("transform", "translate("+xScale(getNode(places, nowNum)[2])+","+(height - margin.top - margin.bottom+2)+")");
+      console.log(getNode(places, nowNum)[2]);
+      console.log(xScale(getNode(places, nowNum)[2]));
       console.log(phasePercentage);
 
       
