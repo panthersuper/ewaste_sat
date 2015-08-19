@@ -144,7 +144,8 @@ var datelst = []
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-d3.csv("new_monitor_sim.csv", function(error, data) {
+  d3.csv("new_monitor_sim.csv", function(error, data) {
+  //d3.csv("test.csv", function(error, data) {
   //data is numbered by the row number... 
   //head is not counted as a row.
   //each item in the data list is a dictionary, key is indicated by the head
@@ -215,8 +216,6 @@ d3.csv("new_monitor_sim.csv", function(error, data) {
   $(document).ready(main); //run jquery after csv loaded so path button initialized
 
   nodeNum = route.coordinates.length //the total number of nodes
-
-
 
   svg.append('rect')
     .attr('class', 'overlay')
@@ -312,6 +311,7 @@ d3.csv("new_monitor_sim.csv", function(error, data) {
     d3.timer(function() {
 
       if (Math.abs(count - oneMove) < countmove) { //one move is finished, start the next one
+
         count = 0
         nowNum = nowNum + 1;//next node to target
         nowNum = nowNum % nodeNum; //cycle the loop
@@ -381,19 +381,14 @@ d3.csv("new_monitor_sim.csv", function(error, data) {
 
       console.log("Current Path:" + curPath + "||Current Node:" + nowNum + "||Total Node:" + nodeNum);
       timeMark.attr("transform", "translate("+xScale(getNode(places, nowNum)[2])+","+(height - margin.top - margin.bottom+3)+")");
-      console.log(getNode(places, nowNum)[2]);
-      console.log(xScale(getNode(places, nowNum)[2]));
       console.log(phasePercentage);
 
-      
-      //if dis is small enough, jump to the next node
-/*      if(dis<100)
+
       track.transition()
-        .attrTween("transform", translateAlong(CuRoute.node(), 0));
-      else*/
-      track.transition()
-        .attrTween("transform", translateAlong(CuRoute.node(), phasePercentage));
+        .attrTween("transform", translateAlong(CuRoute.node(), (phasePercentage+0.01)%1));
       
+
+
       point.attr("transform", function(d) { //rotate the nodes
         return "translate(" + projection(d.value) + ")";
       });
