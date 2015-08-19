@@ -183,7 +183,7 @@ var datelst = []
 
   var xScale = d3.time.scale()
     .domain([minDate, maxDate])
-    .range([margin.left, width-margin.right-margin.left]);
+    .range([margin.left, width-margin.right*3]);
 
 
   console.log(minDate);
@@ -196,7 +196,7 @@ var datelst = []
     .ticks(d3.time.month, 1)
     .tickFormat(d3.time.format('%b %Y'))
     .tickSize(5)
-    .tickPadding(8);
+    .tickPadding(5);
 
   var pathNum = Object.size(places_multi); //how many path is in the data list
   //add check box for paths
