@@ -97,6 +97,7 @@ var CuRoute;
 var places;
 var route;
 var timeMark;
+var timeBase;
 
 var canvas = d3.select("#draw").append("canvas").attr("class", "mycanvas")
   .attr("width", width)
@@ -139,12 +140,12 @@ var nowx = 0;
 var nowy = 0;
 
 var datelst = []
-
+var xScale;
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-  d3.csv("new_monitor_sim.csv", function(error, data) {
+  d3.csv("new_monitor_sim_time.csv", function(error, data) {
   //d3.csv("test.csv", function(error, data) {
   //data is numbered by the row number... 
   //head is not counted as a row.
@@ -181,14 +182,14 @@ var datelst = []
   var minDate = newdl[0],
       maxDate = newdl[newdl.length-1];
 
-  var xScale = d3.time.scale()
+  xScale = d3.time.scale()
     .domain([minDate, maxDate])
     .range([margin.left, width-margin.right*3]);
 
 
-  console.log(minDate);
-  console.log(maxDate);
-  console.log(xScale(getDate(1414644958)));
+  //console.log(minDate);
+  //console.log(maxDate);
+  //console.log(xScale(getDate(1414644958)));
 
   var xAxis = d3.svg.axis()
     .scale(xScale)
@@ -274,6 +275,23 @@ var datelst = []
     .attr("stroke", "rgba(206, 18, 18, 0.8)")
     .attr("stroke-width", "3px")
     .attr("transform", "translate(100,"+(height - margin.top - margin.bottom)+")");
+
+  timeBase = svg0.append("g").attr("class", "timebase")//time mark
+    .selectAll("g")
+    .data(d3.entries(places))
+    .enter().append("g")
+    .attr("transform", function(d) {
+      var myx = xScale(d.value[2]);
+      return "translate(" + myx+","+(height - margin.top - margin.bottom+2.5)  + ")";
+    });
+
+  timeBase.append("circle")
+      .attr("r", 2)
+    .attr("fill", "rgba(18, 18, 206, 0.8)")
+    .attr("stroke", "none")
+    .attr("stroke-width", "1px")
+
+
 
 /*  point.append("text") //show text on each point
     .attr("y", 10)
@@ -377,9 +395,9 @@ var datelst = []
         .attr("class", "curroute")
         .attr("d", patho);
 
-      console.log("Current Path:" + curPath + "||Current Node:" + nowNum + "||Total Node:" + nodeNum);
-      timeMark.attr("transform", "translate("+xScale(getNode(places, nowNum)[2])+","+(height - margin.top - margin.bottom+3)+")");
-      console.log(phasePercentage);
+      //console.log("Current Path:" + curPath + "||Current Node:" + nowNum + "||Total Node:" + nodeNum);
+      timeMark.attr("transform", "translate("+xScale(getNode(places, nowNum)[2])+","+(height - margin.top - margin.bottom+2.5)+")");
+      //console.log(phasePercentage);
 
       if(dis<100)
       track.transition()
@@ -502,6 +520,26 @@ var update = function(current) {
     .attr("stroke", "rgba(206, 18, 18, 0.8)")
     .attr("stroke-width", "1px")
     .attr("transform", "translate(100,100)");
+
+  $(".timebase").remove();
+
+  timeBase = svg0.append("g").attr("class", "timebase")//time mark
+    .selectAll("g")
+    .data(d3.entries(places))
+    .enter().append("g")
+    .attr("transform", function(d) {
+      var myx = xScale(d.value[2]);
+      return "translate(" + myx+","+(height - margin.top - margin.bottom+2.5)  + ")";
+    });
+
+  timeBase.append("circle")
+      .attr("r", 2)
+    .attr("fill", "rgba(18, 18, 206, 0.8)")
+    .attr("stroke", "none")
+    .attr("stroke-width", "1px")
+
+
+
 
 /*  point.append("text") //show text on each point
     .attr("y", 10)
