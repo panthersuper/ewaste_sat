@@ -62,13 +62,66 @@ var cleanLst = function(places, thresh){
   for (var i = 0;i<num-1;i++){
     var a = [places[keys[i]][0],places[keys[i]][1]];
     var b = [places[keys[i+1]][0],places[keys[i+1]][1]];
-    dis = distanceSQ(a,b);
+    var dis = distanceSQ(a,b);
     if (dis<thresh){
       delete places[keys[i]];
     }
 
   }
 }
+
+Math.seed = function(s) {
+    return function() {
+        s = Math.sin(s) * 10000; return s - Math.floor(s);
+    };
+};
+
+var randomDir = function(nodeA,nodeB){
+  //create a noise route between A and B, for distance that is more than thresh
+  //by insert num of new nodes in between
+  var lst = [];
+  var dis = distanceSQ(nodeA,nodeB);
+  var threshA = 1;
+  var threshB = 500;
+
+  var num = Math.round( Math.sqrt(dis) );
+
+  if (num<10){
+    num=10;
+  }
+  if (dis<threshA || dis>threshB){
+    lst = [nodeA,nodeB];
+  }
+  else{
+    lst.push(nodeA);
+    var start = nodeA;
+    for (var i = 0;i<num;i++){
+      var dir = [(nodeB[0]-start[0])/(num+1-i),(nodeB[1]-start[1])/(num+1-i)];
+      var random1 = Math.seed(i+1);
+      var random2 = Math.seed(random1());
+      Math.random = Math.seed(random2());
+      var ram = [(Math.random()-1)/3,(Math.random()-1)/3];
+      var node = [start[0]+dir[0]+ram[0], start[1]+dir[1]+ram[1]];
+      lst.push(node);
+      start = node;
+    }
+    lst.push(nodeB);
+  }
+  return lst;
+}
+
+var ramwhole = function(lst) {//randomnize the whole list
+  var mylst = [];
+
+  for (var i = 0;i<lst.length-1;i++){
+    var temp = randomDir(lst[i],lst[i+1]);
+    mylst.push.apply(mylst, temp);
+  }
+  return mylst;
+}
+
+
+
 /*var places_multi_test = {
   path1: {
     HNL: [-157 - 55 / 60 - 21 / 3600, 21 + 19 / 60 + 07 / 3600],
@@ -107,6 +160,7 @@ var myroute;
 var CuRoute;
 var places;
 var route;
+var routeRam;
 var timeMark;
 var timeBase;
 
@@ -191,6 +245,11 @@ var xScale;
 
   places = getNode(places_multi, curPath);
   route = getNode(route_multi, curPath);
+  routeRam = jQuery.extend(true, {}, route);//deep copy
+  routeRam.coordinates = ramwhole(routeRam.coordinates);
+
+  console.log(route);
+
   datelst.sort();
   var newdl = []
   for (i in datelst){
@@ -247,9 +306,11 @@ var xScale;
     .style("display", "none");
 
   myroute = svg.append("path")
-    .datum(route)
+    .datum(routeRam)
     .attr("class", "route")
     .attr("d", patho);
+
+
 
   CuRoute = svg.append("path") //current route
     .attr("class", "curroute")
@@ -265,6 +326,7 @@ var xScale;
 
   point.append("circle") //show circle on each point
     .attr("r", 1);
+
   track = svg.append("g")//red circle
     .append("circle")
     .attr("class", "track")
@@ -273,8 +335,6 @@ var xScale;
     .attr("stroke", "rgba(206, 18, 18, 0.8)")
     .attr("stroke-width", "1px")
     .attr("transform", "translate(100,100)");
-
-
   
   svg0.append('g')
     .attr('class', 'xaxis')
@@ -390,7 +450,7 @@ var xScale;
 
 
       patho = d3.geo.path().projection(projection); //rotate the path
-      var myD = patho(route); //redo the projection
+      var myD = patho(routeRam); //redo the projection
 
       myroute //reset the route drawn on the map
         .attr("class", "route")
@@ -401,8 +461,10 @@ var xScale;
         coordinates: []
       }
 
-      curData.coordinates.push([lat_old, lng_old]);
-      curData.coordinates.push([lat, lng]);
+      var curcoo = [[lat_old, lng_old], [lat, lng]];
+      curcoo = randomDir(curcoo[0],curcoo[1]);
+
+      curData.coordinates=curcoo;
 
       CuRoute //create current route
         .datum(curData)
@@ -489,6 +551,8 @@ var xScale;
 var update = function(current) {
   places = getNode(places_multi, current);
   route = getNode(route_multi, current);
+  routeRam = jQuery.extend(true, {}, route);//deep copy
+  routeRam.coordinates = ramwhole(routeRam.coordinates);
 
   target
     .attr("class", "target")
@@ -499,7 +563,7 @@ var update = function(current) {
     .style("display", "none");
 
   myroute
-    .datum(route)
+    .datum(routeRam)
     .attr("class", "route")
     .attr("d", patho);
 
