@@ -49,6 +49,14 @@ var translateAlong = function(path, m) {
   }
 }
 
+var translateAlong2 = function(path, m) {
+  var l = path.getTotalLength();
+      var p = path.getPointAtLength(m * l);
+      return "translate(" + p.x + "," + p.y + ")"; //Move marker
+}
+
+
+
 var distanceSQ = function(nodeA, nodeB) {
   return (nodeA[0] - nodeB[0]) * (nodeA[0] - nodeB[0]) + (nodeA[1] - nodeB[1]) * (nodeA[1] - nodeB[1]);
 }
@@ -62,9 +70,7 @@ var cleanLst = function(places, thresh){
   //delete the first data if distance is too close
 
   var num =  Object.size(places);
-  console.log(places);
   var keys = Object.keys(places);
-  console.log(num);
 
   for (var i = 0;i<num-1;i++){
     var a = [places[keys[i]][0],places[keys[i]][1]];
@@ -75,8 +81,6 @@ var cleanLst = function(places, thresh){
     }
 
   }
-    console.log(Object.size(places));
-
 }
 /*var places_multi_test = {
   path1: {
@@ -213,10 +217,6 @@ var xScale;
     .domain([minDate, maxDate])
     .range([margin.left, width-margin.right*3]);
 
-
-  //console.log(minDate);
-  //console.log(maxDate);
-  //console.log(xScale(getDate(1414644958)));
 
   var xAxis = d3.svg.axis()
     .scale(xScale)
@@ -422,16 +422,26 @@ var xScale;
         .attr("class", "curroute")
         .attr("d", patho);
 
-      //console.log("Current Path:" + curPath + "||Current Node:" + nowNum + "||Total Node:" + nodeNum);
+      console.log("Current Path:" + curPath + "||Current Node:" + nowNum + "||Total Node:" + nodeNum);
       timeMark.attr("transform", "translate("+xScale(getNode(places, nowNum)[2])+","+(height - margin.top - margin.bottom+2.5)+")");
-      //console.log(phasePercentage);
+      console.log(phasePercentage);
 
-      if(dis<100)
+/*      if(dis<100)
       track.transition()
         .attrTween("transform", translateAlong(CuRoute.node(), (phasePercentage+0.1)%1));
       else
       track.transition()
         .attrTween("transform", translateAlong(CuRoute.node(), (phasePercentage+0.01)%1));
+*/
+      if(dis<100)
+      track
+        .attr("transform", translateAlong2(CuRoute.node(), (phasePercentage+0.1)%1));
+      else
+      track
+        .attr("transform", translateAlong2(CuRoute.node(), (phasePercentage+0.01)%1));
+
+
+
 
 
       point.attr("transform", function(d) { //rotate the nodes
