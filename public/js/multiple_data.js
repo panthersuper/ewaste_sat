@@ -187,8 +187,8 @@ var xScale;
     places_multi[data[i]["deviceID"]][data[i]["sequence"]] = [+data[i]["longitude"], +data[i]["latitude"],date];
   };
 
-  for (k in places_multi){
-    cleanLst(places_multi[k],10);
+  for (k in places_multi){//clean the place list, get rid of redundant points
+    cleanLst(places_multi[k],0.3);
   }
 
 
