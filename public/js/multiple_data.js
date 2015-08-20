@@ -38,24 +38,11 @@ var interPt = function(ptA, ptB, t) {
   return [x, y];
 }
 
-var translateAlong = function(path, m) {
-  var l = path.getTotalLength();
-
-  return function(i) {
-    return function(t) {
-      var p = path.getPointAtLength(m * l);
-      return "translate(" + p.x + "," + p.y + ")"; //Move marker
-    }
-  }
-}
-
 var translateAlong2 = function(path, m) {
   var l = path.getTotalLength();
       var p = path.getPointAtLength(m * l);
       return "translate(" + p.x + "," + p.y + ")"; //Move marker
 }
-
-
 
 var distanceSQ = function(nodeA, nodeB) {
   return (nodeA[0] - nodeB[0]) * (nodeA[0] - nodeB[0]) + (nodeA[1] - nodeB[1]) * (nodeA[1] - nodeB[1]);
@@ -426,23 +413,8 @@ var xScale;
       timeMark.attr("transform", "translate("+xScale(getNode(places, nowNum)[2])+","+(height - margin.top - margin.bottom+2.5)+")");
       console.log(phasePercentage);
 
-/*      if(dis<100)
-      track.transition()
-        .attrTween("transform", translateAlong(CuRoute.node(), (phasePercentage+0.1)%1));
-      else
-      track.transition()
-        .attrTween("transform", translateAlong(CuRoute.node(), (phasePercentage+0.01)%1));
-*/
-      if(dis<100)
       track
-        .attr("transform", translateAlong2(CuRoute.node(), (phasePercentage+0.1)%1));
-      else
-      track
-        .attr("transform", translateAlong2(CuRoute.node(), (phasePercentage+0.01)%1));
-
-
-
-
+        .attr("transform", translateAlong2(CuRoute.node(), (phasePercentage)%1));
 
       point.attr("transform", function(d) { //rotate the nodes
         return "translate(" + projection(d.value) + ")";
