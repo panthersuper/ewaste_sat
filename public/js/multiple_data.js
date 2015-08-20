@@ -648,6 +648,16 @@ var main = function() {
       else{
         moveToggle = true;
       }
+
+      //animations when next button is clicked
+      
+
+
+
+
+
+
+
     }
   );
 
