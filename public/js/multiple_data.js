@@ -403,14 +403,9 @@ var xScale;
 
     d3.timer(function() {
 
-      if (Math.abs(count - oneMove) < countmove) { //one move is finished, start the next one
 
-        count = 0
-        nowNum = nowNum + 1;//next node to target
-        nowNum = nowNum % nodeNum; //cycle the loop
-
-        if (nowNum === 0) nowNum = 1; //skip the first move
-      }
+        
+      
 
       lat_old = getNode(places, (nowNum - 1 + nodeNum) % nodeNum)[0];
       lng_old = getNode(places, (nowNum - 1 + nodeNum) % nodeNum)[1];
@@ -426,12 +421,24 @@ var xScale;
         countmove = 10;
       } else { countmove = 1;
       }
+
+      if (Math.abs(count - oneMove) < countmove) { //one move is finished, start the next one
+
+        
+
+/*        nowNum = nowNum + 1;//next node to target
+        nowNum = nowNum % nodeNum; //cycle the loop*/
+
+        
+      }else{
+        count +=countmove;
+      }
       
       var timephase = count % oneMove; //the current phase of this move
       var phasePercentage = timephase / oneMove; //the completion percentage of the current move
-
+      if (phasePercentage===0) phasePercentage=1;
       context.clearRect(0, 0, width, height);
-      count +=countmove;
+      
       //rate the closeness to nodes
       //0.5: close! at nodes
       //0: far! at the middle of two nodes
@@ -476,7 +483,7 @@ var xScale;
       console.log(phasePercentage);
 
       track
-        .attr("transform", translateAlong2(CuRoute.node(), (phasePercentage)%1));
+        .attr("transform", translateAlong2(CuRoute.node(), (phasePercentage)));
 
       point.attr("transform", function(d) { //rotate the nodes
         return "translate(" + projection(d.value) + ")";
@@ -638,4 +645,15 @@ var main = function() {
       update(curPath);
     }
   );
+
+  $("#next").click(
+    function() {
+        count = 0
+        nowNum = nowNum + 1;//next node to target
+        if (nowNum>nodeNum) nowNum = nodeNum;
+        nowNum = nowNum % nodeNum; //cycle the loop
+        if (nowNum === 0) nowNum = 1; //skip the first move
+    }
+  );
+
 };
