@@ -4,56 +4,77 @@
 
 body {
   background: #010214;
+  position: relative;
 }
 
-.points circle {
-  fill: rgba(255,255,255,0.5);
-  stroke: none;
-  stroke-width: 1px;
-}
 
-.points text {
-  font: 5px sans-serif;
-  text-anchor: middle;
-  text-shadow: 0 1px 0 #fff, 0 -1px 0 #fff, 1px 0 0 #fff, -1px 0 0 #fff;
-}
+
+    #draw {
+        display: block;
+        background: none;
+        width: 960px;
+        height:960px;
+        float: left;
+        position: relative;
+        left: 50%;
+        margin-left: -600px;
+    }
+
+    #tablepath {
+        position: relative;
+        float: left;        
+        width: 70px;
+        height: 960px;
+        display: block;
+        background-color: none;
+        color:none;
+        left: 50%;
+        margin-left: -680px;
+    }
+
+    #control {
+      display: block;
+      background-color: rgba(100,100,100,0.2);
+      width:300px;
+      height:960px;
+      left:50%;
+      top:0px;
+      margin-left: 370px;
+      position:relative;
+    }
 
     .mysvg {
       position: absolute;
-      margin-left:auto;
-margin-right:auto;
+      
+      top:0px;
+      
     }
     rect { fill: transparent; }
 
     .mycanvas  {
       position: absolute;
-      margin-left:auto;
-margin-right:auto;
+      top:0px;
     }
+
+
+
+
     .route {
       fill: none;
-      stroke: #abacaa;
-      stroke-width: 1px;
-}
+      stroke: white;
+      stroke-width: 0.7px;
+      opacity:0.5;
+    }
 
     .curroute{
       fill: none;
       stroke: #8a0505;
-      stroke-width: 2px;
+      stroke-width: 1px;
+      opacity:0.7;
 
     }
 
-    #tablepath {
-        float: left;
-        margin-left: 10px;
-        
-        width: 80px;
-        height: 960px;
-        display: inline-block;
-        background-color: none;
-        color:none;
 
-    }
 
     #tablepath div {
         border-bottom:1px solid black;
@@ -80,29 +101,26 @@ margin-right:auto;
         color: rgba(200,200,200,1);
     }
 
-    #draw {
-        display: block;
-        background: none;
-        width: 960px;
-        height:960px;
-        float: left;
-        position: relative;
-    }
+
     .xaxis {
         fill:white;
         font: 10px sans-serif;
 
     }
 
-    #control {
-      display: block;
-      background-color: rgba(100,100,100,0.2);
-      width:400px;
-      height:960px;
-      float:left;
-      margin-left: 10px;
-      position:relative;
+    .points circle {
+       fill: rgba(255,255,255,0.5);
+        stroke: none;
+        stroke-width: 2px;
     }
+
+    .points text {
+      font: 5px sans-serif;
+      text-anchor: middle;
+      text-shadow: 0 1px 0 #fff, 0 -1px 0 #fff, 1px 0 0 #fff, -1px 0 0 #fff;
+    }
+
+
 
     #next {
       position: absolute;

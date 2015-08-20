@@ -209,9 +209,10 @@ var transy = 0;
 var nowx = 0;
 var nowy = 0;
 
-var datelst = []
+var datelst = [];
 var xScale;
-
+var trackscale = 0;
+var moveToggle = false;
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -329,7 +330,7 @@ d3.csv("new_monitor_sim.csv", function(error, data) {
     });
 
   point.append("circle") //show circle on each point
-    .attr("r", 1);
+    .attr("r", 1.5);
 
   track = svg.append("g") //red circle
     .append("circle")
@@ -385,10 +386,11 @@ d3.csv("new_monitor_sim.csv", function(error, data) {
   //the target of this move
   lat = getNode(places, nowNum)[0];
   lng = getNode(places, nowNum)[1];
-
+  
+  //d3.json("countries.geo.json", function(error, topo) {
   d3.json("world-110m.json", function(error, topo) {
     if (error) throw error;
-
+    //var land = topojson.feature(topo, topo.features.properties.geometry),
     var land = topojson.feature(topo, topo.objects.land),
       grid = graticule();
 
@@ -403,11 +405,11 @@ d3.csv("new_monitor_sim.csv", function(error, data) {
       endN = places[k];
     }
 
-
+//////the timmer//////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////
     d3.timer(function() {
 
-
-
+      trackscale+=0.2;
       lat_old = getNode(places, (nowNum - 1 + nodeNum) % nodeNum)[0];
       lng_old = getNode(places, (nowNum - 1 + nodeNum) % nodeNum)[1];
 
@@ -424,21 +426,17 @@ d3.csv("new_monitor_sim.csv", function(error, data) {
         countmove = 1;
       }
 
+      if (moveToggle){
       if (Math.abs(count - oneMove) < countmove) { //one move is finished, start the next one
-
-
-
-        /*        nowNum = nowNum + 1;//next node to target
-                nowNum = nowNum % nodeNum; //cycle the loop*/
-
 
       } else {
         count += countmove;
       }
+    }
 
       var timephase = count % oneMove; //the current phase of this move
       var phasePercentage = timephase / oneMove; //the completion percentage of the current move
-      if (phasePercentage === 0) phasePercentage = 1;
+      if (moveToggle) if (phasePercentage === 0) phasePercentage = 1;
       context.clearRect(0, 0, width, height);
 
       //rate the closeness to nodes
@@ -508,11 +506,11 @@ d3.csv("new_monitor_sim.csv", function(error, data) {
       context.translate(ptnow[0], ptnow[1]);
       context.scale(test, test);
 
-      track.attr("r", closeRate * 2 + 1); //change the tracker's r according to closerate
+      track.attr("r", 2*(trackscale%1) + 1); //change the tracker's r according to closerate
 
             context.beginPath(); //draw the outbound of the sphere
             path(sphere);
-            context.lineWidth = 5;
+            context.lineWidth = 1;
             context.strokeStyle = "#999";
             context.stroke();
 
@@ -536,7 +534,7 @@ d3.csv("new_monitor_sim.csv", function(error, data) {
 
       context.beginPath(); //grid
       path(grid);
-      context.lineWidth = .5;
+      context.lineWidth = .2;
       context.strokeStyle = "rgba(119,119,119,.5)";
       context.stroke();
 
@@ -573,7 +571,6 @@ var update = function(current) {
     .attr("class", "curroute")
 
 
-
   $(".points").remove();
   point = svg.append("g")
     .attr("class", "points")
@@ -584,7 +581,7 @@ var update = function(current) {
       return "translate(" + projection(d.value) + ")";
     });
   point.append("circle") //show circle on each point
-    .attr("r", 1);
+    .attr("r", 1.5);
 
   $(".track").remove();
   track = svg.append("g") //red circle
@@ -635,16 +632,22 @@ var main = function() {
       var thisid = $(this).attr("id");
       curPath = +thisid;
       update(curPath);
+      moveToggle = false;
     }
   );
 
   $("#next").click(
     function() {
-      count = 0;
-      nowNum = nowNum + 1; //next node to target
-      if (nowNum > nodeNum) nowNum = nodeNum;
-      nowNum = nowNum % nodeNum; //cycle the loop
-      if (nowNum === 0) nowNum = 1; //skip the first move
+      if(moveToggle){
+        count = 0;
+        nowNum = nowNum + 1; //next node to target
+        if (nowNum > nodeNum) nowNum = nodeNum;
+        nowNum = nowNum % nodeNum; //cycle the loop
+        if (nowNum === 0) nowNum = 1; //skip the first move
+      }
+      else{
+        moveToggle = true;
+      }
     }
   );
 
