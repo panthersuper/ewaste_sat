@@ -3,7 +3,7 @@
 <style>
 
 body {
-  background: black;
+  background: #010214;
 }
 
 .points circle {
@@ -20,15 +20,15 @@ body {
 
     .mysvg {
       position: absolute;
-      top: 0;
-      left: 0;
+      margin-left:auto;
+margin-right:auto;
     }
     rect { fill: transparent; }
 
     .mycanvas  {
       position: absolute;
-      top: 0;
-      left: 0;
+      margin-left:auto;
+margin-right:auto;
     }
     .route {
       fill: none;
@@ -97,7 +97,7 @@ body {
     #control {
       display: block;
       background-color: rgba(100,100,100,0.2);
-      width:200px;
+      width:400px;
       height:960px;
       float:left;
       margin-left: 10px;
@@ -117,6 +117,33 @@ body {
       padding-bottom: 10px;
       color:white;
     }
+
+    #story {
+      position: absolute;
+      top:120px;
+      color:white;
+      left: 30px;
+
+    }
+
+    #story p {
+      padding: 2px;
+    }
+
+    #title {
+      position: absolute;
+      top:80px;
+      color:white;
+      left: 30px;
+
+    }
+
+    #title p{
+      font-size: 20px;
+
+    }
+
+
 
     #next:hover {
       background-color: rgba(200,200,200,0.2);
@@ -141,6 +168,21 @@ body {
 </div>
 
 <div id="control">
+
+  <div id="title">
+    <P>story title...</P>
+  </div>
+
+  <div id="story">
+    <p>Story goes here...</p>
+    <p>Story goes here...</p>
+    <p>Story goes here...</p>
+    <p>Story goes here...</p>
+    <p>Story goes here...</p>
+    <p>Story goes here...</p>
+    <p>Story goes here...</p>
+  </div>
+
   <div id="next">
     <p><strong>NEXT</strong></p>
   </div>

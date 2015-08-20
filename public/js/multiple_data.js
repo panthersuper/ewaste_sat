@@ -40,30 +40,30 @@ var interPt = function(ptA, ptB, t) {
 
 var translateAlong2 = function(path, m) {
   var l = path.getTotalLength();
-      var p = path.getPointAtLength(m * l);
-      return "translate(" + p.x + "," + p.y + ")"; //Move marker
+  var p = path.getPointAtLength(m * l);
+  return "translate(" + p.x + "," + p.y + ")"; //Move marker
 }
 
 var distanceSQ = function(nodeA, nodeB) {
   return (nodeA[0] - nodeB[0]) * (nodeA[0] - nodeB[0]) + (nodeA[1] - nodeB[1]) * (nodeA[1] - nodeB[1]);
 }
 
-function getDate(time){
-    var myDate = new Date( time *1000);
-    return myDate;
+function getDate(time) {
+  var myDate = new Date(time * 1000);
+  return myDate;
 }
 
-var cleanLst = function(places, thresh){
+var cleanLst = function(places, thresh) {
   //delete the first data if distance is too close
 
-  var num =  Object.size(places);
+  var num = Object.size(places);
   var keys = Object.keys(places);
 
-  for (var i = 0;i<num-1;i++){
-    var a = [places[keys[i]][0],places[keys[i]][1]];
-    var b = [places[keys[i+1]][0],places[keys[i+1]][1]];
-    var dis = distanceSQ(a,b);
-    if (dis<thresh){
+  for (var i = 0; i < num - 1; i++) {
+    var a = [places[keys[i]][0], places[keys[i]][1]];
+    var b = [places[keys[i + 1]][0], places[keys[i + 1]][1]];
+    var dis = distanceSQ(a, b);
+    if (dis < thresh) {
       delete places[keys[i]];
     }
 
@@ -71,37 +71,37 @@ var cleanLst = function(places, thresh){
 }
 
 Math.seed = function(s) {
-    return function() {
-        s = Math.sin(s) * 10000; return s - Math.floor(s);
-    };
+  return function() {
+    s = Math.sin(s) * 10000;
+    return s - Math.floor(s);
+  };
 };
 
-var randomDir = function(nodeA,nodeB){
+var randomDir = function(nodeA, nodeB) {
   //create a noise route between A and B, for distance that is more than thresh
   //by insert num of new nodes in between
   var lst = [];
-  var dis = distanceSQ(nodeA,nodeB);
+  var dis = distanceSQ(nodeA, nodeB);
   var threshA = 1;
   var threshB = 400;
 
-  var num = Math.round( Math.sqrt(dis) );
+  var num = Math.round(Math.sqrt(dis));
 
-  if (num<10){
-    num=10;
+  if (num < 10) {
+    num = 10;
   }
-  if (dis<threshA || dis>threshB){
-    lst = [nodeA,nodeB];
-  }
-  else{
+  if (dis < threshA || dis > threshB) {
+    lst = [nodeA, nodeB];
+  } else {
     lst.push(nodeA);
     var start = nodeA;
-    for (var i = 0;i<num;i++){
-      var dir = [(nodeB[0]-start[0])/(num+1-i),(nodeB[1]-start[1])/(num+1-i)];
-      var random1 = Math.seed(i+1);
+    for (var i = 0; i < num; i++) {
+      var dir = [(nodeB[0] - start[0]) / (num + 1 - i), (nodeB[1] - start[1]) / (num + 1 - i)];
+      var random1 = Math.seed(i + 1);
       var random2 = Math.seed(random1());
       Math.random = Math.seed(random2());
-      var ram = [(Math.random()-1)/3,(Math.random()-1)/3];
-      var node = [start[0]+dir[0]+ram[0], start[1]+dir[1]+ram[1]];
+      var ram = [(Math.random() - 1) / 3, (Math.random() - 1) / 3];
+      var node = [start[0] + dir[0] + ram[0], start[1] + dir[1] + ram[1]];
       lst.push(node);
       start = node;
     }
@@ -110,11 +110,11 @@ var randomDir = function(nodeA,nodeB){
   return lst;
 }
 
-var ramwhole = function(lst) {//randomnize the whole list
+var ramwhole = function(lst) { //randomnize the whole list
   var mylst = [];
 
-  for (var i = 0;i<lst.length-1;i++){
-    var temp = randomDir(lst[i],lst[i+1]);
+  for (var i = 0; i < lst.length - 1; i++) {
+    var temp = randomDir(lst[i], lst[i + 1]);
     mylst.push.apply(mylst, temp);
   }
   return mylst;
@@ -143,7 +143,12 @@ var ramwhole = function(lst) {//randomnize the whole list
 
 var width = 960,
   height = 960;
-var margin = {top: 40, right: 40, bottom: 40, left:40};
+var margin = {
+  top: 40,
+  right: 40,
+  bottom: 40,
+  left: 40
+};
 
 
 var places_multi = {};
@@ -210,7 +215,7 @@ var xScale;
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-  d3.csv("new_monitor_sim.csv", function(error, data) {
+d3.csv("new_monitor_sim.csv", function(error, data) {
   //d3.csv("test.csv", function(error, data) {
   //data is numbered by the row number... 
   //head is not counted as a row.
@@ -225,13 +230,12 @@ var xScale;
     var date = getDate(data[i]["timestamp"]);
     datelst.push(data[i]["timestamp"]);
 
-    places_multi[data[i]["deviceID"]][data[i]["sequence"]] = [+data[i]["longitude"], +data[i]["latitude"],date];
+    places_multi[data[i]["deviceID"]][data[i]["sequence"]] = [+data[i]["longitude"], +data[i]["latitude"], date];
   };
 
-  for (k in places_multi){//clean the place list, get rid of redundant points
-    cleanLst(places_multi[k],0.3);
+  for (k in places_multi) { //clean the place list, get rid of redundant points
+    cleanLst(places_multi[k], 0.3);
   }
-
 
 
 
@@ -245,23 +249,23 @@ var xScale;
 
   places = getNode(places_multi, curPath);
   route = getNode(route_multi, curPath);
-  routeRam = jQuery.extend(true, {}, route);//deep copy
+  routeRam = jQuery.extend(true, {}, route); //deep copy
   routeRam.coordinates = ramwhole(routeRam.coordinates);
 
   console.log(route);
 
   datelst.sort();
   var newdl = []
-  for (i in datelst){
+  for (i in datelst) {
     newdl.push(getDate(datelst[i]));
   }
 
   var minDate = newdl[0],
-      maxDate = newdl[newdl.length-1];
+    maxDate = newdl[newdl.length - 1];
 
   xScale = d3.time.scale()
     .domain([minDate, maxDate])
-    .range([margin.left, width-margin.right*3]);
+    .range([margin.left, width - margin.right * 3]);
 
 
   var xAxis = d3.svg.axis()
@@ -283,7 +287,7 @@ var xScale;
       .attr("class", "thepaths")
       .attr("id", id).append("p")
       .text(key);
-      id++;
+    id++;
   }
 
 
@@ -297,7 +301,7 @@ var xScale;
     .attr('height', height)
     .attr("fill", "black");
 
-  target = svg.append("g")//rotate the globe 
+  target = svg.append("g") //rotate the globe 
     .attr("class", "target")
     .append("circle")
     .attr("cx", 25)
@@ -327,7 +331,7 @@ var xScale;
   point.append("circle") //show circle on each point
     .attr("r", 1);
 
-  track = svg.append("g")//red circle
+  track = svg.append("g") //red circle
     .append("circle")
     .attr("class", "track")
     .attr("r", 2)
@@ -335,45 +339,45 @@ var xScale;
     .attr("stroke", "rgba(206, 18, 18, 0.8)")
     .attr("stroke-width", "1px")
     .attr("transform", "translate(100,100)");
-  
+
   svg0.append('g')
     .attr('class', 'xaxis')
-    .attr('transform', 'translate('+margin.left+', ' + (height - margin.top - margin.bottom) + ')')
+    .attr('transform', 'translate(' + margin.left + ', ' + (height - margin.top - margin.bottom) + ')')
     .call(xAxis);
 
-  timeMark = svg0.append("g")//time mark
+  timeMark = svg0.append("g") //time mark
     .append("circle")
     .attr("class", "timemark")
     .attr("r", 3)
     .attr("fill", "none")
     .attr("stroke", "rgba(206, 18, 18, 0.8)")
     .attr("stroke-width", "3px")
-    .attr("transform", "translate(100,"+(height - margin.top - margin.bottom)+")");
+    .attr("transform", "translate(100," + (height - margin.top - margin.bottom) + ")");
 
-  timeBase = svg0.append("g").attr("class", "timebase")//time mark
+  timeBase = svg0.append("g").attr("class", "timebase") //time mark
     .selectAll("g")
     .data(d3.entries(places))
     .enter().append("g")
     .attr("transform", function(d) {
       var myx = xScale(d.value[2]);
-      return "translate(" + myx+","+(height - margin.top - margin.bottom+2.5)  + ")";
+      return "translate(" + myx + "," + (height - margin.top - margin.bottom + 2.5) + ")";
     });
 
   timeBase.append("circle")
-      .attr("r", 2)
+    .attr("r", 2)
     .attr("fill", "rgba(18, 18, 206, 0.8)")
     .attr("stroke", "none")
     .attr("stroke-width", "1px")
 
 
 
-/*  point.append("text") //show text on each point
-    .attr("y", 10)
-    .attr("dy", ".71em")
-    .attr("class", "locName")
-    .text(function(d) {
-      return d.key.split("_")[1].split(" ")[0].split(",")[0];
-    });*/
+  /*  point.append("text") //show text on each point
+      .attr("y", 10)
+      .attr("dy", ".71em")
+      .attr("class", "locName")
+      .text(function(d) {
+        return d.key.split("_")[1].split(" ")[0].split(",")[0];
+      });*/
 
   lat_old = getNode(places, (nowNum - 1 + nodeNum) % nodeNum)[0];
   lng_old = getNode(places, (nowNum - 1 + nodeNum) % nodeNum)[1];
@@ -381,7 +385,6 @@ var xScale;
   //the target of this move
   lat = getNode(places, nowNum)[0];
   lng = getNode(places, nowNum)[1];
-
 
   d3.json("world-110m.json", function(error, topo) {
     if (error) throw error;
@@ -404,8 +407,6 @@ var xScale;
     d3.timer(function() {
 
 
-        
-      
 
       lat_old = getNode(places, (nowNum - 1 + nodeNum) % nodeNum)[0];
       lng_old = getNode(places, (nowNum - 1 + nodeNum) % nodeNum)[1];
@@ -414,31 +415,32 @@ var xScale;
       lat = getNode(places, nowNum)[0];
       lng = getNode(places, nowNum)[1];
 
-      
+
       var dis = distanceSQ([lat_old, lng_old], [lat, lng]);
-      
+
       if (dis < 100) {
         countmove = 10;
-      } else { countmove = 1;
+      } else {
+        countmove = 1;
       }
 
       if (Math.abs(count - oneMove) < countmove) { //one move is finished, start the next one
 
-        
 
-/*        nowNum = nowNum + 1;//next node to target
-        nowNum = nowNum % nodeNum; //cycle the loop*/
 
-        
-      }else{
-        count +=countmove;
+        /*        nowNum = nowNum + 1;//next node to target
+                nowNum = nowNum % nodeNum; //cycle the loop*/
+
+
+      } else {
+        count += countmove;
       }
-      
+
       var timephase = count % oneMove; //the current phase of this move
       var phasePercentage = timephase / oneMove; //the completion percentage of the current move
-      if (phasePercentage===0) phasePercentage=1;
+      if (phasePercentage === 0) phasePercentage = 1;
       context.clearRect(0, 0, width, height);
-      
+
       //rate the closeness to nodes
       //0.5: close! at nodes
       //0: far! at the middle of two nodes
@@ -468,10 +470,13 @@ var xScale;
         coordinates: []
       }
 
-      var curcoo = [[lat_old, lng_old], [lat, lng]];
-      curcoo = randomDir(curcoo[0],curcoo[1]);
+      var curcoo = [
+        [lat_old, lng_old],
+        [lat, lng]
+      ];
+      curcoo = randomDir(curcoo[0], curcoo[1]);
 
-      curData.coordinates=curcoo;
+      curData.coordinates = curcoo;
 
       CuRoute //create current route
         .datum(curData)
@@ -479,7 +484,7 @@ var xScale;
         .attr("d", patho);
 
       console.log("Current Path:" + curPath + "||Current Node:" + nowNum + "||Total Node:" + nodeNum);
-      timeMark.attr("transform", "translate("+xScale(getNode(places, nowNum)[2])+","+(height - margin.top - margin.bottom+2.5)+")");
+      timeMark.attr("transform", "translate(" + xScale(getNode(places, nowNum)[2]) + "," + (height - margin.top - margin.bottom + 2.5) + ")");
       console.log(phasePercentage);
 
       track
@@ -491,9 +496,9 @@ var xScale;
 
       var closeRate = Math.abs(0.5 - phasePercentage);
 
-      var test = closeRate * 3 + 1;//scale factor
+      var test = closeRate * 1 + 1; //scale factor
       if (dis < 100) {
-        test = 2.5;
+        test = 1.5;
       }
 
       //move the camera and rescale the canvas
@@ -503,21 +508,19 @@ var xScale;
       context.translate(ptnow[0], ptnow[1]);
       context.scale(test, test);
 
-      track.attr("r", closeRate * 2+1); //change the tracker's r according to closerate
+      track.attr("r", closeRate * 2 + 1); //change the tracker's r according to closerate
 
-      context.beginPath(); //draw the outbound of the sphere
-      path(sphere);
-      context.lineWidth = 5;
-      context.strokeStyle = "#999";
-      context.stroke();
-      context.fillStyle = "#0b0e0f";
-      context.fill();
+            context.beginPath(); //draw the outbound of the sphere
+            path(sphere);
+            context.lineWidth = 5;
+            context.strokeStyle = "#999";
+            context.stroke();
 
       projection.clipAngle(180); //clip the grid and land, 180 means no clipping
 
-      context.beginPath();//land
+      context.beginPath(); //land
       path(land);
-      context.fillStyle = "#0d0d08";
+      context.fillStyle = "rgba(52,53,67,0.1)";
       context.fill();
 
 
@@ -525,13 +528,13 @@ var xScale;
 
       context.beginPath();
       path(land);
-      context.fillStyle = "#616161";
+      context.fillStyle = "#343543";
       context.fill();
       context.lineWidth = .5;
       context.strokeStyle = "#000";
       context.stroke();
 
-      context.beginPath();//grid
+      context.beginPath(); //grid
       path(grid);
       context.lineWidth = .5;
       context.strokeStyle = "rgba(119,119,119,.5)";
@@ -539,26 +542,18 @@ var xScale;
 
       //projection.clipAngle(180); //clip the back half of the land
 
-
-
-
-
-
     });
   });
 
-
-
   d3.select(self.frameElement).style("height", height + "px");
 });
-
 
 
 //update content after selecting a specific path
 var update = function(current) {
   places = getNode(places_multi, current);
   route = getNode(route_multi, current);
-  routeRam = jQuery.extend(true, {}, route);//deep copy
+  routeRam = jQuery.extend(true, {}, route); //deep copy
   routeRam.coordinates = ramwhole(routeRam.coordinates);
 
   target
@@ -592,7 +587,7 @@ var update = function(current) {
     .attr("r", 1);
 
   $(".track").remove();
-    track = svg.append("g")//red circle
+  track = svg.append("g") //red circle
     .append("circle")
     .attr("class", "track")
     .attr("r", 2)
@@ -603,31 +598,28 @@ var update = function(current) {
 
   $(".timebase").remove();
 
-  timeBase = svg0.append("g").attr("class", "timebase")//time mark
+  timeBase = svg0.append("g").attr("class", "timebase") //time mark
     .selectAll("g")
     .data(d3.entries(places))
     .enter().append("g")
     .attr("transform", function(d) {
       var myx = xScale(d.value[2]);
-      return "translate(" + myx+","+(height - margin.top - margin.bottom+2.5)  + ")";
+      return "translate(" + myx + "," + (height - margin.top - margin.bottom + 2.5) + ")";
     });
 
   timeBase.append("circle")
-      .attr("r", 2)
+    .attr("r", 2)
     .attr("fill", "rgba(18, 18, 206, 0.8)")
     .attr("stroke", "none")
     .attr("stroke-width", "1px")
 
-
-
-
-/*  point.append("text") //show text on each point
-    .attr("y", 10)
-    .attr("dy", ".71em")
-    .attr("class", "locName")
-    .text(function(d) {
-      return d.key.split("_")[1].split(" ")[0].split(",")[0];
-    });*/
+  /*  point.append("text") //show text on each point
+      .attr("y", 10)
+      .attr("dy", ".71em")
+      .attr("class", "locName")
+      .text(function(d) {
+        return d.key.split("_")[1].split(" ")[0].split(",")[0];
+      });*/
 
   nodeNum = route.coordinates.length; //the total number of nodes
   nowNum = 1; //current node to target to
@@ -648,11 +640,11 @@ var main = function() {
 
   $("#next").click(
     function() {
-        count = 0
-        nowNum = nowNum + 1;//next node to target
-        if (nowNum>nodeNum) nowNum = nodeNum;
-        nowNum = nowNum % nodeNum; //cycle the loop
-        if (nowNum === 0) nowNum = 1; //skip the first move
+      count = 0;
+      nowNum = nowNum + 1; //next node to target
+      if (nowNum > nodeNum) nowNum = nodeNum;
+      nowNum = nowNum % nodeNum; //cycle the loop
+      if (nowNum === 0) nowNum = 1; //skip the first move
     }
   );
 

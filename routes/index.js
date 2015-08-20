@@ -23,3 +23,8 @@ exports.csv = function(req, res) {
 	console.log('csv page requested');
 	res.render('readCSV.html');
 }
+
+exports.raster = function(req, res) {
+	console.log('raster page requested');
+	res.render('raster.html');
+}
