@@ -82,7 +82,7 @@ var randomDir = function(nodeA,nodeB){
   var lst = [];
   var dis = distanceSQ(nodeA,nodeB);
   var threshA = 1;
-  var threshB = 500;
+  var threshB = 400;
 
   var num = Math.round( Math.sqrt(dis) );
 
