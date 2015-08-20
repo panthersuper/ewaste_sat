@@ -63,7 +63,11 @@ var cleanLst = function(places, thresh) {
     var a = [places[keys[i]][0], places[keys[i]][1]];
     var b = [places[keys[i + 1]][0], places[keys[i + 1]][1]];
     var dis = distanceSQ(a, b);
-    if (dis < thresh) {
+    var important = places[keys[i]][3].length + places[keys[i]][4].length + places[keys[i]][5].length + places[keys[i]][6].length;
+    if (important>0) important = true;
+    else important = false;
+    
+    if (dis < thresh && (!important)) {
       delete places[keys[i]];
     }
 
@@ -216,7 +220,7 @@ var moveToggle = false;
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-d3.csv("new_monitor_sim.csv", function(error, data) {
+d3.tsv("new_monitor_sim.tsv", function(error, data) {
   //d3.csv("test.csv", function(error, data) {
   //data is numbered by the row number... 
   //head is not counted as a row.
@@ -230,15 +234,17 @@ d3.csv("new_monitor_sim.csv", function(error, data) {
   for (var i = 0; i < num; i++) {
     var date = getDate(data[i]["timestamp"]);
     datelst.push(data[i]["timestamp"]);
+    var title = data[i]["title"];
+    var video = data[i]["video"];
+    var story = data[i]["story"];
+    var image = data[i]["img"];
 
-    places_multi[data[i]["deviceID"]][data[i]["sequence"]] = [+data[i]["longitude"], +data[i]["latitude"], date];
+    places_multi[data[i]["deviceID"]][data[i]["sequence"]] = [+data[i]["longitude"], +data[i]["latitude"], date, title,video,story,image];
   };
 
   for (k in places_multi) { //clean the place list, get rid of redundant points
     cleanLst(places_multi[k], 0.3);
   }
-
-
 
   for (k in places_multi) {
     route_multi[k] = {};
@@ -252,8 +258,6 @@ d3.csv("new_monitor_sim.csv", function(error, data) {
   route = getNode(route_multi, curPath);
   routeRam = jQuery.extend(true, {}, route); //deep copy
   routeRam.coordinates = ramwhole(routeRam.coordinates);
-
-  console.log(route);
 
   datelst.sort();
   var newdl = []
@@ -481,9 +485,9 @@ d3.csv("new_monitor_sim.csv", function(error, data) {
         .attr("class", "curroute")
         .attr("d", patho);
 
-      console.log("Current Path:" + curPath + "||Current Node:" + nowNum + "||Total Node:" + nodeNum);
+      //console.log("Current Path:" + curPath + "||Current Node:" + nowNum + "||Total Node:" + nodeNum);
       timeMark.attr("transform", "translate(" + xScale(getNode(places, nowNum)[2]) + "," + (height - margin.top - margin.bottom + 2.5) + ")");
-      console.log(phasePercentage);
+      //console.log(phasePercentage);
 
       track
         .attr("transform", translateAlong2(CuRoute.node(), (phasePercentage)));
@@ -650,7 +654,7 @@ var main = function() {
       }
 
       //animations when next button is clicked
-      
+
 
 
 
