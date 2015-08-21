@@ -749,11 +749,10 @@ var updateContent = function(num){
       });
 
       $("#img img").fadeOut(500, function() {
-        $(this).remove()
-
+        $(this).remove();
         d3.select("#img")
           .append("img")
-          .attr("src",getNode(places, nowNum)[6]);
+          .attr("src",getNode(places, num)[6]);
         $("#img img").fadeOut(0).fadeIn(500);
 
       });
