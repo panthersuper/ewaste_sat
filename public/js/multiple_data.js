@@ -219,6 +219,7 @@ var datelst = [];
 var xScale;
 var trackscale = 0;
 var moveToggle = false;
+var cont = false;
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -462,7 +463,6 @@ d3.tsv("new_monitor_sim.tsv", function(error, data) {
             if (nowNum === 0) nowNum = 1; //skip the first move
             moveToggle = true;
           } else {
-            console.log(11111111111);
             updateContent(nowNum);
             moveToggle = false;
           }
@@ -476,8 +476,9 @@ d3.tsv("new_monitor_sim.tsv", function(error, data) {
 
       var timephase = count % oneMove; //the current phase of this move
       var phasePercentage = timephase / oneMove; //the completion percentage of the current move
-/*      if (moveToggle)
-*/        if (phasePercentage === 0) phasePercentage = 1;
+      console.log(cont);
+      if (cont)
+        if (phasePercentage === 0) phasePercentage = 1;
       context.clearRect(0, 0, width, height);
 
       //rate the closeness to nodes
@@ -676,11 +677,13 @@ var main = function() {
       curPath = +thisid;
       update(curPath);
       moveToggle = false;
+      cont = false;
     }
   );
 
   $("#next").click(
     function() {
+      cont = true;
       count = 0;
       nowNum = nowNum + 1; //next node to target
       nowNum = nowNum % nodeNum; //cycle the loop
