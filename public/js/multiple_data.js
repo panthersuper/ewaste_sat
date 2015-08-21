@@ -64,9 +64,9 @@ var cleanLst = function(places, thresh) {
     var b = [places[keys[i + 1]][0], places[keys[i + 1]][1]];
     var dis = distanceSQ(a, b);
     var important = places[keys[i]][3].length + places[keys[i]][4].length + places[keys[i]][5].length + places[keys[i]][6].length;
-    if (important>0) important = true;
+    if (important > 0) important = true;
     else important = false;
-    
+
     if (dis < thresh && (!important)) {
       delete places[keys[i]];
     }
@@ -90,6 +90,7 @@ var randomDir = function(nodeA, nodeB) {
   var threshB = 400;
 
   var num = Math.round(Math.sqrt(dis));
+  var ratio = num / 30;
 
   if (num < 10) {
     num = 10;
@@ -99,12 +100,13 @@ var randomDir = function(nodeA, nodeB) {
   } else {
     lst.push(nodeA);
     var start = nodeA;
+
     for (var i = 0; i < num; i++) {
       var dir = [(nodeB[0] - start[0]) / (num + 1 - i), (nodeB[1] - start[1]) / (num + 1 - i)];
       var random1 = Math.seed(i + 1);
       var random2 = Math.seed(random1());
       Math.random = Math.seed(random2());
-      var ram = [(Math.random() - 1) / 3, (Math.random() - 1) / 3];
+      var ram = [(Math.random() - 1) * ratio, (Math.random() - 1) * ratio];
       var node = [start[0] + dir[0] + ram[0], start[1] + dir[1] + ram[1]];
       lst.push(node);
       start = node;
@@ -239,7 +241,7 @@ d3.tsv("new_monitor_sim.tsv", function(error, data) {
     var story = data[i]["story"];
     var image = data[i]["img"];
 
-    places_multi[data[i]["deviceID"]][data[i]["sequence"]] = [+data[i]["longitude"], +data[i]["latitude"], date, title,video,story,image];
+    places_multi[data[i]["deviceID"]][data[i]["sequence"]] = [+data[i]["longitude"], +data[i]["latitude"], date, title, video, story, image];
   };
 
   for (k in places_multi) { //clean the place list, get rid of redundant points
@@ -317,7 +319,8 @@ d3.tsv("new_monitor_sim.tsv", function(error, data) {
   myroute = svg.append("path")
     .datum(routeRam)
     .attr("class", "route")
-    .attr("d", patho);
+    .attr("d", patho)
+    .attr("stroke-dasharray", "2,2");
 
 
 
@@ -374,6 +377,20 @@ d3.tsv("new_monitor_sim.tsv", function(error, data) {
     .attr("stroke", "none")
     .attr("stroke-width", "1px")
 
+  console.log(places);
+
+  d3.select("#story")
+    .append("p")
+    .text(getNode(places, 0)[5])
+
+  d3.select("#title")
+    .append("p")
+    .text(getNode(places, 0)[3])
+
+  $("#story p").fadeOut(0).fadeIn(1000);
+  $("#title p").fadeOut(0).fadeIn(1000);
+
+
 
 
   /*  point.append("text") //show text on each point
@@ -390,7 +407,7 @@ d3.tsv("new_monitor_sim.tsv", function(error, data) {
   //the target of this move
   lat = getNode(places, nowNum)[0];
   lng = getNode(places, nowNum)[1];
-  
+
   //d3.json("countries.geo.json", function(error, topo) {
   d3.json("world-110m.json", function(error, topo) {
     if (error) throw error;
@@ -409,11 +426,11 @@ d3.tsv("new_monitor_sim.tsv", function(error, data) {
       endN = places[k];
     }
 
-//////the timmer//////////////////////////////////////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    //////the timmer//////////////////////////////////////////////////////////////////////////////////////////////
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////////
     d3.timer(function() {
 
-      trackscale+=0.2;
+      trackscale += 0.2;
       lat_old = getNode(places, (nowNum - 1 + nodeNum) % nodeNum)[0];
       lng_old = getNode(places, (nowNum - 1 + nodeNum) % nodeNum)[1];
 
@@ -430,17 +447,37 @@ d3.tsv("new_monitor_sim.tsv", function(error, data) {
         countmove = 1;
       }
 
-      if (moveToggle){
-      if (Math.abs(count - oneMove) < countmove) { //one move is finished, start the next one
+      if (moveToggle) {
+        if (Math.abs(count - oneMove) < countmove) { //one move is finished, start the next one
+          //if next one have notes, stop there,otherwise keep moving
+          var keys = Object.keys(places);
+          var important = places[keys[nowNum]][3].length + places[keys[nowNum]][4].length + places[keys[nowNum]][5].length + places[keys[nowNum]][6].length;
+          if (important > 0) important = true;
+          else important = false;
 
-      } else {
-        count += countmove;
+          if (!important){
+            count = 0;
+            nowNum = nowNum + 1; //next node to target
+            nowNum = nowNum % nodeNum; //cycle the loop
+            if (nowNum === 0) nowNum = 1; //skip the first move
+            moveToggle = true;
+          } else {
+            console.log(11111111111);
+            updateContent(nowNum);
+            moveToggle = false;
+          }
+
+
+        } else {
+
+          count += countmove;
+        }
       }
-    }
 
       var timephase = count % oneMove; //the current phase of this move
       var phasePercentage = timephase / oneMove; //the completion percentage of the current move
-      if (moveToggle) if (phasePercentage === 0) phasePercentage = 1;
+/*      if (moveToggle)
+*/        if (phasePercentage === 0) phasePercentage = 1;
       context.clearRect(0, 0, width, height);
 
       //rate the closeness to nodes
@@ -510,13 +547,13 @@ d3.tsv("new_monitor_sim.tsv", function(error, data) {
       context.translate(ptnow[0], ptnow[1]);
       context.scale(test, test);
 
-      track.attr("r", 2*(trackscale%1) + 1); //change the tracker's r according to closerate
+      track.attr("r", 2 * (trackscale % 1) + 1); //change the tracker's r according to closerate
 
-            context.beginPath(); //draw the outbound of the sphere
-            path(sphere);
-            context.lineWidth = 1;
-            context.strokeStyle = "#999";
-            context.stroke();
+      context.beginPath(); //draw the outbound of the sphere
+      path(sphere);
+      context.lineWidth = 1;
+      context.strokeStyle = "#999";
+      context.stroke();
 
       projection.clipAngle(180); //clip the grid and land, 180 means no clipping
 
@@ -627,6 +664,8 @@ var update = function(current) {
   oneMove = oneMove_default; //the interval for each focus
   count = 0; //to measure the interval
 
+  updateContent(0);
+
 }
 
 //main jquery function
@@ -642,27 +681,41 @@ var main = function() {
 
   $("#next").click(
     function() {
-      if(moveToggle){
-        count = 0;
-        nowNum = nowNum + 1; //next node to target
-        if (nowNum > nodeNum) nowNum = nodeNum;
-        nowNum = nowNum % nodeNum; //cycle the loop
-        if (nowNum === 0) nowNum = 1; //skip the first move
-      }
-      else{
-        moveToggle = true;
-      }
+      count = 0;
+      nowNum = nowNum + 1; //next node to target
+      nowNum = nowNum % nodeNum; //cycle the loop
+      if (nowNum === 0) {nowNum = 1; //skip the first move
+      moveToggle = false;
+      updateContent(0);
+      }else
+      moveToggle = true;
 
       //animations when next button is clicked
 
-
-
-
-
-
-
+      updateContent(nowNum);
 
     }
   );
 
 };
+
+var updateContent = function(num){
+
+        $("#story p").fadeOut(500, function() {
+        $(this).remove()
+        d3.select("#story")
+          .append("p")
+          .text(getNode(places, num)[5]);
+        $("#story p").fadeOut(0).fadeIn(500);
+
+      });
+      $("#title p").fadeOut(500, function() {
+        $(this).remove()
+        d3.select("#title")
+          .append("p")
+          .text(getNode(places, num)[3]);
+        $("#title p").fadeOut(0).fadeIn(500);
+
+
+      });
+}
