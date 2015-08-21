@@ -378,7 +378,6 @@ d3.tsv("new_monitor_sim.tsv", function(error, data) {
     .attr("stroke", "none")
     .attr("stroke-width", "1px")
 
-  console.log(places);
 
   d3.select("#story")
     .append("p")
@@ -462,13 +461,14 @@ d3.tsv("new_monitor_sim.tsv", function(error, data) {
             nowNum = nowNum % nodeNum; //cycle the loop
             if (nowNum === 0) nowNum = 1; //skip the first move
             moveToggle = true;
-          } else {
+          } else if(cont) {
             updateContent(nowNum);
-            moveToggle = false;
+            cont = false;
+            //moveToggle = false;
           }
 
 
-        } else {
+        } else {//move is not finished
 
           count += countmove;
         }
@@ -476,8 +476,8 @@ d3.tsv("new_monitor_sim.tsv", function(error, data) {
 
       var timephase = count % oneMove; //the current phase of this move
       var phasePercentage = timephase / oneMove; //the completion percentage of the current move
-      console.log(cont);
-      if (cont)
+
+      if (moveToggle)
         if (phasePercentage === 0) phasePercentage = 1;
       context.clearRect(0, 0, width, height);
 
@@ -664,6 +664,7 @@ var update = function(current) {
   nowNum = 1; //current node to target to
   oneMove = oneMove_default; //the interval for each focus
   count = 0; //to measure the interval
+  cont = false;
 
   updateContent(0);
 
@@ -683,15 +684,22 @@ var main = function() {
 
   $("#next").click(
     function() {
+
       cont = true;
+      console.log(moveToggle);
+      if (moveToggle){
       count = 0;
       nowNum = nowNum + 1; //next node to target
       nowNum = nowNum % nodeNum; //cycle the loop
-      if (nowNum === 0) {nowNum = 1; //skip the first move
+
+      }
+      if (nowNum === 0) {
+      nowNum = 1; //skip the first move
       moveToggle = false;
       updateContent(0);
       }else
       moveToggle = true;
+
 
       //animations when next button is clicked
 
