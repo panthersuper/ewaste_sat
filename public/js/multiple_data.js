@@ -87,7 +87,7 @@ var randomDir = function(nodeA, nodeB) {
   var lst = [];
   var dis = distanceSQ(nodeA, nodeB);
   var threshA = 1;
-  var threshB = 400;
+  var threshB = 600;
 
   var num = Math.round(Math.sqrt(dis));
   var ratio = num / 30;
@@ -556,7 +556,7 @@ d3.tsv("new_monitor_sim.tsv", function(error, data) {
       var closeRate = Math.abs(0.5 - phasePercentage);
 
       var test = closeRate * 1 + 1; //scale factor
-      if (dis < 100) {
+      if (dis < 800) {
         test = 1.5;
       }
 
@@ -691,8 +691,13 @@ var update = function(current) {
 
 //main jquery function
 var main = function() {
-  $(".thepaths").click(
+  $("#tablepath div").click(
     function() {
+/*      $("#tablepath div").css("background-color", "rgba(100,100,100,0.2)");
+*/    
+      $("#tablepath div").removeClass("active");
+      $(this).addClass("active");
+
       var thisid = $(this).attr("id");
       curPath = +thisid;
       update(curPath);
@@ -717,7 +722,6 @@ var main = function() {
       updateContent(0);
       }else
       moveToggle = true;
-
 
       //animations when next button is clicked
 
