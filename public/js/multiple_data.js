@@ -686,7 +686,6 @@ var main = function() {
     function() {
 
       cont = true;
-      console.log(moveToggle);
       if (moveToggle){
       count = 0;
       nowNum = nowNum + 1; //next node to target
