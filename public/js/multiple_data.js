@@ -126,6 +126,14 @@ var ramwhole = function(lst) { //randomnize the whole list
   return mylst;
 }
 
+var revGeocoding = function(lat,lng){
+  var mystr = 'https://maps.googleapis.com/maps/api/geocode/json?latlng='+lat+','+lng+'&key=AIzaSyBG1a8rdla5buwncdaUp8gQCKp_ePgI6wA';
+
+  $.getJSON(mystr, function(data){
+      console.log(data.results[0].address_components[5].short_name);
+  });
+}
+
 
 
 /*var places_multi_test = {
@@ -221,6 +229,8 @@ var trackscale = 0;
 var moveToggle = false;
 var cont = false;
 
+
+revGeocoding(40.714224,-73.961452);
 ////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 d3.tsv("new_monitor_sim.tsv", function(error, data) {
@@ -242,7 +252,12 @@ d3.tsv("new_monitor_sim.tsv", function(error, data) {
     var story = data[i]["story"];
     var image = data[i]["img"];
 
-    places_multi[data[i]["deviceID"]][data[i]["sequence"]] = [+data[i]["longitude"], +data[i]["latitude"], date, title, video, story, image];
+    var lat = +data[i]["latitude"],
+        lng = +data[i]["longitude"];
+
+
+
+    places_multi[data[i]["deviceID"]][data[i]["sequence"]] = [lng, lat, date, title, video, story, image];
   };
 
   for (k in places_multi) { //clean the place list, get rid of redundant points
@@ -387,9 +402,13 @@ d3.tsv("new_monitor_sim.tsv", function(error, data) {
     .append("p")
     .text(getNode(places, 0)[3])
 
+  d3.select("#img")
+    .append("img")
+    .attr("src",getNode(places, 0)[6]);
+
   $("#story p").fadeOut(0).fadeIn(1000);
   $("#title p").fadeOut(0).fadeIn(1000);
-
+  $("#img img").fadeOut(0).fadeIn(1000);
 
 
 
@@ -726,6 +745,16 @@ var updateContent = function(num){
           .text(getNode(places, num)[3]);
         $("#title p").fadeOut(0).fadeIn(500);
 
+
+      });
+
+      $("#img img").fadeOut(500, function() {
+        $(this).remove()
+
+        d3.select("#img")
+          .append("img")
+          .attr("src",getNode(places, nowNum)[6]);
+        $("#img img").fadeOut(0).fadeIn(500);
 
       });
 }
