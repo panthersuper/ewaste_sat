@@ -839,11 +839,8 @@ var main = function() {
 
   $("#stop").click(
     function() {
-      nowNum = nowNum + 1;
-      nowNum = nowNum % nodeNum; //cycle the loop
       cont = false; //loop starts
       moveToggle = false;
-      count = 0;
     }
   );
 
