@@ -120,11 +120,11 @@ body {
     }
 
     .points text {
-      font: 5.5px sans-serif;
-      text-anchor: middle;
+      font: 7px sans-serif;
+      //text-anchor: middle;
       fill:white;
       opacity:0.6;
-      padding-bottom: 5px;
+      padding-bottom: -5px;
       //text-shadow: 0 1px 0 #fff, 0 -1px 0 #fff, 1px 0 0 #fff, -1px 0 0 #fff;
     }
 
@@ -135,10 +135,24 @@ body {
       background-color: rgba(100,100,100,0.8);
       width:140px;
       left: 75px;
-      bottom: 55px;
+      bottom: 65px;
     }
 
     #next p {
+      padding-left: 55px;
+      padding-bottom: 10px;
+      color:white;
+    }
+
+    #stop {
+      position: absolute;
+      background-color: rgba(100,100,100,0.8);
+      width:140px;
+      left: 75px;
+      bottom: 15px;
+    }
+
+    #stop p {
       padding-left: 55px;
       padding-bottom: 10px;
       color:white;
@@ -196,11 +210,21 @@ body {
       cursor: pointer;
     }
 
+    #stop:hover {
+      background-color: rgba(200,200,200,0.2);
+      cursor: pointer;
+    }
+
     .timeid circle:hover {
       fill: rgba(206, 18, 18, 0.8);
       r:3;
+      cursor: pointer;
+    }
 
-
+    .mypoints circle:hover {
+      fill: rgba(206, 18, 18, 0.8);
+      r:3;
+      cursor: pointer;
     }
 
 
@@ -238,6 +262,10 @@ body {
   <div id="next">
     <p><strong>NEXT</strong></p>
   </div>
+  <div id="stop">
+    <p><strong>STOP</strong></p>
+  </div>
+
 </div>
 
 <script src ="js/multiple_data.js"></script>

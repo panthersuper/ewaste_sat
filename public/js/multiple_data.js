@@ -136,29 +136,31 @@ var revGeocoding = function(lat, lng, id) {
     var city = null;
     var addr = data.results[0].address_components;
 
-    for (i in addr){
+    for (i in addr) {
       var type = addr[i].types[0]
       if (type === "country") country = addr[i].short_name;
       if (type === "administrative_area_level_1") state = addr[i].short_name;
       if (type === "locality") city = addr[i].short_name;
     }
 
+    returnvalue = city + ", " + state + ", " + country;
 
+    if (city === null) returnvalue = state + ", " + country;
 
-    if (country==="US") returnvalue = city/* +","+state*/;
-    else returnvalue = city + "," + country;
+    d3.select("#" + id).append("text") //show text on each point
+      .attr("y", -10)
+      .attr("x", 10)
+      .attr("dy", ".71em")
+      .attr("class", "locName")
+      .text(function(d) {
+        return returnvalue;
+      });
+  });
+}
 
-    if (city === null) returnvalue = returnvalue.split(",")[1];
-
-  d3.select("#"+id).append("text") //show text on each point
-    .attr("y", 3)
-    .attr("dy", ".71em")
-    .attr("class", "locName")
-    .text(function(d) {
-      return returnvalue;
-    });
-  }
-  );
+var removetext = function(id) {
+  d3.selectAll(".mypoints" + " text")
+    .remove();
 }
 
 
@@ -366,7 +368,6 @@ d3.tsv("new_monitor_sim.tsv", function(error, data) {
     .attr("stroke-dasharray", "2,2");
 
 
-
   CuRoute = svg.append("path") //current route
     .attr("class", "curroute")
 
@@ -375,27 +376,47 @@ d3.tsv("new_monitor_sim.tsv", function(error, data) {
     .selectAll("g")
     .data(d3.entries(places))
     .enter().append("g")
-    .attr("id", function(d,i){
-      return "point"+i;
+    .attr("id", function(d, i) {
+      return "point" + i;
     })
+    .attr("class", "mypoints")
     .attr("transform", function(d) {
       return "translate(" + projection(d.value) + ")";
-    });
+    })
+    .on("mouseover", function(d, i) {
+      revGeocoding(d.value[1], d.value[0], "point" + i);
+    })
+    .on("mouseout", function(d, i) {
+      removetext("point" + i);
+    })
+    .on("click", function(d, i) {
+      nowNum = i;
+      updateContent(nowNum);
+      moveToggle = false;
+      cont = false; //loop not started
+      count = oneMove_default - 0.1; //to measure the interval
+
+
+    })
+
+
+  ;
+
 
   point.append("circle") //show circle on each point
     .attr("r", 1.5);
 
-  point.attr("add", function(d,i){
-    revGeocoding(d.value[1],d.value[0],"point"+i);
-  });
-
-/*  point.append("text") //show text on each point
-    .attr("y", 10)
-    .attr("dy", ".71em")
-    .attr("class", "locName")
-    .text(function(d) {
-      return d.key.split("_")[1].split(" ")[0].split(",")[0];
-    });*/
+  /*  point.attr("add", function(d,i){
+      revGeocoding(d.value[1],d.value[0],"point"+i);
+    });
+  */
+  /*  point.append("text") //show text on each point
+      .attr("y", 10)
+      .attr("dy", ".71em")
+      .attr("class", "locName")
+      .text(function(d) {
+        return d.key.split("_")[1].split(" ")[0].split(",")[0];
+      });*/
 
   track = svg.append("g") //red circle
     .append("circle")
@@ -425,20 +446,21 @@ d3.tsv("new_monitor_sim.tsv", function(error, data) {
     .data(d3.entries(places))
     .enter().append("g")
     .attr("class", "timeid")
-    .attr("id", function(d,i){
-      return "timeid"+i;
-        }
-      )
+    .attr("id", function(d, i) {
+      return "timeid" + i;
+    })
     .attr("transform", function(d) {
       var myx = xScale(d.value[2]);
       return "translate(" + myx + "," + (height - margin.top - margin.bottom + 2.5) + ")";
     })
-    .on("click", function(d,i) {
-      console.log("hello"+i); 
+    .on("click", function(d, i) {
       nowNum = i;
+      updateContent(nowNum);
+      moveToggle = false;
+      cont = false; //loop not started
+      count = oneMove_default - 0.1; //to measure the interval
 
-    })
-    ;
+    });
 
   timeBase.append("circle")
     .attr("r", 2)
@@ -510,6 +532,7 @@ d3.tsv("new_monitor_sim.tsv", function(error, data) {
         countmove = 1;
       }
 
+
       if (moveToggle) {
         if (Math.abs(count - oneMove) < countmove) { //one move is finished, start the next one
           //if next one have notes, stop there,otherwise keep moving
@@ -522,8 +545,13 @@ d3.tsv("new_monitor_sim.tsv", function(error, data) {
             count = 0;
             nowNum = nowNum + 1; //next node to target
             nowNum = nowNum % nodeNum; //cycle the loop
-            if (nowNum === 0) nowNum = 1; //skip the first move
+
             moveToggle = true;
+
+            if (nowNum === 0) {
+              nowNum = 1; //skip the first move
+              moveToggle = false;
+            }
           } else if (cont) {
             updateContent(nowNum);
             cont = false;
@@ -683,18 +711,33 @@ var update = function(current) {
     .selectAll("g")
     .data(d3.entries(places))
     .enter().append("g")
-    .attr("id", function(d,i){
-      return "point"+i;
+    .attr("id", function(d, i) {
+      return "point" + i;
     })
+    .attr("class", "mypoints")
     .attr("transform", function(d) {
       return "translate(" + projection(d.value) + ")";
-    });
+    })
+    .on("mouseover", function(d, i) {
+      revGeocoding(d.value[1], d.value[0], "point" + i);
+    })
+    .on("mouseout", function(d, i) {
+      removetext("point" + i);
+    })
+    .on("click", function(d, i) {
+      nowNum = i;
+      updateContent(nowNum);
+      moveToggle = false;
+      cont = false; //loop not started
+      count = oneMove_default - 0.1; //to measure the interval
+
+    })
+
+  ;
+
   point.append("circle") //show circle on each point
     .attr("r", 1.5);
 
-  point.attr("add", function(d,i){
-    revGeocoding(d.value[1],d.value[0],"point"+i);
-  });
 
   $(".track").remove();
   track = svg.append("g") //red circle
@@ -717,13 +760,15 @@ var update = function(current) {
       return "translate(" + myx + "," + (height - margin.top - margin.bottom + 2.5) + ")";
     })
     .attr("class", "timeid")
-    .attr("id", function(d,i){
-      return "timeid"+i;
-        }
-      )
-    .on("click", function(d,i) {
-      console.log("hello"+i); 
+    .attr("id", function(d, i) {
+      return "timeid" + i;
+    })
+    .on("click", function(d, i) {
       nowNum = i;
+      updateContent(nowNum);
+      moveToggle = false;
+      cont = false; //loop not started
+      count = oneMove_default - 0.1; //to measure the interval
 
     });
 
@@ -746,7 +791,6 @@ var update = function(current) {
   nowNum = 1; //current node to target to
   oneMove = oneMove_default; //the interval for each focus
   count = 0; //to measure the interval
-  cont = false;
 
   updateContent(0);
 
@@ -790,6 +834,16 @@ var main = function() {
 
       updateContent(nowNum);
 
+    }
+  );
+
+  $("#stop").click(
+    function() {
+      nowNum = nowNum + 1;
+      nowNum = nowNum % nodeNum; //cycle the loop
+      cont = false; //loop starts
+      moveToggle = false;
+      count = 0;
     }
   );
 
