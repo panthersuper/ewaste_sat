@@ -126,12 +126,39 @@ var ramwhole = function(lst) { //randomnize the whole list
   return mylst;
 }
 
-var revGeocoding = function(lat,lng){
-  var mystr = 'https://maps.googleapis.com/maps/api/geocode/json?latlng='+lat+','+lng+'&key=AIzaSyBG1a8rdla5buwncdaUp8gQCKp_ePgI6wA';
+var revGeocoding = function(lat, lng, id) {
+  var returnvalue = null;
+  var mystr = 'https://maps.googleapis.com/maps/api/geocode/json?latlng=' + lat + ',' + lng + '&key=AIzaSyBG1a8rdla5buwncdaUp8gQCKp_ePgI6wA&language=en';
 
-  $.getJSON(mystr, function(data){
-      console.log(data.results[0].address_components[5].short_name);
-  });
+  $.when($.getJSON(mystr)).done(function(data) {
+    var country = null;
+    var state = null;
+    var city = null;
+    var addr = data.results[0].address_components;
+
+    for (i in addr){
+      var type = addr[i].types[0]
+      if (type === "country") country = addr[i].short_name;
+      if (type === "administrative_area_level_1") state = addr[i].short_name;
+      if (type === "locality") city = addr[i].short_name;
+    }
+
+
+
+    if (country==="US") returnvalue = city/* +","+state*/;
+    else returnvalue = city + "," + country;
+
+    if (city === null) returnvalue = returnvalue.split(",")[1];
+
+  d3.select("#"+id).append("text") //show text on each point
+    .attr("y", 3)
+    .attr("dy", ".71em")
+    .attr("class", "locName")
+    .text(function(d) {
+      return returnvalue;
+    });
+  }
+  );
 }
 
 
@@ -183,6 +210,7 @@ var routeRam;
 var timeMark;
 var timeBase;
 
+
 var canvas = d3.select("#draw").append("canvas").attr("class", "mycanvas")
   .attr("width", width)
   .attr("height", height);
@@ -230,7 +258,6 @@ var moveToggle = false;
 var cont = false;
 
 
-revGeocoding(40.714224,-73.961452);
 ////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 d3.tsv("new_monitor_sim.tsv", function(error, data) {
@@ -253,7 +280,7 @@ d3.tsv("new_monitor_sim.tsv", function(error, data) {
     var image = data[i]["img"];
 
     var lat = +data[i]["latitude"],
-        lng = +data[i]["longitude"];
+      lng = +data[i]["longitude"];
 
 
 
@@ -348,12 +375,27 @@ d3.tsv("new_monitor_sim.tsv", function(error, data) {
     .selectAll("g")
     .data(d3.entries(places))
     .enter().append("g")
+    .attr("id", function(d,i){
+      return "point"+i;
+    })
     .attr("transform", function(d) {
       return "translate(" + projection(d.value) + ")";
     });
 
   point.append("circle") //show circle on each point
     .attr("r", 1.5);
+
+  point.attr("add", function(d,i){
+    revGeocoding(d.value[1],d.value[0],"point"+i);
+  });
+
+/*  point.append("text") //show text on each point
+    .attr("y", 10)
+    .attr("dy", ".71em")
+    .attr("class", "locName")
+    .text(function(d) {
+      return d.key.split("_")[1].split(" ")[0].split(",")[0];
+    });*/
 
   track = svg.append("g") //red circle
     .append("circle")
@@ -382,17 +424,27 @@ d3.tsv("new_monitor_sim.tsv", function(error, data) {
     .selectAll("g")
     .data(d3.entries(places))
     .enter().append("g")
+    .attr("class", "timeid")
+    .attr("id", function(d,i){
+      return "timeid"+i;
+        }
+      )
     .attr("transform", function(d) {
       var myx = xScale(d.value[2]);
       return "translate(" + myx + "," + (height - margin.top - margin.bottom + 2.5) + ")";
-    });
+    })
+    .on("click", function(d,i) {
+      console.log("hello"+i); 
+      nowNum = i;
+
+    })
+    ;
 
   timeBase.append("circle")
     .attr("r", 2)
     .attr("fill", "rgba(18, 18, 206, 0.8)")
     .attr("stroke", "none")
     .attr("stroke-width", "1px")
-
 
   d3.select("#story")
     .append("p")
@@ -404,21 +456,13 @@ d3.tsv("new_monitor_sim.tsv", function(error, data) {
 
   d3.select("#img")
     .append("img")
-    .attr("src",getNode(places, 0)[6]);
+    .attr("src", getNode(places, 0)[6]);
 
   $("#story p").fadeOut(0).fadeIn(1000);
   $("#title p").fadeOut(0).fadeIn(1000);
   $("#img img").fadeOut(0).fadeIn(1000);
 
 
-
-  /*  point.append("text") //show text on each point
-      .attr("y", 10)
-      .attr("dy", ".71em")
-      .attr("class", "locName")
-      .text(function(d) {
-        return d.key.split("_")[1].split(" ")[0].split(",")[0];
-      });*/
 
   lat_old = getNode(places, (nowNum - 1 + nodeNum) % nodeNum)[0];
   lng_old = getNode(places, (nowNum - 1 + nodeNum) % nodeNum)[1];
@@ -474,20 +518,20 @@ d3.tsv("new_monitor_sim.tsv", function(error, data) {
           if (important > 0) important = true;
           else important = false;
 
-          if (!important){
+          if (!important) {
             count = 0;
             nowNum = nowNum + 1; //next node to target
             nowNum = nowNum % nodeNum; //cycle the loop
             if (nowNum === 0) nowNum = 1; //skip the first move
             moveToggle = true;
-          } else if(cont) {
+          } else if (cont) {
             updateContent(nowNum);
             cont = false;
             //moveToggle = false;
           }
 
 
-        } else {//move is not finished
+        } else { //move is not finished
 
           count += countmove;
         }
@@ -543,7 +587,8 @@ d3.tsv("new_monitor_sim.tsv", function(error, data) {
         .attr("d", patho);
 
       //console.log("Current Path:" + curPath + "||Current Node:" + nowNum + "||Total Node:" + nodeNum);
-      timeMark.attr("transform", "translate(" + xScale(getNode(places, nowNum)[2]) + "," + (height - margin.top - margin.bottom + 2.5) + ")");
+      timeMark
+        .attr("transform", "translate(" + xScale(getNode(places, nowNum)[2]) + "," + (height - margin.top - margin.bottom + 2.5) + ")");
       //console.log(phasePercentage);
 
       track
@@ -638,11 +683,18 @@ var update = function(current) {
     .selectAll("g")
     .data(d3.entries(places))
     .enter().append("g")
+    .attr("id", function(d,i){
+      return "point"+i;
+    })
     .attr("transform", function(d) {
       return "translate(" + projection(d.value) + ")";
     });
   point.append("circle") //show circle on each point
     .attr("r", 1.5);
+
+  point.attr("add", function(d,i){
+    revGeocoding(d.value[1],d.value[0],"point"+i);
+  });
 
   $(".track").remove();
   track = svg.append("g") //red circle
@@ -663,6 +715,16 @@ var update = function(current) {
     .attr("transform", function(d) {
       var myx = xScale(d.value[2]);
       return "translate(" + myx + "," + (height - margin.top - margin.bottom + 2.5) + ")";
+    })
+    .attr("class", "timeid")
+    .attr("id", function(d,i){
+      return "timeid"+i;
+        }
+      )
+    .on("click", function(d,i) {
+      console.log("hello"+i); 
+      nowNum = i;
+
     });
 
   timeBase.append("circle")
@@ -670,6 +732,7 @@ var update = function(current) {
     .attr("fill", "rgba(18, 18, 206, 0.8)")
     .attr("stroke", "none")
     .attr("stroke-width", "1px")
+
 
   /*  point.append("text") //show text on each point
       .attr("y", 10)
@@ -693,8 +756,8 @@ var update = function(current) {
 var main = function() {
   $("#tablepath div").click(
     function() {
-/*      $("#tablepath div").css("background-color", "rgba(100,100,100,0.2)");
-*/    
+      /*      $("#tablepath div").css("background-color", "rgba(100,100,100,0.2)");
+       */
       $("#tablepath div").removeClass("active");
       $(this).addClass("active");
 
@@ -702,26 +765,26 @@ var main = function() {
       curPath = +thisid;
       update(curPath);
       moveToggle = false;
-      cont = false;
+      cont = false; //loop not started
     }
   );
 
   $("#next").click(
     function() {
 
-      cont = true;
-      if (moveToggle){
-      count = 0;
-      nowNum = nowNum + 1; //next node to target
-      nowNum = nowNum % nodeNum; //cycle the loop
+      cont = true; //loop starts
+      if (moveToggle) {
+        count = 0;
+        nowNum = nowNum + 1; //next node to target
+        nowNum = nowNum % nodeNum; //cycle the loop
 
       }
       if (nowNum === 0) {
-      nowNum = 1; //skip the first move
-      moveToggle = false;
-      updateContent(0);
-      }else
-      moveToggle = true;
+        nowNum = 1; //skip the first move
+        moveToggle = false;
+        updateContent(0);
+      } else
+        moveToggle = true;
 
       //animations when next button is clicked
 
@@ -732,32 +795,32 @@ var main = function() {
 
 };
 
-var updateContent = function(num){
+var updateContent = function(num) {
 
-        $("#story p").fadeOut(500, function() {
-        $(this).remove()
-        d3.select("#story")
-          .append("p")
-          .text(getNode(places, num)[5]);
-        $("#story p").fadeOut(0).fadeIn(500);
+  $("#story p").fadeOut(500, function() {
+    $(this).remove()
+    d3.select("#story")
+      .append("p")
+      .text(getNode(places, num)[5]);
+    $("#story p").fadeOut(0).fadeIn(500);
 
-      });
-      $("#title p").fadeOut(500, function() {
-        $(this).remove()
-        d3.select("#title")
-          .append("p")
-          .text(getNode(places, num)[3]);
-        $("#title p").fadeOut(0).fadeIn(500);
+  });
+  $("#title p").fadeOut(500, function() {
+    $(this).remove()
+    d3.select("#title")
+      .append("p")
+      .text(getNode(places, num)[3]);
+    $("#title p").fadeOut(0).fadeIn(500);
 
 
-      });
+  });
 
-      $("#img img").fadeOut(500, function() {
-        $(this).remove();
-        d3.select("#img")
-          .append("img")
-          .attr("src",getNode(places, num)[6]);
-        $("#img img").fadeOut(0).fadeIn(500);
+  $("#img img").fadeOut(500, function() {
+    $(this).remove();
+    d3.select("#img")
+      .append("img")
+      .attr("src", getNode(places, num)[6]);
+    $("#img img").fadeOut(0).fadeIn(500);
 
-      });
+  });
 }
