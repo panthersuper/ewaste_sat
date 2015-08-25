@@ -613,19 +613,11 @@ d3.tsv("new_monitor_sim.tsv", function(error, data) {
             if(nowNum + 1 != nodeNum){
               count = 0;
             nowNum = nowNum + 1; //next node to target
-            moveToggle = true;
-            }else{
-              moveToggle = false;
-              count = oneMove_default-0.01;
-            }
             nowNum = nowNum % nodeNum; //cycle the loop
-
-            
-
-            if (nowNum === 0) {
-              nowNum = 1; //skip the first move
-              moveToggle = false;
+            moveToggle = true;
             }
+
+
           } else if (cont) {
             updateContent(nowNum);
             cont = false;
@@ -913,19 +905,24 @@ var main = function() {
   $("#next").click(
     function() {
 
-      cont = true; //loop starts
+      
       if (moveToggle) {
         count = 0;
         nowNum = nowNum + 1; //next node to target
-        nowNum = nowNum % nodeNum; //cycle the loop
-
-        if (nowNum === 0) nowNum = 1;
+        //nowNum = nowNum % nodeNum; //cycle the loop
+        
+        /*if (nowNum === 0) {
+          nowNum = 1;
+          moveToggle = false;
+        }*/
 
       }
-      if (Math.abs(count - oneMove_default)<=0.02) {
+
+      if (nowNum === nodeNum) {//about to finish the last loop
         count = 0;
         nowNum = 1; //skip the first move
         moveToggle = false;
+        //cont = false;
         updateContent(0);
       } else
         moveToggle = true;
@@ -933,6 +930,8 @@ var main = function() {
       //animations when next button is clicked
 
       updateContent(nowNum);
+      cont = true; //loop starts
+
 
     }
   );
