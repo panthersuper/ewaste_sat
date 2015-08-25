@@ -460,7 +460,7 @@ d3.tsv("new_monitor_sim.tsv", function(error, data) {
       updateContent(nowNum);
       moveToggle = false;
       cont = false; //loop not started
-      count = oneMove_default - 0.1; //to measure the interval
+      count = oneMove_default - 0.01; //to measure the interval
 
 
     })
@@ -524,7 +524,7 @@ d3.tsv("new_monitor_sim.tsv", function(error, data) {
       updateContent(nowNum);
       moveToggle = false;
       cont = false; //loop not started
-      count = oneMove_default - 0.1; //to measure the interval
+      count = oneMove_default - 0.01; //to measure the interval
 
     });
 
@@ -608,11 +608,19 @@ d3.tsv("new_monitor_sim.tsv", function(error, data) {
           else important = false;
 
           if (!important) {
-            count = 0;
+            
+
+            if(nowNum + 1 != nodeNum){
+              count = 0;
             nowNum = nowNum + 1; //next node to target
+            moveToggle = true;
+            }else{
+              moveToggle = false;
+              count = oneMove_default-0.01;
+            }
             nowNum = nowNum % nodeNum; //cycle the loop
 
-            moveToggle = true;
+            
 
             if (nowNum === 0) {
               nowNum = 1; //skip the first move
@@ -664,12 +672,11 @@ d3.tsv("new_monitor_sim.tsv", function(error, data) {
         coordinates: []
       }
 
-      console.log(nowNum);
       var pastcoo = [];
-      routeRam = jQuery.extend(true, {}, route); //deep copy
-      pastcoo = ramwhole(routeRam.coordinates, nowNum - 1);
+      var routeRam2 = jQuery.extend(true, {}, route); //deep copy
+      pastcoo = ramwhole(routeRam2.coordinates, nowNum - 1);
 
-      if (moveToggle && nowNum!=1)
+      if (nowNum!=1)
       pastData.coordinates = pastcoo;
 
       pastRoute //create current route
@@ -677,8 +684,6 @@ d3.tsv("new_monitor_sim.tsv", function(error, data) {
         .attr("class", "pastroute")
         .attr("d", patho);
 
-      routeRam = jQuery.extend(true, {}, route); //deep copy
-      routeRam.coordinates = ramwhole(routeRam.coordinates, 0);
 
       var myD = patho(routeRam); //redo the projection
 
@@ -914,8 +919,11 @@ var main = function() {
         nowNum = nowNum + 1; //next node to target
         nowNum = nowNum % nodeNum; //cycle the loop
 
+        if (nowNum === 0) nowNum = 1;
+
       }
-      if (nowNum === 0) {
+      if (Math.abs(count - oneMove_default)<=0.02) {
+        count = 0;
         nowNum = 1; //skip the first move
         moveToggle = false;
         updateContent(0);
