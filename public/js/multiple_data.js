@@ -96,7 +96,11 @@ var randomDir = function(nodeA, nodeB) {
     num = 10;
   }
   if (dis < threshA || dis > threshB) {
-    lst = [nodeA, nodeB];
+    for (var i = 0; i <= num; i++) {
+      var t = i / num
+      var node = interPt(nodeA, nodeB, t);
+      lst.push(node);
+    }
   } else {
     lst.push(nodeA);
     var start = nodeA;
@@ -116,14 +120,27 @@ var randomDir = function(nodeA, nodeB) {
   return lst;
 }
 
-var ramwhole = function(lst) { //randomnize the whole list
+var ramwhole = function(lst, upto) { //randomnize the whole list
   var mylst = [];
+  if (upto === 0) {
+    for (var i = 0; i < lst.length - 1; i++) {
+      var temp = randomDir(lst[i], lst[i + 1]);
+      mylst.push.apply(mylst, temp);
+    }
+    return mylst;
+  } else {
+    for (var i = 0; i < upto; i++) {
+      var temp = randomDir(lst[i], lst[i + 1]);
+      mylst.push.apply(mylst, temp);
+    }
+    return mylst;
 
-  for (var i = 0; i < lst.length - 1; i++) {
-    var temp = randomDir(lst[i], lst[i + 1]);
-    mylst.push.apply(mylst, temp);
+
+
   }
-  return mylst;
+
+
+
 }
 
 var revGeocoding = function(lat, lng, id) {
@@ -161,6 +178,52 @@ var revGeocoding = function(lat, lng, id) {
 var removetext = function(id) {
   d3.selectAll(".mypoints" + " text")
     .remove();
+}
+
+var lineFunction = d3.svg.line()
+  .x(function(d) {
+    return d[0];
+  })
+  .y(function(d) {
+    return d[1];
+  })
+  .interpolate("linear");
+
+
+var lineFunction = d3.svg.line()
+  .x(function(d) {
+    return d[0];
+  })
+  .y(function(d) {
+    return d[1];
+  })
+  .interpolate("linear");
+
+function ratioDir(data, m, projection) {
+  var interpolate = d3.scale.linear()
+    .domain([0, 1])
+    .range([1, data.length + 1]);
+
+  var flooredX = Math.floor(interpolate(m));
+  var interpolatedLine = data.slice(0, flooredX); //previous segments
+
+  if (flooredX > 0 && flooredX < data.length) { //iteration is not done
+    var weight = interpolate(m) - flooredX; //calculate the weight on this segment
+
+    var nodeA = data[flooredX - 1];
+    var nodeB = data[flooredX];
+    var target = interPt(nodeA, nodeB, weight);
+
+
+    /*        var myY = data[flooredX][1] * weight + data[flooredX - 1][1] * (1 - weight);
+            var myX = data[flooredX][0] * weight + data[flooredX - 1][0] * (1 - weight);
+    */
+    interpolatedLine.push(target); //add the current segment
+  }
+
+  return interpolatedLine;
+
+
 }
 
 
@@ -206,6 +269,7 @@ var graticule = d3.geo.graticule();
 var target;
 var myroute;
 var CuRoute;
+var pastRoute;
 var places;
 var route;
 var routeRam;
@@ -304,7 +368,7 @@ d3.tsv("new_monitor_sim.tsv", function(error, data) {
   places = getNode(places_multi, curPath);
   route = getNode(route_multi, curPath);
   routeRam = jQuery.extend(true, {}, route); //deep copy
-  routeRam.coordinates = ramwhole(routeRam.coordinates);
+  routeRam.coordinates = ramwhole(routeRam.coordinates, 0);
 
   datelst.sort();
   var newdl = []
@@ -370,6 +434,8 @@ d3.tsv("new_monitor_sim.tsv", function(error, data) {
 
   CuRoute = svg.append("path") //current route
     .attr("class", "curroute")
+  pastRoute = svg.append("path") //current route
+    .attr("class", "pastroute")
 
   point = svg.append("g")
     .attr("class", "points")
@@ -590,6 +656,30 @@ d3.tsv("new_monitor_sim.tsv", function(error, data) {
 
 
       patho = d3.geo.path().projection(projection); //rotate the path
+
+
+
+      pastData = { //create current route data
+        type: "LineString",
+        coordinates: []
+      }
+
+      console.log(nowNum);
+      var pastcoo = [];
+      routeRam = jQuery.extend(true, {}, route); //deep copy
+      pastcoo = ramwhole(routeRam.coordinates, nowNum - 1);
+
+      if (moveToggle && nowNum!=1)
+      pastData.coordinates = pastcoo;
+
+      pastRoute //create current route
+        .datum(pastData)
+        .attr("class", "pastroute")
+        .attr("d", patho);
+
+      routeRam = jQuery.extend(true, {}, route); //deep copy
+      routeRam.coordinates = ramwhole(routeRam.coordinates, 0);
+
       var myD = patho(routeRam); //redo the projection
 
       myroute //reset the route drawn on the map
@@ -606,6 +696,7 @@ d3.tsv("new_monitor_sim.tsv", function(error, data) {
         [lat, lng]
       ];
       curcoo = randomDir(curcoo[0], curcoo[1]);
+      curcoo = ratioDir(curcoo, phasePercentage);
 
       curData.coordinates = curcoo;
 
@@ -614,13 +705,14 @@ d3.tsv("new_monitor_sim.tsv", function(error, data) {
         .attr("class", "curroute")
         .attr("d", patho);
 
+
       //console.log("Current Path:" + curPath + "||Current Node:" + nowNum + "||Total Node:" + nodeNum);
       timeMark
         .attr("transform", "translate(" + xScale(getNode(places, nowNum)[2]) + "," + (height - margin.top - margin.bottom + 2.5) + ")");
       //console.log(phasePercentage);
 
       track
-        .attr("transform", translateAlong2(CuRoute.node(), (phasePercentage)));
+        .attr("transform", translateAlong2(CuRoute.node(), (1)));
 
       point.attr("transform", function(d) { //rotate the nodes
         return "translate(" + projection(d.value) + ")";
@@ -686,7 +778,7 @@ var update = function(current) {
   places = getNode(places_multi, current);
   route = getNode(route_multi, current);
   routeRam = jQuery.extend(true, {}, route); //deep copy
-  routeRam.coordinates = ramwhole(routeRam.coordinates);
+  routeRam.coordinates = ramwhole(routeRam.coordinates, 0);
 
   target
     .attr("class", "target")
