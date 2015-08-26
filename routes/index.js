@@ -28,3 +28,8 @@ exports.raster = function(req, res) {
 	console.log('raster page requested');
 	res.render('raster.html');
 }
+
+exports.video = function(req, res) {
+	console.log('raster page requested');
+	res.render('video.html');
+}

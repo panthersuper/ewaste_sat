@@ -418,9 +418,9 @@ d3.tsv("new_monitor_sim.tsv", function(error, data) {
     .attr("fill", "black");
 
   svg.append("filter")
-      .attr("id", "blur-effect-1")
-      .append("feGaussianBlur")
-      .attr("stdDeviation",2);
+    .attr("id", "blur-effect-1")
+    .append("feGaussianBlur")
+    .attr("stdDeviation", 2);
 
 
 
@@ -547,21 +547,7 @@ d3.tsv("new_monitor_sim.tsv", function(error, data) {
     .attr("stroke", "none")
     .attr("stroke-width", "1px")
 
-  d3.select("#story")
-    .append("p")
-    .text(getNode(places, 0)[5])
-
-  d3.select("#title")
-    .append("p")
-    .text(getNode(places, 0)[3])
-
-  d3.select("#img")
-    .append("img")
-    .attr("src", getNode(places, 0)[6]);
-
-  $("#story p").fadeOut(0).fadeIn(1000);
-  $("#title p").fadeOut(0).fadeIn(1000);
-  $("#img img").fadeOut(0).fadeIn(1000);
+  initContent();
 
 
 
@@ -621,13 +607,13 @@ d3.tsv("new_monitor_sim.tsv", function(error, data) {
           else important = false;
 
           if (!important) {
-            
 
-            if(nowNum + 1 != nodeNum){
+
+            if (nowNum + 1 != nodeNum) {
               count = 0;
-            nowNum = nowNum + 1; //next node to target
-            nowNum = nowNum % nodeNum; //cycle the loop
-            moveToggle = true;
+              nowNum = nowNum + 1; //next node to target
+              nowNum = nowNum % nodeNum; //cycle the loop
+              moveToggle = true;
             }
 
 
@@ -681,8 +667,8 @@ d3.tsv("new_monitor_sim.tsv", function(error, data) {
       var routeRam2 = jQuery.extend(true, {}, route); //deep copy
       pastcoo = ramwhole(routeRam2.coordinates, nowNum - 1);
 
-      if (nowNum!=1)
-      pastData.coordinates = pastcoo;
+      if (nowNum != 1)
+        pastData.coordinates = pastcoo;
 
       pastRoute //create current route
         .datum(pastData)
@@ -765,7 +751,6 @@ d3.tsv("new_monitor_sim.tsv", function(error, data) {
       context.fillStyle = "rgba(52,53,67,0.1)";
       context.fill();
 
-
       projection.clipAngle(90); //clip the back half of the land
 
       context.beginPath();
@@ -781,6 +766,17 @@ d3.tsv("new_monitor_sim.tsv", function(error, data) {
       context.lineWidth = .2;
       context.strokeStyle = "rgba(119,119,119,.5)";
       context.stroke();
+
+
+
+      /*        precanvas.insert("path", ".graticule")
+                .datum(topojson.mesh(world, world.objects.countries, function(a, b) {
+                  return a !== b;
+                }))
+                .attr("class", "boundary")
+                .attr("d", pre_path);
+      */
+
 
       //projection.clipAngle(180); //clip the back half of the land
 
@@ -910,10 +906,8 @@ var update = function(current) {
 
 //main jquery function
 var main = function() {
-  $("#tablepath div").click(
+  $("#tablepath div").click( //click the new route button, change the display to the new one
     function() {
-      /*      $("#tablepath div").css("background-color", "rgba(100,100,100,0.2)");
-       */
       $("#tablepath div").removeClass("active");
       $(this).addClass("active");
 
@@ -925,15 +919,74 @@ var main = function() {
     }
   );
 
+  $("#tablepath div").mouseover( //hover the new route, will show the preview of this one
+    function(event) {
+      //console.log($(this).attr("id")      );
+
+      var precanvas = d3.select("#pre").append("svg")
+        .attr("id", "preview");
+      var myY = null
+      myY = event.pageY;
+      if (myY < 625)
+        precanvas.attr("style", "top:" + myY + "px;");
+      else
+        precanvas.attr("style", "bottom:" + 100 + "px;");
+
+      var pre_id = $(this).attr("id"); //the id for the preview
+      var pre_places = getNode(places_multi, +pre_id);
+      var pre_route = getNode(route_multi, +pre_id);
+
+      var pre_projection = d3.geo.equirectangular()
+        .scale(50)
+        .rotate([205, 0])
+        .translate([150, 75])
+        .precision(1);
+
+      var pre_path = d3.geo.path()
+        .projection(pre_projection);
+
+
+      d3.json("world-110m.json", function(error, world) {
+        if (error) throw error;
+
+        precanvas.insert("path", ".graticule")
+          .datum(topojson.feature(world, world.objects.land))
+          .attr("fill", "#858585")
+          .attr("class", "land")
+          .attr("d", pre_path);
+
+        precanvas.append("path")
+        .datum(pre_route)
+        .attr("stroke-width", "1.52px")
+        .attr("stroke", "#ffed94")
+        .attr("fill", "none")
+        .attr("d", pre_path);
+
+      });
+
+
+
+
+    }
+  );
+
+  $("#tablepath div").mouseout( //move out of the mouse, will undo the preview
+    function() {
+      d3.select("#preview").remove();
+    }
+  );
+
+
+
   $("#next").click(
     function() {
 
-      
+
       if (moveToggle) {
         count = 0;
         nowNum = nowNum + 1; //next node to target
         //nowNum = nowNum % nodeNum; //cycle the loop
-        
+
         /*if (nowNum === 0) {
           nowNum = 1;
           moveToggle = false;
@@ -941,7 +994,7 @@ var main = function() {
 
       }
 
-      if (nowNum === nodeNum) {//about to finish the last loop
+      if (nowNum === nodeNum) { //about to finish the last loop
         count = 0;
         nowNum = 1; //skip the first move
         moveToggle = false;
@@ -967,6 +1020,35 @@ var main = function() {
   );
 
 };
+
+var initContent = function() {
+
+  d3.select("#story")
+    .append("p")
+    .text(getNode(places, 0)[5])
+
+  d3.select("#title")
+    .append("p")
+    .text(getNode(places, 0)[3])
+
+  d3.select("#img")
+    .append("img")
+    .attr("src", getNode(places, 0)[6]);
+
+  d3.select("#video")
+    .append("iframe")
+    .attr("src", getNode(places, 0)[4]);
+
+
+  $("#story p").fadeOut(0).fadeIn(1000);
+  $("#title p").fadeOut(0).fadeIn(1000);
+  $("#img img").fadeOut(0).fadeIn(1000);
+  $("#video iframe").fadeOut(0).fadeIn(1000);
+
+
+}
+
+
 
 var updateContent = function(num) {
 
@@ -994,6 +1076,15 @@ var updateContent = function(num) {
       .append("img")
       .attr("src", getNode(places, num)[6]);
     $("#img img").fadeOut(0).fadeIn(500);
+
+  });
+
+  $("#video iframe").fadeOut(500, function() {
+    $(this).remove();
+    d3.select("#video")
+      .append("iframe")
+      .attr("src", getNode(places, num)[4]);
+    $("#video iframe").fadeOut(0).fadeIn(500);
 
   });
 }
