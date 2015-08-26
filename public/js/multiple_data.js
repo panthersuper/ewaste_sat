@@ -963,10 +963,6 @@ var main = function() {
         .attr("d", pre_path);
 
       });
-
-
-
-
     }
   );
 
@@ -1018,6 +1014,32 @@ var main = function() {
       moveToggle = false;
     }
   );
+
+
+  $("#prev_c").click(
+    function() {
+      console.log("previous");
+    }
+  );
+
+  $("#next_c").click(
+    function() {
+      console.log("next");
+    }
+  );
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 };
 
