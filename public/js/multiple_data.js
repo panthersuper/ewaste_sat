@@ -269,7 +269,9 @@ var graticule = d3.geo.graticule();
 var target;
 var myroute;
 var CuRoute;
+var CuRoute_blur;
 var pastRoute;
+var pastRoute_blur;
 var places;
 var route;
 var routeRam;
@@ -348,8 +350,6 @@ d3.tsv("new_monitor_sim.tsv", function(error, data) {
     var lat = +data[i]["latitude"],
       lng = +data[i]["longitude"];
 
-
-
     places_multi[data[i]["deviceID"]][data[i]["sequence"]] = [lng, lat, date, title, video, story, image];
   };
 
@@ -417,6 +417,13 @@ d3.tsv("new_monitor_sim.tsv", function(error, data) {
     .attr('height', height)
     .attr("fill", "black");
 
+  svg.append("filter")
+      .attr("id", "blur-effect-1")
+      .append("feGaussianBlur")
+      .attr("stdDeviation",2);
+
+
+
   target = svg.append("g") //rotate the globe 
     .attr("class", "target")
     .append("circle")
@@ -434,8 +441,14 @@ d3.tsv("new_monitor_sim.tsv", function(error, data) {
 
   CuRoute = svg.append("path") //current route
     .attr("class", "curroute")
+  CuRoute_blur = svg.append("path") //current route
+    .attr("class", "curroute_blur")
+
+
   pastRoute = svg.append("path") //current route
     .attr("class", "pastroute")
+  pastRoute_blur = svg.append("path") //current route
+    .attr("class", "pastroute_blur")
 
   point = svg.append("g")
     .attr("class", "points")
@@ -675,6 +688,10 @@ d3.tsv("new_monitor_sim.tsv", function(error, data) {
         .datum(pastData)
         .attr("class", "pastroute")
         .attr("d", patho);
+      pastRoute_blur //create current route
+        .datum(pastData)
+        .attr("class", "pastroute_blur")
+        .attr("d", patho);
 
 
       var myD = patho(routeRam); //redo the projection
@@ -700,6 +717,10 @@ d3.tsv("new_monitor_sim.tsv", function(error, data) {
       CuRoute //create current route
         .datum(curData)
         .attr("class", "curroute")
+        .attr("d", patho);
+      CuRoute_blur //create current route
+        .datum(curData)
+        .attr("class", "curroute_blur")
         .attr("d", patho);
 
 
@@ -792,6 +813,8 @@ var update = function(current) {
 
   CuRoute
     .attr("class", "curroute")
+  CuRoute_blur
+    .attr("class", "curroute_blur")
 
 
   $(".points").remove();

@@ -63,18 +63,34 @@ body {
       opacity:0.5;
     }
 
+    .curroute_blur{
+      fill: none;
+      stroke: #fff4bd;
+      stroke-width: 1.2px;
+      opacity:1;
+      filter:url(#blur-effect-1);
+    }
+
+    .pastroute_blur{
+      fill: none;
+      stroke: #fff4bd;
+      stroke-width: 1.2px;
+      opacity:1;
+      filter:url(#blur-effect-1);
+    }
+
     .curroute{
       fill: none;
-      stroke: #a9f9ba;
+      stroke: #fff4bd;
       stroke-width: 1.2px;
-      opacity:0.7;
+      opacity:1;
     }
 
     .pastroute{
       fill: none;
-      stroke: #a9f9ba;
+      stroke: #fff4bd;
       stroke-width: 1.2px;
-      opacity:0.7;
+      opacity:1;
     }
 
 
@@ -274,6 +290,15 @@ body {
   </div>
 
 </div>
+
+<!--     <filter id="blur-filter" x="-2" y="-2" width="2000" height="2000">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="2" />
+    </filter> -->
+
+    <filter id="blur-effect-1">
+        <feGaussianBlur stdDeviation="0.1" />
+    </filter>
+
 
 <script src ="js/multiple_data.js"></script>
 
