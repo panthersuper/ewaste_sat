@@ -326,7 +326,7 @@ var trackscale = 0;
 var moveToggle = false;
 var cont = false;
 var nowMedia = 0;
-
+var finishsign = 0;
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -600,6 +600,7 @@ d3.tsv("new_monitor_sim.tsv", function(error, data) {
       }
 
 
+
       if (moveToggle) {
         if (Math.abs(count - oneMove) < countmove) { //one move is finished, start the next one
           //if next one have notes, stop there,otherwise keep moving
@@ -609,13 +610,19 @@ d3.tsv("new_monitor_sim.tsv", function(error, data) {
           else important = false;
 
           if (!important) {
-
-
             if (nowNum + 1 != nodeNum) {
               count = 0;
               nowNum = nowNum + 1; //next node to target
               nowNum = nowNum % nodeNum; //cycle the loop
               moveToggle = true;
+            }else if(finishsign === 0){
+
+        console.log("new!!!!!");
+        updateContent(nowNum);
+        cont = false;
+        finishsign = 1;
+
+
             }
 
 
@@ -1008,7 +1015,7 @@ var main = function() {
       updateContent(nowNum);
       cont = true; //loop starts
 
-
+      finishsign = 0;
     }
   );
 
@@ -1016,6 +1023,7 @@ var main = function() {
     function() {
       cont = false; //loop starts
       moveToggle = false;
+      finishsign = 0;
     }
   );
 
@@ -1123,15 +1131,6 @@ if ($("#media0").attr("src").length>0 || $("#media1").attr("src").length>0){//ha
 
 
 var updateContent = function(num) {
-  $("#location").fadeOut(500, function(){
-
-    $(this).remove();
-    d3.select("#control").append("div").attr("id", "location");
-    revGeocoding(getNode(places, num)[1], getNode(places, num)[0], "location");
-    $("#location").fadeIn(500);
-
-
-  })
   
 
   $("#story p").fadeOut(500, function() {
@@ -1147,8 +1146,15 @@ var updateContent = function(num) {
       .append("p")
       .text(getNode(places, num)[3]);
     $("#title p").fadeOut(0).fadeIn(500);
+
   });
 
+  $("#location").fadeOut(500, function(){
+    $(this).remove();
+    d3.select("#control").append("div").attr("id", "location");
+    revGeocoding(getNode(places, num)[1], getNode(places, num)[0], "location");
+    $("#location").fadeIn(500);
+  })
 
   $("#media_update").fadeOut(500, function() {
     $(this).remove();
@@ -1198,6 +1204,12 @@ var updateContent = function(num) {
 
     if ($("#media0").attr("src").length>0 || $("#media1").attr("src").length>0){//have content
       $(".arrow").fadeIn(500);
+
+
+
+
+
+
       }
       else $(".arrow").fadeOut(0);
 
