@@ -233,7 +233,7 @@ body {
 
     }
 
-    #img {
+    #media {
       position: absolute;
       top:550px;
       left: 30px;
@@ -243,45 +243,54 @@ body {
       border: none;
     }
 
-    #img img{
+    #media img{
       min-width:240px;
       max-height:240px;
       border: none;
       border-color: none;
     }
 
-    #video {
-      position: absolute;
-      top:550px;
-      left: 30px;
-      width:240px;
-      height:240px;
-
-      border: none;
-    }
-
-    #video iframe{
+    #media iframe{
       border: none;
       min-width:240px;
       max-height:240px;
 
     }
 
-    #overlap {
+    #overlap1 {
       position: absolute;
       top:550px;
       left: 30px;
-      width:240px;
+      width:30px;
       height:240px;
       border: none;
     }
 
-    #overlap path {
-      stroke:white;
+    #overlap1 path {
+      stroke:#d9d9d9;
       stroke-width:5;
       fill:none;
     }
-    #overlap path:hover {
+    #overlap1 path:hover {
+      stroke:#a1a1a1;
+      cursor: pointer;
+    }
+
+    #overlap2 {
+      position: absolute;
+      top:550px;
+      left: 240px;
+      width:30px;
+      height:240px;
+      border: none;
+    }
+
+    #overlap2 path {
+      stroke:#d9d9d9;
+      stroke-width:5;
+      fill:none;
+    }
+    #overlap2 path:hover {
       stroke:#a1a1a1;
       cursor: pointer;
     }
@@ -336,8 +345,8 @@ body {
   </div>
 
   <div id="media">
-    <div id="img"></div>
-    <div id="video"></div>
+    <div id="media_update">
+    </div>
   </div>
 
   <div id="next">
@@ -347,16 +356,19 @@ body {
     <p><strong>PAUSE</strong></p>
   </div>
 
-  <svg id="overlap">
+  <svg id="overlap1">
       <path id = "prev_c" d=" M 20 110
             L 10 120
             L 20 130
             "/>
-      <path id = "next_c" d=" M 220 110
-            L 230 120
-            L 220 130
+  </svg>
+  <svg id="overlap2">
+      <path id = "next_c" d=" M 10 110
+            L 20 120
+            L 10 130
             "/>
   </svg>
+
 </div>
 
 <div id="pre"></div>

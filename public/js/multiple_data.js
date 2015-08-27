@@ -63,7 +63,7 @@ var cleanLst = function(places, thresh) {
     var a = [places[keys[i]][0], places[keys[i]][1]];
     var b = [places[keys[i + 1]][0], places[keys[i + 1]][1]];
     var dis = distanceSQ(a, b);
-    var important = places[keys[i]][3].length + places[keys[i]][4].length + places[keys[i]][5].length + places[keys[i]][6].length;
+    var important = places[keys[i]][3].length + places[keys[i]][4].length + places[keys[i]][5].length;
     if (important > 0) important = true;
     else important = false;
 
@@ -345,12 +345,12 @@ d3.tsv("new_monitor_sim.tsv", function(error, data) {
     var title = data[i]["title"];
     var video = data[i]["video"];
     var story = data[i]["story"];
-    var image = data[i]["img"];
+    var media = data[i]["media"];
 
     var lat = +data[i]["latitude"],
       lng = +data[i]["longitude"];
 
-    places_multi[data[i]["deviceID"]][data[i]["sequence"]] = [lng, lat, date, title, video, story, image];
+    places_multi[data[i]["deviceID"]][data[i]["sequence"]] = [lng, lat, date, title, story, media];
   };
 
   for (k in places_multi) { //clean the place list, get rid of redundant points
@@ -602,7 +602,7 @@ d3.tsv("new_monitor_sim.tsv", function(error, data) {
         if (Math.abs(count - oneMove) < countmove) { //one move is finished, start the next one
           //if next one have notes, stop there,otherwise keep moving
           var keys = Object.keys(places);
-          var important = places[keys[nowNum]][3].length + places[keys[nowNum]][4].length + places[keys[nowNum]][5].length + places[keys[nowNum]][6].length;
+          var important = places[keys[nowNum]][3].length + places[keys[nowNum]][4].length + places[keys[nowNum]][5].length;
           if (important > 0) important = true;
           else important = false;
 
@@ -956,11 +956,11 @@ var main = function() {
           .attr("d", pre_path);
 
         precanvas.append("path")
-        .datum(pre_route)
-        .attr("stroke-width", "1.52px")
-        .attr("stroke", "#fffcf0")
-        .attr("fill", "none")
-        .attr("d", pre_path);
+          .datum(pre_route)
+          .attr("stroke-width", "1.52px")
+          .attr("stroke", "#fffcf0")
+          .attr("fill", "none")
+          .attr("d", pre_path);
 
       });
     }
@@ -1030,42 +1030,63 @@ var main = function() {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
 };
 
 var initContent = function() {
 
   d3.select("#story")
     .append("p")
-    .text(getNode(places, 0)[5])
+    .text(getNode(places, 0)[4])
 
   d3.select("#title")
     .append("p")
     .text(getNode(places, 0)[3])
 
-  d3.select("#img")
+
+
+  var media = getNode(places, 0)[5].split(",");
+  var img = [];
+  var video = [];
+  for (k in media) {
+    if (media[k].indexOf(".jpg") > -1 || media[k].indexOf(".png") > -1 || media[k].indexOf(".gif") > -1) {
+      img.push(media[k]);
+    } else if (media[k].indexOf("youtube") > -1 || media[k].indexOf("vimeo") > -1) {
+      video.push(media[k]);
+    }
+  }
+
+  if (img.length===0) img = [""];
+  if (video.length===0) video = [""];
+
+  for (k in img)
+    d3.select("#media_update")
     .append("img")
-    .attr("src", getNode(places, 0)[6]);
+    .attr("id","media"+k)
+    .attr("class","media_in")
+    .attr("src", img[k]);
 
-  d3.select("#video")
-    .append("iframe")
-    .attr("src", getNode(places, 0)[4]);
-
-
+  for (k in video){
+    var thisnum = (+k+img.length);
+    d3.select("#media_update")
+      .append("iframe")
+      .attr("id","media"+thisnum)
+      .attr("class","media_in")
+      .attr("src", video[k])
+      .attr("width", 240)
+      .attr("height",240)
+      .attr("allowfullscreen","")
+      .attr("webkitallowfullscreen","")
+      .attr("mozallowfullscreen","");
+    }
+  
   $("#story p").fadeOut(0).fadeIn(1000);
   $("#title p").fadeOut(0).fadeIn(1000);
-  $("#img img").fadeOut(0).fadeIn(1000);
-  $("#video iframe").fadeOut(0).fadeIn(1000);
+  $(".media_in").hide();
+  $("#media0").show();
+
+  $("#media_update").fadeOut(0).fadeIn(1000);
+
+  
 
 
 }
@@ -1074,13 +1095,13 @@ var initContent = function() {
 
 var updateContent = function(num) {
 
+
   $("#story p").fadeOut(500, function() {
     $(this).remove()
     d3.select("#story")
       .append("p")
-      .text(getNode(places, num)[5]);
+      .text(getNode(places, num)[4]);
     $("#story p").fadeOut(0).fadeIn(500);
-
   });
   $("#title p").fadeOut(500, function() {
     $(this).remove()
@@ -1088,25 +1109,79 @@ var updateContent = function(num) {
       .append("p")
       .text(getNode(places, num)[3]);
     $("#title p").fadeOut(0).fadeIn(500);
-
-
   });
 
-  $("#img img").fadeOut(500, function() {
+
+
+/*  var video = [];
+
+  for (k in media) {
+    if (media[k].indexOf(".jpg") > -1 || media[k].indexOf(".png") > -1 || media[k].indexOf(".gif") > -1) {
+      img.push(media[k]);
+    } else if (media[k].indexOf("youtube") > -1 || media[k].indexOf("vimeo") > -1) {
+      video.push(media[k]);
+    }
+  }*/
+
+  $("#media_update").fadeOut(500, function() {
     $(this).remove();
-    d3.select("#img")
-      .append("img")
-      .attr("src", getNode(places, num)[6]);
-    $("#img img").fadeOut(0).fadeIn(500);
+    d3.select("#media").append("div").attr("id", "media_update")
+    var media = getNode(places, num)[5].split(",");
+    var img = [];
+    var video = [];
+    for (k in media) {
+      if (media[k].indexOf(".jpg") > -1 || media[k].indexOf(".png") > -1 || media[k].indexOf(".gif") > -1) {
+        img.push(media[k]);
+      }
+      if (media[k].indexOf("youtube") > -1 || media[k].indexOf("vimeo") > -1) {
+        video.push(media[k]);
+      }
+    }
 
+    if (img.length === 0) img = [""];
+    if (video.length === 0) video = [""];
+
+    for (k in img) {
+      d3.select("#media_update")
+        .append("img")
+        .attr("id","media"+k)
+        .attr("class", "media_in")
+        .attr("src", img[k]);
+    }
+
+    for (k in video) {
+      d3.select("#media_update")
+        .append("iframe")
+        .attr("id","media"+k)
+        .attr("class", "media_in")
+        .attr("src", video[k]);
+    }
+
+
+    $("#media_update").fadeOut(0);
+    $(".media_in").hide();
+    $("#media0").show();
+    $("#media_update").fadeIn(500);
   });
 
-  $("#video iframe").fadeOut(500, function() {
-    $(this).remove();
-    d3.select("#video")
-      .append("iframe")
-      .attr("src", getNode(places, num)[4]);
-    $("#video iframe").fadeOut(0).fadeIn(500);
 
-  });
+  
+
+
+
+
+  /*  $("#video iframe").fadeOut(500, function() {
+      $(this).remove();
+
+      for(k in video)
+        d3.select("#video")
+          .append("iframe")
+          .attr("src", video[k]);
+
+      $("#video iframe").fadeOut(0).fadeIn(500);
+
+    });
+  */
+
+
 }
