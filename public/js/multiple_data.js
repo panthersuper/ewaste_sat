@@ -163,6 +163,7 @@ var revGeocoding = function(lat, lng, id) {
     returnvalue = city + ", " + state + ", " + country;
 
     if (city === null) returnvalue = state + ", " + country;
+    if (state === null) returnvalue = country;
 
     d3.select("#" + id).append("text") //show text on each point
       .attr("y", -10)
@@ -923,6 +924,7 @@ var main = function() {
   $("#tablepath div").mouseover( //hover the new route, will show the preview of this one
     function(event) {
       //console.log($(this).attr("id")      );
+      d3.select("#pre").attr("style", "width:300px;");
 
       var precanvas = d3.select("#pre").append("svg")
         .attr("id", "preview");
@@ -970,6 +972,7 @@ var main = function() {
   $("#tablepath div").mouseout( //move out of the mouse, will undo the preview
     function() {
       d3.select("#preview").remove();
+      d3.select("#pre").attr("style", "width:0px;");
     }
   );
 
