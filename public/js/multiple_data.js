@@ -958,7 +958,7 @@ var main = function() {
         precanvas.append("path")
         .datum(pre_route)
         .attr("stroke-width", "1.52px")
-        .attr("stroke", "#ffed94")
+        .attr("stroke", "#fffcf0")
         .attr("fill", "none")
         .attr("d", pre_path);
 
