@@ -1108,7 +1108,10 @@ var initContent = function() {
 
   $("#media_update").fadeOut(0).fadeIn(1000);
 
-  
+  $(".arrow").fadeOut(0);
+if ($("#media0").attr("src").length>0 || $("#media1").attr("src").length>0){//have content
+      $(".arrow").fadeIn(500);
+      }
 
 
 }
@@ -1182,8 +1185,16 @@ var updateContent = function(num) {
     $(".media_in").hide();
     $("#media0").show();
     $("#media_update").fadeIn(500);
+
+    if ($("#media0").attr("src").length>0 || $("#media1").attr("src").length>0){//have content
+      $(".arrow").fadeIn(500);
+      }
+      else $(".arrow").fadeOut(0);
+
   });
 
+
+  
 
 
 }
