@@ -1064,6 +1064,7 @@ var initContent = function() {
     .append("p")
     .text(getNode(places, 0)[3])
 
+  revGeocoding(getNode(places, 0)[1], getNode(places, 0)[0], "location");
 
 
   var media = getNode(places, 0)[5].split(",");
@@ -1119,7 +1120,16 @@ if ($("#media0").attr("src").length>0 || $("#media1").attr("src").length>0){//ha
 
 
 var updateContent = function(num) {
+  $("#location").fadeOut(500, function(){
 
+    $(this).remove();
+    d3.select("#control").append("div").attr("id", "location");
+    revGeocoding(getNode(places, num)[1], getNode(places, num)[0], "location");
+    $("#location").fadeIn(500);
+
+
+  })
+  
 
   $("#story p").fadeOut(500, function() {
     $(this).remove()
@@ -1175,9 +1185,6 @@ var updateContent = function(num) {
         .attr("allowfullscreen","")
         .attr("webkitallowfullscreen","")
         .attr("mozallowfullscreen","");
-
-
-        ;
     }
 
 
