@@ -324,6 +324,7 @@ var xScale;
 var trackscale = 0;
 var moveToggle = false;
 var cont = false;
+var nowMedia = 0;
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1018,13 +1019,34 @@ var main = function() {
 
   $("#prev_c").click(
     function() {
-      console.log("previous");
+      var len = $( ".media_in" ).length
+
+      $("#media"+nowMedia).hide();
+      console.log(getNode(places, 0));
+      nowMedia--;
+      if (nowMedia<0) nowMedia = len-1;
+
+      if (!($("#media"+nowMedia).attr("src").length>0)){
+        nowMedia++;
+        nowMedia = nowMedia%len;
+      }
+      $("#media"+nowMedia).fadeIn(500);
     }
   );
 
   $("#next_c").click(
     function() {
-      console.log("next");
+      var len = $( ".media_in" ).length
+
+      $("#media"+nowMedia).hide(); 
+      nowMedia++;
+      nowMedia = nowMedia%len;
+
+      if (!($("#media"+nowMedia).attr("src").length>0)){
+        nowMedia--;
+        if (nowMedia<0) nowMedia = len-1;
+      }
+      $("#media"+nowMedia).fadeIn(500);
     }
   );
 
@@ -1112,17 +1134,6 @@ var updateContent = function(num) {
   });
 
 
-
-/*  var video = [];
-
-  for (k in media) {
-    if (media[k].indexOf(".jpg") > -1 || media[k].indexOf(".png") > -1 || media[k].indexOf(".gif") > -1) {
-      img.push(media[k]);
-    } else if (media[k].indexOf("youtube") > -1 || media[k].indexOf("vimeo") > -1) {
-      video.push(media[k]);
-    }
-  }*/
-
   $("#media_update").fadeOut(500, function() {
     $(this).remove();
     d3.select("#media").append("div").attr("id", "media_update")
@@ -1150,11 +1161,20 @@ var updateContent = function(num) {
     }
 
     for (k in video) {
+      var cnum = +k+img.length;
       d3.select("#media_update")
         .append("iframe")
-        .attr("id","media"+k)
+        .attr("id","media"+cnum)
         .attr("class", "media_in")
-        .attr("src", video[k]);
+        .attr("src", video[k])
+        .attr("width", 240)
+        .attr("height",240)
+        .attr("allowfullscreen","")
+        .attr("webkitallowfullscreen","")
+        .attr("mozallowfullscreen","");
+
+
+        ;
     }
 
 
@@ -1164,24 +1184,6 @@ var updateContent = function(num) {
     $("#media_update").fadeIn(500);
   });
 
-
-  
-
-
-
-
-  /*  $("#video iframe").fadeOut(500, function() {
-      $(this).remove();
-
-      for(k in video)
-        d3.select("#video")
-          .append("iframe")
-          .attr("src", video[k]);
-
-      $("#video iframe").fadeOut(0).fadeIn(500);
-
-    });
-  */
 
 
 }
