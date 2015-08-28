@@ -1,0 +1,375 @@
+
+body {
+  background: #010214;
+  position: relative;
+}
+
+
+
+#draw {
+  display: block;
+  background: none;
+  width: 960px;
+  height:960px;
+  float: left;
+  position: relative;
+  left: 50%;
+  margin-left: -600px;
+}
+
+#tablepath {
+  position: relative;
+  float: left;        
+  width: 70px;
+  height: 960px;
+  display: block;
+  background-color: none;
+  color:none;
+  left: 50%;
+  margin-left: -680px;
+}
+
+#control {
+  display: block;
+  background-color: rgba(100,100,100,0.2);
+  width:300px;
+  height:910px;
+  left:50%;
+  top:10px;
+  margin-left: 370px;
+  position:relative;
+}
+
+
+#menu {
+  top:0px;
+  color:#777888;
+
+  display: block;
+  background-color: rgba(100,100,100,0.2);
+  width:270px;
+  height:30px;
+  left:50%;
+  top:0px;
+  margin-left: 370px;
+  position:relative;
+  word-wrap:break-word;
+  font-family: roboto;
+  padding-top: 10px;
+  padding-left: 30px;
+}
+
+#menu p {
+  position: absolute;
+  left: 60px;
+  top:-5px;
+  padding-bottom: 0px;
+  font-size: 20px;
+}
+
+#menu:hover {
+  cursor: pointer;
+  color: white;
+  background-color: #010214;
+}
+
+
+#navigator {
+  display: block;
+  background-color: rgba(100,100,100,0.2);
+  width:100%;
+  height:50px;
+  left:0%;
+  top:0px;
+  margin-left: 5px;
+  position:absolute;
+}
+
+#pre {
+  display: block;
+  width:0px;
+  height:960px;
+  left:50%;
+  top:0px;
+  margin-left: -600px;
+  position:absolute;
+}
+
+#preview {
+  background-color: #2d2e3e;
+  opacity:0.6;
+  position: absolute;
+  left: 0px;
+  width:100%;
+  height:155px;
+  border-style: solid;
+  border-color: #a1a1a1;
+  border-width:1px;
+}
+
+.mysvg {
+  position: absolute;
+
+  top:0px;
+
+}
+rect { fill: transparent; }
+
+.mycanvas  {
+  position: absolute;
+  top:0px;
+}
+
+.route {
+  fill: none;
+  stroke: white;
+  stroke-width: 0.7px;
+  opacity:0.5;
+}
+
+.curroute_blur{
+  fill: none;
+  stroke: #fff4bd;
+  stroke-width: 1.2px;
+  opacity:1;
+  filter:url(#blur-effect-1);
+}
+
+.pastroute_blur{
+  fill: none;
+  stroke: #fff4bd;
+  stroke-width: 1.2px;
+  opacity:1;
+  filter:url(#blur-effect-1);
+}
+
+.curroute{
+  fill: none;
+  stroke: #fff4bd;
+  stroke-width: 1.2px;
+  opacity:1;
+}
+
+.pastroute{
+  fill: none;
+  stroke: #fff4bd;
+  stroke-width: 1.2px;
+  opacity:1;
+}
+
+
+
+#tablepath div {
+  border-bottom:1px solid black;
+  background-color: rgba(100,100,100,0.2);
+  color:#a1a1a1;
+}
+
+#tablepath div:hover {
+  border-bottom:1px solid black;
+  background-color: rgba(100,100,100,0.8);
+  cursor: pointer;
+}
+
+#tablepath div.active {
+  border-bottom:1px solid black;
+  background-color: rgba(200,200,200,1);
+  cursor: pointer;
+}
+
+
+
+p {
+  margin-top:5px ;
+  margin-bottom:1px;
+  font-family: roboto;
+  font-size: 12px;
+  padding:9px;
+}
+
+
+.thepaths:hover{
+  color: rgba(200,200,200,1);
+  cursor: pointer;
+}
+
+
+.xaxis {
+  fill:white;
+  font: 10px sans-serif;
+
+}
+
+.points circle {
+ fill: rgba(255,255,255,0.5);
+ stroke: none;
+ stroke-width: 2px;
+}
+
+.points text {
+  font: 7px sans-serif;
+  //text-anchor: middle;
+  fill:white;
+  opacity:0.6;
+  padding-bottom: -5px;
+  //text-shadow: 0 1px 0 #fff, 0 -1px 0 #fff, 1px 0 0 #fff, -1px 0 0 #fff;
+}
+
+
+
+#next {
+  position: absolute;
+  background-color: rgba(100,100,100,0.8);
+  width:140px;
+  left: 75px;
+  bottom: 65px;
+}
+
+#next p {
+  padding-left: 35px;
+  padding-bottom: 10px;
+  color:white;
+}
+
+#stop {
+  position: absolute;
+  background-color: rgba(100,100,100,0.8);
+  width:140px;
+  left: 75px;
+  bottom: 15px;
+}
+
+#stop p {
+  padding-left: 52px;
+  padding-bottom: 10px;
+  color:white;
+}
+
+#story {
+  position: absolute;
+  top:410px;
+  color:white;
+  left: 30px;
+  width:240px;
+
+}
+
+#story p {
+  padding: 5px;
+  width:230px;
+  word-wrap:break-word;
+}
+
+#title {
+  position: absolute;
+  top:20px;
+  color:white;
+  left: 30px;
+}
+
+#title p{
+  font-size: 20px;
+  width:240px;
+  word-wrap:break-word;
+}
+
+#location {
+  position: absolute;
+  top:365px;
+  color:rgb(100,100,100);
+  left: 40px;
+  font-family: roboto;
+  font-size: 12px;
+  width:240px;
+  word-wrap:break-word;
+  text-align: left
+
+}
+
+#location p{
+}
+
+#media {
+  position: absolute;
+  top:110px;
+  left: 30px;
+  width:240px;
+  height:240px;
+  overflow:hidden;
+  border: none;
+}
+
+#media img{
+  min-width:240px;
+  max-height:240px;
+  border: none;
+  border-color: none;
+}
+
+#media iframe{
+  border: none;
+  min-width:240px;
+  max-height:240px;
+
+}
+
+#overlap1 {
+  position: absolute;
+  top:110px;
+  left: 30px;
+  width:30px;
+  height:240px;
+  border: none;
+}
+
+#overlap1 path {
+  stroke:#d9d9d9;
+  stroke-width:5;
+  fill:none;
+}
+#overlap1 path:hover {
+  stroke:#a1a1a1;
+  cursor: pointer;
+}
+
+#overlap2 {
+  position: absolute;
+  top:110px;
+  left: 240px;
+  width:30px;
+  height:240px;
+  border: none;
+}
+
+#overlap2 path {
+  stroke:#d9d9d9;
+  stroke-width:5;
+  fill:none;
+}
+
+#overlap2 path:hover {
+  stroke:#a1a1a1;
+  cursor: pointer;
+}
+
+#next:hover {
+  background-color: rgba(200,200,200,0.2);
+  cursor: pointer;
+}
+
+#stop:hover {
+  background-color: rgba(200,200,200,0.2);
+  cursor: pointer;
+}
+
+.timeid circle:hover {
+  fill: rgba(206, 18, 18, 0.8);
+  r:3;
+  cursor: pointer;
+}
+
+.mypoints circle:hover {
+  fill: rgba(206, 18, 18, 0.8);
+  r:3;
+  cursor: pointer;
+}

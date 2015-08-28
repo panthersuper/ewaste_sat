@@ -218,7 +218,7 @@ function ratioDir(data, m, projection) {
 
     /*        var myY = data[flooredX][1] * weight + data[flooredX - 1][1] * (1 - weight);
             var myX = data[flooredX][0] * weight + data[flooredX - 1][0] * (1 - weight);
-    */
+            */
     interpolatedLine.push(target); //add the current segment
   }
 
@@ -490,7 +490,7 @@ d3.tsv("new_monitor_sim.tsv", function(error, data) {
   /*  point.attr("add", function(d,i){
       revGeocoding(d.value[1],d.value[0],"point"+i);
     });
-  */
+*/
   /*  point.append("text") //show text on each point
       .attr("y", 10)
       .attr("dy", ".71em")
@@ -615,12 +615,12 @@ d3.tsv("new_monitor_sim.tsv", function(error, data) {
               nowNum = nowNum + 1; //next node to target
               nowNum = nowNum % nodeNum; //cycle the loop
               moveToggle = true;
-            }else if(finishsign === 0){
+            } else if (finishsign === 0) {
 
-        console.log("new!!!!!");
-        updateContent(nowNum);
-        cont = false;
-        finishsign = 1;
+              console.log("new!!!!!");
+              updateContent(nowNum);
+              cont = false;
+              finishsign = 1;
 
 
             }
@@ -784,7 +784,7 @@ d3.tsv("new_monitor_sim.tsv", function(error, data) {
                 }))
                 .attr("class", "boundary")
                 .attr("d", pre_path);
-      */
+                */
 
 
       //projection.clipAngle(180); //clip the back half of the land
@@ -1030,34 +1030,34 @@ var main = function() {
 
   $("#prev_c").click(
     function() {
-      var len = $( ".media_in" ).length
+      var len = $(".media_in").length
 
-      $("#media"+nowMedia).hide();
+      $("#media" + nowMedia).hide();
       console.log(getNode(places, 0));
       nowMedia--;
-      if (nowMedia<0) nowMedia = len-1;
+      if (nowMedia < 0) nowMedia = len - 1;
 
-      if (!($("#media"+nowMedia).attr("src").length>0)){
+      if (!($("#media" + nowMedia).attr("src").length > 0)) {
         nowMedia++;
-        nowMedia = nowMedia%len;
+        nowMedia = nowMedia % len;
       }
-      $("#media"+nowMedia).fadeIn(500);
+      $("#media" + nowMedia).fadeIn(500);
     }
   );
 
   $("#next_c").click(
     function() {
-      var len = $( ".media_in" ).length
+      var len = $(".media_in").length
 
-      $("#media"+nowMedia).hide(); 
+      $("#media" + nowMedia).hide();
       nowMedia++;
-      nowMedia = nowMedia%len;
+      nowMedia = nowMedia % len;
 
-      if (!($("#media"+nowMedia).attr("src").length>0)){
+      if (!($("#media" + nowMedia).attr("src").length > 0)) {
         nowMedia--;
-        if (nowMedia<0) nowMedia = len-1;
+        if (nowMedia < 0) nowMedia = len - 1;
       }
-      $("#media"+nowMedia).fadeIn(500);
+      $("#media" + nowMedia).fadeIn(500);
     }
   );
 
@@ -1089,30 +1089,30 @@ var initContent = function() {
     }
   }
 
-  if (img.length===0) img = [""];
-  if (video.length===0) video = [""];
+  if (img.length === 0) img = [""];
+  if (video.length === 0) video = [""];
 
   for (k in img)
     d3.select("#media_update")
     .append("img")
-    .attr("id","media"+k)
-    .attr("class","media_in")
+    .attr("id", "media" + k)
+    .attr("class", "media_in")
     .attr("src", img[k]);
 
-  for (k in video){
-    var thisnum = (+k+img.length);
+  for (k in video) {
+    var thisnum = (+k + img.length);
     d3.select("#media_update")
       .append("iframe")
-      .attr("id","media"+thisnum)
-      .attr("class","media_in")
+      .attr("id", "media" + thisnum)
+      .attr("class", "media_in")
       .attr("src", video[k])
       .attr("width", 240)
-      .attr("height",240)
-      .attr("allowfullscreen","")
-      .attr("webkitallowfullscreen","")
-      .attr("mozallowfullscreen","");
-    }
-  
+      .attr("height", 240)
+      .attr("allowfullscreen", "")
+      .attr("webkitallowfullscreen", "")
+      .attr("mozallowfullscreen", "");
+  }
+
   $("#story p").fadeOut(0).fadeIn(1000);
   $("#title p").fadeOut(0).fadeIn(1000);
   $(".media_in").hide();
@@ -1121,9 +1121,9 @@ var initContent = function() {
   $("#media_update").fadeOut(0).fadeIn(1000);
 
   $(".arrow").fadeOut(0);
-if ($("#media0").attr("src").length>0 || $("#media1").attr("src").length>0){//have content
-      $(".arrow").fadeIn(500);
-      }
+  if ($("#media0").attr("src").length > 0 || $("#media1").attr("src").length > 0) { //have content
+    $(".arrow").fadeIn(500);
+  }
 
 
 }
@@ -1131,7 +1131,7 @@ if ($("#media0").attr("src").length>0 || $("#media1").attr("src").length>0){//ha
 
 
 var updateContent = function(num) {
-  
+
 
   $("#story p").fadeOut(500, function() {
     $(this).remove()
@@ -1149,7 +1149,7 @@ var updateContent = function(num) {
 
   });
 
-  $("#location").fadeOut(500, function(){
+  $("#location").fadeOut(500, function() {
     $(this).remove();
     d3.select("#control").append("div").attr("id", "location");
     revGeocoding(getNode(places, num)[1], getNode(places, num)[0], "location");
@@ -1177,23 +1177,23 @@ var updateContent = function(num) {
     for (k in img) {
       d3.select("#media_update")
         .append("img")
-        .attr("id","media"+k)
+        .attr("id", "media" + k)
         .attr("class", "media_in")
         .attr("src", img[k]);
     }
 
     for (k in video) {
-      var cnum = +k+img.length;
+      var cnum = +k + img.length;
       d3.select("#media_update")
         .append("iframe")
-        .attr("id","media"+cnum)
+        .attr("id", "media" + cnum)
         .attr("class", "media_in")
         .attr("src", video[k])
         .attr("width", 240)
-        .attr("height",240)
-        .attr("allowfullscreen","")
-        .attr("webkitallowfullscreen","")
-        .attr("mozallowfullscreen","");
+        .attr("height", 240)
+        .attr("allowfullscreen", "")
+        .attr("webkitallowfullscreen", "")
+        .attr("mozallowfullscreen", "");
     }
 
 
@@ -1202,21 +1202,15 @@ var updateContent = function(num) {
     $("#media0").show();
     $("#media_update").fadeIn(500);
 
-    if ($("#media0").attr("src").length>0 || $("#media1").attr("src").length>0){//have content
+    if ($("#media0").attr("src").length > 0 || $("#media1").attr("src").length > 0) { //have content
       $(".arrow").fadeIn(500);
 
 
 
-
-
-
-      }
-      else $(".arrow").fadeOut(0);
+    } else $(".arrow").fadeOut(0);
 
   });
 
-
-  
 
 
 }
