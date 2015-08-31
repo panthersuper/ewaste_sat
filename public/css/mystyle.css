@@ -68,11 +68,26 @@ body {
 }
 
 #menu:hover {
-  cursor: pointer;
+  //cursor: pointer;
   color: white;
   //background-color: #010214;
 }
 
+.mynav {
+  top:100px;
+  position: absolute;
+  font-size: 17px;
+}
+
+
+.mynav div {
+  margin-bottom: 10px;
+}
+
+.mynav div:hover {
+  cursor: pointer;
+  opacity: 0.7;
+}
 
 #navigator {
   display: block;
@@ -158,7 +173,11 @@ rect { fill: transparent; }
 }
 
 
-
+#tablepath p {
+  //background-color: rgba(100,100,100,0.2);
+  color:#a1a1a1;
+  left:10px;
+}
 #tablepath div {
   border-bottom:1px solid black;
   background-color: rgba(100,100,100,0.2);

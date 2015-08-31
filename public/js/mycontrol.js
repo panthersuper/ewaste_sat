@@ -301,33 +301,47 @@ var main = function() {
   var hover = 0;
   $("#menu").hover(
     function() {
-      if(hover === 0){//the time that I move in
+      if (hover === 0) { //the time that I move in
         hover = 1;
-        d3.select("#menu").attr("style","height:200px; background-color: rgba(100,100,100,0.8);");
-        d3.select("#menu").append("nav").attr("class", "mynav");
+        d3.select("#menu").attr("style", "height:30px; ");
+        d3.select("#menu").transition()
+          .duration(500)
+          .attr("style", "height:200px; background-color: rgba(39,39,50,0.95);");
+
+        var mynav = d3.select("#menu").append("nav").attr("class", "mynav").attr("style", "opacity:0;");
+        mynav.append("div").text("Visualization").attr("id", "viz");
+        mynav.append("div").text("About").attr("id", "about");
+        mynav.append("div").text("Team").attr("id", "team");
+        mynav.transition()
+          .duration(500)
+          .attr("style", "opacity:1;");
 
 
 
-/*        $("#tablepath").fadeOut(500);
-        $("#draw").fadeOut(500);
-        $("#control").fadeOut(500);
-        $("#pre").fadeOut(500);
-*/
+        /*        $("#tablepath").fadeOut(500);
+                $("#draw").fadeOut(500);
+                $("#control").fadeOut(500);
+                $("#pre").fadeOut(500);
+        */
         console.log("menu");
-        
-      }else{//the time that I move out
+
+      } else { //the time that I move out
         hover = 0;
-        d3.select("#menu").attr("style","height:30px; ");
-        d3.select(".mynav").remove();
+        d3.select("#menu")
+          .transition()
+          .duration(500)
+          .attr("style", "height:30px; background-color : rgba(100,100,100,0.2)");
 
-/*        $("#tablepath").fadeIn(500);
-        $("#draw").fadeIn(500);
-        $("#control").fadeIn(500);
-        $("#pre").fadeIn(500);
-*/
+        $(".mynav").fadeOut(500, function() {
+          $(this).remove();
+        })
 
 
-
+        /*        $("#tablepath").fadeIn(500);
+                $("#draw").fadeIn(500);
+                $("#control").fadeIn(500);
+                $("#pre").fadeIn(500);
+        */
       }
     });
 };
