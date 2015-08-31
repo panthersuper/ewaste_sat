@@ -153,6 +153,8 @@ var updateContent = function(num) {
 //main jquery function
 
 var main = function() {
+  inithome(0);
+
   $("#tablepath div").click( //click the new route button, change the display to the new one
     function() {
       $("#tablepath div").removeClass("active");
@@ -309,12 +311,63 @@ var main = function() {
           .attr("style", "height:200px; background-color: rgba(39,39,50,0.95);");
 
         var mynav = d3.select("#menu").append("nav").attr("class", "mynav").attr("style", "opacity:0;");
+        mynav.append("div").text("Home").attr("id", "home");
         mynav.append("div").text("Visualization").attr("id", "viz");
         mynav.append("div").text("About").attr("id", "about");
         mynav.append("div").text("Team").attr("id", "team");
         mynav.transition()
           .duration(500)
           .attr("style", "opacity:1;");
+
+        $("#home").click(
+          function() {
+            inithome(500);
+          }
+        );
+
+
+        $("#viz").click(
+          function() {
+            console.log("viz");
+            $("#tablepath").fadeIn(500);
+            $("#draw").fadeIn(500);
+            $("#control").fadeIn(500);
+            $("#pre").fadeIn(500);
+
+            $("#abouttb").fadeOut(500);
+
+            $("#teamtb").fadeOut(500);
+          }
+        );
+
+        $("#about").click(
+          function() {
+            console.log("about");
+            $("#tablepath").fadeOut(500);
+            $("#draw").fadeOut(500);
+            $("#control").fadeOut(500);
+            $("#pre").fadeOut(500);
+
+            $("#teamtb").fadeOut(500);
+
+            $("#abouttb").fadeIn(500);
+          }
+        );
+
+        $("#team").click(
+          function() {
+            console.log("team");
+            $("#tablepath").fadeOut(500);
+            $("#draw").fadeOut(500);
+            $("#control").fadeOut(500);
+            $("#pre").fadeOut(500);
+
+            $("#abouttb").fadeOut(500);
+
+            $("#teamtb").fadeIn(500);
+
+          }
+        );
 
 
 
@@ -323,7 +376,6 @@ var main = function() {
                 $("#control").fadeOut(500);
                 $("#pre").fadeOut(500);
         */
-        console.log("menu");
 
       } else { //the time that I move out
         hover = 0;
@@ -337,11 +389,23 @@ var main = function() {
         })
 
 
-        /*        $("#tablepath").fadeIn(500);
-                $("#draw").fadeIn(500);
-                $("#control").fadeIn(500);
-                $("#pre").fadeIn(500);
-        */
+
       }
     });
+
+
+
 };
+
+var inithome = function(time) {
+
+  $("#tablepath").fadeOut(time);
+  $("#draw").fadeOut(time);
+  $("#control").fadeOut(time);
+  $("#pre").fadeOut(time);
+  
+  $("#abouttb").fadeOut(time);
+
+  $("#teamtb").fadeOut(time);
+
+}

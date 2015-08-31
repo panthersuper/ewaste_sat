@@ -228,7 +228,6 @@ function ratioDir(data, m, projection) {
 }
 
 
-
 /*var places_multi_test = {
   path1: {
     HNL: [-157 - 55 / 60 - 21 / 3600, 21 + 19 / 60 + 07 / 3600],
