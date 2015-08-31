@@ -1,3 +1,8 @@
+var nowPage = 0;
+var allPage = 4;
+
+
+
 var initContent = function() {
 
   d3.select("#story")
@@ -314,77 +319,38 @@ var main = function() {
           .attr("style", "height:200px; background-color: rgba(39,39,50,0.95);");
 
         var mynav = d3.select("#menu").append("nav").attr("class", "mynav").attr("style", "opacity:0;");
-        mynav.append("div").text("Home").attr("id", "home");
-        mynav.append("div").text("Visualization").attr("id", "viz");
-        mynav.append("div").text("About").attr("id", "about");
-        mynav.append("div").text("Team").attr("id", "team");
+        mynav.append("div").text("Home").attr("id", "home").attr("class", "page0");
+        mynav.append("div").text("Visualization").attr("id", "viz").attr("class", "page1");
+        mynav.append("div").text("About").attr("id", "about").attr("class", "page2");
+        mynav.append("div").text("Team").attr("id", "team").attr("class", "page3");
         mynav.transition()
           .duration(500)
           .attr("style", "opacity:1;");
 
         $("#home").click(
           function() {
-            inithome(500);
+            changePage(0);
           }
         );
 
 
         $("#viz").click(
           function() {
-            console.log("viz");
-            $("#tablepath").fadeIn(500);
-            $("#draw").fadeIn(500);
-            $("#control").fadeIn(500);
-            $("#pre").fadeIn(500);
-
-            $("#abouttb").fadeOut(500);
-
-            $("#teamtb").fadeOut(500);
-
-            $("#hometb").fadeOut(500);
+            changePage(1);
           }
         );
 
         $("#about").click(
           function() {
-            console.log("about");
-            $("#tablepath").fadeOut(500);
-            $("#draw").fadeOut(500);
-            $("#control").fadeOut(500);
-            $("#pre").fadeOut(500);
-
-            $("#teamtb").fadeOut(500);
-
-            $("#abouttb").fadeIn(500);
-
-            $("#hometb").fadeOut(500);
+            changePage(2);
           }
         );
 
         $("#team").click(
           function() {
-            console.log("team");
-            $("#tablepath").fadeOut(500);
-            $("#draw").fadeOut(500);
-            $("#control").fadeOut(500);
-            $("#pre").fadeOut(500);
-
-            $("#abouttb").fadeOut(500);
-
-            $("#teamtb").fadeIn(500);
-
-            $("#hometb").fadeOut(500);
-
+            changePage(3);
           }
         );
-
-
-
-        /*        $("#tablepath").fadeOut(500);
-                $("#draw").fadeOut(500);
-                $("#control").fadeOut(500);
-                $("#pre").fadeOut(500);
-        */
 
       } else { //the time that I move out
         hover = 0;
@@ -397,11 +363,28 @@ var main = function() {
           $(this).remove();
         })
 
-
-
       }
     });
 
+
+  $(window).bind('mousewheel DOMMouseScroll', function(event) {
+    if (event.originalEvent.wheelDelta > 0 || event.originalEvent.detail < 0) {
+      // scroll up
+      nowPage--;
+      if (nowPage < 0) nowPage = 0;
+
+      changePage(nowPage);
+      console.log(nowPage);
+
+    } else {
+      // scroll down
+      nowPage++;
+      if (nowPage == allPage) nowPage = allPage - 1;
+
+      changePage(nowPage);
+      console.log(nowPage);
+    }
+  });
 
 
 };
@@ -420,3 +403,55 @@ var inithome = function(time) {
   $("#hometb").fadeIn(500);
 
 }
+
+var changePage = function(page) {
+
+    if (page === 0) {
+      inithome(500);
+    } else if (page === 1) {
+      console.log("viz");
+      $("#tablepath").fadeIn(500);
+      $("#draw").fadeIn(500);
+      $("#control").fadeIn(500);
+      $("#pre").fadeIn(500);
+
+      $("#abouttb").fadeOut(500);
+
+      $("#teamtb").fadeOut(500);
+
+      $("#hometb").fadeOut(500);
+
+
+    } else if (page === 2) {
+      console.log("about");
+      $("#tablepath").fadeOut(500);
+      $("#draw").fadeOut(500);
+      $("#control").fadeOut(500);
+      $("#pre").fadeOut(500);
+
+      $("#teamtb").fadeOut(500);
+
+      $("#abouttb").fadeIn(500);
+
+      $("#hometb").fadeOut(500);
+
+
+
+    } else if (page === 3) {
+        console.log("team");
+        $("#tablepath").fadeOut(500);
+        $("#draw").fadeOut(500);
+        $("#control").fadeOut(500);
+        $("#pre").fadeOut(500);
+
+        $("#abouttb").fadeOut(500);
+
+        $("#teamtb").fadeIn(500);
+
+        $("#hometb").fadeOut(500);
+
+
+
+      }
+
+    }
