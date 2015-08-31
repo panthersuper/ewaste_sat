@@ -340,6 +340,8 @@ var main = function() {
             $("#abouttb").fadeOut(500);
 
             $("#teamtb").fadeOut(500);
+
+            $("#hometb").fadeOut(500);
           }
         );
 
@@ -354,6 +356,8 @@ var main = function() {
             $("#teamtb").fadeOut(500);
 
             $("#abouttb").fadeIn(500);
+
+            $("#hometb").fadeOut(500);
           }
         );
 
@@ -368,6 +372,8 @@ var main = function() {
             $("#abouttb").fadeOut(500);
 
             $("#teamtb").fadeIn(500);
+
+            $("#hometb").fadeOut(500);
 
           }
         );
@@ -410,5 +416,7 @@ var inithome = function(time) {
   $("#abouttb").fadeOut(time);
 
   $("#teamtb").fadeOut(time);
+
+  $("#hometb").fadeIn(500);
 
 }

@@ -4,15 +4,24 @@ body {
   position: relative;
 }
 
-#teamtb {
+#hometb {
   display: none;
   color:white;
   width:1351px;
   position: absolute;
   left: 50%;
+  margin-left: -100px;
+  top:300px;
+}
+
+#teamtb {
+  display: none;
+  color:white;
+  width:1251px;
+  position: absolute;
+  left: 50%;
   margin-left: -680px;
   top:300px;
-
 }
 
 #abouttb {
@@ -23,7 +32,6 @@ body {
   left: 50%;
   margin-left: -680px;
   top:300px;
-
 }
 
 .head p{
@@ -221,6 +229,10 @@ rect { fill: transparent; }
 }
 
 
+
+h1,h2,h3,h4,h5,h6 {
+  font-family: roboto;
+}
 
 p {
   margin-top:5px ;
