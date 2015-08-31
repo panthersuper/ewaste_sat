@@ -170,13 +170,16 @@ var main = function() {
 
   $("#tablepath div").mouseover( //hover the new route, will show the preview of this one
     function(event) {
+
+
       //console.log($(this).attr("id")      );
-      d3.select("#pre").attr("style", "width:300px;");
+      d3.select("#pre").attr("style", "width:300px; display:block;");
 
       var precanvas = d3.select("#pre").append("svg")
         .attr("id", "preview");
       var myY = null
       myY = event.pageY;
+
       if (myY < 625)
         precanvas.attr("style", "top:" + myY + "px;");
       else
@@ -403,7 +406,7 @@ var inithome = function(time) {
   $("#draw").fadeOut(time);
   $("#control").fadeOut(time);
   $("#pre").fadeOut(time);
-  
+
   $("#abouttb").fadeOut(time);
 
   $("#teamtb").fadeOut(time);
