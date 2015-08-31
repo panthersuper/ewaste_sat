@@ -5,6 +5,7 @@ body {
 }
 
 #teamtb {
+  display: none;
   color:white;
   width:1351px;
   position: absolute;
@@ -15,6 +16,7 @@ body {
 }
 
 #abouttb {
+  display: none;
   color:white;
   width:1000px;
   position: absolute;
@@ -29,7 +31,7 @@ body {
 }
 
 #draw {
-  display: block;
+  display: none;
   background: none;
   width: 960px;
   height:960px;
@@ -40,11 +42,11 @@ body {
 }
 
 #tablepath {
+  display: none;
   position: relative;
   float: left;        
   width: 70px;
   height: 960px;
-  display: block;
   background-color: none;
   color:none;
   left: 50%;
@@ -52,7 +54,7 @@ body {
 }
 
 #control {
-  display: block;
+  display: none;
   background-color: rgba(100,100,100,0.2);
   width:300px;
   height:910px;
@@ -123,7 +125,7 @@ body {
 }
 
 #pre {
-  display: block;
+  display: none;
   width:0px;
   height:960px;
   left:50%;
