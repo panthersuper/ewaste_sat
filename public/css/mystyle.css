@@ -220,6 +220,7 @@ rect { fill: transparent; }
   border-bottom:1px solid black;
   background-color: rgba(100,100,100,0.8);
   cursor: pointer;
+  color:white;
 }
 
 #tablepath div.active {
