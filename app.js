@@ -72,7 +72,7 @@ COOKIEHASH in your .env file (also share with heroku)
 
 var routes = require('./routes/index.js');
 
-app.get('/', routes.index);
+app.get('/', routes.viz);
 app.get('/viz', routes.viz);
 app.get('/csv', routes.csv);
 app.get('/raster', routes.raster);
