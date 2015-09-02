@@ -7,11 +7,12 @@ body {
 #hometb {
   display: none;
   color:white;
-  width:1351px;
+  width:100%;
   position: absolute;
-  left: 50%;
-  margin-left: -100px;
+/*  left: 50%;
+  margin-left: -100px;*/
   top:300px;
+  text-align: center;
 }
 
 #teamtb {
