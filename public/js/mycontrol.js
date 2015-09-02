@@ -342,13 +342,17 @@ var main = function() {
 
         $("#about").click(
           function() {
-            changePage(2);
+            //changePage(2);
+            $("#abouttb").get(0).scrollIntoView();
+
           }
         );
 
         $("#team").click(
           function() {
-            changePage(3);
+            //changePage(3);
+            $("#teamtb").get(0).scrollIntoView();
+
           }
         );
 
@@ -370,22 +374,21 @@ var main = function() {
   $(window).bind('mousewheel DOMMouseScroll', function(event) {
     if (event.originalEvent.wheelDelta > 0 || event.originalEvent.detail < 0) {
       // scroll up
-      nowPage--;
+/*      nowPage--;
       if (nowPage < 0) nowPage = 0;
 
       changePage(nowPage);
       console.log(nowPage);
-
+*/
     } else {
       // scroll down
       nowPage++;
-      if (nowPage == allPage) nowPage = allPage - 1;
+      if (nowPage == 3) nowPage = 2;
 
       changePage(nowPage);
       console.log(nowPage);
     }
   });
-
 
 };
 
@@ -401,6 +404,7 @@ var inithome = function(time) {
   $("#teamtb").fadeOut(time);
 
   $("#hometb").fadeIn(500);
+  nowPage = 0;
 
 }
 
@@ -409,20 +413,22 @@ var changePage = function(page) {
     if (page === 0) {
       inithome(500);
     } else if (page === 1) {
+      $("html, body").animate({ scrollTop: 0 }, "fast");
+
       console.log("viz");
       $("#tablepath").fadeIn(500);
       $("#draw").fadeIn(500);
       $("#control").fadeIn(500);
       $("#pre").fadeIn(500);
 
-      $("#abouttb").fadeOut(500);
+      $("#abouttb").fadeIn(500);
 
-      $("#teamtb").fadeOut(500);
+      $("#teamtb").fadeIn(500);
 
       $("#hometb").fadeOut(500);
 
 
-    } else if (page === 2) {
+    } /*else if (page === 2) {
       console.log("about");
       $("#tablepath").fadeOut(500);
       $("#draw").fadeOut(500);
@@ -453,5 +459,5 @@ var changePage = function(page) {
 
 
       }
-
+*/
     }

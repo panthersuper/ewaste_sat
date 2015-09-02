@@ -247,8 +247,15 @@ function ratioDir(data, m, projection) {
   }
 };*/
 
-var width = 960,
-  height = 960;
+var width = $(window).width()/2,
+  height = $(window).height();
+$("#control").css("height", height);
+$("#tablepath").css("height", height);
+$("#abouttb").css("top", height+100);
+$("#teamtb").css("top", height+100+$("#abouttb").height());
+
+
+
 var margin = {
   top: 40,
   right: 40,
@@ -407,6 +414,9 @@ d3.tsv("new_monitor_sim.tsv", function(error, data) {
     id++;
   }
 
+  var localnum = $(window).height()/(id+1)*0.8;
+  $("#tablepath div").css("height", localnum+"px");
+  console.log($(window).height());
 
   $(document).ready(main); //run jquery after csv loaded so path button initialized
 
