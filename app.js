@@ -77,6 +77,7 @@ app.get('/viz', routes.viz);
 app.get('/csv', routes.csv);
 app.get('/raster', routes.raster);
 app.get('/video', routes.video);
+app.get('/map', routes.map);
 
 // //new astronaut routes
 // app.get('/create',routes.astroForm); //display form

@@ -33,3 +33,8 @@ exports.video = function(req, res) {
 	console.log('raster page requested');
 	res.render('video.html');
 }
+
+exports.map = function(req, res) {
+	console.log('map page requested');
+	res.render('map.html');
+}

@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset='utf-8' />
+  <title></title>
+  <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+  <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.10.0/mapbox-gl.js'></script>
+  <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.10.0/mapbox-gl.css' rel='stylesheet' />
+  <script src="js/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.5/d3.min.js"></script>
+
+
+    <style>
+        body { margin:0; padding:0; }
+        #map { position:absolute; top:0; bottom:0; width:100%; }
+    </style>
+</head>
+<body>
+
+<style>
+#fly {
+  display: block;
+  position: relative;
+  margin: 0px auto;
+  width: 50%;
+  height: 40px;
+  padding: 10px;
+  border: none;
+  border-radius: 3px;
+  font-size: 12px;
+  text-align: center;
+  color: #fff;
+  background: #ee8a65;
+}
+</style>
+<div id='map'></div>
+<br />
+<button onclick='fly();' id='fly'>Zoom Out</button>
+<script>
+mapboxgl.accessToken = 'pk.eyJ1IjoicGFudGhlcnN1cGVyIiwiYSI6Il9JRlBXMkkifQ.4VOcpN_xI1jf1XxjnIZHmw';
+var start = [-74.50, 40];
+var end = [-74.50, 40];
+var map = new mapboxgl.Map({
+  container: 'map',
+  style: 'mapbox://styles/mapbox/satellite-v8',
+  center: start,
+  zoomControl: false,
+  zoom: 14
+});
+
+d3.select(".mapboxgl-control-container").remove();
+
+var isAtStart = true;
+
+
+$("#map").fadeOut(0).fadeIn(3000);
+
+function fly() {
+  // depending on whether we're currently at point a or b, aim for
+  // point a or b
+  var target = isAtStart ? end : start;
+
+  // and now we're at the opposite point
+  isAtStart = !isAtStart;
+
+  map.flyTo({
+    // These options control the ending camera position: centered at
+    // the target, at zoom level 9, and north up.
+    center: end,
+    zoom: 5,
+    bearing: 0,
+
+    // These options control the flight curve, making it move
+    // slowly and zoom out almost completely before starting
+    // to pan.
+    speed: 0.3, // make the flying slow
+    curve: 1, // change the speed at which it zooms out
+
+    // This can be any easing function: it takes a number between
+    // 0 and 1 and returns another number between 0 and 1.
+    easing: function (t) {
+      return t;
+    }
+  });
+}
+</script>
+
+</body>
+</html>
