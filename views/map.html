@@ -12,7 +12,7 @@
 
     <style>
         body { margin:0; padding:0; }
-        #map { position:absolute; top:0; bottom:0; width:100%; }
+        #map { position:absolute; top:0; bottom:0; width:500px;height:500px; }
     </style>
 </head>
 <body>
@@ -35,7 +35,7 @@
 </style>
 <div id='map'></div>
 <br />
-<button onclick='fly();' id='fly'>Zoom Out</button>
+<button onclick='fly(0.3);' id='fly'>Zoom Out</button>
 <script>
 mapboxgl.accessToken = 'pk.eyJ1IjoicGFudGhlcnN1cGVyIiwiYSI6Il9JRlBXMkkifQ.4VOcpN_xI1jf1XxjnIZHmw';
 var start = [-74.50, 40];
@@ -55,7 +55,7 @@ var isAtStart = true;
 
 $("#map").fadeOut(0).fadeIn(3000);
 
-function fly() {
+function fly(spd) {
   // depending on whether we're currently at point a or b, aim for
   // point a or b
   var target = isAtStart ? end : start;
@@ -67,13 +67,13 @@ function fly() {
     // These options control the ending camera position: centered at
     // the target, at zoom level 9, and north up.
     center: end,
-    zoom: 5,
+    zoom: 3,
     bearing: 0,
 
     // These options control the flight curve, making it move
     // slowly and zoom out almost completely before starting
     // to pan.
-    speed: 0.3, // make the flying slow
+    speed: spd, // make the flying slow
     curve: 1, // change the speed at which it zooms out
 
     // This can be any easing function: it takes a number between

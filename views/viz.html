@@ -9,6 +9,9 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.5/d3.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/topojson/1.6.19/topojson.min.js"></script>
   <script src="js/jquery.min.js"></script>
+  <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.10.0/mapbox-gl.js'></script>
+  <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.10.0/mapbox-gl.css' rel='stylesheet' />
+
   <link rel="stylesheet" type="text/css" href="css/mystyle.css">
 </head>
 
@@ -18,8 +21,10 @@
     <p><strong>Paths</strong></p>
   </div>
 
+  <div id ="map"></div>
   <div id="draw">
   </div>
+
 
   <div id="control">
 
@@ -167,9 +172,21 @@
   </table>
 
 
-
-
-
   <script src ="js/multiple_data.js"></script>
   <script src ="js/mycontrol.js"></script>
+  <script type="text/javascript">
+    mapboxgl.accessToken = 'pk.eyJ1IjoicGFudGhlcnN1cGVyIiwiYSI6Il9JRlBXMkkifQ.4VOcpN_xI1jf1XxjnIZHmw';
+    var map = new mapboxgl.Map({
+      container: 'map',
+      style: 'mapbox://styles/mapbox/satellite-v8',
+      center: [-71.093613,42.360277],
+      zoom: 2
+    });
+
+    d3.select(".mapboxgl-control-container").remove();
+
+
+
+  </script>
+
 </body>

@@ -69,7 +69,24 @@ var initContent = function() {
 
 
 var updateContent = function(num) {
+console.log(num);
 
+
+  if(num!=0 && cont === true){
+          console.log("zoomout");
+      //fly(getNode(places, nowNum));
+      ZOOMOUT(0.01);
+
+      $("#map").fadeOut(3000,function(){
+
+    console.log("zoomIn2");
+      $(".mycanvas").fadeOut(200);
+      $("#map").fadeIn(200);
+      fly(getNode(places, nowNum));
+      ZOOMIN(0.01);
+    });
+      cont === true;
+  }
 
   $("#story p").fadeOut(500, function() {
     $(this).remove()
@@ -176,8 +193,6 @@ var main = function() {
   $("#tablepath div").mouseover( //hover the new route, will show the preview of this one
     function(event) {
 
-
-      //console.log($(this).attr("id")      );
       d3.select("#pre").attr("style", "width:300px; display:block;");
 
       var precanvas = d3.select("#pre").append("svg")
@@ -237,9 +252,14 @@ var main = function() {
     function() {
 
 
+
+
+
       if (moveToggle) {
         count = 0;
         nowNum = nowNum + 1; //next node to target
+
+
         //nowNum = nowNum % nodeNum; //cycle the loop
 
         /*if (nowNum === 0) {
@@ -255,10 +275,42 @@ var main = function() {
         moveToggle = false;
         //cont = false;
         updateContent(0);
-      } else
+
+      console.log("zoomout");
+      //fly(getNode(places, nowNum));
+      ZOOMOUT(0.01);
+
+      $("#map").fadeOut(3000,function(){
+
+        console.log("zoomIn3");
+      $("#map").fadeIn(200);
+      fly(getNode(places, nowNum));
+      console.log(getNode(places, nowNum));
+      ZOOMIN(0.01);
+
+      });
+
+
+
+
+      } else{
+
+      console.log("zoomout");
+      $(".mycanvas").fadeIn(3000);
+      $("#map").fadeOut(3000);
+      fly(getNode(places, nowNum));
+      ZOOMOUT(0.01);
+
+
         moveToggle = true;
 
+      }
+
       //animations when next button is clicked
+
+
+
+
 
       updateContent(nowNum);
       cont = true; //loop starts
@@ -333,7 +385,6 @@ var main = function() {
           }
         );
 
-
         $("#viz").click(
           function() {
             changePage(1);
@@ -374,19 +425,13 @@ var main = function() {
   $(window).bind('mousewheel DOMMouseScroll', function(event) {
     if (event.originalEvent.wheelDelta > 0 || event.originalEvent.detail < 0) {
       // scroll up
-/*      nowPage--;
-      if (nowPage < 0) nowPage = 0;
 
-      changePage(nowPage);
-      console.log(nowPage);
-*/
     } else {
       // scroll down
       nowPage++;
       if (nowPage == 3) nowPage = 2;
 
       changePage(nowPage);
-      console.log(nowPage);
     }
   });
 
@@ -396,6 +441,7 @@ var inithome = function(time) {
 
   $("#tablepath").fadeOut(time);
   $("#draw").fadeOut(time);
+  $("#map").fadeOut(time);
   $("#control").fadeOut(time);
   $("#pre").fadeOut(time);
 
@@ -412,12 +458,20 @@ var changePage = function(page) {
 
     if (page === 0) {
       inithome(500);
+      $("#map").fadeOut(0);
     } else if (page === 1) {
       $("html, body").animate({ scrollTop: 0 }, "fast");
 
-      console.log("viz");
+      console.log("zoomin0");
+      $(".mycanvas").fadeOut(200);
+      $("#map").fadeIn(200);
+      fly([getNode(places, nowNum)[0],getNode(places, nowNum)[1]]);
+      ZOOMIN(0.01);
+
+
       $("#tablepath").fadeIn(500);
       $("#draw").fadeIn(500);
+      $("#map").fadeIn(500);
       $("#control").fadeIn(500);
       $("#pre").fadeIn(500);
 
@@ -429,7 +483,6 @@ var changePage = function(page) {
 
 
     } /*else if (page === 2) {
-      console.log("about");
       $("#tablepath").fadeOut(500);
       $("#draw").fadeOut(500);
       $("#control").fadeOut(500);
@@ -444,7 +497,6 @@ var changePage = function(page) {
 
 
     } else if (page === 3) {
-        console.log("team");
         $("#tablepath").fadeOut(500);
         $("#draw").fadeOut(500);
         $("#control").fadeOut(500);

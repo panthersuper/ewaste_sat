@@ -47,10 +47,21 @@ body {
   width: 50%;
   height:100%;
   float: left;
-  position: relative;
+  position: absolute;
   top:35px;
-  left: 11%;
+  left: 16%;
   //margin-left: -600px;
+}
+
+#map { 
+  //display: none;
+  background: none;
+  width: 50%;
+  height:100%;
+  float: left;
+  position: absolute;
+  top:35px;
+  left: 16%;
 }
 
 #tablepath {
@@ -160,16 +171,19 @@ body {
 
 .mysvg {
   position: absolute;
-
+  opacity:1;
   top:0px;
 
 }
 rect { fill: transparent; }
 
 .mycanvas  {
+  //display: none;
   position: absolute;
   top:0px;
 }
+
+
 
 .route {
   fill: none;

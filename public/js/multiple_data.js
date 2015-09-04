@@ -1,3 +1,73 @@
+function fly(tgt,spd) {
+
+  map.flyTo({
+    // These options control the ending camera position: centered at
+    // the target, at zoom level 9, and north up.
+    center: tgt,
+    //zoom: 5,
+    bearing: 0,
+
+    // These options control the flight curve, making it move
+    // slowly and zoom out almost completely before starting
+    // to pan.
+    speed: spd, // make the flying slow
+    curve: 100, // change the speed at which it zooms out
+
+    // This can be any easing function: it takes a number between
+    // 0 and 1 and returns another number between 0 and 1.
+    easing: function (t) {
+      return t;
+    }
+  });
+}
+
+function ZOOMOUT(spd) {
+
+  map.flyTo({
+    // These options control the ending camera position: centered at
+    // the target, at zoom level 9, and north up.
+    //center: tgt,
+    zoom: 5,
+    bearing: 0,
+
+    // These options control the flight curve, making it move
+    // slowly and zoom out almost completely before starting
+    // to pan.
+    speed: spd, // make the flying slow
+    curve: 100, // change the speed at which it zooms out
+
+    // This can be any easing function: it takes a number between
+    // 0 and 1 and returns another number between 0 and 1.
+    easing: function (t) {
+      return t;
+    }
+  });
+}
+
+function ZOOMIN(spd) {
+
+  map.flyTo({
+    // These options control the ending camera position: centered at
+    // the target, at zoom level 9, and north up.
+    //center: tgt,
+    zoom: 11,
+    bearing: 0,
+
+    // These options control the flight curve, making it move
+    // slowly and zoom out almost completely before starting
+    // to pan.
+    speed: spd, // make the flying slow
+    curve: 100, // change the speed at which it zooms out
+
+    // This can be any easing function: it takes a number between
+    // 0 and 1 and returns another number between 0 and 1.
+    easing: function (t) {
+      return t;
+    }
+  });
+}
+
+
 Object.size = function(obj) {
   var size = 0,
     key;
@@ -227,7 +297,6 @@ function ratioDir(data, m, projection) {
 
 }
 
-
 /*var places_multi_test = {
   path1: {
     HNL: [-157 - 55 / 60 - 21 / 3600, 21 + 19 / 60 + 07 / 3600],
@@ -247,13 +316,14 @@ function ratioDir(data, m, projection) {
   }
 };*/
 
-var width = $(window).width()/2,
+var width = $(window).width() / 2,
   height = $(window).height();
 $("#control").css("height", height);
 $("#tablepath").css("height", height);
-$("#abouttb").css("top", height+100);
-$("#teamtb").css("top", height+100+$("#abouttb").height());
-
+$("#abouttb").css("top", height + 100);
+$("#teamtb").css("top", height + 100 + $("#abouttb").height());
+$("#map").css("width", width);
+$("#map").css("height", height);
 
 
 var margin = {
@@ -267,7 +337,7 @@ var margin = {
 var places_multi = {};
 var route_multi = {};
 
-var curPath = 1; //the path that is currently showing
+var curPath = 0; //the path that is currently showing
 var projection = d3.geo.orthographic()
   .scale(width / 2.1)
   .translate([width / 2, height / 2])
@@ -286,11 +356,19 @@ var timeMark;
 var timeBase;
 
 
+
 var canvas = d3.select("#draw").append("canvas").attr("class", "mycanvas")
   .attr("width", width)
   .attr("height", height);
 
 var context = canvas.node().getContext("2d");
+/*
+d3.select("#draw").append("div").attr("id", "map")
+  .attr("width", width)
+  .attr("height", height);
+*/
+
+
 
 var svg0 = d3.select("#draw").append("svg").attr("class", "mysvg")
   .attr("width", width)
@@ -414,9 +492,8 @@ d3.tsv("new_monitor_sim.tsv", function(error, data) {
     id++;
   }
 
-  var localnum = $(window).height()/(id+1)*0.8;
-  $("#tablepath div").css("height", localnum+"px");
-  console.log($(window).height());
+  var localnum = $(window).height() / (id + 1) * 0.8;
+  $("#tablepath div").css("height", localnum + "px");
 
   $(document).ready(main); //run jquery after csv loaded so path button initialized
 
@@ -483,7 +560,7 @@ d3.tsv("new_monitor_sim.tsv", function(error, data) {
       nowNum = i;
       updateContent(nowNum);
       moveToggle = false;
-      cont = false; //loop not started
+      cont = true; //loop not started
       count = oneMove_default - 0.01; //to measure the interval
 
 
@@ -664,6 +741,7 @@ d3.tsv("new_monitor_sim.tsv", function(error, data) {
         .attr("cx", intertarget[0])
         .attr("cy", intertarget[1]);
 
+      
 
 
       //change the projection based on rotate value
@@ -741,10 +819,16 @@ d3.tsv("new_monitor_sim.tsv", function(error, data) {
 
       var closeRate = Math.abs(0.5 - phasePercentage);
 
-      var test = closeRate * 1 + 1; //scale factor
+
+      
+
+      var test = closeRate * 10 + 1; //scale factor
       if (dis < 800) {
-        test = 1.5;
-      }
+        test = 6;
+
+      } 
+
+
 
       //move the camera and rescale the canvas
       var ptnow = [-width / 2 * (test - 1), -height / 2 * (test - 1)];
@@ -783,19 +867,6 @@ d3.tsv("new_monitor_sim.tsv", function(error, data) {
       context.lineWidth = .2;
       context.strokeStyle = "rgba(119,119,119,.5)";
       context.stroke();
-
-
-
-      /*        precanvas.insert("path", ".graticule")
-                .datum(topojson.mesh(world, world.objects.countries, function(a, b) {
-                  return a !== b;
-                }))
-                .attr("class", "boundary")
-                .attr("d", pre_path);
-                */
-
-
-      //projection.clipAngle(180); //clip the back half of the land
 
     });
   });
