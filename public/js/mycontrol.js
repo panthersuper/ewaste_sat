@@ -75,7 +75,7 @@ console.log(num);
   if(num!=0 && cont === true){
           console.log("zoomout");
       //fly(getNode(places, nowNum));
-      flyto(getNode(places, nowNum),0.8);
+      flyto(getNode(places, nowNum),3);
 
       cont === true;
   }
@@ -270,7 +270,7 @@ var main = function() {
         updateContent(0);
 
       console.log("zoomout");
-      flyto(getNode(places, nowNum),0.8);
+      flyto(getNode(places, nowNum),3);
 
 
 
@@ -439,8 +439,7 @@ var changePage = function(page) {
     } else if (page === 1) {
       $("html, body").animate({ scrollTop: 0 }, "fast");
 
-      console.log("zoomin0");
-      flyto(getNode(places, nowNum),2);
+      flyto(getNode(places, nowNum),3);
 
       $("#tablepath").fadeIn(500);
       $("#draw").fadeIn(500);

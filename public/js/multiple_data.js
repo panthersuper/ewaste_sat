@@ -1,27 +1,38 @@
 function flyalone(tgt,ratio) {
 
-    console.log(ratio);
 
 
 
 
-  if (ratio<0.01 || ratio>0.99){
+/*  if (ratio<0.01 || ratio>0.99){
     var myzoom = null;
 
     if (ratio<0.2001) myzoom = 0.2-ratio;
     if (ratio>0.7999) myzoom = 1-ratio;
 
-    myzoom = myzoom/0.1*6 + 5;
+    myzoom = myzoom/0.1*8 + 3;
+
+
+
 
 
   }
 
-  else
+  else*/
+
+  //var myzoom = Math.pow((Math.abs(ratio-0.5)),8)*128*2*2*2*2*2 + 3;//[4,11]
+  ratio = 0.5-Math.abs(0.5-ratio);
+  var myzoom = -Math.sin(ratio*3.1415)*7 + 11||11;
+
+  console.log(myzoom);
+
+
   map.jumpTo({
     // These options control the ending camera position: centered at
     // the target, at zoom level 9, and north up.
+
     center: tgt,
-    zoom: 3,
+    zoom: myzoom,
     bearing: 0,
 
     // These options control the flight curve, making it move
@@ -37,6 +48,35 @@ function flyalone(tgt,ratio) {
     }
   });
 }
+
+function flyZoomed(tgt,ratio) {
+
+  var myzoom = Math.pow((Math.abs(ratio-0.5)),4)*32 + 9;//[9,11]
+  console.log(myzoom);
+
+
+  map.jumpTo({
+    // These options control the ending camera position: centered at
+    // the target, at zoom level 9, and north up.
+
+    center: tgt,
+    zoom: myzoom,
+    bearing: 0,
+
+    // These options control the flight curve, making it move
+    // slowly and zoom out almost completely before starting
+    // to pan.
+    // This can be any easing function: it takes a number between
+    // 0 and 1 and returns another number between 0 and 1.
+
+
+    easing: function (t) {
+
+      return t;
+    }
+  });
+}
+
 
 
 function flyto(tgt,spd) {
@@ -438,7 +478,7 @@ var sphere = {
 };
 var nodeNum; //total node amount
 var nowNum = 1; //current node to target to
-var oneMove_default = 200;
+var oneMove_default = 700;
 var oneMove = oneMove_default; //the interval for each focus
 var countmove = 1;
 var count = 0; //to measure the interval
@@ -610,7 +650,7 @@ d3.tsv("new_monitor_sim.tsv", function(error, data) {
       moveToggle = false;
       cont = true; //loop not started
       count = oneMove_default - 0.01; //to measure the interval
-      flyto(getNode(places, nowNum),0.8);
+      flyto(getNode(places, nowNum),3);
 
 
     })
@@ -696,7 +736,7 @@ d3.tsv("new_monitor_sim.tsv", function(error, data) {
       moveToggle = false;
       cont = false; //loop not started
       count = oneMove_default - 0.01; //to measure the interval
-      flyto(getNode(places, nowNum),0.8);
+      flyto(getNode(places, nowNum),3);
 
     });
 
@@ -798,6 +838,7 @@ d3.tsv("new_monitor_sim.tsv", function(error, data) {
       var timephase = count % oneMove; //the current phase of this move
       var phasePercentage = timephase / oneMove; //the completion percentage of the current move
 
+      //phasePercentage = Math.sqrt(phasePercentage)||0;
       if (moveToggle)
         if (phasePercentage === 0) phasePercentage = 1;
       context.clearRect(0, 0, width, height);
@@ -896,7 +937,6 @@ d3.tsv("new_monitor_sim.tsv", function(error, data) {
         [mylat,mylng]
         );
 
-      flyalone(p_r,phasePercentage);
 
       point.attr("transform", function(d) { //rotate the nodes
         return "translate(" + projection(d.value) + ")";
@@ -907,8 +947,11 @@ d3.tsv("new_monitor_sim.tsv", function(error, data) {
       var test = closeRate * 0 + 1; //scale factor
       if (dis < 800) {
         test = 1;
+        flyZoomed(p_r,phasePercentage);
+      }else{
+        flyalone(p_r,phasePercentage);
 
-      } 
+      }
 
 
 
@@ -1013,7 +1056,7 @@ var update = function(current) {
       moveToggle = false;
       cont = false; //loop not started
       count = oneMove_default - 0.1; //to measure the interval
-      flyto(getNode(places, nowNum),0.8);
+      flyto(getNode(places, nowNum),3);
 
     })
 
@@ -1073,7 +1116,7 @@ var update = function(current) {
       moveToggle = false;
       cont = false; //loop not started
       count = oneMove_default - 0.1; //to measure the interval
-      flyto(getNode(places, nowNum),0.8);
+      flyto(getNode(places, nowNum),3);
 
     });
 
