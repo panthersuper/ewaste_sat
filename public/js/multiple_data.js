@@ -21,7 +21,7 @@ function flyalone(tgt,ratio) {
     // These options control the ending camera position: centered at
     // the target, at zoom level 9, and north up.
     center: tgt,
-    zoom: 5,
+    zoom: 3,
     bearing: 0,
 
     // These options control the flight curve, making it move
@@ -892,7 +892,6 @@ d3.tsv("new_monitor_sim.tsv", function(error, data) {
       mylat = raw.split(",")[0];
       mylng = raw.split(",")[1];
 
-
       var p_r = projection.invert(
         [mylat,mylng]
         );
@@ -904,10 +903,7 @@ d3.tsv("new_monitor_sim.tsv", function(error, data) {
       });
 
       var closeRate = Math.abs(0.5 - phasePercentage);
-
-
       
-
       var test = closeRate * 0 + 1; //scale factor
       if (dis < 800) {
         test = 1;
