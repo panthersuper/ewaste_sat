@@ -75,16 +75,8 @@ console.log(num);
   if(num!=0 && cont === true){
           console.log("zoomout");
       //fly(getNode(places, nowNum));
-      ZOOMOUT(0.01);
+      flyto(getNode(places, nowNum),0.8);
 
-      $("#map").fadeOut(3000,function(){
-
-    console.log("zoomIn2");
-      $(".mycanvas").fadeOut(200);
-      $("#map").fadeIn(200);
-      fly(getNode(places, nowNum));
-      ZOOMIN(0.01);
-    });
       cont === true;
   }
 
@@ -277,29 +269,17 @@ var main = function() {
         updateContent(0);
 
       console.log("zoomout");
-      //fly(getNode(places, nowNum));
-      ZOOMOUT(0.01);
-
-      $("#map").fadeOut(3000,function(){
-
-        console.log("zoomIn3");
-      $("#map").fadeIn(200);
-      fly(getNode(places, nowNum));
-      console.log(getNode(places, nowNum));
-      ZOOMIN(0.01);
-
-      });
-
+      flyto(getNode(places, nowNum),0.8);
 
 
 
       } else{
 
       console.log("zoomout");
-      $(".mycanvas").fadeIn(3000);
-      $("#map").fadeOut(3000);
-      fly(getNode(places, nowNum));
-      ZOOMOUT(0.01);
+      //$(".mycanvas").fadeIn(3000);
+      //$("#map").fadeOut(3000);
+      //fly(getNode(places, nowNum));
+      //ZOOMOUT(0.01);
 
 
         moveToggle = true;
@@ -463,11 +443,7 @@ var changePage = function(page) {
       $("html, body").animate({ scrollTop: 0 }, "fast");
 
       console.log("zoomin0");
-      $(".mycanvas").fadeOut(200);
-      $("#map").fadeIn(200);
-      fly([getNode(places, nowNum)[0],getNode(places, nowNum)[1]]);
-      ZOOMIN(0.01);
-
+      flyto(getNode(places, nowNum),2);
 
       $("#tablepath").fadeIn(500);
       $("#draw").fadeIn(500);

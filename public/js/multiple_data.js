@@ -1,3 +1,33 @@
+function flyto(tgt,spd) {
+
+  map.flyTo({
+    // These options control the ending camera position: centered at
+    // the target, at zoom level 9, and north up.
+    center: tgt,
+    zoom: 11,
+    bearing: 0,
+
+    // These options control the flight curve, making it move
+    // slowly and zoom out almost completely before starting
+    // to pan.
+    speed: spd, // make the flying slow
+    curve: 1, // change the speed at which it zooms out
+
+    // This can be any easing function: it takes a number between
+    // 0 and 1 and returns another number between 0 and 1.
+
+
+
+    easing: function (t) {
+      $("#fake_track1").attr("opacity", 2*Math.abs(0.5-t));
+      $("#fake_track2").attr("opacity", 2*Math.abs(0.5-t));
+
+      return t;
+    }
+  });
+}
+
+
 function fly(tgt,spd) {
 
   map.flyTo({
@@ -316,14 +346,16 @@ function ratioDir(data, m, projection) {
   }
 };*/
 
-var width = $(window).width() / 2,
-  height = $(window).height();
-$("#control").css("height", height);
-$("#tablepath").css("height", height);
-$("#abouttb").css("top", height + 100);
-$("#teamtb").css("top", height + 100 + $("#abouttb").height());
-$("#map").css("width", width);
-$("#map").css("height", height);
+var width = 350,
+  height = 350;
+var mapw = $(window).width() / 2,
+    maph = $(window).height();
+$("#control").css("height", maph);
+$("#tablepath").css("height", maph);
+$("#abouttb").css("top", maph + 100);
+$("#teamtb").css("top", maph + 100 + $("#abouttb").height());
+$("#map").css("width", mapw);
+$("#map").css("height", maph);
 
 
 var margin = {
@@ -371,8 +403,8 @@ d3.select("#draw").append("div").attr("id", "map")
 
 
 var svg0 = d3.select("#draw").append("svg").attr("class", "mysvg")
-  .attr("width", width)
-  .attr("height", height);
+  .attr("width", mapw)
+  .attr("height", maph);
 var svg = svg0.append("g");
 
 var path = d3.geo.path()
@@ -393,6 +425,9 @@ var countmove = 1;
 var count = 0; //to measure the interval
 var point;
 var track;
+var track_f;
+var track_ff;
+
 
 var lat_old = 0;
 var lng_old = 0;
@@ -467,7 +502,7 @@ d3.tsv("new_monitor_sim.tsv", function(error, data) {
 
   xScale = d3.time.scale()
     .domain([minDate, maxDate])
-    .range([margin.left, width - margin.right * 3]);
+    .range([margin.left, mapw - margin.right * 3]);
 
 
   var xAxis = d3.svg.axis()
@@ -498,12 +533,6 @@ d3.tsv("new_monitor_sim.tsv", function(error, data) {
   $(document).ready(main); //run jquery after csv loaded so path button initialized
 
   nodeNum = route.coordinates.length //the total number of nodes
-
-  svg.append('rect')
-    .attr('class', 'overlay')
-    .attr('width', width)
-    .attr('height', height)
-    .attr("fill", "black");
 
   svg.append("filter")
     .attr("id", "blur-effect-1")
@@ -594,9 +623,30 @@ d3.tsv("new_monitor_sim.tsv", function(error, data) {
     .attr("stroke-width", "1px")
     .attr("transform", "translate(100,100)");
 
+  track_f = svg.append("g") //red circle
+    .append("circle")
+    .attr("class", "track")
+    .attr("id","fake_track2")
+    .attr("r", 2)
+    .attr("fill", "none")
+    .attr("stroke", "rgba(206, 18, 18, 0.8)")
+    .attr("stroke-width", "3px")
+    .attr("transform", "translate("+mapw/2+","+maph/2+")");
+
+  track_ff = svg.append("g") //red circle
+    .append("circle")
+    .attr("class", "track")
+    .attr("id","fake_track1")
+    .attr("r", 3)
+    .attr("fill", "white")
+    .attr("stroke", "white")
+    .attr("stroke-width", "3px")
+    .attr("transform", "translate("+mapw/2+","+maph/2+")");
+
+
   svg0.append('g')
     .attr('class', 'xaxis')
-    .attr('transform', 'translate(' + margin.left + ', ' + (height - margin.top - margin.bottom) + ')')
+    .attr('transform', 'translate(' + margin.left + ', ' + (maph - margin.top - margin.bottom) + ')')
     .call(xAxis);
 
   timeMark = svg0.append("g") //time mark
@@ -606,7 +656,7 @@ d3.tsv("new_monitor_sim.tsv", function(error, data) {
     .attr("fill", "none")
     .attr("stroke", "rgba(206, 18, 18, 0.8)")
     .attr("stroke-width", "3px")
-    .attr("transform", "translate(100," + (height - margin.top - margin.bottom) + ")");
+    .attr("transform", "translate(100," + (maph - margin.top - margin.bottom) + ")");
 
   timeBase = svg0.append("g").attr("class", "timebase") //time mark
     .selectAll("g")
@@ -618,7 +668,7 @@ d3.tsv("new_monitor_sim.tsv", function(error, data) {
     })
     .attr("transform", function(d) {
       var myx = xScale(d.value[2]);
-      return "translate(" + myx + "," + (height - margin.top - margin.bottom + 2.5) + ")";
+      return "translate(" + myx + "," + (maph - margin.top - margin.bottom + 2.5) + ")";
     })
     .on("click", function(d, i) {
       nowNum = i;
@@ -807,7 +857,7 @@ d3.tsv("new_monitor_sim.tsv", function(error, data) {
 
       //console.log("Current Path:" + curPath + "||Current Node:" + nowNum + "||Total Node:" + nodeNum);
       timeMark
-        .attr("transform", "translate(" + xScale(getNode(places, nowNum)[2]) + "," + (height - margin.top - margin.bottom + 2.5) + ")");
+        .attr("transform", "translate(" + xScale(getNode(places, nowNum)[2]) + "," + (maph - margin.top - margin.bottom + 2.5) + ")");
       //console.log(phasePercentage);
 
       track
@@ -822,9 +872,9 @@ d3.tsv("new_monitor_sim.tsv", function(error, data) {
 
       
 
-      var test = closeRate * 10 + 1; //scale factor
+      var test = closeRate * 0 + 1; //scale factor
       if (dis < 800) {
-        test = 6;
+        test = 1;
 
       } 
 
@@ -838,12 +888,17 @@ d3.tsv("new_monitor_sim.tsv", function(error, data) {
       context.scale(test, test);
 
       track.attr("r", 2 * (trackscale % 1) + 1); //change the tracker's r according to closerate
+      track_f.attr("r", 2 * (trackscale % 4) + 4); //change the tracker's r according to closerate
+
+
 
       context.beginPath(); //draw the outbound of the sphere
       path(sphere);
       context.lineWidth = 1;
       context.strokeStyle = "#999";
       context.stroke();
+      context.fillStyle = "rgba(150,150,200,0.4)";
+      context.fill();
 
       projection.clipAngle(180); //clip the grid and land, 180 means no clipping
 
@@ -953,7 +1008,7 @@ var update = function(current) {
     .enter().append("g")
     .attr("transform", function(d) {
       var myx = xScale(d.value[2]);
-      return "translate(" + myx + "," + (height - margin.top - margin.bottom + 2.5) + ")";
+      return "translate(" + myx + "," + (maph - margin.top - margin.bottom + 2.5) + ")";
     })
     .attr("class", "timeid")
     .attr("id", function(d, i) {

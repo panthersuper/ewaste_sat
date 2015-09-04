@@ -188,14 +188,14 @@ rect { fill: transparent; }
 .route {
   fill: none;
   stroke: white;
-  stroke-width: 0.7px;
+  stroke-width: 1.5px;
   opacity:0.5;
 }
 
 .curroute_blur{
   fill: none;
   stroke: #fff4bd;
-  stroke-width: 1.2px;
+  stroke-width: 2.5px;
   opacity:1;
   filter:url(#blur-effect-1);
 }
@@ -203,7 +203,7 @@ rect { fill: transparent; }
 .pastroute_blur{
   fill: none;
   stroke: #fff4bd;
-  stroke-width: 1.2px;
+  stroke-width: 2.5px;
   opacity:1;
   filter:url(#blur-effect-1);
 }
@@ -211,14 +211,14 @@ rect { fill: transparent; }
 .curroute{
   fill: none;
   stroke: #fff4bd;
-  stroke-width: 1.2px;
+  stroke-width: 2.5px;
   opacity:1;
 }
 
 .pastroute{
   fill: none;
   stroke: #fff4bd;
-  stroke-width: 1.2px;
+  stroke-width: 2.5px;
   opacity:1;
 }
 
