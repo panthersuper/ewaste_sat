@@ -179,6 +179,7 @@ var main = function() {
       update(curPath);
       moveToggle = false;
       cont = false; //loop not started
+      flyto(getNode(places, nowNum),0.8);
     }
   );
 

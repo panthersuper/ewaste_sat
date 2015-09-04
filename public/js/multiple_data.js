@@ -346,17 +346,17 @@ function ratioDir(data, m, projection) {
   }
 };*/
 
-var width = 350,
-  height = 350;
+
 var mapw = $(window).width() / 2,
     maph = $(window).height();
+var width = mapw/2.5,
+  height = width;
 $("#control").css("height", maph);
 $("#tablepath").css("height", maph);
 $("#abouttb").css("top", maph + 100);
 $("#teamtb").css("top", maph + 100 + $("#abouttb").height());
 $("#map").css("width", mapw);
 $("#map").css("height", maph);
-
 
 var margin = {
   top: 40,
@@ -591,6 +591,7 @@ d3.tsv("new_monitor_sim.tsv", function(error, data) {
       moveToggle = false;
       cont = true; //loop not started
       count = oneMove_default - 0.01; //to measure the interval
+      flyto(getNode(places, nowNum),0.8);
 
 
     })
@@ -617,10 +618,10 @@ d3.tsv("new_monitor_sim.tsv", function(error, data) {
   track = svg.append("g") //red circle
     .append("circle")
     .attr("class", "track")
-    .attr("r", 2)
+    .attr("r", 5)
     .attr("fill", "none")
     .attr("stroke", "rgba(206, 18, 18, 0.8)")
-    .attr("stroke-width", "1px")
+    .attr("stroke-width", "3px")
     .attr("transform", "translate(100,100)");
 
   track_f = svg.append("g") //red circle
@@ -676,6 +677,7 @@ d3.tsv("new_monitor_sim.tsv", function(error, data) {
       moveToggle = false;
       cont = false; //loop not started
       count = oneMove_default - 0.01; //to measure the interval
+      flyto(getNode(places, nowNum),0.8);
 
     });
 
@@ -887,7 +889,7 @@ d3.tsv("new_monitor_sim.tsv", function(error, data) {
       context.translate(ptnow[0], ptnow[1]);
       context.scale(test, test);
 
-      track.attr("r", 2 * (trackscale % 1) + 1); //change the tracker's r according to closerate
+      track.attr("r", 4 * (trackscale % 1) + 2); //change the tracker's r according to closerate
       track_f.attr("r", 2 * (trackscale % 4) + 4); //change the tracker's r according to closerate
 
 
@@ -981,6 +983,7 @@ var update = function(current) {
       moveToggle = false;
       cont = false; //loop not started
       count = oneMove_default - 0.1; //to measure the interval
+      flyto(getNode(places, nowNum),0.8);
 
     })
 
@@ -999,6 +1002,26 @@ var update = function(current) {
     .attr("stroke", "rgba(206, 18, 18, 0.8)")
     .attr("stroke-width", "1px")
     .attr("transform", "translate(100,100)");
+
+  track_f = svg.append("g") //red circle
+    .append("circle")
+    .attr("class", "track")
+    .attr("id","fake_track2")
+    .attr("r", 2)
+    .attr("fill", "none")
+    .attr("stroke", "rgba(206, 18, 18, 0.8)")
+    .attr("stroke-width", "3px")
+    .attr("transform", "translate("+mapw/2+","+maph/2+")");
+
+  track_ff = svg.append("g") //red circle
+    .append("circle")
+    .attr("class", "track")
+    .attr("id","fake_track1")
+    .attr("r", 3)
+    .attr("fill", "white")
+    .attr("stroke", "white")
+    .attr("stroke-width", "3px")
+    .attr("transform", "translate("+mapw/2+","+maph/2+")");
 
   $(".timebase").remove();
 
@@ -1020,6 +1043,7 @@ var update = function(current) {
       moveToggle = false;
       cont = false; //loop not started
       count = oneMove_default - 0.1; //to measure the interval
+      flyto(getNode(places, nowNum),0.8);
 
     });
 
