@@ -1,3 +1,44 @@
+function flyalone(tgt,ratio) {
+
+    console.log(ratio);
+
+
+
+
+  if (ratio<0.01 || ratio>0.99){
+    var myzoom = null;
+
+    if (ratio<0.2001) myzoom = 0.2-ratio;
+    if (ratio>0.7999) myzoom = 1-ratio;
+
+    myzoom = myzoom/0.1*6 + 5;
+
+
+  }
+
+  else
+  map.jumpTo({
+    // These options control the ending camera position: centered at
+    // the target, at zoom level 9, and north up.
+    center: tgt,
+    zoom: 5,
+    bearing: 0,
+
+    // These options control the flight curve, making it move
+    // slowly and zoom out almost completely before starting
+    // to pan.
+    // This can be any easing function: it takes a number between
+    // 0 and 1 and returns another number between 0 and 1.
+
+
+    easing: function (t) {
+
+      return t;
+    }
+  });
+}
+
+
 function flyto(tgt,spd) {
 
   map.flyTo({
@@ -27,29 +68,6 @@ function flyto(tgt,spd) {
   });
 }
 
-
-function fly(tgt,spd) {
-
-  map.flyTo({
-    // These options control the ending camera position: centered at
-    // the target, at zoom level 9, and north up.
-    center: tgt,
-    //zoom: 5,
-    bearing: 0,
-
-    // These options control the flight curve, making it move
-    // slowly and zoom out almost completely before starting
-    // to pan.
-    speed: spd, // make the flying slow
-    curve: 100, // change the speed at which it zooms out
-
-    // This can be any easing function: it takes a number between
-    // 0 and 1 and returns another number between 0 and 1.
-    easing: function (t) {
-      return t;
-    }
-  });
-}
 
 function ZOOMOUT(spd) {
 
@@ -141,6 +159,7 @@ var interPt = function(ptA, ptB, t) {
 var translateAlong2 = function(path, m) {
   var l = path.getTotalLength();
   var p = path.getPointAtLength(m * l);
+
   return "translate(" + p.x + "," + p.y + ")"; //Move marker
 }
 
@@ -419,7 +438,7 @@ var sphere = {
 };
 var nodeNum; //total node amount
 var nowNum = 1; //current node to target to
-var oneMove_default = 60;
+var oneMove_default = 200;
 var oneMove = oneMove_default; //the interval for each focus
 var countmove = 1;
 var count = 0; //to measure the interval
@@ -864,6 +883,21 @@ d3.tsv("new_monitor_sim.tsv", function(error, data) {
 
       track
         .attr("transform", translateAlong2(CuRoute.node(), (1)));
+
+
+      var mylat,mylng;
+      var raw = track.attr("transform")
+      raw = raw.split("(")[1];
+      raw = raw.split(")")[0];
+      mylat = raw.split(",")[0];
+      mylng = raw.split(",")[1];
+
+
+      var p_r = projection.invert(
+        [mylat,mylng]
+        );
+
+      flyalone(p_r,phasePercentage);
 
       point.attr("transform", function(d) { //rotate the nodes
         return "translate(" + projection(d.value) + ")";

@@ -277,10 +277,6 @@ var main = function() {
       } else{
 
       console.log("zoomout");
-      //$(".mycanvas").fadeIn(3000);
-      //$("#map").fadeOut(3000);
-      //fly(getNode(places, nowNum));
-      //ZOOMOUT(0.01);
 
 
         moveToggle = true;

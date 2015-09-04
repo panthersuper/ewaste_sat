@@ -53,7 +53,7 @@ body {
   //margin-left: -600px;
 }
 
-#map { 
+#map {
   //display: none;
   background: none;
   width: 50%;
@@ -151,7 +151,7 @@ body {
   display: none;
   width:0px;
   height:960px;
-  left:14%;
+  left:16%;
   top:0px;
   margin-left: 0px;
   position:absolute;
