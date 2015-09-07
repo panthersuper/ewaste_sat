@@ -1,4 +1,4 @@
-function flyalone(tgt, ratio) {
+function flyalone(tgt, ratio, dis) {
 
 
 
@@ -18,19 +18,21 @@ function flyalone(tgt, ratio) {
 
     else*/
 
+  var zoomspan = 8;
 
+  //var myzoom = Math.pow((Math.abs(ratio - 0.5)), 8) * 128 * 2 * 2 * 2 * 2 + 3; //[4,11]
 
-  var myzoom = Math.pow((Math.abs(ratio - 0.5)), 8) * 128 * 2 * 2 * 2 * 2 + 3; //[4,11]
-  //ratio = (0.5-Math.abs(0.5-ratio))*2;//[0,1,0]
-  //var myzoom = 3;
+  if (dis <1000) zoomspan = 3+dis/1000*5;
 
 
 
   if (ratio < 0.01)
-    myzoom = 11 - ratio / 0.01 * 7;
+    myzoom = 11 - ratio / 0.01 * zoomspan;
   else if (ratio > 0.99)
-    myzoom = 11 - (1 - ratio) / 0.01 * 7;
-  else myzoom = 4;
+    myzoom = 11 - (1 - ratio) / 0.01 * zoomspan;
+  else myzoom = 11-zoomspan;
+
+  console.log(ratio +","+ myzoom);
 
   //console.log("ratio:"+ratio+" zoom:"+myzoom);
   //console.log(11 - (1-0.9975000000000017 )/0.01*7);
@@ -493,7 +495,7 @@ var sphere = {
 };
 var nodeNum; //total node amount
 var nowNum = 1; //current node to target to
-var oneMove_default = 400;
+var oneMove_default = 300;
 var oneMove = oneMove_default; //the interval for each focus
 var countmove = 1;
 var count = 0; //to measure the interval
@@ -814,11 +816,15 @@ d3.tsv("new_monitor_sim.tsv", function(error, data) {
       var local_scale = 1;
       if (count / oneMove < 0.01 || count / oneMove > 0.99) {
         if (dis >= 100) {
+
+          //local_scale = (0.5-Math.abs(0.5-count / oneMove))*19/20+1/20;
           local_scale = 1/20;
         } else local_scale = 1;
-      } else
+      } else{
+        if (dis >= 100) local_scale = 2;
+        else
         local_scale = 1;
-
+      }
 
       if (moveToggle) {
         if (Math.abs(count - oneMove) < countmove*local_scale) { //one move is finished, start the next one
@@ -969,7 +975,7 @@ d3.tsv("new_monitor_sim.tsv", function(error, data) {
         test = 1;
         flyZoomed(p_r, phasePercentage, dis);
       } else {
-        flyalone(p_r, phasePercentage);
+        flyalone(p_r, phasePercentage, dis);
         //flyZoomed(p_r,phasePercentage,dis);
 
       }
