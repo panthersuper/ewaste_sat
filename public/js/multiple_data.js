@@ -1100,7 +1100,7 @@ var update = function(current) {
     .attr("r", 2)
     .attr("fill", "none")
     .attr("stroke", "rgba(206, 18, 18, 0.8)")
-    .attr("stroke-width", "1px")
+    .attr("stroke-width", "3px")
     .attr("transform", "translate(100,100)");
 
   track_f = svg.append("g") //red circle
