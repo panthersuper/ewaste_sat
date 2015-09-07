@@ -1,3 +1,70 @@
+function fixloop(lst) {
+  //fix the loop error for path on globe
+  var mynew = [];
+
+  var left_right;
+
+
+  for (var i = 0; i < lst.length - 1; i++) {
+    if (lst[i][0] < 0 && lst[i + 1][0] > 0 && lst[i + 1][0] - lst[i][0] < 180) {
+      left_right = true;
+      break;
+    } else if (lst[i][0] < 0 && lst[i + 1][0] > 0 && lst[i + 1][0] - lst[i][0] > 180) {
+      left_right = false;
+      break;
+    } else left_right = -1;
+  }
+
+  
+  if (left_right === -1) return lst;
+  else if(left_right === true){
+
+    for (var i = 0; i < lst.length - 1; i++) {
+      //console.log(lst[i], lst[i+1]);
+      if (lst[i][0] < 0 && lst[i + 1][0] > 0 && lst[i + 1][0] - lst[i][0] < 180) {
+        var newpt = [0, -lst[i][0] / (lst[i + 1][0] - lst[i][0]) * (lst[i + 1][1] - lst[i][1]) + lst[i][1]];
+        //var newpt = [360, 1];
+
+
+        console.log((lst[i][0]+0),newpt[0],(lst[i+1][0]+0));
+
+        mynew.push([(lst[i][0]+0), lst[i][1]]);
+        mynew.push(newpt);
+
+      } else{
+
+        mynew.push([(lst[i][0]+0), lst[i][1]]);
+      } 
+    }
+
+    var last = lst[lst.length - 1]
+    mynew.push([(lst[i][0]),last[1]]);
+
+    return mynew;
+  }
+  else{
+    for (var i = 0; i < lst.length - 1; i++) {
+      //console.log(lst[i], lst[i+1]);
+        mynew.push([(lst[i][0]+360)%360, lst[i][1]]);
+      
+    }
+
+    var last = lst[lst.length - 1]
+    mynew.push([(lst[i][0]+360)%360,last[1]]);
+
+    return mynew;
+
+
+
+
+
+
+
+  }
+
+}
+
+
 function reptojectMap(lst) {
   var mylst = []
   for (k in lst) {
@@ -440,6 +507,7 @@ $("#abouttb").css("top", maph + 100);
 $("#teamtb").css("top", maph + 100 + $("#abouttb").height());
 $("#map").css("width", mapw);
 $("#map").css("height", maph);
+//$("#map").fadeOut(0);
 
 var margin = {
   top: 40,
@@ -472,6 +540,7 @@ var timeBase;
 
 var route_m; //data
 var route_map; //svg path
+var pastRoute_map;
 
 
 
@@ -659,7 +728,6 @@ d3.tsv("new_monitor_sim.tsv", function(error, data) {
   route_map = svg.append("path")
     .attr("class", "route_map")
     .attr("d", lineFunction(route_m.coordinates))
-    .attr("stroke-dasharray", "2,2")
     .attr("stroke", "red")
     .attr("stroke-width", "2px")
     .attr("fill", "none");
@@ -675,6 +743,11 @@ d3.tsv("new_monitor_sim.tsv", function(error, data) {
     .attr("class", "pastroute")
   pastRoute_blur = svg.append("path") //current route
     .attr("class", "pastroute_blur")
+  pastRoute_map = svg.append("path") //current route
+    .attr("class", "pastroute_map")
+    .attr("stroke", "red")
+    .attr("stroke-width", "2px")
+    .attr("fill", "none");
 
   point = svg.append("g")
     .attr("class", "points")
@@ -977,10 +1050,6 @@ d3.tsv("new_monitor_sim.tsv", function(error, data) {
 
 
 
-
-
-
-
       //console.log("Current Path:" + curPath + "||Current Node:" + nowNum + "||Total Node:" + nodeNum);
       timeMark
         .attr("transform", "translate(" + xScale(getNode(places, nowNum)[2]) + "," + (maph - margin.top - margin.bottom + 2.5) + ")");
@@ -1018,31 +1087,42 @@ d3.tsv("new_monitor_sim.tsv", function(error, data) {
 
       }
 
-      var newlst = [[lat_old,lng_old],p_r];
-      
-      if (lat_old<0 && p_r[0]>0 && p_r[0]-lat_old<180){
-        
-        var newpt = [0, -lat_old/(p_r[0]-lat_old)*(p_r[1]-lng_old)+lng_old            ]
-        console.log(lng_old,newpt[1],p_r[1]);
-        
-        newlst = [[lat_old,lng_old],newpt,[p_r[0],p_r[1]]];
-        
-      }else if (lat_old<0 && p_r[0]>0 && p_r[0]-lat_old>180){
-        console.log("222");
-        newlst = [[lat_old+360,lng_old],[p_r[0],p_r[1]+360]];
-        
+      var newlst = [
+        [lat_old, lng_old], p_r
+      ];
+
+
+      if (lat_old < 0 && p_r[0] > 0 && p_r[0] - lat_old < 180) {
+
+        var newpt = [0, -lat_old / (p_r[0] - lat_old) * (p_r[1] - lng_old) + lng_old]
+
+        newlst = [
+          [lat_old, lng_old], newpt, [p_r[0], p_r[1]]
+        ];
+
+      } else if (lat_old < 0 && p_r[0] > 0 && p_r[0] - lat_old > 180) {
+        newlst = [
+          [lat_old + 360, lng_old],
+          [p_r[0], p_r[1] + 360]
+        ];
+
 
 
       }
 
-/*      route_m.coordinates = reptojectMap(curcoo);
-      route_map
-        .attr("d", lineFunction(route_m.coordinates))
-*/
+      /*      route_m.coordinates = reptojectMap(curcoo);
+            route_map
+              .attr("d", lineFunction(route_m.coordinates))
+      */
 
       route_m.coordinates = reptojectMap(newlst);
       route_map
         .attr("d", lineFunction(route_m.coordinates))
+
+      if (nowNum != 1)
+        pastRoute_map //create current route
+        .attr("d", lineFunction(reptojectMap(fixloop(pastData.coordinates))));
+
 
 
       //move the camera and rescale the canvas
