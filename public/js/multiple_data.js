@@ -1,31 +1,41 @@
-function flyalone(tgt,ratio) {
+function flyalone(tgt, ratio) {
+
+
+
+  /*  if (ratio<0.01 || ratio>0.99){
+      var myzoom = null;
+
+      if (ratio<0.2001) myzoom = 0.2-ratio;
+      if (ratio>0.7999) myzoom = 1-ratio;
+
+      myzoom = myzoom/0.1*8 + 3;
 
 
 
 
 
-/*  if (ratio<0.01 || ratio>0.99){
-    var myzoom = null;
+    }
 
-    if (ratio<0.2001) myzoom = 0.2-ratio;
-    if (ratio>0.7999) myzoom = 1-ratio;
-
-    myzoom = myzoom/0.1*8 + 3;
+    else*/
 
 
 
+  var myzoom = Math.pow((Math.abs(ratio - 0.5)), 8) * 128 * 2 * 2 * 2 * 2 + 3; //[4,11]
+  //ratio = (0.5-Math.abs(0.5-ratio))*2;//[0,1,0]
+  //var myzoom = 3;
 
 
-  }
 
-  else*/
+  if (ratio < 0.01)
+    myzoom = 11 - ratio / 0.01 * 7;
+  else if (ratio > 0.99)
+    myzoom = 11 - (1 - ratio) / 0.01 * 7;
+  else myzoom = 4;
 
-  //var myzoom = Math.pow((Math.abs(ratio-0.5)),8)*128*2*2*2*2*2 + 3;//[4,11]
-  ratio = 0.5-Math.abs(0.5-ratio);
-  var myzoom = -Math.sin(ratio*3.1415)*7 + 11||11;
+  //console.log("ratio:"+ratio+" zoom:"+myzoom);
+  //console.log(11 - (1-0.9975000000000017 )/0.01*7);
 
-  console.log(myzoom);
-
+  //var myzoom = -Math.sin(ratio*3.1415)*7 + 11||11;
 
   map.jumpTo({
     // These options control the ending camera position: centered at
@@ -42,18 +52,21 @@ function flyalone(tgt,ratio) {
     // 0 and 1 and returns another number between 0 and 1.
 
 
-    easing: function (t) {
+    easing: function(t) {
 
       return t;
     }
   });
+
 }
 
-function flyZoomed(tgt,ratio) {
+function flyZoomed(tgt, ratio, dis) {
 
-  var myzoom = Math.pow((Math.abs(ratio-0.5)),4)*32 + 9;//[9,11]
-  console.log(myzoom);
 
+
+  var myzoom = Math.pow((Math.abs(ratio - 0.5)), 4) * 32 * 2 + 7; //[7,11]
+  if (dis < 0.1) myzoom = 11;
+  console.log("myzoom: " + myzoom);
 
   map.jumpTo({
     // These options control the ending camera position: centered at
@@ -70,7 +83,7 @@ function flyZoomed(tgt,ratio) {
     // 0 and 1 and returns another number between 0 and 1.
 
 
-    easing: function (t) {
+    easing: function(t) {
 
       return t;
     }
@@ -79,7 +92,7 @@ function flyZoomed(tgt,ratio) {
 
 
 
-function flyto(tgt,spd) {
+function flyto(tgt, spd) {
 
   map.flyTo({
     // These options control the ending camera position: centered at
@@ -99,9 +112,9 @@ function flyto(tgt,spd) {
 
 
 
-    easing: function (t) {
-      $("#fake_track1").attr("opacity", 2*Math.abs(0.5-t));
-      $("#fake_track2").attr("opacity", 2*Math.abs(0.5-t));
+    easing: function(t) {
+      $("#fake_track1").attr("opacity", 2 * Math.abs(0.5 - t));
+      $("#fake_track2").attr("opacity", 2 * Math.abs(0.5 - t));
 
       return t;
     }
@@ -126,7 +139,7 @@ function ZOOMOUT(spd) {
 
     // This can be any easing function: it takes a number between
     // 0 and 1 and returns another number between 0 and 1.
-    easing: function (t) {
+    easing: function(t) {
       return t;
     }
   });
@@ -149,7 +162,7 @@ function ZOOMIN(spd) {
 
     // This can be any easing function: it takes a number between
     // 0 and 1 and returns another number between 0 and 1.
-    easing: function (t) {
+    easing: function(t) {
       return t;
     }
   });
@@ -254,28 +267,30 @@ var randomDir = function(nodeA, nodeB) {
   if (num < 10) {
     num = 10;
   }
-  if (dis < threshA || dis > threshB) {
-    for (var i = 0; i <= num; i++) {
-      var t = i / num
-      var node = interPt(nodeA, nodeB, t);
-      lst.push(node);
-    }
-  } else {
-    lst.push(nodeA);
-    var start = nodeA;
-
-    for (var i = 0; i < num; i++) {
-      var dir = [(nodeB[0] - start[0]) / (num + 1 - i), (nodeB[1] - start[1]) / (num + 1 - i)];
-      var random1 = Math.seed(i + 1);
-      var random2 = Math.seed(random1());
-      Math.random = Math.seed(random2());
-      var ram = [(Math.random() - 1) * ratio, (Math.random() - 1) * ratio];
-      var node = [start[0] + dir[0] + ram[0], start[1] + dir[1] + ram[1]];
-      lst.push(node);
-      start = node;
-    }
-    lst.push(nodeB);
+  /*  if (dis < threshA || dis > threshB) {
+   */
+  for (var i = 0; i <= num; i++) {
+    var t = i / num
+    var node = interPt(nodeA, nodeB, t);
+    lst.push(node);
   }
+  /*  } else {
+      lst.push(nodeA);
+      var start = nodeA;
+
+      for (var i = 0; i < num; i++) {
+        var dir = [(nodeB[0] - start[0]) / (num + 1 - i), (nodeB[1] - start[1]) / (num + 1 - i)];
+        var random1 = Math.seed(i + 1);
+        var random2 = Math.seed(random1());
+        Math.random = Math.seed(random2());
+        var ram = [(Math.random() - 1) * ratio, (Math.random() - 1) * ratio];
+        var node = [start[0] + dir[0] + ram[0], start[1] + dir[1] + ram[1]];
+        lst.push(node);
+        start = node;
+      }
+      lst.push(nodeB);
+    }
+  */
   return lst;
 }
 
@@ -407,8 +422,8 @@ function ratioDir(data, m, projection) {
 
 
 var mapw = $(window).width() / 2,
-    maph = $(window).height();
-var width = mapw/2.5,
+  maph = $(window).height();
+var width = mapw / 2.5,
   height = width;
 $("#control").css("height", maph);
 $("#tablepath").css("height", maph);
@@ -478,7 +493,7 @@ var sphere = {
 };
 var nodeNum; //total node amount
 var nowNum = 1; //current node to target to
-var oneMove_default = 700;
+var oneMove_default = 400;
 var oneMove = oneMove_default; //the interval for each focus
 var countmove = 1;
 var count = 0; //to measure the interval
@@ -650,7 +665,7 @@ d3.tsv("new_monitor_sim.tsv", function(error, data) {
       moveToggle = false;
       cont = true; //loop not started
       count = oneMove_default - 0.01; //to measure the interval
-      flyto(getNode(places, nowNum),3);
+      flyto(getNode(places, nowNum), 3);
 
 
     })
@@ -686,22 +701,22 @@ d3.tsv("new_monitor_sim.tsv", function(error, data) {
   track_f = svg.append("g") //red circle
     .append("circle")
     .attr("class", "track")
-    .attr("id","fake_track2")
+    .attr("id", "fake_track2")
     .attr("r", 2)
     .attr("fill", "none")
     .attr("stroke", "rgba(206, 18, 18, 0.8)")
     .attr("stroke-width", "3px")
-    .attr("transform", "translate("+mapw/2+","+maph/2+")");
+    .attr("transform", "translate(" + mapw / 2 + "," + maph / 2 + ")");
 
   track_ff = svg.append("g") //red circle
     .append("circle")
     .attr("class", "track")
-    .attr("id","fake_track1")
+    .attr("id", "fake_track1")
     .attr("r", 3)
     .attr("fill", "white")
     .attr("stroke", "white")
     .attr("stroke-width", "3px")
-    .attr("transform", "translate("+mapw/2+","+maph/2+")");
+    .attr("transform", "translate(" + mapw / 2 + "," + maph / 2 + ")");
 
 
   svg0.append('g')
@@ -736,7 +751,7 @@ d3.tsv("new_monitor_sim.tsv", function(error, data) {
       moveToggle = false;
       cont = false; //loop not started
       count = oneMove_default - 0.01; //to measure the interval
-      flyto(getNode(places, nowNum),3);
+      flyto(getNode(places, nowNum), 3);
 
     });
 
@@ -791,15 +806,22 @@ d3.tsv("new_monitor_sim.tsv", function(error, data) {
       var dis = distanceSQ([lat_old, lng_old], [lat, lng]);
 
       if (dis < 100) {
-        countmove = 10;
+        countmove = 5;
       } else {
         countmove = 1;
       }
 
+      var local_scale = 1;
+      if (count / oneMove < 0.01 || count / oneMove > 0.99) {
+        if (dis >= 100) {
+          local_scale = 1/20;
+        } else local_scale = 1;
+      } else
+        local_scale = 1;
 
 
       if (moveToggle) {
-        if (Math.abs(count - oneMove) < countmove) { //one move is finished, start the next one
+        if (Math.abs(count - oneMove) < countmove*local_scale) { //one move is finished, start the next one
           //if next one have notes, stop there,otherwise keep moving
           var keys = Object.keys(places);
           var important = places[keys[nowNum]][3].length + places[keys[nowNum]][4].length + places[keys[nowNum]][5].length;
@@ -830,8 +852,7 @@ d3.tsv("new_monitor_sim.tsv", function(error, data) {
 
 
         } else { //move is not finished
-
-          count += countmove;
+            count += countmove*local_scale;
         }
       }
 
@@ -853,7 +874,6 @@ d3.tsv("new_monitor_sim.tsv", function(error, data) {
         .attr("cx", intertarget[0])
         .attr("cy", intertarget[1]);
 
-      
 
 
       //change the projection based on rotate value
@@ -926,7 +946,7 @@ d3.tsv("new_monitor_sim.tsv", function(error, data) {
         .attr("transform", translateAlong2(CuRoute.node(), (1)));
 
 
-      var mylat,mylng;
+      var mylat, mylng;
       var raw = track.attr("transform")
       raw = raw.split("(")[1];
       raw = raw.split(")")[0];
@@ -934,8 +954,8 @@ d3.tsv("new_monitor_sim.tsv", function(error, data) {
       mylng = raw.split(",")[1];
 
       var p_r = projection.invert(
-        [mylat,mylng]
-        );
+        [mylat, mylng]
+      );
 
 
       point.attr("transform", function(d) { //rotate the nodes
@@ -943,13 +963,14 @@ d3.tsv("new_monitor_sim.tsv", function(error, data) {
       });
 
       var closeRate = Math.abs(0.5 - phasePercentage);
-      
+
       var test = closeRate * 0 + 1; //scale factor
-      if (dis < 800) {
+      if (dis < 100) {
         test = 1;
-        flyZoomed(p_r,phasePercentage);
-      }else{
-        flyalone(p_r,phasePercentage);
+        flyZoomed(p_r, phasePercentage, dis);
+      } else {
+        flyalone(p_r, phasePercentage);
+        //flyZoomed(p_r,phasePercentage,dis);
 
       }
 
@@ -1055,8 +1076,8 @@ var update = function(current) {
       updateContent(nowNum);
       moveToggle = false;
       cont = false; //loop not started
-      count = oneMove_default - 0.1; //to measure the interval
-      flyto(getNode(places, nowNum),3);
+      count = oneMove_default - 0.000001; //to measure the interval
+      flyto(getNode(places, nowNum), 3);
 
     })
 
@@ -1079,22 +1100,22 @@ var update = function(current) {
   track_f = svg.append("g") //red circle
     .append("circle")
     .attr("class", "track")
-    .attr("id","fake_track2")
+    .attr("id", "fake_track2")
     .attr("r", 2)
     .attr("fill", "none")
     .attr("stroke", "rgba(206, 18, 18, 0.8)")
     .attr("stroke-width", "3px")
-    .attr("transform", "translate("+mapw/2+","+maph/2+")");
+    .attr("transform", "translate(" + mapw / 2 + "," + maph / 2 + ")");
 
   track_ff = svg.append("g") //red circle
     .append("circle")
     .attr("class", "track")
-    .attr("id","fake_track1")
+    .attr("id", "fake_track1")
     .attr("r", 3)
     .attr("fill", "white")
     .attr("stroke", "white")
     .attr("stroke-width", "3px")
-    .attr("transform", "translate("+mapw/2+","+maph/2+")");
+    .attr("transform", "translate(" + mapw / 2 + "," + maph / 2 + ")");
 
   $(".timebase").remove();
 
@@ -1115,8 +1136,8 @@ var update = function(current) {
       updateContent(nowNum);
       moveToggle = false;
       cont = false; //loop not started
-      count = oneMove_default - 0.1; //to measure the interval
-      flyto(getNode(places, nowNum),3);
+      count = oneMove_default - 0.0000001; //to measure the interval
+      flyto(getNode(places, nowNum), 3);
 
     });
 
