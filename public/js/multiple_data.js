@@ -1019,15 +1019,16 @@ d3.tsv("new_monitor_sim.tsv", function(error, data) {
       }
 
       var newlst = [[lat_old,lng_old],p_r];
-
       
-      if (lat_old<0 && p_r[0]>0){
+      if (lat_old<0 && p_r[0]>0 && p_r[0]-lat_old<180){
+        
         var newpt = [0, -lat_old/(p_r[0]-lat_old)*(p_r[1]-lng_old)+lng_old            ]
-
-        console.log(lng_old, newpt[1], p_r[1]);
+        console.log(lng_old,newpt[1],p_r[1]);
+        
         newlst = [[lat_old,lng_old],newpt,[p_r[0],p_r[1]]];
         
-      }else if (lat_old>0 && p_r[0]<0){
+      }else if (lat_old<0 && p_r[0]>0 && p_r[0]-lat_old>180){
+        console.log("222");
         newlst = [[lat_old+360,lng_old],[p_r[0],p_r[1]+360]];
         
 
