@@ -1,3 +1,12 @@
+function reptojectMap(lst) {
+  var mylst = []
+  for (k in lst) {
+    mylst.push(map.project(lst[k]));
+  }
+
+  return mylst;
+}
+
 function flyalone(tgt, ratio, dis) {
 
 
@@ -22,7 +31,7 @@ function flyalone(tgt, ratio, dis) {
 
   //var myzoom = Math.pow((Math.abs(ratio - 0.5)), 8) * 128 * 2 * 2 * 2 * 2 + 3; //[4,11]
 
-  if (dis <1000) zoomspan = 3+dis/1000*5;
+  if (dis < 1000) zoomspan = 3 + dis / 1000 * 5;
 
 
 
@@ -30,9 +39,7 @@ function flyalone(tgt, ratio, dis) {
     myzoom = 11 - ratio / 0.01 * zoomspan;
   else if (ratio > 0.99)
     myzoom = 11 - (1 - ratio) / 0.01 * zoomspan;
-  else myzoom = 11-zoomspan;
-
-  console.log(ratio +","+ myzoom);
+  else myzoom = 11 - zoomspan;
 
   //console.log("ratio:"+ratio+" zoom:"+myzoom);
   //console.log(11 - (1-0.9975000000000017 )/0.01*7);
@@ -63,12 +70,12 @@ function flyalone(tgt, ratio, dis) {
 }
 
 function flyZoomed(tgt, ratio, dis) {
+  var zoomspan = null;
+  zoomspan = dis / 100 * 4;
+  if (dis < 50) zoomspan = 2;
 
-
-
-  var myzoom = Math.pow((Math.abs(ratio - 0.5)), 4) * 32 * 2 + 7; //[7,11]
+  var myzoom = Math.pow((Math.abs(ratio - 0.5)), 4) * 32 * 2 * zoomspan / 4 + (11 - zoomspan); //[7,11]
   if (dis < 0.1) myzoom = 11;
-  console.log("myzoom: " + myzoom);
 
   map.jumpTo({
     // These options control the ending camera position: centered at
@@ -459,9 +466,12 @@ var pastRoute;
 var pastRoute_blur;
 var places;
 var route;
-var routeRam;
+var routeRam; //route after randomness
 var timeMark;
 var timeBase;
+
+var route_m; //data
+var route_map; //svg path
 
 
 
@@ -489,6 +499,16 @@ var path = d3.geo.path()
 
 var patho = d3.geo.path()
   .projection(projection);
+
+var lineFunction = d3.svg.line()
+  .x(function(d) {
+    return d.x;
+  })
+  .y(function(d) {
+    return d.y;
+  })
+  .interpolate("linear");
+
 
 var sphere = {
   type: "Sphere"
@@ -522,6 +542,8 @@ var moveToggle = false;
 var cont = false;
 var nowMedia = 0;
 var finishsign = 0;
+
+//addPoly([]);
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -566,6 +588,8 @@ d3.tsv("new_monitor_sim.tsv", function(error, data) {
   route = getNode(route_multi, curPath);
   routeRam = jQuery.extend(true, {}, route); //deep copy
   routeRam.coordinates = ramwhole(routeRam.coordinates, 0);
+  route_m = jQuery.extend(true, {}, routeRam);
+  route_m.coordinates = reptojectMap(route_m.coordinates);
 
   datelst.sort();
   var newdl = []
@@ -630,6 +654,15 @@ d3.tsv("new_monitor_sim.tsv", function(error, data) {
     .attr("class", "route")
     .attr("d", patho)
     .attr("stroke-dasharray", "2,2");
+
+
+  route_map = svg.append("path")
+    .attr("class", "route_map")
+    .attr("d", lineFunction(route_m.coordinates))
+    .attr("stroke-dasharray", "2,2")
+    .attr("stroke", "red")
+    .attr("stroke-width", "2px")
+    .attr("fill", "none");
 
 
   CuRoute = svg.append("path") //current route
@@ -818,16 +851,16 @@ d3.tsv("new_monitor_sim.tsv", function(error, data) {
         if (dis >= 100) {
 
           //local_scale = (0.5-Math.abs(0.5-count / oneMove))*19/20+1/20;
-          local_scale = 1/20;
+          local_scale = 1 / 20;
         } else local_scale = 1;
-      } else{
+      } else {
         if (dis >= 100) local_scale = 2;
         else
-        local_scale = 1;
+          local_scale = 1;
       }
 
       if (moveToggle) {
-        if (Math.abs(count - oneMove) < countmove*local_scale) { //one move is finished, start the next one
+        if (Math.abs(count - oneMove) < countmove * local_scale) { //one move is finished, start the next one
           //if next one have notes, stop there,otherwise keep moving
           var keys = Object.keys(places);
           var important = places[keys[nowNum]][3].length + places[keys[nowNum]][4].length + places[keys[nowNum]][5].length;
@@ -858,7 +891,7 @@ d3.tsv("new_monitor_sim.tsv", function(error, data) {
 
 
         } else { //move is not finished
-            count += countmove*local_scale;
+          count += countmove * local_scale;
         }
       }
 
@@ -943,6 +976,11 @@ d3.tsv("new_monitor_sim.tsv", function(error, data) {
         .attr("d", patho);
 
 
+
+
+
+
+
       //console.log("Current Path:" + curPath + "||Current Node:" + nowNum + "||Total Node:" + nodeNum);
       timeMark
         .attr("transform", "translate(" + xScale(getNode(places, nowNum)[2]) + "," + (maph - margin.top - margin.bottom + 2.5) + ")");
@@ -980,6 +1018,30 @@ d3.tsv("new_monitor_sim.tsv", function(error, data) {
 
       }
 
+      var newlst = [[lat_old,lng_old],p_r];
+
+      
+      if (lat_old<0 && p_r[0]>0){
+        var newpt = [0, -lat_old/(p_r[0]-lat_old)*(p_r[1]-lng_old)+lng_old            ]
+
+        console.log(lng_old, newpt[1], p_r[1]);
+        newlst = [[lat_old,lng_old],newpt,[p_r[0],p_r[1]]];
+        
+      }else if (lat_old>0 && p_r[0]<0){
+        newlst = [[lat_old+360,lng_old],[p_r[0],p_r[1]+360]];
+        
+
+
+      }
+
+/*      route_m.coordinates = reptojectMap(curcoo);
+      route_map
+        .attr("d", lineFunction(route_m.coordinates))
+*/
+
+      route_m.coordinates = reptojectMap(newlst);
+      route_map
+        .attr("d", lineFunction(route_m.coordinates))
 
 
       //move the camera and rescale the canvas
@@ -1038,6 +1100,7 @@ var update = function(current) {
   route = getNode(route_multi, current);
   routeRam = jQuery.extend(true, {}, route); //deep copy
   routeRam.coordinates = ramwhole(routeRam.coordinates, 0);
+
 
   target
     .attr("class", "target")
