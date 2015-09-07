@@ -541,6 +541,8 @@ var timeBase;
 var route_m; //data
 var route_map; //svg path
 var pastRoute_map;
+var route_map_blur; //svg path
+var pastRoute_map_blur;
 
 
 
@@ -707,6 +709,10 @@ d3.tsv("new_monitor_sim.tsv", function(error, data) {
     .attr("id", "blur-effect-1")
     .append("feGaussianBlur")
     .attr("stdDeviation", 2);
+  svg.append("filter")
+    .attr("id", "blur-effect-2")
+    .append("feGaussianBlur")
+    .attr("stdDeviation", 3);
 
 
 
@@ -728,8 +734,14 @@ d3.tsv("new_monitor_sim.tsv", function(error, data) {
   route_map = svg.append("path")
     .attr("class", "route_map")
     .attr("d", lineFunction(route_m.coordinates))
-    .attr("stroke", "red")
-    .attr("stroke-width", "2px")
+    .attr("stroke", "white")
+    .attr("stroke-width", "3px")
+    .attr("fill", "none");
+  route_map_blur = svg.append("path")
+    .attr("class", "route_map_blur")
+    .attr("d", lineFunction(route_m.coordinates))
+    .attr("stroke", "white")
+    .attr("stroke-width", "3px")
     .attr("fill", "none");
 
 
@@ -745,9 +757,15 @@ d3.tsv("new_monitor_sim.tsv", function(error, data) {
     .attr("class", "pastroute_blur")
   pastRoute_map = svg.append("path") //current route
     .attr("class", "pastroute_map")
-    .attr("stroke", "red")
-    .attr("stroke-width", "2px")
+    .attr("stroke", "white")
+    .attr("stroke-width", "3px")
     .attr("fill", "none");
+  pastRoute_map_blur = svg.append("path") //current route
+    .attr("class", "pastRoute_map_blur")
+    .attr("stroke", "white")
+    .attr("stroke-width", "3px")
+    .attr("fill", "none");
+
 
   point = svg.append("g")
     .attr("class", "points")
@@ -1008,6 +1026,8 @@ d3.tsv("new_monitor_sim.tsv", function(error, data) {
 
       if (nowNum != 1)
         pastData.coordinates = pastcoo;
+      else
+        pastData.coordinates = [];
 
       pastRoute //create current route
         .datum(pastData)
@@ -1110,20 +1130,20 @@ d3.tsv("new_monitor_sim.tsv", function(error, data) {
 
       }
 
-      /*      route_m.coordinates = reptojectMap(curcoo);
-            route_map
-              .attr("d", lineFunction(route_m.coordinates))
-      */
-
       route_m.coordinates = reptojectMap(newlst);
       route_map
-        .attr("d", lineFunction(route_m.coordinates))
+        .attr("d", lineFunction(route_m.coordinates));
+      route_map_blur
+        .attr("d", lineFunction(route_m.coordinates));
 
-      if (nowNum != 1)
+
+      if (nowNum != 1){
         pastRoute_map //create current route
         .attr("d", lineFunction(reptojectMap(fixloop(pastData.coordinates))));
+        pastRoute_map_blur //create current route
+        .attr("d", lineFunction(reptojectMap(fixloop(pastData.coordinates))));
 
-
+      }
 
       //move the camera and rescale the canvas
       var ptnow = [-width / 2 * (test - 1), -height / 2 * (test - 1)];

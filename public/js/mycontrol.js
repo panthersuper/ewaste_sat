@@ -418,6 +418,7 @@ var inithome = function(time) {
 
   $("#tablepath").fadeOut(time);
   $("#draw").fadeOut(time);
+  
   $("#map").fadeOut(time);
   $("#control").fadeOut(time);
   $("#pre").fadeOut(time);

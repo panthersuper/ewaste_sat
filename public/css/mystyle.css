@@ -210,6 +210,15 @@ rect { fill: transparent; }
   filter:url(#blur-effect-1);
 }
 
+.route_map_blur {
+filter:url(#blur-effect-2);
+}
+
+.pastRoute_map_blur {
+filter:url(#blur-effect-2);
+
+}
+
 .curroute{
   fill: none;
   stroke: #fff4bd;
