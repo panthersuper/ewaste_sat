@@ -950,7 +950,7 @@ d3.tsv("new_monitor_sim.tsv", function(error, data) {
 
           //local_scale = (0.5-Math.abs(0.5-count / oneMove))*19/20+1/20;
           local_scale = 1 / 20;
-        } else local_scale = 1;
+        } else local_scale = 1/5;
       } else {
         if (dis >= 100) local_scale = 2;
         else
@@ -1291,9 +1291,10 @@ var update = function(current) {
     .attr("stroke-width", "3px")
     .attr("transform", "translate(" + mapw / 2 + "," + maph / 2 + ")");
 
-  $(".timebase").remove();
+  $(".timeid").remove();
 
-  timeBase = svg0.append("g").attr("class", "timebase") //time mark
+
+  timeBase = svg0.select(".timebase") //time mark
     .selectAll("g")
     .data(d3.entries(places))
     .enter().append("g")
