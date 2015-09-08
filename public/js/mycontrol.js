@@ -5,13 +5,22 @@ var allPage = 4;
 
 var initContent = function() {
 
+  d3.select("#number")
+    .append("p")
+    .text("01");
+
+
   d3.select("#story")
     .append("p")
-    .text(getNode(places, 0)[4])
+    .text(getNode(places, 0)[4]);
 
   d3.select("#title")
     .append("p")
-    .text(getNode(places, 0)[3])
+    .text(getNode(places, 0)[3].toUpperCase());
+
+  d3.select("#Coordnum")
+    .append("p")
+    .text(getNode(places, 0)[0] + " | " + getNode(places, 0)[1]);
 
   revGeocoding(getNode(places, 0)[1], getNode(places, 0)[0], "location");
 
@@ -69,16 +78,42 @@ var initContent = function() {
 
 
 var updateContent = function(num) {
-console.log(num);
+  console.log(num);
 
 
-  if(num!=0 && cont === true){
-          console.log("zoomout");
-      //fly(getNode(places, nowNum));
-      flyto(getNode(places, nowNum),3);
-
-      cont === true;
+  if (num != 0 && cont === true) {
+    console.log("zoomout");
+    //fly(getNode(places, nowNum));
+    //flyto(getNode(places, nowNum),3);
+    cont === true;
   }
+
+  $("#Coord p").fadeOut(500, function() {
+    $(this).remove()
+    d3.select("#Coord")
+      .append("p")
+      .text("Coord");
+    $("#Coord p").fadeOut(0).fadeIn(500);
+  });
+
+  $("#Coordnum p").fadeOut(500, function() {
+    $(this).remove()
+    d3.select("#Coordnum")
+      .append("p")
+      .text(getNode(places, num)[0] + " | " + getNode(places, num)[1]);
+    $("#Coordnum p").fadeOut(0).fadeIn(500);
+  });
+
+  $("#number p").fadeOut(500, function() {
+    var strnum = nowNum;
+    if (strnum.toString().length === 1) strnum = "0" + strnum.toString();
+
+    $(this).remove()
+    d3.select("#number")
+      .append("p")
+      .text(strnum);
+    $("#number p").fadeOut(0).fadeIn(500);
+  });
 
   $("#story p").fadeOut(500, function() {
     $(this).remove()
@@ -87,6 +122,7 @@ console.log(num);
       .text(getNode(places, num)[4]);
     $("#story p").fadeOut(0).fadeIn(500);
   });
+
   $("#title p").fadeOut(500, function() {
     $(this).remove()
     d3.select("#title")
@@ -179,7 +215,7 @@ var main = function() {
       update(curPath);
       moveToggle = false;
       cont = false; //loop not started
-      flyto(getNode(places, nowNum),0.8);
+      //flyto(getNode(places, nowNum),0.8);
     }
   );
 
@@ -246,8 +282,6 @@ var main = function() {
 
 
 
-
-
       if (moveToggle) {
         count = 0;
         nowNum = nowNum + 1; //next node to target
@@ -269,14 +303,14 @@ var main = function() {
         //cont = false;
         updateContent(0);
 
-      console.log("zoomout");
-      flyto(getNode(places, nowNum),3);
+        console.log("zoomout");
+        //flyto(getNode(places, nowNum),3);
 
 
 
-      } else{
+      } else {
 
-      console.log("zoomout");
+        console.log("zoomout");
 
 
         moveToggle = true;
@@ -284,8 +318,6 @@ var main = function() {
       }
 
       //animations when next button is clicked
-
-
 
 
 
@@ -434,28 +466,31 @@ var inithome = function(time) {
 
 var changePage = function(page) {
 
-    if (page === 0) {
-      inithome(500);
-      $("#map").fadeOut(0);
-    } else if (page === 1) {
-      $("html, body").animate({ scrollTop: 0 }, "fast");
+  if (page === 0) {
+    inithome(500);
+    $("#map").fadeOut(0);
+  } else if (page === 1) {
+    $("html, body").animate({
+      scrollTop: 0
+    }, "fast");
 
-      flyto(getNode(places, nowNum),3);
+    // flyto(getNode(places, nowNum),3);
 
-      $("#tablepath").fadeIn(500);
-      $("#draw").fadeIn(500);
-      $("#map").fadeIn(500);
-      $("#control").fadeIn(500);
-      $("#pre").fadeIn(500);
+    $("#tablepath").fadeIn(500);
+    $("#draw").fadeIn(500);
+    $("#map").fadeIn(500);
+    $("#control").fadeIn(500);
+    $("#pre").fadeIn(500);
 
-      $("#abouttb").fadeOut(500);
+    $("#abouttb").fadeOut(500);
 
-      $("#teamtb").fadeOut(500);
+    $("#teamtb").fadeOut(500);
 
-      $("#hometb").fadeOut(500);
+    $("#hometb").fadeOut(500);
 
 
-    } /*else if (page === 2) {
+  }
+  /*else if (page === 2) {
       $("#tablepath").fadeOut(500);
       $("#draw").fadeOut(500);
       $("#control").fadeOut(500);
@@ -485,4 +520,4 @@ var changePage = function(page) {
 
       }
 */
-    }
+}

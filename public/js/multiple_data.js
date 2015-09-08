@@ -20,13 +20,9 @@ function fixloop(lst) {
   else if (left_right === true) {
 
     for (var i = 0; i < lst.length - 1; i++) {
-      //console.log(lst[i], lst[i+1]);
       if (lst[i][0] < 0 && lst[i + 1][0] > 0 && lst[i + 1][0] - lst[i][0] < 180) {
         var newpt = [0, -lst[i][0] / (lst[i + 1][0] - lst[i][0]) * (lst[i + 1][1] - lst[i][1]) + lst[i][1]];
         //var newpt = [360, 1];
-
-        console.log((lst[i][0] + 0), newpt[0], (lst[i + 1][0] + 0));
-
         mynew.push([(lst[i][0] + 0), lst[i][1]]);
         mynew.push(newpt);
 
@@ -42,7 +38,6 @@ function fixloop(lst) {
     return mynew;
   } else {
     for (var i = 0; i < lst.length - 1; i++) {
-      //console.log(lst[i], lst[i+1]);
       mynew.push([(lst[i][0] + 360) % 360, lst[i][1]]);
 
     }
@@ -101,11 +96,6 @@ function flyalone(tgt, ratio, dis) {
   else if (ratio > 0.99)
     myzoom = 11 - (1 - ratio) / 0.01 * zoomspan;
   else myzoom = 11 - zoomspan;
-
-  //console.log("ratio:"+ratio+" zoom:"+myzoom);
-  //console.log(11 - (1-0.9975000000000017 )/0.01*7);
-
-  //var myzoom = -Math.sin(ratio*3.1415)*7 + 11||11;
 
   map.jumpTo({
     // These options control the ending camera position: centered at
@@ -409,6 +399,7 @@ var revGeocoding = function(lat, lng, id) {
     if (city === null) returnvalue = state + ", " + country;
     if (state === null) returnvalue = country;
 
+    returnvalue = returnvalue.toUpperCase();
     d3.select("#" + id).append("text") //show text on each point
       .attr("y", -10)
       .attr("x", 10)
@@ -580,8 +571,7 @@ var topbar = svgpage.append("rect")
 
 var toptitle = topbar.append("div")
   .attr("fill", "rgb(100,100,100)")
-  .text("MONITOUR")
-  ;
+  .text("MONITOUR");
 
 
 
@@ -902,12 +892,12 @@ d3.tsv("new_monitor_sim.tsv", function(error, data) {
     .attr("height", 10)
     .attr("fill", "rgb(100,100,100)")
     .on("mouseover", function() {
-      console.log("oer");
+
     });
 
   d3.select(".xaxis path").remove();
 
-  
+
   d3.select(".xaxis").append("rect")
     .attr("x", mapw * 0.3)
     .attr("y", 5)
@@ -987,19 +977,27 @@ d3.tsv("new_monitor_sim.tsv", function(error, data) {
 
           //local_scale = (0.5-Math.abs(0.5-count / oneMove))*19/20+1/20;
           local_scale = 1 / 20;
-        } else if (dis>0.1) local_scale = 1 / 3;
+        } else if (dis > 0.1) local_scale = 1 / 3;
         else local_scale = 10;
       } else {
         if (dis >= 100) local_scale = 2;
-        else if (dis>0.1)
-          local_scale = 1/2;
-        else 
+        else if (dis > 0.1)
+          local_scale = 1 / 2;
+        else
           local_scale = 10;
       }
 
       if (moveToggle) {
         if (Math.abs(count - oneMove) < countmove * local_scale) { //one move is finished, start the next one
           //if next one have notes, stop there,otherwise keep moving
+
+          if (finishsign === 0) {
+
+            updateContent(nowNum);
+            cont = false;
+            finishsign = 1;
+          }
+
           var keys = Object.keys(places);
           var important = places[keys[nowNum]][3].length + places[keys[nowNum]][4].length + places[keys[nowNum]][5].length;
           if (important > 0) important = true;
@@ -1011,14 +1009,7 @@ d3.tsv("new_monitor_sim.tsv", function(error, data) {
               nowNum = nowNum + 1; //next node to target
               nowNum = nowNum % nodeNum; //cycle the loop
               moveToggle = true;
-            } else if (finishsign === 0) {
-
-              updateContent(nowNum);
-              cont = false;
-              finishsign = 1;
-
-
-            }
+            } else{}
 
 
           } else if (cont) {
@@ -1030,6 +1021,7 @@ d3.tsv("new_monitor_sim.tsv", function(error, data) {
 
         } else { //move is not finished
           count += countmove * local_scale;
+          finishsign = 0;
         }
       }
 
@@ -1114,10 +1106,9 @@ d3.tsv("new_monitor_sim.tsv", function(error, data) {
 
 
 
-      //console.log("Current Path:" + curPath + "||Current Node:" + nowNum + "||Total Node:" + nodeNum);
+      console.log("Current Path:" + curPath + "||Current Node:" + nowNum + "||Total Node:" + nodeNum);
       timeMark
         .attr("transform", "translate(" + xScale(getNode(places, nowNum)[2]) + "," + (maph - margin.top - margin.bottom + 2.5) + ")");
-      //console.log(phasePercentage);
 
       track
         .attr("transform", translateAlong2(CuRoute.node(), (1)));
