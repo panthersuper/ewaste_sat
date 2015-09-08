@@ -25,7 +25,6 @@ function fixloop(lst) {
         var newpt = [0, -lst[i][0] / (lst[i + 1][0] - lst[i][0]) * (lst[i + 1][1] - lst[i][1]) + lst[i][1]];
         //var newpt = [360, 1];
 
-
         console.log((lst[i][0]+0),newpt[0],(lst[i+1][0]+0));
 
         mynew.push([(lst[i][0]+0), lst[i][1]]);
@@ -497,16 +496,17 @@ function ratioDir(data, m, projection) {
 };*/
 
 
-var mapw = $(window).width() / 2,
-  maph = $(window).height();
-var width = mapw / 2.5,
+var mapw = $(window).width()-35,
+  maph = $(window).height()-35;
+var width = mapw / 6,
   height = width;
-$("#control").css("height", maph);
+$("#control").css("height", maph-200);
 $("#tablepath").css("height", maph);
 $("#abouttb").css("top", maph + 100);
 $("#teamtb").css("top", maph + 100 + $("#abouttb").height());
 $("#map").css("width", mapw);
 $("#map").css("height", maph);
+$("#map").css("top", "0px");
 //$("#map").fadeOut(0);
 
 var margin = {
@@ -549,6 +549,7 @@ var pastRoute_map_blur;
 var canvas = d3.select("#draw").append("canvas").attr("class", "mycanvas")
   .attr("width", width)
   .attr("height", height);
+$(".mycanvas").css("transform", "translate(150px,"+(maph-height-50)+"px)");
 
 var context = canvas.node().getContext("2d");
 /*
@@ -562,7 +563,9 @@ d3.select("#draw").append("div").attr("id", "map")
 var svg0 = d3.select("#draw").append("svg").attr("class", "mysvg")
   .attr("width", mapw)
   .attr("height", maph);
-var svg = svg0.append("g");
+var svg = svg0.append("g").attr("class","globe");
+$(".globe").css("transform", "translate(150px,"+(maph-height-50)+"px)");
+
 
 var path = d3.geo.path()
   .projection(projection)
@@ -673,7 +676,7 @@ d3.tsv("new_monitor_sim.tsv", function(error, data) {
 
   xScale = d3.time.scale()
     .domain([minDate, maxDate])
-    .range([margin.left, mapw - margin.right * 3]);
+    .range([mapw*0.3,mapw*0.9]);
 
 
   var xAxis = d3.svg.axis()
@@ -708,11 +711,11 @@ d3.tsv("new_monitor_sim.tsv", function(error, data) {
   svg.append("filter")
     .attr("id", "blur-effect-1")
     .append("feGaussianBlur")
-    .attr("stdDeviation", 2);
+    .attr("stdDeviation", 1);
   svg.append("filter")
     .attr("id", "blur-effect-2")
     .append("feGaussianBlur")
-    .attr("stdDeviation", 3);
+    .attr("stdDeviation", 1.5);
 
 
 
@@ -724,6 +727,7 @@ d3.tsv("new_monitor_sim.tsv", function(error, data) {
     .attr("r", 10)
     .style("display", "none");
 
+
   myroute = svg.append("path")
     .datum(routeRam)
     .attr("class", "route")
@@ -731,13 +735,13 @@ d3.tsv("new_monitor_sim.tsv", function(error, data) {
     .attr("stroke-dasharray", "2,2");
 
 
-  route_map = svg.append("path")
+  route_map = svg0.append("path")
     .attr("class", "route_map")
     .attr("d", lineFunction(route_m.coordinates))
     .attr("stroke", "white")
     .attr("stroke-width", "3px")
     .attr("fill", "none");
-  route_map_blur = svg.append("path")
+  route_map_blur = svg0.append("path")
     .attr("class", "route_map_blur")
     .attr("d", lineFunction(route_m.coordinates))
     .attr("stroke", "white")
@@ -755,12 +759,12 @@ d3.tsv("new_monitor_sim.tsv", function(error, data) {
     .attr("class", "pastroute")
   pastRoute_blur = svg.append("path") //current route
     .attr("class", "pastroute_blur")
-  pastRoute_map = svg.append("path") //current route
+  pastRoute_map = svg0.append("path") //current route
     .attr("class", "pastroute_map")
     .attr("stroke", "white")
     .attr("stroke-width", "3px")
     .attr("fill", "none");
-  pastRoute_map_blur = svg.append("path") //current route
+  pastRoute_map_blur = svg0.append("path") //current route
     .attr("class", "pastRoute_map_blur")
     .attr("stroke", "white")
     .attr("stroke-width", "3px")
@@ -820,21 +824,21 @@ d3.tsv("new_monitor_sim.tsv", function(error, data) {
     .attr("class", "track")
     .attr("r", 5)
     .attr("fill", "none")
-    .attr("stroke", "rgba(206, 18, 18, 0.8)")
+    .attr("stroke", "#39a4e8")
     .attr("stroke-width", "3px")
     .attr("transform", "translate(100,100)");
 
-  track_f = svg.append("g") //red circle
+  track_f = svg0.append("g") //red circle
     .append("circle")
     .attr("class", "track")
     .attr("id", "fake_track2")
     .attr("r", 2)
     .attr("fill", "none")
-    .attr("stroke", "rgba(206, 18, 18, 0.8)")
+    .attr("stroke", "#39a4e8")
     .attr("stroke-width", "3px")
     .attr("transform", "translate(" + mapw / 2 + "," + maph / 2 + ")");
 
-  track_ff = svg.append("g") //red circle
+  track_ff = svg0.append("g") //red circle
     .append("circle")
     .attr("class", "track")
     .attr("id", "fake_track1")
@@ -850,14 +854,6 @@ d3.tsv("new_monitor_sim.tsv", function(error, data) {
     .attr('transform', 'translate(' + margin.left + ', ' + (maph - margin.top - margin.bottom) + ')')
     .call(xAxis);
 
-  timeMark = svg0.append("g") //time mark
-    .append("circle")
-    .attr("class", "timemark")
-    .attr("r", 3)
-    .attr("fill", "none")
-    .attr("stroke", "rgba(206, 18, 18, 0.8)")
-    .attr("stroke-width", "3px")
-    .attr("transform", "translate(100," + (maph - margin.top - margin.bottom) + ")");
 
   timeBase = svg0.append("g").attr("class", "timebase") //time mark
     .selectAll("g")
@@ -881,11 +877,22 @@ d3.tsv("new_monitor_sim.tsv", function(error, data) {
 
     });
 
-  timeBase.append("circle")
-    .attr("r", 2)
-    .attr("fill", "rgba(18, 18, 206, 0.8)")
-    .attr("stroke", "none")
-    .attr("stroke-width", "1px")
+  timeBase.append("rect")
+    .attr("class", "timebaserect")
+    .attr("y",-2.5)
+    .attr("x", -0.75)
+    .attr("width", 1.5)
+    .attr("height",5)
+    .attr("fill", "#565656")
+    .on("mouseover", function(){
+      console.log("oer");
+    });
+
+
+  timeMark = svg0.append("g") //time mark
+    .append("rect")
+    .attr("class", "timemark")
+    .attr("transform", "translate(100," + (maph - margin.top - margin.bottom) + ")");
 
   initContent();
 
@@ -1010,10 +1017,7 @@ d3.tsv("new_monitor_sim.tsv", function(error, data) {
       //projection.rotate([speed * (Date.now() - start), -15]).clipAngle(90);
       projection.rotate([-target.attr("cx"), -target.attr("cy")]).clipAngle(90);
 
-
       patho = d3.geo.path().projection(projection); //rotate the path
-
-
 
       pastData = { //create current route data
         type: "LineString",
@@ -1263,21 +1267,21 @@ var update = function(current) {
     .attr("class", "track")
     .attr("r", 2)
     .attr("fill", "none")
-    .attr("stroke", "rgba(206, 18, 18, 0.8)")
+    .attr("stroke", "#39a4e8")
     .attr("stroke-width", "3px")
     .attr("transform", "translate(100,100)");
 
-  track_f = svg.append("g") //red circle
+  track_f = svg0.append("g") //red circle
     .append("circle")
     .attr("class", "track")
     .attr("id", "fake_track2")
     .attr("r", 2)
     .attr("fill", "none")
-    .attr("stroke", "rgba(206, 18, 18, 0.8)")
+    .attr("stroke", "#39a4e8")
     .attr("stroke-width", "3px")
     .attr("transform", "translate(" + mapw / 2 + "," + maph / 2 + ")");
 
-  track_ff = svg.append("g") //red circle
+  track_ff = svg0.append("g") //red circle
     .append("circle")
     .attr("class", "track")
     .attr("id", "fake_track1")
@@ -1311,11 +1315,16 @@ var update = function(current) {
 
     });
 
-  timeBase.append("circle")
-    .attr("r", 2)
-    .attr("fill", "rgba(18, 18, 206, 0.8)")
-    .attr("stroke", "none")
-    .attr("stroke-width", "1px")
+  timeBase.append("rect")
+    .attr("class", "timebaserect")
+    .attr("y",-2.5)
+    .attr("x", -0.75)
+    .attr("width", 1.5)
+    .attr("height",5)
+    .attr("fill", "#565656")
+    .on("mouseover", function(){
+      console.log("oer");
+    });
 
 
   /*  point.append("text") //show text on each point

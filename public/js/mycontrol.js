@@ -418,7 +418,7 @@ var inithome = function(time) {
 
   $("#tablepath").fadeOut(time);
   $("#draw").fadeOut(time);
-  
+
   $("#map").fadeOut(time);
   $("#control").fadeOut(time);
   $("#pre").fadeOut(time);
@@ -448,9 +448,9 @@ var changePage = function(page) {
       $("#control").fadeIn(500);
       $("#pre").fadeIn(500);
 
-      $("#abouttb").fadeIn(500);
+      $("#abouttb").fadeOut(500);
 
-      $("#teamtb").fadeIn(500);
+      $("#teamtb").fadeOut(500);
 
       $("#hometb").fadeOut(500);
 
