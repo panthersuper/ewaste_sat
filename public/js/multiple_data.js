@@ -491,8 +491,8 @@ function ratioDir(data, m, projection) {
 };*/
 
 
-var mapw = $(window).width() - 35,
-  maph = $(window).height() - 35;
+var mapw = $(window).width() - 15,
+  maph = $(window).height() - 15;
 var width = mapw / 6,
   height = width;
 $("#control").css("height", maph - 300);
@@ -577,6 +577,12 @@ var topbar = svgpage.append("rect")
   .attr("width", mapw)
   .attr("height", 60)
   .attr("fill", "rgb(20,20,20)");
+
+var toptitle = topbar.append("div")
+  .attr("fill", "rgb(100,100,100)")
+  .text("MONITOUR")
+  ;
+
 
 
 var path = d3.geo.path()
@@ -688,7 +694,7 @@ d3.tsv("new_monitor_sim.tsv", function(error, data) {
 
   xScale = d3.time.scale()
     .domain([minDate, maxDate])
-    .range([mapw * 0.3, mapw * 0.9]);
+    .range([mapw * 0.35, mapw * 0.9]);
 
 
   var xAxis = d3.svg.axis()
@@ -697,7 +703,7 @@ d3.tsv("new_monitor_sim.tsv", function(error, data) {
     .ticks(d3.time.month, 1)
     .tickFormat(d3.time.format('%b %Y'))
     .tickSize(5)
-    .tickPadding(5);
+    .tickPadding(50);
 
   var pathNum = Object.size(places_multi); //how many path is in the data list
   //add check box for paths
@@ -890,30 +896,40 @@ d3.tsv("new_monitor_sim.tsv", function(error, data) {
 
   timeBase.append("rect")
     .attr("class", "timebaserect")
-    .attr("y", -2.5)
+    .attr("y", 17)
     .attr("x", -0.75)
     .attr("width", 1.5)
-    .attr("height", 5)
-    .attr("fill", "#565656")
+    .attr("height", 10)
+    .attr("fill", "rgb(100,100,100)")
     .on("mouseover", function() {
       console.log("oer");
     });
 
   d3.select(".xaxis path").remove();
 
-/*  d3.select(".xaxis").append("line")
-    .attr("x1", myx)
-    .attr("y1", 5)
-    .attr("x2", 50)
-    .attr("y2", 50)
-    .attr("stroke-width", 2)
-    .attr("stroke", "black");
-*/
+  
+  d3.select(".xaxis").append("rect")
+    .attr("x", mapw * 0.3)
+    .attr("y", 5)
+    .attr("width", mapw * 0.65)
+    .attr("height", 40)
+    .attr("stroke", "none")
+    .attr("fill", "rgb(50,50,50)");
+
+
+  d3.select(".xaxis").append("line")
+    .attr("x1", mapw * 0.3)
+    .attr("y1", 25)
+    .attr("x2", mapw * 0.95)
+    .attr("y2", 25)
+    .attr("stroke-width", 1)
+    .attr("stroke", "rgb(20,20,20)");
+
 
   timeMark = svg0.append("g") //time mark
     .append("rect")
     .attr("class", "timemark")
-    .attr("transform", "translate(100," + (maph - margin.top - margin.bottom) + ")");
+    .attr("transform", "translate(100," + (maph - margin.bottom) + ")");
 
   initContent();
 
@@ -971,11 +987,14 @@ d3.tsv("new_monitor_sim.tsv", function(error, data) {
 
           //local_scale = (0.5-Math.abs(0.5-count / oneMove))*19/20+1/20;
           local_scale = 1 / 20;
-        } else local_scale = 1 / 5;
+        } else if (dis>0.1) local_scale = 1 / 3;
+        else local_scale = 10;
       } else {
         if (dis >= 100) local_scale = 2;
-        else
-          local_scale = 1;
+        else if (dis>0.1)
+          local_scale = 1/2;
+        else 
+          local_scale = 10;
       }
 
       if (moveToggle) {
@@ -1187,7 +1206,7 @@ d3.tsv("new_monitor_sim.tsv", function(error, data) {
       context.lineWidth = 1;
       context.strokeStyle = "#999";
       context.stroke();
-      context.fillStyle = "rgba(150,150,200,0.4)";
+      context.fillStyle = "rgba(100,100,100,0.9)";
       context.fill();
 
       projection.clipAngle(180); //clip the grid and land, 180 means no clipping
@@ -1339,10 +1358,10 @@ var update = function(current) {
 
   timeBase.append("rect")
     .attr("class", "timebaserect")
-    .attr("y", -2.5)
+    .attr("y", 17)
     .attr("x", -0.75)
     .attr("width", 1.5)
-    .attr("height", 5)
+    .attr("height", 10)
     .attr("fill", "#565656")
     .on("mouseover", function() {
       console.log("oer");
