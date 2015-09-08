@@ -15,9 +15,9 @@ function fixloop(lst) {
     } else left_right = -1;
   }
 
-  
+
   if (left_right === -1) return lst;
-  else if(left_right === true){
+  else if (left_right === true) {
 
     for (var i = 0; i < lst.length - 1; i++) {
       //console.log(lst[i], lst[i+1]);
@@ -25,37 +25,32 @@ function fixloop(lst) {
         var newpt = [0, -lst[i][0] / (lst[i + 1][0] - lst[i][0]) * (lst[i + 1][1] - lst[i][1]) + lst[i][1]];
         //var newpt = [360, 1];
 
-        console.log((lst[i][0]+0),newpt[0],(lst[i+1][0]+0));
+        console.log((lst[i][0] + 0), newpt[0], (lst[i + 1][0] + 0));
 
-        mynew.push([(lst[i][0]+0), lst[i][1]]);
+        mynew.push([(lst[i][0] + 0), lst[i][1]]);
         mynew.push(newpt);
 
-      } else{
+      } else {
 
-        mynew.push([(lst[i][0]+0), lst[i][1]]);
-      } 
+        mynew.push([(lst[i][0] + 0), lst[i][1]]);
+      }
     }
 
     var last = lst[lst.length - 1]
-    mynew.push([(lst[i][0]),last[1]]);
+    mynew.push([(lst[i][0]), last[1]]);
 
     return mynew;
-  }
-  else{
+  } else {
     for (var i = 0; i < lst.length - 1; i++) {
       //console.log(lst[i], lst[i+1]);
-        mynew.push([(lst[i][0]+360)%360, lst[i][1]]);
-      
+      mynew.push([(lst[i][0] + 360) % 360, lst[i][1]]);
+
     }
 
     var last = lst[lst.length - 1]
-    mynew.push([(lst[i][0]+360)%360,last[1]]);
+    mynew.push([(lst[i][0] + 360) % 360, last[1]]);
 
     return mynew;
-
-
-
-
 
 
 
@@ -496,12 +491,12 @@ function ratioDir(data, m, projection) {
 };*/
 
 
-var mapw = $(window).width()-35,
-  maph = $(window).height()-35;
+var mapw = $(window).width() - 35,
+  maph = $(window).height() - 35;
 var width = mapw / 6,
   height = width;
-$("#control").css("height", maph-200);
-$("#tablepath").css("height", maph);
+$("#control").css("height", maph - 300);
+$("#tablepath").css("height", maph-300);
 $("#abouttb").css("top", maph + 100);
 $("#teamtb").css("top", maph + 100 + $("#abouttb").height());
 $("#map").css("width", mapw);
@@ -545,11 +540,14 @@ var route_map_blur; //svg path
 var pastRoute_map_blur;
 
 
+var svgpage = d3.select("#draw").append("svg").attr("class", "svgpage")
+  .attr("width", mapw)
+  .attr("height", maph);
 
 var canvas = d3.select("#draw").append("canvas").attr("class", "mycanvas")
   .attr("width", width)
   .attr("height", height);
-$(".mycanvas").css("transform", "translate(150px,"+(maph-height-50)+"px)");
+$(".mycanvas").css("transform", "translate(150px," + (maph - height - 50) + "px)");
 
 var context = canvas.node().getContext("2d");
 /*
@@ -563,8 +561,22 @@ d3.select("#draw").append("div").attr("id", "map")
 var svg0 = d3.select("#draw").append("svg").attr("class", "mysvg")
   .attr("width", mapw)
   .attr("height", maph);
-var svg = svg0.append("g").attr("class","globe");
-$(".globe").css("transform", "translate(150px,"+(maph-height-50)+"px)");
+var svg = svg0.append("g").attr("class", "globe");
+$(".globe").css("transform", "translate(150px," + (maph - height - 50) + "px)");
+
+var underbar = svgpage.append("rect")
+  .attr("x", 0)
+  .attr("y", maph-100)
+  .attr("width", mapw)
+  .attr("height", 100)
+  .attr("fill", "rgb(20,20,20)");
+
+var topbar = svgpage.append("rect")
+  .attr("x", 0)
+  .attr("y", 0)
+  .attr("width", mapw)
+  .attr("height", 60)
+  .attr("fill", "rgb(20,20,20)");
 
 
 var path = d3.geo.path()
@@ -676,7 +688,7 @@ d3.tsv("new_monitor_sim.tsv", function(error, data) {
 
   xScale = d3.time.scale()
     .domain([minDate, maxDate])
-    .range([mapw*0.3,mapw*0.9]);
+    .range([mapw * 0.3, mapw * 0.9]);
 
 
   var xAxis = d3.svg.axis()
@@ -701,7 +713,7 @@ d3.tsv("new_monitor_sim.tsv", function(error, data) {
     id++;
   }
 
-  var localnum = $(window).height() / (id + 1) * 0.8;
+  var localnum = ($(window).height()-300) / (id) * 0.8;
   $("#tablepath div").css("height", localnum + "px");
 
   $(document).ready(main); //run jquery after csv loaded so path button initialized
@@ -879,12 +891,12 @@ d3.tsv("new_monitor_sim.tsv", function(error, data) {
 
   timeBase.append("rect")
     .attr("class", "timebaserect")
-    .attr("y",-2.5)
+    .attr("y", -2.5)
     .attr("x", -0.75)
     .attr("width", 1.5)
-    .attr("height",5)
+    .attr("height", 5)
     .attr("fill", "#565656")
-    .on("mouseover", function(){
+    .on("mouseover", function() {
       console.log("oer");
     });
 
@@ -950,7 +962,7 @@ d3.tsv("new_monitor_sim.tsv", function(error, data) {
 
           //local_scale = (0.5-Math.abs(0.5-count / oneMove))*19/20+1/20;
           local_scale = 1 / 20;
-        } else local_scale = 1/5;
+        } else local_scale = 1 / 5;
       } else {
         if (dis >= 100) local_scale = 2;
         else
@@ -1141,11 +1153,11 @@ d3.tsv("new_monitor_sim.tsv", function(error, data) {
         .attr("d", lineFunction(route_m.coordinates));
 
 
-      if (nowNum != 1){
+      if (nowNum != 1) {
         pastRoute_map //create current route
-        .attr("d", lineFunction(reptojectMap(fixloop(pastData.coordinates))));
+          .attr("d", lineFunction(reptojectMap(fixloop(pastData.coordinates))));
         pastRoute_map_blur //create current route
-        .attr("d", lineFunction(reptojectMap(fixloop(pastData.coordinates))));
+          .attr("d", lineFunction(reptojectMap(fixloop(pastData.coordinates))));
 
       }
 
@@ -1318,12 +1330,12 @@ var update = function(current) {
 
   timeBase.append("rect")
     .attr("class", "timebaserect")
-    .attr("y",-2.5)
+    .attr("y", -2.5)
     .attr("x", -0.75)
     .attr("width", 1.5)
-    .attr("height",5)
+    .attr("height", 5)
     .attr("fill", "#565656")
-    .on("mouseover", function(){
+    .on("mouseover", function() {
       console.log("oer");
     });
 
