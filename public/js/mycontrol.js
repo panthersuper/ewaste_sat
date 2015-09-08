@@ -20,7 +20,10 @@ var initContent = function() {
 
   d3.select("#Coordnum")
     .append("p")
-    .text(getNode(places, 0)[0] + " | " + getNode(places, 0)[1]);
+    .text(getNode(places, 0)[0] + "  |  " + getNode(places, 0)[1]);
+  d3.select("#nowpath_title")
+    .append("p")
+    .text(getKey(places_multi, 0).toUpperCase());
 
   revGeocoding(getNode(places, 0)[1], getNode(places, 0)[0], "location");
 
@@ -59,7 +62,6 @@ var initContent = function() {
       .attr("webkitallowfullscreen", "")
       .attr("mozallowfullscreen", "");
   }
-
   $("#story p").fadeOut(0).fadeIn(1000);
   $("#title p").fadeOut(0).fadeIn(1000);
   $(".media_in").hide();
@@ -100,7 +102,7 @@ var updateContent = function(num) {
     $(this).remove()
     d3.select("#Coordnum")
       .append("p")
-      .text(getNode(places, num)[0] + " | " + getNode(places, num)[1]);
+      .text(getNode(places, num)[0] + "  |  " + getNode(places, num)[1]);
     $("#Coordnum p").fadeOut(0).fadeIn(500);
   });
 
@@ -216,6 +218,18 @@ var main = function() {
       moveToggle = false;
       cont = false; //loop not started
       //flyto(getNode(places, nowNum),0.8);
+      $("#tablepath").fadeOut(500);
+
+  d3.select("#nowpath_title")
+    .select("p").remove();
+
+  d3.select("#nowpath_title")
+    .append("p")
+    .text(getKey(places_multi, curPath).toUpperCase());
+
+
+
+
     }
   );
 
@@ -227,12 +241,9 @@ var main = function() {
       var precanvas = d3.select("#pre").append("svg")
         .attr("id", "preview");
       var myY = null
-      myY = event.pageY;
+      myY = event.pageY - 160;
 
-      if (myY < 625)
-        precanvas.attr("style", "top:" + myY + "px;");
-      else
-        precanvas.attr("style", "bottom:" + 100 + "px;");
+      precanvas.attr("style", "top:" + myY + "px;");
 
       var pre_id = $(this).attr("id"); //the id for the preview
       var pre_places = getNode(places_multi, +pre_id);
@@ -369,6 +380,14 @@ var main = function() {
     }
   );
 
+  $("#nowpath_title").click(
+    function() {
+      console.log("working");
+        $("#tablepath").fadeIn(500);
+    }
+  )
+
+
   var hover = 0;
   $("#menu").hover(
     function() {
@@ -460,6 +479,8 @@ var inithome = function(time) {
   $("#teamtb").fadeOut(time);
 
   $("#hometb").fadeIn(500);
+  $("#nowpath_title").fadeOut(time);
+
   nowPage = 0;
 
 }
@@ -476,7 +497,7 @@ var changePage = function(page) {
 
     // flyto(getNode(places, nowNum),3);
 
-    $("#tablepath").fadeIn(500);
+    //$("#tablepath").fadeIn(500);
     $("#draw").fadeIn(500);
     $("#map").fadeIn(500);
     $("#control").fadeIn(500);
@@ -487,7 +508,7 @@ var changePage = function(page) {
     $("#teamtb").fadeOut(500);
 
     $("#hometb").fadeOut(500);
-
+    $("#nowpath_title").fadeIn(500);
 
   }
   /*else if (page === 2) {

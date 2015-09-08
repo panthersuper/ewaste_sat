@@ -253,6 +253,21 @@ var getNode = function(placeList, i) { //get the certain node from the place lis
   return node;
 }
 
+var getKey = function(placeList, i) { //get the certain node from the place list
+  var item = 0;
+  var key = null;
+  for (k in placeList) {
+
+    if (item === i) {
+      key = k;
+      break;
+    }
+    item++;
+
+  }
+  return key;
+}
+
 var interPt = function(ptA, ptB, t) {
   //the the interval point between point A and point B, at the t position
   //solve the problem of crossing the zero lat line
@@ -484,8 +499,8 @@ function ratioDir(data, m, projection) {
 
 var mapw = $(window).width() - 15,
   maph = $(window).height() - 15;
-var width = mapw / 6,
-  height = width;
+var width = 250,
+  height = 250;
 $("#control").css("height", maph - 300);
 $("#tablepath").css("height", maph - 300);
 $("#abouttb").css("top", maph + 100);
@@ -493,6 +508,7 @@ $("#teamtb").css("top", maph + 100 + $("#abouttb").height());
 $("#map").css("width", mapw);
 $("#map").css("height", maph);
 $("#map").css("top", "0px");
+$("#nowpath_title").css("top",maph - 75)
 //$("#map").fadeOut(0);
 
 var margin = {
@@ -538,7 +554,7 @@ var svgpage = d3.select("#draw").append("svg").attr("class", "svgpage")
 var canvas = d3.select("#draw").append("canvas").attr("class", "mycanvas")
   .attr("width", width)
   .attr("height", height);
-$(".mycanvas").css("transform", "translate(150px," + (maph - height - 50) + "px)");
+$(".mycanvas").css("transform", "translate(20px," + (maph - height - 50) + "px)");
 
 var context = canvas.node().getContext("2d");
 /*
@@ -553,7 +569,7 @@ var svg0 = d3.select("#draw").append("svg").attr("class", "mysvg")
   .attr("width", mapw)
   .attr("height", maph);
 var svg = svg0.append("g").attr("class", "globe");
-$(".globe").css("transform", "translate(150px," + (maph - height - 50) + "px)");
+$(".globe").css("transform", "translate(20px," + (maph - height - 50) + "px)");
 
 var underbar = svgpage.append("rect")
   .attr("x", 0)
@@ -705,7 +721,7 @@ d3.tsv("new_monitor_sim.tsv", function(error, data) {
       .append("div")
       .attr("class", "thepaths")
       .attr("id", id).append("p")
-      .text(key);
+      .text(key.toString().toUpperCase());
     id++;
   }
 
@@ -1211,7 +1227,7 @@ d3.tsv("new_monitor_sim.tsv", function(error, data) {
 
       context.beginPath();
       path(land);
-      context.fillStyle = "#343543";
+      context.fillStyle = "rgb(25,25,25)";
       context.fill();
       context.lineWidth = .5;
       context.strokeStyle = "#000";
