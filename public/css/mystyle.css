@@ -289,9 +289,17 @@ p {
 }
 
 
-.xaxis {
+.xaxis g{
   fill:white;
   font: 10px sans-serif;
+
+}
+
+.xaxis path{
+  fill:rgb(100,100,100);
+  font: 10px sans-serif;
+  stroke: white;
+  stroke-width: 1.5px;
 
 }
 
@@ -342,7 +350,7 @@ p {
 
 #story {
   position: absolute;
-  top:410px;
+  top:380px;
   color:white;
   left: 30px;
   width:240px;
@@ -475,4 +483,10 @@ p {
     width:3px;
     height:10px;
     fill:#39a4e8;
+}
+
+.domain {
+  font-size: 2px;
+
+
 }

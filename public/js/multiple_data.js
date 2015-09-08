@@ -496,7 +496,7 @@ var mapw = $(window).width() - 35,
 var width = mapw / 6,
   height = width;
 $("#control").css("height", maph - 300);
-$("#tablepath").css("height", maph-300);
+$("#tablepath").css("height", maph - 300);
 $("#abouttb").css("top", maph + 100);
 $("#teamtb").css("top", maph + 100 + $("#abouttb").height());
 $("#map").css("width", mapw);
@@ -566,7 +566,7 @@ $(".globe").css("transform", "translate(150px," + (maph - height - 50) + "px)");
 
 var underbar = svgpage.append("rect")
   .attr("x", 0)
-  .attr("y", maph-100)
+  .attr("y", maph - 100)
   .attr("width", mapw)
   .attr("height", 100)
   .attr("fill", "rgb(20,20,20)");
@@ -713,7 +713,7 @@ d3.tsv("new_monitor_sim.tsv", function(error, data) {
     id++;
   }
 
-  var localnum = ($(window).height()-300) / (id) * 0.8;
+  var localnum = ($(window).height() - 300) / (id) * 0.8;
   $("#tablepath div").css("height", localnum + "px");
 
   $(document).ready(main); //run jquery after csv loaded so path button initialized
@@ -860,7 +860,6 @@ d3.tsv("new_monitor_sim.tsv", function(error, data) {
     .attr("stroke-width", "3px")
     .attr("transform", "translate(" + mapw / 2 + "," + maph / 2 + ")");
 
-
   svg0.append('g')
     .attr('class', 'xaxis')
     .attr('transform', 'translate(' + margin.left + ', ' + (maph - margin.top - margin.bottom) + ')')
@@ -900,6 +899,16 @@ d3.tsv("new_monitor_sim.tsv", function(error, data) {
       console.log("oer");
     });
 
+  d3.select(".xaxis path").remove();
+
+/*  d3.select(".xaxis").append("line")
+    .attr("x1", myx)
+    .attr("y1", 5)
+    .attr("x2", 50)
+    .attr("y2", 50)
+    .attr("stroke-width", 2)
+    .attr("stroke", "black");
+*/
 
   timeMark = svg0.append("g") //time mark
     .append("rect")
