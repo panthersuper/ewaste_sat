@@ -220,13 +220,12 @@ var main = function() {
       //flyto(getNode(places, nowNum),0.8);
       $("#tablepath").fadeOut(500);
 
-  d3.select("#nowpath_title")
-    .select("p").remove();
+      d3.select("#nowpath_title")
+        .select("p").remove();
 
-  d3.select("#nowpath_title")
-    .append("p")
-    .text(getKey(places_multi, curPath).toUpperCase());
-
+      d3.select("#nowpath_title")
+        .append("p")
+        .text(getKey(places_multi, curPath).toUpperCase());
 
 
 
@@ -380,10 +379,16 @@ var main = function() {
     }
   );
 
+  var localcontrol = true;
   $("#nowpath_title").click(
     function() {
-      console.log("working");
+      if (localcontrol) {
         $("#tablepath").fadeIn(500);
+        localcontrol = false;
+      } else {
+        $("#tablepath").fadeOut(500);
+        localcontrol = true;
+      }
     }
   )
 
