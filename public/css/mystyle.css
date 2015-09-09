@@ -108,7 +108,7 @@ body {
   display: none;
   position:relative;
   background-color: rgba(20,20,20,0.9);
-  width:300px;
+  width:350px;
   //height:960px;
   left: calc(100% - 400px);
   top:120px;
@@ -360,9 +360,9 @@ p {
 }
 
 #next p {
-  padding-left: 35px;
+  padding-left: 52px;
   padding-bottom: 10px;
-  color:white;
+  color:rgb(150,150,150);
 }
 
 #stop {
@@ -375,24 +375,25 @@ p {
 }
 
 #stop p {
-  padding-left: 52px;
+  padding-left: 65px;
   padding-bottom: 10px;
-  color:white;
+  color:rgb(150,150,150);
 }
 
 #story {
   position: absolute;
-  top:380px;
-  color:white;
+  top:410px;
+  color:rgb(150,150,150);
   left: 30px;
-  width:240px;
+  width:290px;
 
 }
 
 #story p {
   padding: 5px;
-  width:230px;
+  width:290px;
   word-wrap:break-word;
+  line-height: 150%;
 }
 
 #title {
@@ -413,7 +414,7 @@ p {
   position: absolute;
   top:10px;
   color:white;
-  left: 38px;
+  left: 30px;
 }
 
 #number p{
@@ -437,6 +438,8 @@ p {
 
 #Coord p {
   font-size: 8.5px;
+  padding-left:0px;
+
 }
 
 #Coordnum {
@@ -473,25 +476,25 @@ p {
 
 #media {
   position: absolute;
-  top:110px;
+  top:120px;
   left: 30px;
-  width:240px;
-  height:240px;
+  width:290px;
+  height:290px;
   overflow:hidden;
   border: none;
 }
 
 #media img{
-  min-width:240px;
-  max-height:240px;
+  min-width:290px;
+  max-height:290px;
   border: none;
   border-color: none;
 }
 
 #media iframe{
   border: none;
-  min-width:240px;
-  max-height:240px;
+  min-width:290px;
+  max-height:290px;
 
 }
 
@@ -500,7 +503,7 @@ p {
   top:110px;
   left: 30px;
   width:30px;
-  height:240px;
+  height:290px;
   border: none;
 }
 
@@ -517,9 +520,9 @@ p {
 #overlap2 {
   position: absolute;
   top:110px;
-  left: 240px;
+  left: 290px;
   width:30px;
-  height:240px;
+  height:290px;
   border: none;
 }
 
