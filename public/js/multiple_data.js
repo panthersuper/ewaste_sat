@@ -499,8 +499,8 @@ function ratioDir(data, m, projection) {
 
 var mapw = $(window).width(),
   maph = $(window).height();
-var width = mapw/6,
-  height = mapw/6;
+var width = mapw / 6,
+  height = mapw / 6;
 $("#control").css("height", maph - 300);
 $("#tablepath").css("height", maph - 300);
 $("#abouttb").css("top", maph + 100);
@@ -508,9 +508,9 @@ $("#teamtb").css("top", maph + 100 + $("#abouttb").height());
 $("#map").css("width", mapw);
 $("#map").css("height", maph);
 $("#map").css("top", "0px");
-$("#nowpath_title").css("top",maph - 75);
-$("#nowpath_title").css("left",mapw/6 +30);
-$("#tablepath").css("left", mapw/6 +30);
+$("#nowpath_title").css("top", maph - 75);
+$("#nowpath_title").css("left", mapw / 6 + 30);
+$("#tablepath").css("left", mapw / 6 + 30);
 $("#tablepath").css("top", 195);
 $("#page").css("height", maph);
 $("#page").css("width", mapw);
@@ -590,7 +590,7 @@ var underbar = svgpage.append("rect")
 var underbar_mark = svgpage.append("rect")
   .attr("x", 0)
   .attr("y", maph - 100)
-  .attr("width", mapw/6 +30)
+  .attr("width", mapw / 6 + 30)
   .attr("height", 7)
   .attr("fill", "#39a4e8");
 
@@ -611,12 +611,11 @@ $(".mitlogo")
 
 var toptitle = d3.select("#draw").append("div").append("p").attr("class", "toptitle")
   .text("MONITOUR")
-  .attr("style", "left:"+(mapw/2-50)+"px");
+  .attr("style", "left:" + (mapw / 2 - 50) + "px");
 
 var toptitle = d3.select("#draw").append("div").append("p").attr("class", "menu")
   .text("About")
-  .attr("style", "left:"+(mapw-100)+"px");
-
+  .attr("style", "left:" + (mapw - 100) + "px");
 
 
 
@@ -1054,7 +1053,7 @@ d3.tsv("new_monitor_sim.tsv", function(error, data) {
               nowNum = nowNum + 1; //next node to target
               nowNum = nowNum % nodeNum; //cycle the loop
               moveToggle = true;
-            } else{}
+            } else {}
 
 
           } else if (cont) {
@@ -1152,6 +1151,8 @@ d3.tsv("new_monitor_sim.tsv", function(error, data) {
 
 
       console.log("Current Path:" + curPath + "||Current Node:" + nowNum + "||Total Node:" + nodeNum);
+      console.log(phasePercentage);
+
       timeMark
         .attr("transform", "translate(" + xScale(getNode(places, nowNum)[2]) + "," + (maph - margin.top - margin.bottom + 2.5) + ")");
 
@@ -1223,7 +1224,7 @@ d3.tsv("new_monitor_sim.tsv", function(error, data) {
         pastRoute_map_blur //create current route
           .attr("d", lineFunction(reptojectMap(fixloop(pastData.coordinates))));
 
-      }else{
+      } else {
         pastRoute_map //create current route
           .attr("d", lineFunction([]));
         pastRoute_map_blur //create current route
@@ -1394,8 +1395,15 @@ var update = function(current) {
       updateContent(nowNum);
       moveToggle = false;
       cont = false; //loop not started
-      count = oneMove_default - 0.0000001; //to measure the interval
+      count = oneMove_default - 0.01; //to measure the interval
       flyto(getNode(places, nowNum), 3);
+
+      if (nowNum === 0) {
+        nowNum = 1;
+        count = 0;
+
+
+      }
 
     });
 
