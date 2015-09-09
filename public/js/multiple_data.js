@@ -511,7 +511,7 @@ $("#map").css("top", "0px");
 $("#nowpath_title").css("top",maph - 75);
 $("#nowpath_title").css("left",mapw/6 +30);
 $("#tablepath").css("left", mapw/6 +30);
-$("#tablepath").css("left", mapw/6 +30);
+$("#tablepath").css("top", 195);
 $("#page").css("height", maph);
 $("#page").css("width", mapw);
 
