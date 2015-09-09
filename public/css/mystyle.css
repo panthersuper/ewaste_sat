@@ -82,14 +82,19 @@ body {
 }
 
 #nowpath_title {
-  color:white;
+  color:rgb(80,80,80);
   position: absolute;
   left:300px;
-  background-color: rgb(30,30,30);
-  width: 130px;
+  width: 175px;
   cursor: pointer;
+  height:40px;
+  bottom: 10px;
 
+}
 
+#nowpath_title p{
+  font-size: 34px;
+  margin-top: -10px;
 }
 
 #control {
@@ -163,10 +168,9 @@ body {
 }
 
 #pre {
-  display: none;
-  width:0px;
+  //display: none;
   height:960px;
-  left:430px;
+  //left:430px;
   top:0px;
   margin-left: 0px;
   position:absolute;

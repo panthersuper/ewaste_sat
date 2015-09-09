@@ -499,8 +499,8 @@ function ratioDir(data, m, projection) {
 
 var mapw = $(window).width() - 15,
   maph = $(window).height() - 15;
-var width = 250,
-  height = 250;
+var width = mapw/6,
+  height = mapw/6;
 $("#control").css("height", maph - 300);
 $("#tablepath").css("height", maph - 300);
 $("#abouttb").css("top", maph + 100);
@@ -508,7 +508,14 @@ $("#teamtb").css("top", maph + 100 + $("#abouttb").height());
 $("#map").css("width", mapw);
 $("#map").css("height", maph);
 $("#map").css("top", "0px");
-$("#nowpath_title").css("top",maph - 75)
+$("#nowpath_title").css("top",maph - 75);
+$("#nowpath_title").css("left",mapw/6 +30);
+$("#tablepath").css("left", mapw/6 +30);
+$("#tablepath").css("left", mapw/6 +30);
+$("#pre").css("left", mapw/6 +160);
+//$("#pre").css("display", "none");
+
+
 //$("#map").fadeOut(0);
 
 var margin = {

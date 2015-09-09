@@ -218,7 +218,7 @@ var main = function() {
       moveToggle = false;
       cont = false; //loop not started
       //flyto(getNode(places, nowNum),0.8);
-      $("#tablepath").fadeOut(500);
+      $("#tablepath").fadeOut(100);
 
       d3.select("#nowpath_title")
         .select("p").remove();
@@ -227,7 +227,7 @@ var main = function() {
         .append("p")
         .text(getKey(places_multi, curPath).toUpperCase());
 
-
+      localcontrol = true;
 
     }
   );
@@ -235,7 +235,7 @@ var main = function() {
   $("#tablepath div").mouseover( //hover the new route, will show the preview of this one
     function(event) {
 
-      d3.select("#pre").attr("style", "width:300px; display:block;");
+      d3.select("#pre").attr("style", "width:300px; display:block;left: "+(mapw/6 +160)+"px;");//
 
       var precanvas = d3.select("#pre").append("svg")
         .attr("id", "preview");
@@ -383,10 +383,10 @@ var main = function() {
   $("#nowpath_title").click(
     function() {
       if (localcontrol) {
-        $("#tablepath").fadeIn(500);
+        $("#tablepath").fadeIn(100);
         localcontrol = false;
       } else {
-        $("#tablepath").fadeOut(500);
+        $("#tablepath").fadeOut(100);
         localcontrol = true;
       }
     }
@@ -507,6 +507,7 @@ var changePage = function(page) {
     $("#map").fadeIn(500);
     $("#control").fadeIn(500);
     $("#pre").fadeIn(500);
+
 
     $("#abouttb").fadeOut(500);
 
