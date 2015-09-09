@@ -214,7 +214,7 @@ body {
 
 .curroute_blur{
   fill: none;
-  stroke: #fff4bd;
+  stroke: white;
   stroke-width: 1.5px;
   opacity:1;
   filter:url(#blur-effect-1);
@@ -222,7 +222,7 @@ body {
 
 .pastroute_blur{
   fill: none;
-  stroke: #fff4bd;
+  stroke: white;
   stroke-width: 1.5px;
   opacity:1;
   filter:url(#blur-effect-1);
@@ -376,7 +376,7 @@ p {
   top:0px;
   left: 0px;
   width:90px;
-  height:7px;
+  height:4.5px;
   background: #39a4e8;
 
 }

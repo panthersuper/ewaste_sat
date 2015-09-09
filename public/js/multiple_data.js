@@ -6,17 +6,21 @@ function fixloop(lst) {
 
 
   for (var i = 0; i < lst.length - 1; i++) {
+
     if (lst[i][0] < 0 && lst[i + 1][0] > 0 && lst[i + 1][0] - lst[i][0] < 180) {
       left_right = true;
+
       break;
     } else if (lst[i][0] < 0 && lst[i + 1][0] > 0 && lst[i + 1][0] - lst[i][0] > 180) {
       left_right = false;
       break;
-    } else left_right = -1;
+    } 
+     left_right = -1;
   }
 
-
-  if (left_right === -1) return lst;
+  if (left_right === -1) {
+    return lst;
+  }
   else if (left_right === true) {
 
     for (var i = 0; i < lst.length - 1; i++) {
@@ -37,6 +41,7 @@ function fixloop(lst) {
 
     return mynew;
   } else {
+
     for (var i = 0; i < lst.length - 1; i++) {
       mynew.push([(lst[i][0] + 360) % 360, lst[i][1]]);
 
@@ -83,19 +88,24 @@ function flyalone(tgt, ratio, dis) {
 
     else*/
 
-  var zoomspan = 8;
+  var zoomspan = 6;
+  var mypitch = 0;
 
-  //var myzoom = Math.pow((Math.abs(ratio - 0.5)), 8) * 128 * 2 * 2 * 2 * 2 + 3; //[4,11]
+  //var myzoom = Math.pow((Math.abs(ratio - 0.5)), 8) * 128 * 2 * 2 * 2 * 2 + 3; //[3,10]
 
   if (dis < 1000) zoomspan = 3 + dis / 1000 * 5;
 
 
 
-  if (ratio < 0.01)
-    myzoom = 11 - ratio / 0.01 * zoomspan;
-  else if (ratio > 0.99)
-    myzoom = 11 - (1 - ratio) / 0.01 * zoomspan;
-  else myzoom = 11 - zoomspan;
+  if (ratio < 0.01){
+    myzoom = 10 - ratio / 0.01 * zoomspan;
+    //mypitch = (0.005-Math.abs(ratio - 0.005))/0.005*60;
+  }
+  else if (ratio > 0.99){
+    myzoom = 10 - (1 - ratio) / 0.01 * zoomspan;
+    //mypitch = (0.005-Math.abs(ratio - 0.995))/0.005*60;
+  }
+  else myzoom = 10 - zoomspan;
 
   map.jumpTo({
     // These options control the ending camera position: centered at
@@ -103,7 +113,9 @@ function flyalone(tgt, ratio, dis) {
 
     center: tgt,
     zoom: myzoom,
+    //zoom:1,
     bearing: 0,
+    pitch:mypitch,
 
     // These options control the flight curve, making it move
     // slowly and zoom out almost completely before starting
@@ -124,17 +136,23 @@ function flyZoomed(tgt, ratio, dis) {
   var zoomspan = null;
   zoomspan = dis / 100 * 4;
   if (dis < 50) zoomspan = 2;
-
+  var mypitch = (0.5-Math.abs(ratio - 0.5))*80;
   var myzoom = Math.pow((Math.abs(ratio - 0.5)), 4) * 32 * 2 * zoomspan / 4 + (11 - zoomspan); //[7,11]
-  if (dis < 0.1) myzoom = 11;
+  if (dis < 0.1) {
+    myzoom = 11;
+    mypitch = 0;
+
+  }
+
 
   map.jumpTo({
     // These options control the ending camera position: centered at
     // the target, at zoom level 9, and north up.
 
     center: tgt,
-    zoom: myzoom,
+    zoom: myzoom-1,
     bearing: 0,
+    pitch:mypitch,
 
     // These options control the flight curve, making it move
     // slowly and zoom out almost completely before starting
@@ -532,7 +550,7 @@ var curPath = 0; //the path that is currently showing
 var projection = d3.geo.orthographic()
   .scale(width / 2.1)
   .translate([width / 2, height / 2])
-  .precision(.5);
+  .precision(1);
 var graticule = d3.geo.graticule();
 var target;
 var myroute;
@@ -591,7 +609,7 @@ var underbar_mark = svgpage.append("rect")
   .attr("x", 0)
   .attr("y", maph - 100)
   .attr("width", mapw / 6 + 30)
-  .attr("height", 7)
+  .attr("height", 4.5)
   .attr("fill", "#39a4e8");
 
 
@@ -607,8 +625,6 @@ var mitlogo = d3.select("#draw").append("img").attr("class", "mitlogo");
 $(".mitlogo")
   .attr("src", "img/mit_logo.png");
 
-
-
 var toptitle = d3.select("#draw").append("div").append("p").attr("class", "toptitle")
   .text("MONITOUR")
   .attr("style", "left:" + (mapw / 2 - 50) + "px");
@@ -616,8 +632,6 @@ var toptitle = d3.select("#draw").append("div").append("p").attr("class", "topti
 var toptitle = d3.select("#draw").append("div").append("p").attr("class", "menu")
   .text("About")
   .attr("style", "left:" + (mapw - 100) + "px");
-
-
 
 var path = d3.geo.path()
   .projection(projection)
@@ -641,7 +655,7 @@ var sphere = {
 };
 var nodeNum; //total node amount
 var nowNum = 1; //current node to target to
-var oneMove_default = 300;
+var oneMove_default = 200;
 var oneMove = oneMove_default; //the interval for each focus
 var countmove = 1;
 var count = 0; //to measure the interval
@@ -769,8 +783,6 @@ d3.tsv("new_monitor_sim.tsv", function(error, data) {
     .append("feGaussianBlur")
     .attr("stdDeviation", 1.5);
 
-
-
   target = svg.append("g") //rotate the globe 
     .attr("class", "target")
     .append("circle")
@@ -779,13 +791,11 @@ d3.tsv("new_monitor_sim.tsv", function(error, data) {
     .attr("r", 10)
     .style("display", "none");
 
-
   myroute = svg.append("path")
     .datum(routeRam)
     .attr("class", "route")
     .attr("d", patho)
     .attr("stroke-dasharray", "2,2");
-
 
   route_map = svgmap.append("path")
     .attr("class", "route_map")
@@ -835,12 +845,6 @@ d3.tsv("new_monitor_sim.tsv", function(error, data) {
     .attr("transform", function(d) {
       return "translate(" + projection(d.value) + ")";
     })
-    .on("mouseover", function(d, i) {
-      revGeocoding(d.value[1], d.value[0], "point" + i);
-    })
-    .on("mouseout", function(d, i) {
-      removetext("point" + i);
-    })
     .on("click", function(d, i) {
       nowNum = i;
       updateContent(nowNum);
@@ -848,8 +852,6 @@ d3.tsv("new_monitor_sim.tsv", function(error, data) {
       cont = true; //loop not started
       count = oneMove_default - 0.01; //to measure the interval
       flyto(getNode(places, nowNum), 3);
-
-
     })
 
 
@@ -1010,23 +1012,23 @@ d3.tsv("new_monitor_sim.tsv", function(error, data) {
       var dis = distanceSQ([lat_old, lng_old], [lat, lng]);
 
       if (dis < 100) {
-        countmove = 5;
+        countmove = 2;
       } else {
         countmove = 1;
       }
 
       var local_scale = 1;
-      if (count / oneMove < 0.01 || count / oneMove > 0.99) {
-        if (dis >= 100) {
+      if (count / oneMove <= 0.01 || count / oneMove >= 0.99) {//start and end
+        if (dis >= 100) {//long distance path
 
           //local_scale = (0.5-Math.abs(0.5-count / oneMove))*19/20+1/20;
-          local_scale = 1 / 20;
-        } else if (dis > 0.1) local_scale = 1 / 3;
-        else local_scale = 10;
-      } else {
-        if (dis >= 100) local_scale = 2;
+          local_scale = 1 / 25;//move slow
+        } else if (dis > 0.1) local_scale = 1;//move slow
+        else local_scale = 10;//move fast
+      } else {//interval path
+        if (dis >= 100) local_scale = 1;//regular speed
         else if (dis > 0.1)
-          local_scale = 1 / 2;
+          local_scale = 1;
         else
           local_scale = 10;
       }
@@ -1150,8 +1152,8 @@ d3.tsv("new_monitor_sim.tsv", function(error, data) {
 
 
 
-      console.log("Current Path:" + curPath + "||Current Node:" + nowNum + "||Total Node:" + nodeNum);
-      console.log(phasePercentage);
+      //console.log("Current Path:" + curPath + "||Current Node:" + nowNum + "||Total Node:" + nodeNum);
+      //console.log(phasePercentage);
 
       timeMark
         .attr("transform", "translate(" + xScale(getNode(places, nowNum)[2]) + "," + (maph - margin.top - margin.bottom + 2.5) + ")");
@@ -1178,14 +1180,12 @@ d3.tsv("new_monitor_sim.tsv", function(error, data) {
 
       var closeRate = Math.abs(0.5 - phasePercentage);
 
-      var test = closeRate * 0 + 1; //scale factor
+      //var test = closeRate * 0 + 1; //scale factor
       if (dis < 100) {
-        test = 1;
+        //test = 1;
         flyZoomed(p_r, phasePercentage, dis);
       } else {
         flyalone(p_r, phasePercentage, dis);
-        //flyZoomed(p_r,phasePercentage,dis);
-
       }
 
       var newlst = [
@@ -1219,6 +1219,8 @@ d3.tsv("new_monitor_sim.tsv", function(error, data) {
 
 
       if (nowNum != 1) {
+        console.log(fixloop(pastData.coordinates).length);
+
         pastRoute_map //create current route
           .attr("d", lineFunction(reptojectMap(fixloop(pastData.coordinates))));
         pastRoute_map_blur //create current route
@@ -1229,35 +1231,17 @@ d3.tsv("new_monitor_sim.tsv", function(error, data) {
           .attr("d", lineFunction([]));
         pastRoute_map_blur //create current route
           .attr("d", lineFunction([]));
-
-
       }
-
-      //move the camera and rescale the canvas
-      var ptnow = [-width / 2 * (test - 1), -height / 2 * (test - 1)];
-      svg.attr("transform", "translate(" + ptnow + ")scale(" + test + ")");
-      context.setTransform(1, 0, 0, 1, 0, 0);
-      context.translate(ptnow[0], ptnow[1]);
-      context.scale(test, test);
 
       track.attr("r", 4 * (trackscale % 1) + 2); //change the tracker's r according to closerate
       track_f.attr("r", 2 * (trackscale % 4) + 4); //change the tracker's r according to closerate
-
-
 
       context.beginPath(); //draw the outbound of the sphere
       path(sphere);
       context.lineWidth = 1;
       context.strokeStyle = "#999";
       context.stroke();
-      context.fillStyle = "rgba(100,100,100,0.9)";
-      context.fill();
-
-      projection.clipAngle(180); //clip the grid and land, 180 means no clipping
-
-      context.beginPath(); //land
-      path(land);
-      context.fillStyle = "rgba(52,53,67,0.1)";
+      context.fillStyle = "rgba(50,50,50,0.9)";
       context.fill();
 
       projection.clipAngle(90); //clip the back half of the land
@@ -1323,12 +1307,6 @@ var update = function(current) {
     .attr("transform", function(d) {
       return "translate(" + projection(d.value) + ")";
     })
-    .on("mouseover", function(d, i) {
-      revGeocoding(d.value[1], d.value[0], "point" + i);
-    })
-    .on("mouseout", function(d, i) {
-      removetext("point" + i);
-    })
     .on("click", function(d, i) {
       nowNum = i;
       updateContent(nowNum);
@@ -1376,7 +1354,6 @@ var update = function(current) {
     .attr("transform", "translate(" + mapw / 2 + "," + maph / 2 + ")");
 
   $(".timeid").remove();
-
 
   timeBase = svg0.select(".timebase") //time mark
     .selectAll("g")
