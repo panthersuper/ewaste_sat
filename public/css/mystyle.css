@@ -96,6 +96,11 @@ body {
   cursor: pointer;
   height:40px;
   bottom: 10px;
+}
+
+#nowpath_title:hover {
+  cursor: pointer;
+  color:rgb(150,150,150);
 
 }
 
@@ -117,35 +122,6 @@ body {
 }
 
 
-#menu {
-  top:0px;
-  color:#777888;
-
-  display: block;
-  background-color: rgba(100,100,100,0.2);
-  width:100%;
-  height:30px;
-  left:0%;
-  top:0%;
-  position:fixed;
-  font-family: roboto;
-  padding-top: 10px;
-  padding-left: 30px;
-}
-
-#menu p {
-  position: absolute;
-  left: 60px;
-  top:-5px;
-  padding-bottom: 0px;
-  font-size: 20px;
-}
-
-#menu:hover {
-  //cursor: pointer;
-  color: white;
-  //background-color: #010214;
-}
 
 .mynav {
   top:80px;
@@ -386,7 +362,6 @@ p {
   color:rgb(150,150,150);
   left: 30px;
   width:290px;
-
 }
 
 #story p {
@@ -394,6 +369,16 @@ p {
   width:290px;
   word-wrap:break-word;
   line-height: 150%;
+}
+
+#mark_control {
+  position: absolute;
+  top:0px;
+  left: 0px;
+  width:90px;
+  height:7px;
+  background: #39a4e8;
+
 }
 
 #title {
@@ -572,3 +557,37 @@ p {
 
 
 }
+
+.mitlogo {
+      z-index: 1; position:relative;
+      left:30px;
+      top:15px;
+      width:40px;
+
+}
+
+.toptitle {
+      z-index: 1; position:relative;
+      top:-25px;
+      width:40px;
+      font-size: 20px;
+      color:rgb(150,150,150);
+
+}
+
+
+.menu {
+      z-index: 1; position:relative;
+      top:-70px;
+      width:40px;
+      font-size: 16px;
+      color:rgb(150,150,150);
+}
+
+.menu:hover {
+      cursor: pointer;
+      color:rgb(200,200,200);
+
+
+}
+

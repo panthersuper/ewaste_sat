@@ -587,6 +587,14 @@ var underbar = svgpage.append("rect")
   .attr("height", 100)
   .attr("fill", "rgb(20,20,20)");
 
+var underbar_mark = svgpage.append("rect")
+  .attr("x", 0)
+  .attr("y", maph - 100)
+  .attr("width", mapw/6 +30)
+  .attr("height", 7)
+  .attr("fill", "#39a4e8");
+
+
 var topbar = svgpage.append("rect")
   .attr("x", 0)
   .attr("y", 0)
@@ -594,10 +602,24 @@ var topbar = svgpage.append("rect")
   .attr("height", 60)
   .attr("fill", "rgb(20,20,20)");
 
-/*var toptitle = topbar.append("div")
-  .attr("fill", "rgb(100,100,100)")
-  .text("MONITOUR");
-*/
+var mitlogo = d3.select("#draw").append("img").attr("class", "mitlogo");
+
+$(".mitlogo")
+  .attr("src", "img/mit_logo.png");
+
+
+
+var toptitle = d3.select("#draw").append("div").append("p").attr("class", "toptitle")
+  .text("MONITOUR")
+  .attr("style", "left:"+(mapw/2-50)+"px");
+
+var toptitle = d3.select("#draw").append("div").append("p").attr("class", "menu")
+  .text("About")
+  .attr("style", "left:"+(mapw-100)+"px");
+
+
+
+
 var path = d3.geo.path()
   .projection(projection)
   .context(context);
