@@ -1201,6 +1201,13 @@ d3.tsv("new_monitor_sim.tsv", function(error, data) {
         pastRoute_map_blur //create current route
           .attr("d", lineFunction(reptojectMap(fixloop(pastData.coordinates))));
 
+      }else{
+        pastRoute_map //create current route
+          .attr("d", lineFunction([]));
+        pastRoute_map_blur //create current route
+          .attr("d", lineFunction([]));
+
+
       }
 
       //move the camera and rescale the canvas
