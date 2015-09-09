@@ -497,8 +497,8 @@ function ratioDir(data, m, projection) {
 };*/
 
 
-var mapw = $(window).width() - 15,
-  maph = $(window).height() - 15;
+var mapw = $(window).width(),
+  maph = $(window).height();
 var width = mapw/6,
   height = mapw/6;
 $("#control").css("height", maph - 300);
@@ -512,9 +512,8 @@ $("#nowpath_title").css("top",maph - 75);
 $("#nowpath_title").css("left",mapw/6 +30);
 $("#tablepath").css("left", mapw/6 +30);
 $("#tablepath").css("left", mapw/6 +30);
-$("#pre").css("left", mapw/6 +160);
-//$("#pre").css("display", "none");
-
+$("#page").css("height", maph);
+$("#page").css("width", mapw);
 
 //$("#map").fadeOut(0);
 
@@ -553,6 +552,9 @@ var pastRoute_map;
 var route_map_blur; //svg path
 var pastRoute_map_blur;
 
+var svgmap = d3.select("#draw").append("svg").attr("class", "svgmap")
+  .attr("width", mapw)
+  .attr("height", maph);
 
 var svgpage = d3.select("#draw").append("svg").attr("class", "svgpage")
   .attr("width", mapw)
@@ -592,12 +594,10 @@ var topbar = svgpage.append("rect")
   .attr("height", 60)
   .attr("fill", "rgb(20,20,20)");
 
-var toptitle = topbar.append("div")
+/*var toptitle = topbar.append("div")
   .attr("fill", "rgb(100,100,100)")
   .text("MONITOUR");
-
-
-
+*/
 var path = d3.geo.path()
   .projection(projection)
   .context(context);
@@ -766,13 +766,13 @@ d3.tsv("new_monitor_sim.tsv", function(error, data) {
     .attr("stroke-dasharray", "2,2");
 
 
-  route_map = svg0.append("path")
+  route_map = svgmap.append("path")
     .attr("class", "route_map")
     .attr("d", lineFunction(route_m.coordinates))
     .attr("stroke", "white")
     .attr("stroke-width", "3px")
     .attr("fill", "none");
-  route_map_blur = svg0.append("path")
+  route_map_blur = svgmap.append("path")
     .attr("class", "route_map_blur")
     .attr("d", lineFunction(route_m.coordinates))
     .attr("stroke", "white")
@@ -790,12 +790,12 @@ d3.tsv("new_monitor_sim.tsv", function(error, data) {
     .attr("class", "pastroute")
   pastRoute_blur = svg.append("path") //current route
     .attr("class", "pastroute_blur")
-  pastRoute_map = svg0.append("path") //current route
+  pastRoute_map = svgmap.append("path") //current route
     .attr("class", "pastroute_map")
     .attr("stroke", "white")
     .attr("stroke-width", "3px")
     .attr("fill", "none");
-  pastRoute_map_blur = svg0.append("path") //current route
+  pastRoute_map_blur = svgmap.append("path") //current route
     .attr("class", "pastRoute_map_blur")
     .attr("stroke", "white")
     .attr("stroke-width", "3px")
