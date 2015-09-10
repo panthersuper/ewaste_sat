@@ -996,6 +996,11 @@ d3.tsv("new_monitor_sim.tsv", function(error, data) {
       endN = places[k];
     }
 
+var fps = d3.select("#fps span");
+
+var time0 = Date.now(),
+    time1;
+
     //////the timmer//////////////////////////////////////////////////////////////////////////////////////////////
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////
     d3.timer(function() {
@@ -1260,10 +1265,18 @@ d3.tsv("new_monitor_sim.tsv", function(error, data) {
       context.strokeStyle = "rgba(119,119,119,.5)";
       context.stroke();
 
+
+  time1 = Date.now();
+  fps.text(Math.round(1000 / (time1 - time0)));
+  time0 = time1;
+
     });
   });
 
   d3.select(self.frameElement).style("height", height + "px");
+
+
+
 });
 
 

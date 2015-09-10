@@ -591,3 +591,9 @@ p {
 
 }
 
+#fps {
+        z-index: 1; position:absolute;
+        left:10;
+        top:10;
+        color:white;
+}
