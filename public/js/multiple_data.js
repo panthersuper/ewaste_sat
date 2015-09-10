@@ -519,7 +519,6 @@ var mapw = $(window).width(),
   maph = $(window).height();
 var width = mapw / 6,
   height = mapw / 6;
-$("#control").css("height", maph - 300);
 $("#tablepath").css("height", maph - 300);
 $("#abouttb").css("top", maph + 100);
 $("#teamtb").css("top", maph + 100 + $("#abouttb").height());
@@ -1004,6 +1003,17 @@ var time0 = Date.now(),
     //////the timmer//////////////////////////////////////////////////////////////////////////////////////////////
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////
     d3.timer(function() {
+
+      var mediah = 0;
+      var storyh = $("#story p").height();
+
+      if ($("#media iframe").attr("src").length>0) 
+        mediah = 240;
+      else
+        mediah = $("#media img").height();
+
+      console.log($("#media iframe").height());
+      $("#control").css("height", (mediah+storyh+200));
 
       trackscale += 0.2;
       lat_old = getNode(places, (nowNum - 1 + nodeNum) % nodeNum)[0];
