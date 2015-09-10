@@ -23,7 +23,7 @@ var initContent = function() {
     .text(getNode(places, 0)[0] + "  |  " + getNode(places, 0)[1]);
   d3.select("#nowpath_title")
     .append("p")
-    .text(getKey(places_multi, 0).toUpperCase());
+    .text(Object.keys(places_multi)[0].toUpperCase());
 
   revGeocoding(getNode(places, 0)[1], getNode(places, 0)[0], "location");
 
@@ -80,13 +80,8 @@ var initContent = function() {
 
 
 var updateContent = function(num) {
-  console.log(num);
-
 
   if (num != 0 && cont === true) {
-    console.log("zoomout");
-    //fly(getNode(places, nowNum));
-    //flyto(getNode(places, nowNum),3);
     cont === true;
   }
 
@@ -217,7 +212,6 @@ var main = function() {
       update(curPath);
       moveToggle = false;
       cont = false; //loop not started
-      //flyto(getNode(places, nowNum),0.8);
       $("#tablepath").fadeOut(100);
 
       d3.select("#nowpath_title")
@@ -225,7 +219,7 @@ var main = function() {
 
       d3.select("#nowpath_title")
         .append("p")
-        .text(getKey(places_multi, curPath).toUpperCase());
+        .text(Object.keys(places_multi)[curPath].toUpperCase());
 
       localcontrol = true;
 
@@ -313,15 +307,7 @@ var main = function() {
         //cont = false;
         updateContent(0);
 
-        console.log("zoomout");
-        //flyto(getNode(places, nowNum),3);
-
-
-
       } else {
-
-        console.log("zoomout");
-
 
         moveToggle = true;
 
@@ -500,7 +486,6 @@ var changePage = function(page) {
       scrollTop: 0
     }, "fast");
 
-    // flyto(getNode(places, nowNum),3);
 
     //$("#tablepath").fadeIn(500);
     $("#draw").fadeIn(500);

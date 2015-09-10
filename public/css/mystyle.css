@@ -114,7 +114,6 @@ body {
   position:relative;
   background-color: rgba(20,20,20,0.9);
   width:350px;
-  //height:960px;
   left: calc(100% - 400px);
   top:120px;
   margin-left: 15px;
@@ -239,14 +238,14 @@ filter:url(#blur-effect-2);
 
 .curroute{
   fill: none;
-  stroke: #fff4bd;
+  stroke: white;
   stroke-width: 1.5px;
   opacity:1;
 }
 
 .pastroute{
   fill: none;
-  stroke: #fff4bd;
+  stroke: white;
   stroke-width: 1.5px;
   opacity:1;
 }

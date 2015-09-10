@@ -3,16 +3,20 @@ function fixloop(lst) {
   var mynew = [];
 
   var left_right;
-
+  var index = null;
 
   for (var i = 0; i < lst.length - 1; i++) {
 
     if (lst[i][0] < 0 && lst[i + 1][0] > 0 && lst[i + 1][0] - lst[i][0] < 180) {
+
       left_right = true;
+      index = i;
 
       break;
     } else if (lst[i][0] < 0 && lst[i + 1][0] > 0 && lst[i + 1][0] - lst[i][0] > 180) {
       left_right = false;
+      index = i;
+
       break;
     }
     left_right = -1;
@@ -21,38 +25,29 @@ function fixloop(lst) {
   if (left_right === -1) {
     return lst;
   } else if (left_right === true) {
-
-    for (var i = 0; i < lst.length - 1; i++) {
-      if (lst[i][0] < 0 && lst[i + 1][0] > 0 && lst[i + 1][0] - lst[i][0] < 180) {
+    console.log("computation!!!");
+    for (var i = 0; i < lst.length; i++) {
+      if (i===index) {
         var newpt = [0, -lst[i][0] / (lst[i + 1][0] - lst[i][0]) * (lst[i + 1][1] - lst[i][1]) + lst[i][1]];
         //var newpt = [360, 1];
-        mynew.push([(lst[i][0] + 0), lst[i][1]]);
+        mynew.push(lst[i]);
         mynew.push(newpt);
 
       } else {
-
-        mynew.push([(lst[i][0] + 0), lst[i][1]]);
+        mynew.push(lst[i]);
       }
     }
 
-    var last = lst[lst.length - 1]
-    mynew.push([(lst[i][0]), last[1]]);
-
     return mynew;
   } else {
+    console.log("computation!!!");
 
-    for (var i = 0; i < lst.length - 1; i++) {
+    for (var i = 0; i < lst.length; i++) {
       mynew.push([(lst[i][0] + 360) % 360, lst[i][1]]);
 
     }
 
-    var last = lst[lst.length - 1]
-    mynew.push([(lst[i][0] + 360) % 360, last[1]]);
-
     return mynew;
-
-
-
   }
 
 }
@@ -68,24 +63,6 @@ function reptojectMap(lst) {
 }
 
 function flyalone(tgt, ratio, dis) {
-
-
-
-  /*  if (ratio<0.01 || ratio>0.99){
-      var myzoom = null;
-
-      if (ratio<0.2001) myzoom = 0.2-ratio;
-      if (ratio>0.7999) myzoom = 1-ratio;
-
-      myzoom = myzoom/0.1*8 + 3;
-
-
-
-
-
-    }
-
-    else*/
 
   var zoomspan = 6;
   var mypitch = 0;
@@ -347,15 +324,16 @@ var randomDir = function(nodeA, nodeB) {
   //create a noise route between A and B, for distance that is more than thresh
   //by insert num of new nodes in between
   var lst = [];
-  var dis = distanceSQ(nodeA, nodeB);
+  //var dis = distanceSQ(nodeA, nodeB);
   var threshA = 1;
   var threshB = 600;
 
-  var num = Math.round(Math.sqrt(dis));
+  //var num = Math.round(Math.sqrt(dis));
+  num = 8;
   var ratio = num / 30;
 
-  if (num < 10) {
-    num = 10;
+  if (num < 8) {
+    num = 8;
   }
   /*  if (dis < threshA || dis > threshB) {
    */
@@ -398,9 +376,6 @@ var ramwhole = function(lst, upto) { //randomnize the whole list
       mylst.push.apply(mylst, temp);
     }
     return mylst;
-
-
-
   }
 
 
@@ -538,7 +513,6 @@ var margin = {
   left: 40
 };
 
-
 var places_multi = {};
 var route_multi = {};
 
@@ -546,9 +520,8 @@ var curPath = 0; //the path that is currently showing
 var projection = d3.geo.orthographic()
   .scale(width / 2.1)
   .translate([width / 2, height / 2])
-  .precision(1);
+  .precision(2);
 var graticule = d3.geo.graticule();
-var target;
 var myroute;
 var CuRoute;
 var CuRoute_blur;
@@ -781,14 +754,6 @@ d3.tsv("new_monitor_sim.tsv", function(error, data) {
     .append("feGaussianBlur")
     .attr("stdDeviation", 1.5);
 
-  target = svg.append("g") //rotate the globe 
-    .attr("class", "target")
-    .append("circle")
-    .attr("cx", 25)
-    .attr("cy", 25)
-    .attr("r", 10)
-    .style("display", "none");
-
   myroute = svg.append("path")
     .datum(routeRam)
     .attr("class", "route")
@@ -936,14 +901,12 @@ d3.tsv("new_monitor_sim.tsv", function(error, data) {
     .attr("height", 10)
     .attr("fill", "rgb(100,100,100)")
     .on("mouseover", function() {
-      console.log("over");
       d3.select(this).attr("width", 4)
         .attr("x", -2)
         .attr("y", 14.5)
         .attr("height", 15);
     })
     .on("mouseout", function() {
-      console.log("over");
       d3.select(this).attr("width", 1.5)
         .attr("x", -0.75)
         .attr("y", 17)
@@ -1013,7 +976,7 @@ d3.tsv("new_monitor_sim.tsv", function(error, data) {
     //////the timmer//////////////////////////////////////////////////////////////////////////////////////////////
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////
     d3.timer(function() {
-
+      //auto adjust control menu
       var mediah = 0;
       var storyh = $("#story p").height();
 
@@ -1022,6 +985,9 @@ d3.tsv("new_monitor_sim.tsv", function(error, data) {
       else
         mediah = $("#media img").height();
       $("#control").css("height", (mediah + storyh + 200));
+      $("#control").css("top", (maph/2-$("#control").height()/2));
+
+
 
       trackscale += 0.2;
       lat_old = getNode(places, (nowNum - 1 + nodeNum) % nodeNum)[0];
@@ -1061,7 +1027,6 @@ d3.tsv("new_monitor_sim.tsv", function(error, data) {
           //if next one have notes, stop there,otherwise keep moving
 
           if (finishsign === 0) {
-
             updateContent(nowNum);
             cont = false;
             finishsign = 1;
@@ -1072,7 +1037,7 @@ d3.tsv("new_monitor_sim.tsv", function(error, data) {
           if (important > 0) important = true;
           else important = false;
 
-          if (!important) {
+          if (!important) {//don't have additional information
             if (nowNum + 1 != nodeNum) {
               count = 0;
               nowNum = nowNum + 1; //next node to target
@@ -1097,7 +1062,6 @@ d3.tsv("new_monitor_sim.tsv", function(error, data) {
       var timephase = count % oneMove; //the current phase of this move
       var phasePercentage = timephase / oneMove; //the completion percentage of the current move
 
-      //phasePercentage = Math.sqrt(phasePercentage)||0;
       if (moveToggle)
         if (phasePercentage === 0) phasePercentage = 1;
       context.clearRect(0, 0, width, height);
@@ -1108,15 +1072,9 @@ d3.tsv("new_monitor_sim.tsv", function(error, data) {
 
       var intertarget = interPt([lat_old, lng_old], [lat, lng], phasePercentage);
 
-      target /*.transition()*/
-        .attr("cx", intertarget[0])
-        .attr("cy", intertarget[1]);
-
-
-
       //change the projection based on rotate value
       //projection.rotate([speed * (Date.now() - start), -15]).clipAngle(90);
-      projection.rotate([-target.attr("cx"), -target.attr("cy")]).clipAngle(90);
+      projection.rotate([-intertarget[0], -intertarget[1]]);//.clipAngle(90);
 
       patho = d3.geo.path().projection(projection); //rotate the path
 
@@ -1142,7 +1100,6 @@ d3.tsv("new_monitor_sim.tsv", function(error, data) {
         .datum(pastData)
         .attr("class", "pastroute_blur")
         .attr("d", patho);
-
 
       var myD = patho(routeRam); //redo the projection
 
@@ -1173,8 +1130,6 @@ d3.tsv("new_monitor_sim.tsv", function(error, data) {
         .attr("class", "curroute_blur")
         .attr("d", patho);
 
-
-
       //console.log("Current Path:" + curPath + "||Current Node:" + nowNum + "||Total Node:" + nodeNum);
       //console.log(phasePercentage);
 
@@ -1186,7 +1141,7 @@ d3.tsv("new_monitor_sim.tsv", function(error, data) {
 
 
       var mylat, mylng;
-      var raw = track.attr("transform")
+      var raw = track.attr("transform");
       raw = raw.split("(")[1];
       raw = raw.split(")")[0];
       mylat = raw.split(",")[0];
@@ -1196,29 +1151,23 @@ d3.tsv("new_monitor_sim.tsv", function(error, data) {
         [mylat, mylng]
       );
 
-
       point.attr("transform", function(d) { //rotate the nodes
         return "translate(" + projection(d.value) + ")";
       });
 
       var closeRate = Math.abs(0.5 - phasePercentage);
 
-      //var test = closeRate * 0 + 1; //scale factor
       if (dis < 100) {
-        //test = 1;
         flyZoomed(p_r, phasePercentage, dis);
       } else {
         flyalone(p_r, phasePercentage, dis);
       }
 
-      var newlst = [
-        [lat_old, lng_old], p_r
-      ];
-
+      var newlst = [[lat_old, lng_old], p_r];
 
       if (lat_old < 0 && p_r[0] > 0 && p_r[0] - lat_old < 180) {
 
-        var newpt = [0, -lat_old / (p_r[0] - lat_old) * (p_r[1] - lng_old) + lng_old]
+        var newpt = [0, -lat_old / (p_r[0] - lat_old) * (p_r[1] - lng_old) + lng_old];
 
         newlst = [
           [lat_old, lng_old], newpt, [p_r[0], p_r[1]]
@@ -1234,25 +1183,27 @@ d3.tsv("new_monitor_sim.tsv", function(error, data) {
 
       }
 
-      route_m.coordinates = reptojectMap(newlst);
+      var linedata = lineFunction(reptojectMap(newlst));
       route_map
-        .attr("d", lineFunction(route_m.coordinates));
+        .attr("d", linedata);
       route_map_blur
-        .attr("d", lineFunction(route_m.coordinates));
+        .attr("d", linedata);
 
 
       if (nowNum != 1) {
 
+        var linedata = lineFunction(reptojectMap(fixloop(pastData.coordinates)));
         pastRoute_map //create current route
-          .attr("d", lineFunction(reptojectMap(fixloop(pastData.coordinates))));
+          .attr("d", linedata);
         pastRoute_map_blur //create current route
-          .attr("d", lineFunction(reptojectMap(fixloop(pastData.coordinates))));
+          .attr("d", linedata);
 
       } else {
+        var linedata = lineFunction([]);
         pastRoute_map //create current route
-          .attr("d", lineFunction([]));
+          .attr("d", linedata);
         pastRoute_map_blur //create current route
-          .attr("d", lineFunction([]));
+          .attr("d", linedata);
       }
 
       track.attr("r", 4 * (trackscale % 1) + 2); //change the tracker's r according to closerate
@@ -1273,15 +1224,15 @@ d3.tsv("new_monitor_sim.tsv", function(error, data) {
       context.fillStyle = "rgb(25,25,25)";
       context.fill();
       context.lineWidth = .5;
-      context.strokeStyle = "#000";
+      context.strokeStyle = "rgb(25,25,25)";
       context.stroke();
 
-      context.beginPath(); //grid
+/*      context.beginPath(); //grid
       path(grid);
       context.lineWidth = .2;
       context.strokeStyle = "rgba(119,119,119,.5)";
       context.stroke();
-
+*/
 
       time1 = Date.now();
       fps.text(Math.round(1000 / (time1 - time0)));
@@ -1289,10 +1240,6 @@ d3.tsv("new_monitor_sim.tsv", function(error, data) {
 
     });
   });
-
-  d3.select(self.frameElement).style("height", height + "px");
-
-
 
 });
 
@@ -1303,15 +1250,6 @@ var update = function(current) {
   route = getNode(route_multi, current);
   routeRam = jQuery.extend(true, {}, route); //deep copy
   routeRam.coordinates = ramwhole(routeRam.coordinates, 0);
-
-
-  target
-    .attr("class", "target")
-    .append("circle")
-    .attr("cx", 25)
-    .attr("cy", 25)
-    .attr("r", 10)
-    .style("display", "none");
 
   myroute
     .datum(routeRam)
@@ -1342,7 +1280,7 @@ var update = function(current) {
       updateContent(nowNum);
       moveToggle = false;
       cont = false; //loop not started
-      count = oneMove_default - 0.000001; //to measure the interval
+      count = oneMove_default - 0.0001; //to measure the interval
       flyto(getNode(places, nowNum), 3);
 
     })
@@ -1422,7 +1360,16 @@ var update = function(current) {
     .attr("height", 10)
     .attr("fill", "#565656")
     .on("mouseover", function() {
-      console.log("oer");
+      d3.select(this).attr("width", 4)
+        .attr("x", -2)
+        .attr("y", 14.5)
+        .attr("height", 15);
+    })
+    .on("mouseout", function() {
+      d3.select(this).attr("width", 1.5)
+        .attr("x", -0.75)
+        .attr("y", 17)
+        .attr("height", 10);
     });
 
 
