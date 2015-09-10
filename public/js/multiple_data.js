@@ -14,14 +14,13 @@ function fixloop(lst) {
     } else if (lst[i][0] < 0 && lst[i + 1][0] > 0 && lst[i + 1][0] - lst[i][0] > 180) {
       left_right = false;
       break;
-    } 
-     left_right = -1;
+    }
+    left_right = -1;
   }
 
   if (left_right === -1) {
     return lst;
-  }
-  else if (left_right === true) {
+  } else if (left_right === true) {
 
     for (var i = 0; i < lst.length - 1; i++) {
       if (lst[i][0] < 0 && lst[i + 1][0] > 0 && lst[i + 1][0] - lst[i][0] < 180) {
@@ -97,15 +96,13 @@ function flyalone(tgt, ratio, dis) {
 
 
 
-  if (ratio < 0.01){
+  if (ratio < 0.01) {
     myzoom = 10 - ratio / 0.01 * zoomspan;
     //mypitch = (0.005-Math.abs(ratio - 0.005))/0.005*60;
-  }
-  else if (ratio > 0.99){
+  } else if (ratio > 0.99) {
     myzoom = 10 - (1 - ratio) / 0.01 * zoomspan;
     //mypitch = (0.005-Math.abs(ratio - 0.995))/0.005*60;
-  }
-  else myzoom = 10 - zoomspan;
+  } else myzoom = 10 - zoomspan;
 
   map.jumpTo({
     // These options control the ending camera position: centered at
@@ -115,7 +112,7 @@ function flyalone(tgt, ratio, dis) {
     zoom: myzoom,
     //zoom:1,
     bearing: 0,
-    pitch:mypitch,
+    pitch: mypitch,
 
     // These options control the flight curve, making it move
     // slowly and zoom out almost completely before starting
@@ -136,7 +133,7 @@ function flyZoomed(tgt, ratio, dis) {
   var zoomspan = null;
   zoomspan = dis / 100 * 4;
   if (dis < 50) zoomspan = 2;
-  var mypitch = (0.5-Math.abs(ratio - 0.5))*80;
+  var mypitch = (0.5 - Math.abs(ratio - 0.5)) * 80;
   var myzoom = Math.pow((Math.abs(ratio - 0.5)), 4) * 32 * 2 * zoomspan / 4 + (11 - zoomspan); //[7,11]
   if (dis < 0.1) {
     myzoom = 11;
@@ -150,9 +147,9 @@ function flyZoomed(tgt, ratio, dis) {
     // the target, at zoom level 9, and north up.
 
     center: tgt,
-    zoom: myzoom-1,
+    zoom: myzoom - 1,
     bearing: 0,
-    pitch:mypitch,
+    pitch: mypitch,
 
     // These options control the flight curve, making it move
     // slowly and zoom out almost completely before starting
@@ -692,6 +689,8 @@ d3.tsv("new_monitor_sim.tsv", function(error, data) {
   //head is not counted as a row.
   //each item in the data list is a dictionary, key is indicated by the head
 
+
+
   var num = data.length;
   for (var i = 0; i < num; i++) {
     places_multi[data[i]["deviceID"]] = {};
@@ -937,7 +936,18 @@ d3.tsv("new_monitor_sim.tsv", function(error, data) {
     .attr("height", 10)
     .attr("fill", "rgb(100,100,100)")
     .on("mouseover", function() {
-
+      console.log("over");
+      d3.select(this).attr("width", 4)
+        .attr("x", -2)
+        .attr("y", 14.5)
+        .attr("height", 15);
+    })
+    .on("mouseout", function() {
+      console.log("over");
+      d3.select(this).attr("width", 1.5)
+        .attr("x", -0.75)
+        .attr("y", 17)
+        .attr("height", 10);
     });
 
   d3.select(".xaxis path").remove();
@@ -995,10 +1005,10 @@ d3.tsv("new_monitor_sim.tsv", function(error, data) {
       endN = places[k];
     }
 
-var fps = d3.select("#fps span");
+    var fps = d3.select("#fps span");
 
-var time0 = Date.now(),
-    time1;
+    var time0 = Date.now(),
+      time1;
 
     //////the timmer//////////////////////////////////////////////////////////////////////////////////////////////
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1007,13 +1017,11 @@ var time0 = Date.now(),
       var mediah = 0;
       var storyh = $("#story p").height();
 
-      if ($("#media iframe").attr("src").length>0) 
-        mediah = 240;
+      if ($("#media iframe").attr("src").length > 0)
+        mediah = $("#media iframe").height();
       else
         mediah = $("#media img").height();
-
-      console.log($("#media iframe").height());
-      $("#control").css("height", (mediah+storyh+200));
+      $("#control").css("height", (mediah + storyh + 200));
 
       trackscale += 0.2;
       lat_old = getNode(places, (nowNum - 1 + nodeNum) % nodeNum)[0];
@@ -1033,15 +1041,15 @@ var time0 = Date.now(),
       }
 
       var local_scale = 1;
-      if (count / oneMove <= 0.01 || count / oneMove >= 0.99) {//start and end
-        if (dis >= 100) {//long distance path
+      if (count / oneMove <= 0.01 || count / oneMove >= 0.99) { //start and end
+        if (dis >= 100) { //long distance path
 
           //local_scale = (0.5-Math.abs(0.5-count / oneMove))*19/20+1/20;
-          local_scale = 1 / 25;//move slow
-        } else if (dis > 0.1) local_scale = 1;//move slow
-        else local_scale = 10;//move fast
-      } else {//interval path
-        if (dis >= 100) local_scale = 1;//regular speed
+          local_scale = 1 / 25; //move slow
+        } else if (dis > 0.1) local_scale = 1; //move slow
+        else local_scale = 10; //move fast
+      } else { //interval path
+        if (dis >= 100) local_scale = 1; //regular speed
         else if (dis > 0.1)
           local_scale = 1;
         else
@@ -1234,7 +1242,6 @@ var time0 = Date.now(),
 
 
       if (nowNum != 1) {
-        console.log(fixloop(pastData.coordinates).length);
 
         pastRoute_map //create current route
           .attr("d", lineFunction(reptojectMap(fixloop(pastData.coordinates))));
@@ -1276,9 +1283,9 @@ var time0 = Date.now(),
       context.stroke();
 
 
-  time1 = Date.now();
-  fps.text(Math.round(1000 / (time1 - time0)));
-  time0 = time1;
+      time1 = Date.now();
+      fps.text(Math.round(1000 / (time1 - time0)));
+      time0 = time1;
 
     });
   });
