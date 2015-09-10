@@ -595,3 +595,24 @@ p {
         top:10;
         color:white;
 }
+
+.menucontent {
+  position:absolute;
+  display: none;
+  background-color: rgba(20,20,20,0.9);
+  width:200px;
+  height:80px;
+  top:60px;
+  color: rgb(140,140,140);
+}
+
+#team:hover {
+  cursor: pointer;
+  color:rgb(200,200,200);
+
+}
+
+#intro:hover {
+  cursor: pointer;
+  color:rgb(200,200,200);
+}

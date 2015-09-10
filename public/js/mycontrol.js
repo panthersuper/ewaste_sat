@@ -229,7 +229,7 @@ var main = function() {
   $("#tablepath div").mouseover( //hover the new route, will show the preview of this one
     function(event) {
 
-      d3.select("#pre").attr("style", "width:300px; display:block;left: "+(mapw/6 +160)+"px;");//
+      d3.select("#pre").attr("style", "width:300px; display:block;left: " + (mapw / 6 + 160) + "px;"); //
 
       var precanvas = d3.select("#pre").append("svg")
         .attr("id", "preview");
@@ -378,81 +378,49 @@ var main = function() {
     }
   )
 
-
-  var hover = 0;
-  $("#menu").hover(
+  var localcontrol2 = true;
+  $(".menu").click(
     function() {
-      if (hover === 0) { //the time that I move in
-        hover = 1;
-        d3.select("#menu").attr("style", "height:30px; ");
-        d3.select("#menu").transition()
-          .duration(500)
-          .attr("style", "height:200px; background-color: rgba(39,39,50,0.95);");
-
-        var mynav = d3.select("#menu").append("nav").attr("class", "mynav").attr("style", "opacity:0;");
-        mynav.append("div").text("Home").attr("id", "home").attr("class", "page0");
-        mynav.append("div").text("Visualization").attr("id", "viz").attr("class", "page1");
-        mynav.append("div").text("About").attr("id", "about").attr("class", "page2");
-        mynav.append("div").text("Team").attr("id", "team").attr("class", "page3");
-        mynav.transition()
-          .duration(500)
-          .attr("style", "opacity:1;");
-
-        $("#home").click(
-          function() {
-            changePage(0);
-          }
-        );
-
-        $("#viz").click(
-          function() {
-            changePage(1);
-          }
-        );
-
-        $("#about").click(
-          function() {
-            //changePage(2);
-            $("#abouttb").get(0).scrollIntoView();
-
-          }
-        );
-
-        $("#team").click(
-          function() {
-            //changePage(3);
-            $("#teamtb").get(0).scrollIntoView();
-
-          }
-        );
-
-      } else { //the time that I move out
-        hover = 0;
-        d3.select("#menu")
-          .transition()
-          .duration(500)
-          .attr("style", "height:30px; background-color : rgba(100,100,100,0.2)");
-
-        $(".mynav").fadeOut(500, function() {
-          $(this).remove();
-        })
+      console.log("menu");
+      if (localcontrol2) {
+        $(".menucontent").fadeIn(100);
+        localcontrol2 = false;
+      } else {
+        $(".menucontent").fadeOut(100);
+        localcontrol2 = true;
 
       }
-    });
-
-
-  $(window).bind('mousewheel DOMMouseScroll', function(event) {
-    if (event.originalEvent.wheelDelta > 0 || event.originalEvent.detail < 0) {
-      // scroll up
-
-    } else {
-      // scroll down
-      nowPage++;
-      if (nowPage == 3) nowPage = 2;
-
-      changePage(nowPage);
     }
-  });
+  );
+
+  $("#team").click(
+    function() {
+      console.log("team");
+      $(".menucontent").fadeOut(100);
+      localcontrol2 = true;
+  }
+);
+  $("#intro").click(
+    function() {
+      console.log("intro");
+      $(".menucontent").fadeOut(100);
+      localcontrol2 = true;
+  }
+);
+
+
+$(window).bind('mousewheel DOMMouseScroll', function(event) {
+  if (event.originalEvent.wheelDelta > 0 || event.originalEvent.detail < 0) {
+    // scroll up
+
+  } else {
+    // scroll down
+    nowPage++;
+    if (nowPage == 3) nowPage = 2;
+
+    changePage(nowPage);
+  }
+});
 
 };
 

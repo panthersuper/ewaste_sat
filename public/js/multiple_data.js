@@ -491,18 +491,19 @@ var mapw = $(window).width(),
   maph = $(window).height();
 var width = mapw / 6,
   height = mapw / 6;
-$("#tablepath").css("height", maph - 300);
+$("#tablepath").css("height", 550);
 $("#abouttb").css("top", maph + 100);
-$("#teamtb").css("top", maph + 100 + $("#abouttb").height());
+$("#teamtb").css("top", maph + 100);
 $("#map").css("width", mapw);
 $("#map").css("height", maph);
 $("#map").css("top", "0px");
 $("#nowpath_title").css("top", maph - 75);
 $("#nowpath_title").css("left", mapw / 6 + 30);
 $("#tablepath").css("left", mapw / 6 + 30);
-$("#tablepath").css("top", 195);
+$("#tablepath").css("top", maph-650);
 $("#page").css("height", maph);
 $("#page").css("width", mapw);
+$(".menucontent").css("left", mapw -200);
 
 //$("#map").fadeOut(0);
 
@@ -738,7 +739,7 @@ d3.tsv("new_monitor_sim.tsv", function(error, data) {
     id++;
   }
 
-  var localnum = ($(window).height() - 300) / (id) * 0.8;
+  var localnum = ($("#tablepath").height()) / (id)*0.76;
   $("#tablepath div").css("height", localnum + "px");
 
   $(document).ready(main); //run jquery after csv loaded so path button initialized
