@@ -24,22 +24,69 @@ body {
 #teamtb {
   display: none;
   color:white;
-  width:50%;
+  width:670px;
+  height:450px;
   position: absolute;
-  left: 16%;
-  margin-left: 0px;
-  top:115em;
+  left: 25%;
+  background-color: rgba(20,20,20,0.9);
 }
+
+#teamtb table {
+  margin: 20px;
+  margin-left: 50px;
+  border-spacing: 50px 10px;
+}
+
+#teamtb img {
+  position: relative;
+  left: 640px;
+  top:10px;
+  width:20px;
+  cursor: pointer;
+
+}
+
+#aboutbk {
+  display: none;
+  position: absolute;
+  background-color: rgba(200,200,200,0.4);
+  left:0px;
+  top:0px;
+
+}
+
+
 
 #abouttb {
   display: none;
   color:white;
-  width:50%;
+  width:670px;
+  height:800px;
   position: absolute;
-  left: 16%;
-  margin-left: 0px;
-  top:60em;
+  left: 25%;
+  top:50px;
+  background-color: rgba(20,20,20,0.9);
 }
+
+#abouttb table {
+  margin: 20px;
+  margin-left: 20px;
+  border-spacing: 10px 0px;
+}
+
+#abouttb img {
+  position: relative;
+  left: 640px;
+  top:10px;
+  width:20px;
+  cursor: pointer;
+
+}
+
+#abouttb p {
+  font-size: 11px;
+}
+
 
 .head p{
   font-size: 20px;
@@ -604,6 +651,10 @@ p {
   height:80px;
   top:60px;
   color: rgb(140,140,140);
+}
+
+.menucontent p {
+  font-size: 13px;
 }
 
 #team:hover {

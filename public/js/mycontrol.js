@@ -398,13 +398,36 @@ var main = function() {
       console.log("team");
       $(".menucontent").fadeOut(100);
       localcontrol2 = true;
+
+      $("#aboutbk").css("display","inline").fadeOut(0).fadeIn(200);
+      $("#teamtb").css("display","inline").fadeOut(0).fadeIn(200);
   }
 );
+
+  $("#teamtb img").click(
+    function() {
+      console.log("close");
+      $("#aboutbk").css("display","inline").fadeOut(0);
+      $("#teamtb").css("display","inline").fadeOut(0);
+  }
+);
+
   $("#intro").click(
     function() {
       console.log("intro");
       $(".menucontent").fadeOut(100);
       localcontrol2 = true;
+
+      $("#aboutbk").css("display","inline").fadeOut(0).fadeIn(200);
+      $("#abouttb").css("display","inline").fadeOut(0).fadeIn(200);
+  }
+);
+
+  $("#abouttb img").click(
+    function() {
+      console.log("close");
+      $("#aboutbk").css("display","inline").fadeOut(0);
+      $("#abouttb").css("display","inline").fadeOut(0);
   }
 );
 
@@ -433,9 +456,9 @@ var inithome = function(time) {
   $("#control").fadeOut(time);
   $("#pre").fadeOut(time);
 
-  $("#abouttb").fadeOut(time);
+  //$("#abouttb").fadeOut(time);
 
-  $("#teamtb").fadeOut(time);
+  //$("#teamtb").fadeOut(time);
 
   $("#hometb").fadeIn(500);
   $("#nowpath_title").fadeOut(time);
@@ -462,9 +485,9 @@ var changePage = function(page) {
     $("#pre").fadeIn(500);
 
 
-    $("#abouttb").fadeOut(500);
+    //$("#abouttb").fadeOut(500);
 
-    $("#teamtb").fadeOut(500);
+    //$("#teamtb").fadeOut(500);
 
     $("#hometb").fadeOut(500);
     $("#nowpath_title").fadeIn(500);

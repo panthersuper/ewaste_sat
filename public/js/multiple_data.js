@@ -504,6 +504,12 @@ $("#tablepath").css("top", maph-650);
 $("#page").css("height", maph);
 $("#page").css("width", mapw);
 $(".menucontent").css("left", mapw -200);
+$("#teamtb").css("top", maph/3);
+$("#abouttb").css("top", maph/7);
+$("#aboutbk").css("width", mapw);
+$("#aboutbk").css("height", maph);
+
+
 
 //$("#map").fadeOut(0);
 
