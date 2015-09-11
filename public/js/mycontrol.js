@@ -2,6 +2,57 @@ var nowPage = 0;
 var allPage = 4;
 
 
+var switchDetail = function(show) {
+
+  var dis = 200 * show;
+  var dur = 1000;
+
+  if (show) {
+    d3.select("#detail_button p").text("Hide Detail");
+    d3.select("#detail_button img").attr("src", "img/down_arrow.png");
+  } else {
+    d3.select("#detail_button p").text("Show Detail");
+    d3.select("#detail_button img").attr("src", "img/up_arrow.png");
+  }
+
+  d3.select("#detail_button").transition()
+    .style("top", (maph - 73 - dis) + "px").duration(dur);
+
+  underbar.transition()
+    .attr("y", maph - 100 - dis)
+    .attr("height", 100 + dis)
+    .duration(dur);
+  underbar_mark.transition()
+    .attr("y", maph - 100 - dis)
+    .duration(dur);
+
+  d3.select(".mycanvas").transition()
+    .attr("style", "transform: translate(20px," + (maph - height - 60 - dis) + "px)").duration(dur);
+
+  d3.select(".globe").transition()
+    .attr("style", "transform: translate(20px," + (maph - height - 60 - dis) + "px)").duration(dur);
+
+  d3.select("#nowpath_title").transition()
+    .style("top", (maph - 75 - dis) + "px").duration(dur);
+
+  timeBase.transition()
+    .attr("transform", function(d) {
+      var myx = xScale(d.value[2]);
+      return "translate(" + myx + "," + (maph - margin.top - margin.bottom + 2.5 - dis) + ")";
+    }).duration(dur);
+
+  timeMark.transition()
+    .attr("transform", "translate(" + xScale(getNode(places, nowNum)[2]) + "," + (maph - margin.top - margin.bottom + 2.5 - dis) + ")")
+    .duration(dur);
+
+  d3.select('.xaxis').transition()
+    .attr('transform', 'translate(' + margin.left + ', ' + (maph - margin.top - margin.bottom - dis) + ')')
+    .duration(dur);
+
+
+
+}
+
 
 var initContent = function() {
   timeMark
@@ -90,6 +141,11 @@ var updateContent = function(num) {
 
   timeMark
     .attr("transform", "translate(" + xScale(getNode(places, nowNum)[2]) + "," + (maph - margin.top - margin.bottom + 2.5) + ")");
+
+  detail_control = true; //hide the detail
+  switchDetail(0);
+
+
 
   $("#Coord p").fadeOut(500, function() {
     $(this).remove()
@@ -289,6 +345,8 @@ var main = function() {
 
   $("#next").click(
     function() {
+      detail_control = true;
+      switchDetail(0);
 
 
 
@@ -435,97 +493,12 @@ var main = function() {
   var detail_control = true;
   $("#detail_button").click(
     function() {
-      var dur = 1000;
       if (detail_control) {
         detail_control = false;
-
-        d3.select("#detail_button p").text("Hide Detail");
-        d3.select("#detail_button img").attr("src", "img/down_arrow.png");
-
-
-        d3.select("#detail_button").transition()
-          .style("top", (maph - 73 - 200) + "px").duration(dur);
-
-        underbar.transition()
-          .attr("y", maph - 300)
-          .attr("height", 300)
-          .duration(dur);
-        underbar_mark.transition()
-          .attr("y", maph - 300)
-          .duration(dur);
-
-        d3.select(".mycanvas").transition()
-          .attr("style", "transform: translate(20px," + (maph - height - 60 - 200) + "px)").duration(dur);
-
-        d3.select(".globe").transition()
-          .attr("style", "transform: translate(20px," + (maph - height - 60 - 200) + "px)").duration(dur);
-
-        //$("#nowpath_title").animate({"top": maph - 75 -200},dur,"linear");
-        //$("#nowpath_title").animate({"top": maph - 75 -200},dur,"linear");
-
-        d3.select("#nowpath_title").transition()
-          .style("top", (maph - 75 - 200) + "px").duration(dur);
-
-        timeBase.transition()
-          .attr("transform", function(d) {
-            var myx = xScale(d.value[2]);
-            return "translate(" + myx + "," + (maph - margin.top - margin.bottom + 2.5 - 200) + ")";
-          }).duration(dur);
-
-        timeMark.transition()
-          .attr("transform", "translate(" + xScale(getNode(places, nowNum)[2]) + "," + (maph - margin.top - margin.bottom + 2.5 - 200) + ")")
-          .duration(dur);
-
-        d3.select('.xaxis').transition()
-          .attr('transform', 'translate(' + margin.left + ', ' + (maph - margin.top - margin.bottom - 200) + ')')
-          .duration(dur);
-      }
-      else {
+        switchDetail(1);
+      } else {
         detail_control = true;
-        d3.select("#detail_button p").text("Show Detail");
-        d3.select("#detail_button img").attr("src", "img/up_arrow.png");
-
-        d3.select("#detail_button").transition()
-          .style("top", (maph - 73) + "px").duration(dur);
-
-        underbar.transition()
-          .attr("y", maph - 100)
-          .attr("height", 100)
-          .duration(dur);
-        underbar_mark.transition()
-          .attr("y", maph - 100)
-          .duration(dur);
-
-        d3.select(".mycanvas").transition()
-          .attr("style", "transform: translate(20px," + (maph - height - 60) + "px)").duration(dur);
-
-        d3.select(".globe").transition()
-          .attr("style", "transform: translate(20px," + (maph - height - 60) + "px)").duration(dur);
-
-        //$("#nowpath_title").animate({"top": maph - 75 -200},dur,"linear");
-        //$("#nowpath_title").animate({"top": maph - 75 -200},dur,"linear");
-
-        d3.select("#nowpath_title").transition()
-          .style("top", (maph - 75) + "px").duration(dur);
-
-        timeBase.transition()
-          .attr("transform", function(d) {
-            var myx = xScale(d.value[2]);
-            return "translate(" + myx + "," + (maph - margin.top - margin.bottom + 2.5) + ")";
-          }).duration(dur);
-
-        timeMark.transition()
-          .attr("transform", "translate(" + xScale(getNode(places, nowNum)[2]) + "," + (maph - margin.top - margin.bottom + 2.5) + ")")
-          .duration(dur);
-
-        d3.select('.xaxis').transition()
-          .attr('transform', 'translate(' + margin.left + ', ' + (maph - margin.top - margin.bottom) + ')')
-          .duration(dur);
-
-
-
-
-
+        switchDetail(0);
 
       }
     }
