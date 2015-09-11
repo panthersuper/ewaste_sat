@@ -148,12 +148,36 @@ body {
 #nowpath_title:hover {
   cursor: pointer;
   color:rgb(150,150,150);
-
 }
 
 #nowpath_title p{
   font-size: 34px;
   margin-top: -10px;
+}
+
+#detail_button {
+  display: none;
+  color:rgb(80,80,80);
+  position: absolute;
+  left:15px;
+  width: 105px;
+  height:40px;
+  bottom: 10px;
+}
+
+#detail_button p{
+  font-size: 14px;
+  float: right;
+}
+
+#detail_button img{
+  height:30px;
+  padding-top:7px;
+}
+
+#detail_button:hover {
+  cursor: pointer;
+  color:rgb(150,150,150);
 }
 
 #control {

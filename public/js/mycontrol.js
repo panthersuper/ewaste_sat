@@ -21,12 +21,12 @@ var initContent = function() {
   d3.select("#Coordnum")
     .append("p")
     .text(getNode(places, 0)[0] + "  |  " + getNode(places, 0)[1]);
+  
   d3.select("#nowpath_title")
     .append("p")
     .text(Object.keys(places_multi)[0].toUpperCase());
 
   revGeocoding(getNode(places, 0)[1], getNode(places, 0)[0], "location");
-
 
   var media = getNode(places, 0)[5].split(",");
   var img = [];
@@ -62,6 +62,7 @@ var initContent = function() {
       .attr("webkitallowfullscreen", "")
       .attr("mozallowfullscreen", "");
   }
+
   $("#story p").fadeOut(0).fadeIn(1000);
   $("#title p").fadeOut(0).fadeIn(1000);
   $(".media_in").hide();
@@ -431,6 +432,15 @@ var main = function() {
   }
 );
 
+  $("#detail_button").click(
+    function() {
+      console.log("detail");
+  }
+);
+
+
+
+
 
 $(window).bind('mousewheel DOMMouseScroll', function(event) {
   if (event.originalEvent.wheelDelta > 0 || event.originalEvent.detail < 0) {
@@ -463,6 +473,7 @@ var inithome = function(time) {
   $("#hometb").fadeIn(500);
   $("#nowpath_title").fadeOut(time);
 
+
   nowPage = 0;
 
 }
@@ -491,6 +502,7 @@ var changePage = function(page) {
 
     $("#hometb").fadeOut(500);
     $("#nowpath_title").fadeIn(500);
+    $("#detail_button").show();
 
   }
   /*else if (page === 2) {

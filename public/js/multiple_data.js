@@ -508,6 +508,7 @@ $("#teamtb").css("top", maph/3);
 $("#abouttb").css("top", maph/7);
 $("#aboutbk").css("width", mapw);
 $("#aboutbk").css("height", maph);
+$("#detail_button").css("top", maph - 73);
 
 
 
@@ -557,7 +558,7 @@ var svgpage = d3.select("#draw").append("svg").attr("class", "svgpage")
 var canvas = d3.select("#draw").append("canvas").attr("class", "mycanvas")
   .attr("width", width)
   .attr("height", height);
-$(".mycanvas").css("transform", "translate(20px," + (maph - height - 50) + "px)");
+$(".mycanvas").css("transform", "translate(20px," + (maph - height - 60) + "px)");
 
 var context = canvas.node().getContext("2d");
 /*
@@ -572,7 +573,7 @@ var svg0 = d3.select("#draw").append("svg").attr("class", "mysvg")
   .attr("width", mapw)
   .attr("height", maph);
 var svg = svg0.append("g").attr("class", "globe");
-$(".globe").css("transform", "translate(20px," + (maph - height - 50) + "px)");
+$(".globe").css("transform", "translate(20px," + (maph - height - 60) + "px)");
 
 var underbar = svgpage.append("rect")
   .attr("x", 0)
@@ -975,11 +976,6 @@ d3.tsv("new_monitor_sim.tsv", function(error, data) {
       endN = places[k];
     }
 
-    var fps = d3.select("#fps span");
-
-    var time0 = Date.now(),
-      time1;
-
     //////the timmer//////////////////////////////////////////////////////////////////////////////////////////////
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////
     d3.timer(function() {
@@ -1241,10 +1237,6 @@ d3.tsv("new_monitor_sim.tsv", function(error, data) {
       context.strokeStyle = "rgba(119,119,119,.5)";
       context.stroke();
 */
-
-      time1 = Date.now();
-      fps.text(Math.round(1000 / (time1 - time0)));
-      time0 = time1;
 
     });
   });
