@@ -4,6 +4,8 @@ var allPage = 4;
 
 
 var initContent = function() {
+  timeMark
+    .attr("transform", "translate(" + xScale(getNode(places, nowNum)[2]) + "," + (maph - margin.top - margin.bottom + 2.5) + ")");
 
   d3.select("#number")
     .append("p")
@@ -21,7 +23,7 @@ var initContent = function() {
   d3.select("#Coordnum")
     .append("p")
     .text(getNode(places, 0)[0] + "  |  " + getNode(places, 0)[1]);
-  
+
   d3.select("#nowpath_title")
     .append("p")
     .text(Object.keys(places_multi)[0].toUpperCase());
@@ -85,6 +87,9 @@ var updateContent = function(num) {
   if (num != 0 && cont === true) {
     cont === true;
   }
+
+  timeMark
+    .attr("transform", "translate(" + xScale(getNode(places, nowNum)[2]) + "," + (maph - margin.top - margin.bottom + 2.5) + ")");
 
   $("#Coord p").fadeOut(500, function() {
     $(this).remove()
@@ -382,7 +387,6 @@ var main = function() {
   var localcontrol2 = true;
   $(".menu").click(
     function() {
-      console.log("menu");
       if (localcontrol2) {
         $(".menucontent").fadeIn(100);
         localcontrol2 = false;
@@ -396,64 +400,151 @@ var main = function() {
 
   $("#team").click(
     function() {
-      console.log("team");
       $(".menucontent").fadeOut(100);
       localcontrol2 = true;
 
-      $("#aboutbk").css("display","inline").fadeOut(0).fadeIn(200);
-      $("#teamtb").css("display","inline").fadeOut(0).fadeIn(200);
-  }
-);
+      $("#aboutbk").css("display", "inline").fadeOut(0).fadeIn(200);
+      $("#teamtb").css("display", "inline").fadeOut(0).fadeIn(200);
+    }
+  );
 
   $("#teamtb img").click(
     function() {
-      console.log("close");
-      $("#aboutbk").css("display","inline").fadeOut(0);
-      $("#teamtb").css("display","inline").fadeOut(0);
-  }
-);
+      $("#aboutbk").css("display", "inline").fadeOut(0);
+      $("#teamtb").css("display", "inline").fadeOut(0);
+    }
+  );
 
   $("#intro").click(
     function() {
-      console.log("intro");
       $(".menucontent").fadeOut(100);
       localcontrol2 = true;
 
-      $("#aboutbk").css("display","inline").fadeOut(0).fadeIn(200);
-      $("#abouttb").css("display","inline").fadeOut(0).fadeIn(200);
-  }
-);
+      $("#aboutbk").css("display", "inline").fadeOut(0).fadeIn(200);
+      $("#abouttb").css("display", "inline").fadeOut(0).fadeIn(200);
+    }
+  );
 
   $("#abouttb img").click(
     function() {
-      console.log("close");
-      $("#aboutbk").css("display","inline").fadeOut(0);
-      $("#abouttb").css("display","inline").fadeOut(0);
-  }
-);
+      $("#aboutbk").css("display", "inline").fadeOut(0);
+      $("#abouttb").css("display", "inline").fadeOut(0);
+    }
+  );
 
+  var detail_control = true;
   $("#detail_button").click(
     function() {
-      console.log("detail");
-  }
-);
+      var dur = 1000;
+      if (detail_control) {
+        detail_control = false;
+
+        d3.select("#detail_button p").text("Hide Detail");
+        d3.select("#detail_button img").attr("src", "img/down_arrow.png");
+
+
+        d3.select("#detail_button").transition()
+          .style("top", (maph - 73 - 200) + "px").duration(dur);
+
+        underbar.transition()
+          .attr("y", maph - 300)
+          .attr("height", 300)
+          .duration(dur);
+        underbar_mark.transition()
+          .attr("y", maph - 300)
+          .duration(dur);
+
+        d3.select(".mycanvas").transition()
+          .attr("style", "transform: translate(20px," + (maph - height - 60 - 200) + "px)").duration(dur);
+
+        d3.select(".globe").transition()
+          .attr("style", "transform: translate(20px," + (maph - height - 60 - 200) + "px)").duration(dur);
+
+        //$("#nowpath_title").animate({"top": maph - 75 -200},dur,"linear");
+        //$("#nowpath_title").animate({"top": maph - 75 -200},dur,"linear");
+
+        d3.select("#nowpath_title").transition()
+          .style("top", (maph - 75 - 200) + "px").duration(dur);
+
+        timeBase.transition()
+          .attr("transform", function(d) {
+            var myx = xScale(d.value[2]);
+            return "translate(" + myx + "," + (maph - margin.top - margin.bottom + 2.5 - 200) + ")";
+          }).duration(dur);
+
+        timeMark.transition()
+          .attr("transform", "translate(" + xScale(getNode(places, nowNum)[2]) + "," + (maph - margin.top - margin.bottom + 2.5 - 200) + ")")
+          .duration(dur);
+
+        d3.select('.xaxis').transition()
+          .attr('transform', 'translate(' + margin.left + ', ' + (maph - margin.top - margin.bottom - 200) + ')')
+          .duration(dur);
+      }
+      else {
+        detail_control = true;
+        d3.select("#detail_button p").text("Show Detail");
+        d3.select("#detail_button img").attr("src", "img/up_arrow.png");
+
+        d3.select("#detail_button").transition()
+          .style("top", (maph - 73) + "px").duration(dur);
+
+        underbar.transition()
+          .attr("y", maph - 100)
+          .attr("height", 100)
+          .duration(dur);
+        underbar_mark.transition()
+          .attr("y", maph - 100)
+          .duration(dur);
+
+        d3.select(".mycanvas").transition()
+          .attr("style", "transform: translate(20px," + (maph - height - 60) + "px)").duration(dur);
+
+        d3.select(".globe").transition()
+          .attr("style", "transform: translate(20px," + (maph - height - 60) + "px)").duration(dur);
+
+        //$("#nowpath_title").animate({"top": maph - 75 -200},dur,"linear");
+        //$("#nowpath_title").animate({"top": maph - 75 -200},dur,"linear");
+
+        d3.select("#nowpath_title").transition()
+          .style("top", (maph - 75) + "px").duration(dur);
+
+        timeBase.transition()
+          .attr("transform", function(d) {
+            var myx = xScale(d.value[2]);
+            return "translate(" + myx + "," + (maph - margin.top - margin.bottom + 2.5) + ")";
+          }).duration(dur);
+
+        timeMark.transition()
+          .attr("transform", "translate(" + xScale(getNode(places, nowNum)[2]) + "," + (maph - margin.top - margin.bottom + 2.5) + ")")
+          .duration(dur);
+
+        d3.select('.xaxis').transition()
+          .attr('transform', 'translate(' + margin.left + ', ' + (maph - margin.top - margin.bottom) + ')')
+          .duration(dur);
 
 
 
 
 
-$(window).bind('mousewheel DOMMouseScroll', function(event) {
-  if (event.originalEvent.wheelDelta > 0 || event.originalEvent.detail < 0) {
-    // scroll up
 
-  } else {
-    // scroll down
-    nowPage++;
-    if (nowPage == 3) nowPage = 2;
+      }
+    }
+  );
 
-    changePage(nowPage);
-  }
-});
+
+
+  $(window).bind('mousewheel DOMMouseScroll', function(event) {
+    if (event.originalEvent.wheelDelta > 0 || event.originalEvent.detail < 0) {
+      // scroll up
+
+    } else {
+      // scroll down
+      nowPage++;
+      if (nowPage == 3) nowPage = 2;
+
+      changePage(nowPage);
+    }
+  });
 
 };
 

@@ -118,8 +118,6 @@ body {
   position: absolute;
   top:0px;
   left: 0%;
-
-
 }
 
 #tablepath {
@@ -142,7 +140,6 @@ body {
   width: 175px;
   cursor: pointer;
   height:40px;
-  bottom: 10px;
 }
 
 #nowpath_title:hover {
@@ -188,7 +185,10 @@ body {
   left: calc(100% - 400px);
   top:120px;
   margin-left: 15px;
-  
+  transition: all 0.3s ease-in-out;
+  -webkit-transition: all 0.3s ease-in-out;
+  -moz-transition: all 0.3s ease-in-out;
+  -o-transition: all 0.3s ease-in-out;
 }
 
 
@@ -260,16 +260,12 @@ body {
 }
 
 .mycanvas  {
-  //display: none;
   position: absolute;
-  //transform: translate(150px,500px);
 
 }
 
 .globe  {
-  //display: none;
   position: absolute;
-  //transform: translate(150px,500px);
 
 }
 
@@ -690,4 +686,12 @@ p {
 #intro:hover {
   cursor: pointer;
   color:rgb(200,200,200);
+}
+
+#moveY {
+  transform: translate(0px,-200px);
+}
+
+.timebase {
+
 }

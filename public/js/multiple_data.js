@@ -497,8 +497,10 @@ $("#teamtb").css("top", maph + 100);
 $("#map").css("width", mapw);
 $("#map").css("height", maph);
 $("#map").css("top", "0px");
+
 $("#nowpath_title").css("top", maph - 75);
 $("#nowpath_title").css("left", mapw / 6 + 30);
+
 $("#tablepath").css("left", mapw / 6 + 30);
 $("#tablepath").css("top", maph-650);
 $("#page").css("height", maph);
@@ -558,14 +560,10 @@ var svgpage = d3.select("#draw").append("svg").attr("class", "svgpage")
 var canvas = d3.select("#draw").append("canvas").attr("class", "mycanvas")
   .attr("width", width)
   .attr("height", height);
-$(".mycanvas").css("transform", "translate(20px," + (maph - height - 60) + "px)");
+
+d3.select(".mycanvas").attr("style", "transform: translate(20px," + (maph - height - 60) + "px)");
 
 var context = canvas.node().getContext("2d");
-/*
-d3.select("#draw").append("div").attr("id", "map")
-  .attr("width", width)
-  .attr("height", height);
-*/
 
 
 
@@ -573,9 +571,10 @@ var svg0 = d3.select("#draw").append("svg").attr("class", "mysvg")
   .attr("width", mapw)
   .attr("height", maph);
 var svg = svg0.append("g").attr("class", "globe");
-$(".globe").css("transform", "translate(20px," + (maph - height - 60) + "px)");
+d3.select(".globe").attr("style", "transform: translate(20px," + (maph - height - 60) + "px)");
 
 var underbar = svgpage.append("rect")
+  .attr("id", "underbar")
   .attr("x", 0)
   .attr("y", maph - 100)
   .attr("width", mapw)
@@ -944,8 +943,7 @@ d3.tsv("new_monitor_sim.tsv", function(error, data) {
 
   timeMark = svg0.append("g") //time mark
     .append("rect")
-    .attr("class", "timemark")
-    .attr("transform", "translate(100," + (maph - margin.bottom) + ")");
+    .attr("class", "timemark");
 
   initContent();
 
@@ -988,7 +986,7 @@ d3.tsv("new_monitor_sim.tsv", function(error, data) {
       else
         mediah = $("#media img").height();
       $("#control").css("height", (mediah + storyh + 200));
-      $("#control").css("top", (maph/2-$("#control").height()/2));
+      $("#control").css("top", (60+(maph-60-underbar.attr("height"))/2-$("#control").height()/2));
       $("#story").css("top", (mediah + 120));
 
 
@@ -1137,8 +1135,6 @@ d3.tsv("new_monitor_sim.tsv", function(error, data) {
       //console.log("Current Path:" + curPath + "||Current Node:" + nowNum + "||Total Node:" + nodeNum);
       //console.log(phasePercentage);
 
-      timeMark
-        .attr("transform", "translate(" + xScale(getNode(places, nowNum)[2]) + "," + (maph - margin.top - margin.bottom + 2.5) + ")");
 
       track
         .attr("transform", translateAlong2(CuRoute.node(), (1)));
