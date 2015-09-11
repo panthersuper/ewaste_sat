@@ -993,6 +993,7 @@ d3.tsv("new_monitor_sim.tsv", function(error, data) {
         mediah = $("#media img").height();
       $("#control").css("height", (mediah + storyh + 200));
       $("#control").css("top", (maph/2-$("#control").height()/2));
+      $("#story").css("top", (mediah + 120));
 
 
 
