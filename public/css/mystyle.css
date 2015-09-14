@@ -5,10 +5,10 @@ body {
   margin:0;
 }
 
-
-
-
-
+a:link {color: rgb(180,180,180); text-decoration: none }
+a:visited {color: rgb(180,180,180); text-decoration: none}
+a:hover {text-decoration: underline}
+a:active {text-decoration: none}
 
 #hometb {
   display: none;
@@ -16,9 +16,9 @@ body {
   width:100%;
   position: absolute;
 /*  left: 50%;
-  margin-left: -100px;*/
-  top:300px;
-  text-align: center;
+margin-left: -100px;*/
+top:300px;
+text-align: center;
 }
 
 #teamtb {
@@ -356,11 +356,11 @@ body {
 }
 
 .route_map_blur {
-filter:url(#blur-effect-2);
+  filter:url(#blur-effect-2);
 }
 
 .pastRoute_map_blur {
-filter:url(#blur-effect-2);
+  filter:url(#blur-effect-2);
 
 }
 
@@ -672,11 +672,11 @@ p {
 }
 
 .timemark {
-    y:15;
-    x:-1.5;
-    width:3px;
-    height:15px;
-    fill:#39a4e8;
+  y:15;
+  x:-1.5;
+  width:3px;
+  height:15px;
+  fill:#39a4e8;
 }
 
 .domain {
@@ -686,43 +686,43 @@ p {
 }
 
 .mitlogo {
-      z-index: 1; position:relative;
-      left:30px;
-      top:15px;
-      width:40px;
+  z-index: 1; position:relative;
+  left:30px;
+  top:15px;
+  width:40px;
 
 }
 
 .toptitle {
-      z-index: 1; position:relative;
-      top:-25px;
-      width:40px;
-      font-size: 20px;
-      color:rgb(150,150,150);
+  z-index: 1; position:relative;
+  top:-25px;
+  width:40px;
+  font-size: 20px;
+  color:rgb(150,150,150);
 
 }
 
 
 .menu {
-      z-index: 1; position:relative;
-      top:-70px;
-      width:40px;
-      font-size: 16px;
-      color:rgb(150,150,150);
+  z-index: 1; position:relative;
+  top:-70px;
+  width:40px;
+  font-size: 16px;
+  color:rgb(150,150,150);
 }
 
 .menu:hover {
-      cursor: pointer;
-      color:rgb(200,200,200);
+  cursor: pointer;
+  color:rgb(200,200,200);
 
 
 }
 
 #fps {
-        z-index: 1; position:absolute;
-        left:10;
-        top:10;
-        color:white;
+  z-index: 1; position:absolute;
+  left:10;
+  top:10;
+  color:white;
 }
 
 .menucontent {
@@ -756,4 +756,18 @@ p {
 
 .timebase {
 
+}
+
+#explore {
+border-width:2px;
+border-color: rgb(100,100,100);
+background-color: rgba(30,30,30,0.9);
+border-style: solid;
+width:100px;
+margin-left:calc(50% - 50px);
+}
+
+#explore:hover {
+background-color: rgba(30,30,30,0.6);
+cursor: pointer;
 }

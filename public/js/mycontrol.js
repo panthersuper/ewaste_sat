@@ -243,9 +243,15 @@ var main = function() {
     }
   );
 
+  $("#explore").click(
+    function() {
+      changePage(1);
+
+    }
+  );
 
 
-  $(window).bind('mousewheel DOMMouseScroll', function(event) {
+/*  $(window).bind('mousewheel DOMMouseScroll', function(event) {
     if (event.originalEvent.wheelDelta > 0 || event.originalEvent.detail < 0) {
       // scroll up
 
@@ -256,7 +262,7 @@ var main = function() {
 
       changePage(nowPage);
     }
-  });
+  });*/
 
 };
 
