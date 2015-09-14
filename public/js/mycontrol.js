@@ -1,5 +1,6 @@
 var nowPage = 0;
 var allPage = 4;
+var detail_control = true;
 
 //main jquery function
 
@@ -232,16 +233,12 @@ var main = function() {
     }
   );
 
-  var detail_control = true;
   $("#detail_button").click(
     function() {
       if (detail_control) {
-        detail_control = false;
         switchDetail(1);
       } else {
-        detail_control = true;
         switchDetail(0);
-
       }
     }
   );

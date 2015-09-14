@@ -179,6 +179,10 @@ body {
   left:500px;
   width: 300px;
   display: none;
+  border-bottom-style: solid;
+  border-bottom-color: rgb(150,150,150);
+  border-bottom-width:1px;
+  padding-bottom: 10px;
 
 }
 
