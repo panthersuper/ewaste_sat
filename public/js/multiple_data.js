@@ -27,6 +27,8 @@ $("#distance").css("top", maph + 10);
 $("#distance").css("left", mapw / 6 + 30);
 $("#days").css("top", maph + 75);
 $("#days").css("left", mapw / 6 + 30);
+$("#hometb").css("height", maph);
+
 
 
 var margin = {

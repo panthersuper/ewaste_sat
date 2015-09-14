@@ -17,8 +17,10 @@ a:active {text-decoration: none}
   position: absolute;
 /*  left: 50%;
 margin-left: -100px;*/
-top:300px;
-text-align: center;
+  text-align: center;
+  background-image: url(home_background_3.jpg);
+  background-size: cover;
+  background-repeat: no-repeat;
 }
 
 #teamtb {
@@ -742,7 +744,6 @@ p {
 #team:hover {
   cursor: pointer;
   color:rgb(200,200,200);
-
 }
 
 #intro:hover {
@@ -771,4 +772,11 @@ border-radius: 4px;
 #explore:hover {
 background-color: rgba(30,30,30,0.6);
 cursor: pointer;
+}
+
+#copyright p{
+  color: rgb(200,200,200);
+  font-size: 8px;
+  width: 300px;
+  margin-left:calc(0px);
 }
