@@ -765,6 +765,7 @@ background-color: rgba(30,30,30,0.9);
 border-style: solid;
 width:100px;
 margin-left:calc(50% - 50px);
+border-radius: 4px;
 }
 
 #explore:hover {
