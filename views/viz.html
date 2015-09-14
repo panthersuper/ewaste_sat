@@ -11,7 +11,7 @@
   <script src="js/jquery.min.js"></script>
   <script src='js/mapbox-gl.js'></script>
   <link href='css/mapbox-gl.css' rel='stylesheet' />
-
+  <link href='https://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
   <link rel="stylesheet" type="text/css" href="css/mystyle.css">
 </head>
 
@@ -31,6 +31,22 @@
 
   <div id = "nowpath_title">
   </div>
+  <div id = "device_icon">
+    <img src="img/tv_icon.png">
+    <p>MONITOR</p>
+  </div>
+  <div id = "distance">
+    <p>DISTANCE OF TRAVEL: </p>
+    <p class = "keynum">0</p>
+    <p>km</p>
+
+  </div>
+  <div id = "days">
+    <p>DURATION OF TRAVEL: </p>
+    <p class = "keynum">0</p>
+    <p>days</p>
+  </div>
+
 
   <div id = "detail_button">
     <img src="img/up_arrow.png">
@@ -201,9 +217,12 @@
     </table>
   </div>
 
+  <script src ="js/myfunction.js"></script>
+  <script src ="js/myfunction_control.js"></script>
 
   <script src ="js/multiple_data.js"></script>
   <script src ="js/mycontrol.js"></script>
+
   <script type="text/javascript">
   mapboxgl.accessToken = 'pk.eyJ1IjoicGFudGhlcnN1cGVyIiwiYSI6Il9JRlBXMkkifQ.4VOcpN_xI1jf1XxjnIZHmw';
   var map = new mapboxgl.Map({

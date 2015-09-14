@@ -1,492 +1,3 @@
-function fixloop(lst) {
-  //fix the loop error for path on globe
-  var mynew = [];
-
-  var left_right;
-  var index = null;
-
-  for (var i = 0; i < lst.length - 1; i++) {
-
-    if (lst[i][0] < 0 && lst[i + 1][0] > 0 && lst[i + 1][0] - lst[i][0] < 180) {
-
-      left_right = true;
-      index = i;
-
-      break;
-    } else if (lst[i][0] < 0 && lst[i + 1][0] > 0 && lst[i + 1][0] - lst[i][0] > 180) {
-      left_right = false;
-      index = i;
-
-      break;
-    }
-    left_right = -1;
-  }
-
-  if (left_right === -1) {
-    return lst;
-  } else if (left_right === true) {
-    console.log("computation!!!");
-    for (var i = 0; i < lst.length; i++) {
-      if (i===index) {
-        var newpt = [0, -lst[i][0] / (lst[i + 1][0] - lst[i][0]) * (lst[i + 1][1] - lst[i][1]) + lst[i][1]];
-        //var newpt = [360, 1];
-        mynew.push(lst[i]);
-        mynew.push(newpt);
-
-      } else {
-        mynew.push(lst[i]);
-      }
-    }
-
-    return mynew;
-  } else {
-    console.log("computation!!!");
-
-    for (var i = 0; i < lst.length; i++) {
-      mynew.push([(lst[i][0] + 360) % 360, lst[i][1]]);
-
-    }
-
-    return mynew;
-  }
-
-}
-
-
-function reptojectMap(lst) {
-  var mylst = []
-  for (k in lst) {
-    mylst.push(map.project(lst[k]));
-  }
-
-  return mylst;
-}
-
-function flyalone(tgt, ratio, dis) {
-
-  var zoomspan = 6;
-  var mypitch = 0;
-
-  //var myzoom = Math.pow((Math.abs(ratio - 0.5)), 8) * 128 * 2 * 2 * 2 * 2 + 3; //[3,10]
-
-  if (dis < 1000) zoomspan = 3 + dis / 1000 * 5;
-
-
-
-  if (ratio < 0.01) {
-    myzoom = 10 - ratio / 0.01 * zoomspan;
-    //mypitch = (0.005-Math.abs(ratio - 0.005))/0.005*60;
-  } else if (ratio > 0.99) {
-    myzoom = 10 - (1 - ratio) / 0.01 * zoomspan;
-    //mypitch = (0.005-Math.abs(ratio - 0.995))/0.005*60;
-  } else myzoom = 10 - zoomspan;
-
-  map.jumpTo({
-    // These options control the ending camera position: centered at
-    // the target, at zoom level 9, and north up.
-
-    center: tgt,
-    zoom: myzoom,
-    //zoom:1,
-    bearing: 0,
-    pitch: mypitch,
-
-    // These options control the flight curve, making it move
-    // slowly and zoom out almost completely before starting
-    // to pan.
-    // This can be any easing function: it takes a number between
-    // 0 and 1 and returns another number between 0 and 1.
-
-
-    easing: function(t) {
-
-      return t;
-    }
-  });
-
-}
-
-function flyZoomed(tgt, ratio, dis) {
-  var zoomspan = null;
-  zoomspan = dis / 100 * 4;
-  if (dis < 50) zoomspan = 2;
-  var mypitch = (0.5 - Math.abs(ratio - 0.5)) * 80;
-  var myzoom = Math.pow((Math.abs(ratio - 0.5)), 4) * 32 * 2 * zoomspan / 4 + (11 - zoomspan); //[7,11]
-  if (dis < 0.1) {
-    myzoom = 11;
-    mypitch = 0;
-
-  }
-
-
-  map.jumpTo({
-    // These options control the ending camera position: centered at
-    // the target, at zoom level 9, and north up.
-
-    center: tgt,
-    zoom: myzoom - 1,
-    bearing: 0,
-    pitch: mypitch,
-
-    // These options control the flight curve, making it move
-    // slowly and zoom out almost completely before starting
-    // to pan.
-    // This can be any easing function: it takes a number between
-    // 0 and 1 and returns another number between 0 and 1.
-
-
-    easing: function(t) {
-
-      return t;
-    }
-  });
-}
-
-
-
-function flyto(tgt, spd) {
-
-  map.flyTo({
-    // These options control the ending camera position: centered at
-    // the target, at zoom level 9, and north up.
-    center: tgt,
-    zoom: 11,
-    bearing: 0,
-
-    // These options control the flight curve, making it move
-    // slowly and zoom out almost completely before starting
-    // to pan.
-    speed: spd, // make the flying slow
-    curve: 1, // change the speed at which it zooms out
-
-    // This can be any easing function: it takes a number between
-    // 0 and 1 and returns another number between 0 and 1.
-
-
-
-    easing: function(t) {
-      $("#fake_track1").attr("opacity", 2 * Math.abs(0.5 - t));
-      $("#fake_track2").attr("opacity", 2 * Math.abs(0.5 - t));
-
-      return t;
-    }
-  });
-}
-
-
-function ZOOMOUT(spd) {
-
-  map.flyTo({
-    // These options control the ending camera position: centered at
-    // the target, at zoom level 9, and north up.
-    //center: tgt,
-    zoom: 5,
-    bearing: 0,
-
-    // These options control the flight curve, making it move
-    // slowly and zoom out almost completely before starting
-    // to pan.
-    speed: spd, // make the flying slow
-    curve: 100, // change the speed at which it zooms out
-
-    // This can be any easing function: it takes a number between
-    // 0 and 1 and returns another number between 0 and 1.
-    easing: function(t) {
-      return t;
-    }
-  });
-}
-
-function ZOOMIN(spd) {
-
-  map.flyTo({
-    // These options control the ending camera position: centered at
-    // the target, at zoom level 9, and north up.
-    //center: tgt,
-    zoom: 11,
-    bearing: 0,
-
-    // These options control the flight curve, making it move
-    // slowly and zoom out almost completely before starting
-    // to pan.
-    speed: spd, // make the flying slow
-    curve: 100, // change the speed at which it zooms out
-
-    // This can be any easing function: it takes a number between
-    // 0 and 1 and returns another number between 0 and 1.
-    easing: function(t) {
-      return t;
-    }
-  });
-}
-
-
-Object.size = function(obj) {
-  var size = 0,
-    key;
-  for (key in obj) {
-    if (obj.hasOwnProperty(key)) size++;
-  }
-  return size;
-};
-
-var getNode = function(placeList, i) { //get the certain node from the place list
-  var item = 0;
-  var node = null;
-  for (k in placeList) {
-
-    if (item === i) {
-      node = placeList[k];
-      break;
-    }
-    item++;
-
-  }
-  return node;
-}
-
-var getKey = function(placeList, i) { //get the certain node from the place list
-  var item = 0;
-  var key = null;
-  for (k in placeList) {
-
-    if (item === i) {
-      key = k;
-      break;
-    }
-    item++;
-
-  }
-  return key;
-}
-
-var interPt = function(ptA, ptB, t) {
-  //the the interval point between point A and point B, at the t position
-  //solve the problem of crossing the zero lat line
-  var x = null;
-  var y = (ptB[1] - ptA[1]) * t + ptA[1];
-
-  if (ptA[0] >= 0 && ptB[0] >= 0 || ptA[0] <= 0 && ptB[0] <= 0) {
-    x = (ptB[0] - ptA[0]) * t + ptA[0];
-  } else if (Math.abs(ptA[0] - ptB[0]) < 180) {
-    x = (ptB[0] - ptA[0]) * t + ptA[0];
-  } else {
-    x = ((ptB[0] + 360) % 360 - (ptA[0] + 360) % 360) * t + (ptA[0] + 360) % 360;
-  }
-  return [x, y];
-}
-
-var translateAlong2 = function(path, m) {
-  var l = path.getTotalLength();
-  var p = path.getPointAtLength(m * l);
-
-  return "translate(" + p.x + "," + p.y + ")"; //Move marker
-}
-
-var distanceSQ = function(nodeA, nodeB) {
-  return (nodeA[0] - nodeB[0]) * (nodeA[0] - nodeB[0]) + (nodeA[1] - nodeB[1]) * (nodeA[1] - nodeB[1]);
-}
-
-function getDate(time) {
-  var myDate = new Date(time * 1000);
-  return myDate;
-}
-
-var cleanLst = function(places, thresh) {
-  //delete the first data if distance is too close
-
-  var num = Object.size(places);
-  var keys = Object.keys(places);
-
-  for (var i = 0; i < num - 1; i++) {
-    var a = [places[keys[i]][0], places[keys[i]][1]];
-    var b = [places[keys[i + 1]][0], places[keys[i + 1]][1]];
-    var dis = distanceSQ(a, b);
-    var important = places[keys[i]][3].length + places[keys[i]][4].length + places[keys[i]][5].length;
-    if (important > 0) important = true;
-    else important = false;
-
-    if (dis < thresh && (!important)) {
-      delete places[keys[i]];
-    }
-
-  }
-}
-
-Math.seed = function(s) {
-  return function() {
-    s = Math.sin(s) * 10000;
-    return s - Math.floor(s);
-  };
-};
-
-var randomDir = function(nodeA, nodeB) {
-  //create a noise route between A and B, for distance that is more than thresh
-  //by insert num of new nodes in between
-  var lst = [];
-  //var dis = distanceSQ(nodeA, nodeB);
-  var threshA = 1;
-  var threshB = 600;
-
-  //var num = Math.round(Math.sqrt(dis));
-  num = 8;
-  var ratio = num / 30;
-
-  if (num < 8) {
-    num = 8;
-  }
-  /*  if (dis < threshA || dis > threshB) {
-   */
-  for (var i = 0; i <= num; i++) {
-    var t = i / num
-    var node = interPt(nodeA, nodeB, t);
-    lst.push(node);
-  }
-  /*  } else {
-      lst.push(nodeA);
-      var start = nodeA;
-
-      for (var i = 0; i < num; i++) {
-        var dir = [(nodeB[0] - start[0]) / (num + 1 - i), (nodeB[1] - start[1]) / (num + 1 - i)];
-        var random1 = Math.seed(i + 1);
-        var random2 = Math.seed(random1());
-        Math.random = Math.seed(random2());
-        var ram = [(Math.random() - 1) * ratio, (Math.random() - 1) * ratio];
-        var node = [start[0] + dir[0] + ram[0], start[1] + dir[1] + ram[1]];
-        lst.push(node);
-        start = node;
-      }
-      lst.push(nodeB);
-    }
-  */
-  return lst;
-}
-
-var ramwhole = function(lst, upto) { //randomnize the whole list
-  var mylst = [];
-  if (upto === 0) {
-    for (var i = 0; i < lst.length - 1; i++) {
-      var temp = randomDir(lst[i], lst[i + 1]);
-      mylst.push.apply(mylst, temp);
-    }
-    return mylst;
-  } else {
-    for (var i = 0; i < upto; i++) {
-      var temp = randomDir(lst[i], lst[i + 1]);
-      mylst.push.apply(mylst, temp);
-    }
-    return mylst;
-  }
-
-
-
-}
-
-var revGeocoding = function(lat, lng, id) {
-  var returnvalue = null;
-  var mystr = 'https://maps.googleapis.com/maps/api/geocode/json?latlng=' + lat + ',' + lng + '&key=AIzaSyBG1a8rdla5buwncdaUp8gQCKp_ePgI6wA&language=en';
-
-  $.when($.getJSON(mystr)).done(function(data) {
-    var country = null;
-    var state = null;
-    var city = null;
-    var addr = data.results[0].address_components;
-
-    for (i in addr) {
-      var type = addr[i].types[0]
-      if (type === "country") country = addr[i].short_name;
-      if (type === "administrative_area_level_1") state = addr[i].short_name;
-      if (type === "locality") city = addr[i].short_name;
-    }
-
-    returnvalue = city + ", " + state + ", " + country;
-
-    if (city === null) returnvalue = state + ", " + country;
-    if (state === null) returnvalue = country;
-
-    returnvalue = returnvalue.toUpperCase();
-    d3.select("#" + id).append("text") //show text on each point
-      .attr("y", -10)
-      .attr("x", 10)
-      .attr("dy", ".71em")
-      .attr("class", "locName")
-      .text(function(d) {
-        return returnvalue;
-      });
-  });
-}
-
-var removetext = function(id) {
-  d3.selectAll(".mypoints" + " text")
-    .remove();
-}
-
-var lineFunction = d3.svg.line()
-  .x(function(d) {
-    return d[0];
-  })
-  .y(function(d) {
-    return d[1];
-  })
-  .interpolate("linear");
-
-
-var lineFunction = d3.svg.line()
-  .x(function(d) {
-    return d[0];
-  })
-  .y(function(d) {
-    return d[1];
-  })
-  .interpolate("linear");
-
-function ratioDir(data, m, projection) {
-  var interpolate = d3.scale.linear()
-    .domain([0, 1])
-    .range([1, data.length + 1]);
-
-  var flooredX = Math.floor(interpolate(m));
-  var interpolatedLine = data.slice(0, flooredX); //previous segments
-
-  if (flooredX > 0 && flooredX < data.length) { //iteration is not done
-    var weight = interpolate(m) - flooredX; //calculate the weight on this segment
-
-    var nodeA = data[flooredX - 1];
-    var nodeB = data[flooredX];
-    var target = interPt(nodeA, nodeB, weight);
-
-
-    /*        var myY = data[flooredX][1] * weight + data[flooredX - 1][1] * (1 - weight);
-            var myX = data[flooredX][0] * weight + data[flooredX - 1][0] * (1 - weight);
-            */
-    interpolatedLine.push(target); //add the current segment
-  }
-
-  return interpolatedLine;
-
-
-}
-
-/*var places_multi_test = {
-  path1: {
-    HNL: [-157 - 55 / 60 - 21 / 3600, 21 + 19 / 60 + 07 / 3600],
-    HKG: [113 + 54 / 60 + 53 / 3600, 22 + 18 / 60 + 32 / 3600],
-    SVO: [37 + 24 / 60 + 53 / 3600, 55 + 58 / 60 + 22 / 3600],
-    HAV: [-82 - 24 / 60 - 33 / 3600, 22 + 59 / 60 + 21 / 3600],
-    CCS: [-66 - 59 / 60 - 26 / 3600, 10 + 36 / 60 + 11 / 3600],
-    UIO: [-78 - 21 / 60 - 31 / 3600, 0 + 06 / 60 + 48 / 3600]
-  },
-  path2: {
-    BOS: [-71.115704, 42.410161],
-    HKG: [113 + 54 / 60 + 53 / 3600, 22 + 18 / 60 + 32 / 3600]
-  },
-  path3: {
-    BOS: [-71.115704, 42.410161],
-    BKL: [-122.252430,37.866487]
-  }
-};*/
-
-
 var mapw = $(window).width(),
   maph = $(window).height();
 var width = mapw / 6,
@@ -497,9 +8,6 @@ $("#teamtb").css("top", maph + 100);
 $("#map").css("width", mapw);
 $("#map").css("height", maph);
 $("#map").css("top", "0px");
-
-$("#nowpath_title").css("top", maph - 75);
-$("#nowpath_title").css("left", mapw / 6 + 30);
 
 $("#tablepath").css("left", mapw / 6 + 30);
 $("#tablepath").css("top", maph-650);
@@ -512,9 +20,14 @@ $("#aboutbk").css("width", mapw);
 $("#aboutbk").css("height", maph);
 $("#detail_button").css("top", maph - 73);
 
+$("#nowpath_title").css("top", maph - 75);
+$("#nowpath_title").css("left", mapw / 6 + 30);
+$("#device_icon").css("top", maph - 10);
+$("#distance").css("top", maph + 10);
+$("#distance").css("left", mapw / 6 + 30);
+$("#days").css("top", maph + 75);
+$("#days").css("left", mapw / 6 + 30);
 
-
-//$("#map").fadeOut(0);
 
 var margin = {
   top: 40,
@@ -720,8 +233,7 @@ d3.tsv("new_monitor_sim.tsv", function(error, data) {
 
   xScale = d3.time.scale()
     .domain([minDate, maxDate])
-    .range([mapw * 0.35, mapw * 0.9]);
-
+    .range([mapw * 0.45, mapw * 0.9]);
 
   var xAxis = d3.svg.axis()
     .scale(xScale)
@@ -924,7 +436,7 @@ d3.tsv("new_monitor_sim.tsv", function(error, data) {
 
 
   d3.select(".xaxis").append("rect")
-    .attr("x", mapw * 0.3)
+    .attr("x", mapw * 0.4)
     .attr("y", 5)
     .attr("width", mapw * 0.65)
     .attr("height", 40)
@@ -933,7 +445,7 @@ d3.tsv("new_monitor_sim.tsv", function(error, data) {
 
 
   d3.select(".xaxis").append("line")
-    .attr("x1", mapw * 0.3)
+    .attr("x1", mapw * 0.4)
     .attr("y1", 25)
     .attr("x2", mapw * 0.95)
     .attr("y2", 25)
@@ -1138,7 +650,6 @@ d3.tsv("new_monitor_sim.tsv", function(error, data) {
 
       track
         .attr("transform", translateAlong2(CuRoute.node(), (1)));
-
 
       var mylat, mylng;
       var raw = track.attr("transform");
