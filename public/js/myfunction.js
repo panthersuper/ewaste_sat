@@ -68,7 +68,6 @@ function fixloop(lst) {
   if (left_right === -1) {
     return lst;
   } else if (left_right === true) {
-    console.log("computation!!!");
     for (var i = 0; i < lst.length; i++) {
       if (i === index) {
         var newpt = [0, -lst[i][0] / (lst[i + 1][0] - lst[i][0]) * (lst[i + 1][1] - lst[i][1]) + lst[i][1]];
@@ -83,7 +82,6 @@ function fixloop(lst) {
 
     return mynew;
   } else {
-    console.log("computation!!!");
 
     for (var i = 0; i < lst.length; i++) {
       mynew.push([(lst[i][0] + 360) % 360, lst[i][1]]);
@@ -104,6 +102,83 @@ function reptojectMap(lst) {
 
   return mylst;
 }
+
+function flyZoomin(tgt, ratio, dis) {
+  var zoomspan = 6;
+  var mypitch = 0;
+
+  //var myzoom = Math.pow((Math.abs(ratio - 0.5)), 8) * 128 * 2 * 2 * 2 * 2 + 3; //[3,10]
+
+  if (dis < 1000) zoomspan = 3 + dis / 1000 * 5;
+
+  if (ratio < 0.01) {
+    myzoom = 10 - ratio / 0.01 * zoomspan;
+    //mypitch = (0.005-Math.abs(ratio - 0.005))/0.005*60;
+  } else myzoom = 10 - zoomspan;
+
+  map.jumpTo({
+    // These options control the ending camera position: centered at
+    // the target, at zoom level 9, and north up.
+
+    center: tgt,
+    zoom: myzoom,
+    //zoom:1,
+    bearing: 0,
+    pitch: 0,
+
+    // These options control the flight curve, making it move
+    // slowly and zoom out almost completely before starting
+    // to pan.
+    // This can be any easing function: it takes a number between
+    // 0 and 1 and returns another number between 0 and 1.
+
+
+    easing: function(t) {
+
+      return t;
+    }
+  });
+}
+
+function flyZoomout(tgt, ratio, dis) {
+  var zoomspan = 6;
+  var mypitch = 0;
+
+  //var myzoom = Math.pow((Math.abs(ratio - 0.5)), 8) * 128 * 2 * 2 * 2 * 2 + 3; //[3,10]
+
+  if (dis < 1000) zoomspan = 3 + dis / 1000 * 5;
+
+
+
+  if (ratio > 0.99) {
+    myzoom = 10 - (1 - ratio) / 0.01 * zoomspan;
+    //mypitch = (0.005-Math.abs(ratio - 0.995))/0.005*60;
+  } else myzoom = 10 - zoomspan;
+
+  map.jumpTo({
+    // These options control the ending camera position: centered at
+    // the target, at zoom level 9, and north up.
+
+    center: tgt,
+    zoom: myzoom,
+    //zoom:1,
+    bearing: 0,
+    pitch: 0,
+
+    // These options control the flight curve, making it move
+    // slowly and zoom out almost completely before starting
+    // to pan.
+    // This can be any easing function: it takes a number between
+    // 0 and 1 and returns another number between 0 and 1.
+
+
+    easing: function(t) {
+
+      return t;
+    }
+  });
+}
+
 
 function flyalone(tgt, ratio, dis) {
 
@@ -132,7 +207,7 @@ function flyalone(tgt, ratio, dis) {
     zoom: myzoom,
     //zoom:1,
     bearing: 0,
-    pitch: mypitch,
+    pitch: 0,
 
     // These options control the flight curve, making it move
     // slowly and zoom out almost completely before starting
@@ -148,6 +223,7 @@ function flyalone(tgt, ratio, dis) {
   });
 
 }
+
 
 function flyZoomed(tgt, ratio, dis) {
   var zoomspan = null;
@@ -169,7 +245,7 @@ function flyZoomed(tgt, ratio, dis) {
     center: tgt,
     zoom: myzoom - 1,
     bearing: 0,
-    pitch: mypitch,
+    pitch: 0,
 
     // These options control the flight curve, making it move
     // slowly and zoom out almost completely before starting

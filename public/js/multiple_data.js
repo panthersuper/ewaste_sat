@@ -10,12 +10,12 @@ $("#map").css("height", maph);
 $("#map").css("top", "0px");
 
 $("#tablepath").css("left", mapw / 6 + 30);
-$("#tablepath").css("top", maph-650);
+$("#tablepath").css("top", maph - 650);
 $("#page").css("height", maph);
 $("#page").css("width", mapw);
-$(".menucontent").css("left", mapw -200);
-$("#teamtb").css("top", maph/3);
-$("#abouttb").css("top", maph/7);
+$(".menucontent").css("left", mapw - 200);
+$("#teamtb").css("top", maph / 3);
+$("#abouttb").css("top", maph / 7);
 $("#aboutbk").css("width", mapw);
 $("#aboutbk").css("height", maph);
 $("#detail_button").css("top", maph - 73);
@@ -259,7 +259,7 @@ d3.tsv("new_monitor_sim.tsv", function(error, data) {
     id++;
   }
 
-  var localnum = ($("#tablepath").height()) / (id)*0.76;
+  var localnum = ($("#tablepath").height()) / (id) * 0.76;
   $("#tablepath div").css("height", localnum + "px");
 
   $(document).ready(main); //run jquery after csv loaded so path button initialized
@@ -500,7 +500,7 @@ d3.tsv("new_monitor_sim.tsv", function(error, data) {
       else
         mediah = $("#media img").height();
       $("#control").css("height", (mediah + storyh + 200));
-      $("#control").css("top", (60+(maph-60-underbar.attr("height"))/2-$("#control").height()/2));
+      $("#control").css("top", (60 + (maph - 60 - underbar.attr("height")) / 2 - $("#control").height() / 2));
       $("#story").css("top", (mediah + 120));
 
 
@@ -553,7 +553,7 @@ d3.tsv("new_monitor_sim.tsv", function(error, data) {
           if (important > 0) important = true;
           else important = false;
 
-          if (!important) {//don't have additional information
+          if (!important) { //don't have additional information
             if (nowNum + 1 != nodeNum) {
               count = 0;
               nowNum = nowNum + 1; //next node to target
@@ -562,7 +562,7 @@ d3.tsv("new_monitor_sim.tsv", function(error, data) {
             } else {}
 
 
-          } else if (cont) {
+          } else if (cont) { //have information, need to stop there and zoom in
             updateContent(nowNum);
             cont = false;
             //moveToggle = false;
@@ -590,7 +590,7 @@ d3.tsv("new_monitor_sim.tsv", function(error, data) {
 
       //change the projection based on rotate value
       //projection.rotate([speed * (Date.now() - start), -15]).clipAngle(90);
-      projection.rotate([-intertarget[0], -intertarget[1]]);//.clipAngle(90);
+      projection.rotate([-intertarget[0], -intertarget[1]]); //.clipAngle(90);
 
       patho = d3.geo.path().projection(projection); //rotate the path
 
@@ -664,11 +664,37 @@ d3.tsv("new_monitor_sim.tsv", function(error, data) {
         [mylat, mylng]
       );
 
-      point.attr("transform", function(d) { //rotate the nodes
-        return "translate(" + projection(d.value) + ")";
-      });
+      var pre_num;
+      var next_num;
 
-      var closeRate = Math.abs(0.5 - phasePercentage);
+      if (nowNum === 0) {
+        pre_num = 0;
+        next_num = 1;
+      } else if (nowNum + 1 === nodeNum) {
+        pre_num = nowNum - 1;
+        next_num = 0;
+
+      } else {
+        pre_num = nowNum - 1;
+        next_num = nowNum + 1;
+
+      }
+
+      keys = Object.keys(places);
+      var pre_important;
+      var next_important;
+      important = places[keys[nowNum]][3].length + places[keys[nowNum]][4].length + places[keys[nowNum]][5].length;
+      if(pre_num!=0 && next_num!=0){
+        pre_important = places[keys[pre_num]][3].length + places[keys[pre_num]][4].length + places[keys[nowNum-1]][5].length;
+        next_important = places[keys[nowNum+1]][3].length + places[keys[nowNum+1]][4].length + places[keys[nowNum+1]][5].length;
+        console.log(pre_important+","+important+","+next_important);
+
+/////////////////////////////////////////////change fly option based on important
+
+
+
+      }
+
 
       if (dis < 100) {
         flyZoomed(p_r, phasePercentage, dis);
@@ -676,7 +702,17 @@ d3.tsv("new_monitor_sim.tsv", function(error, data) {
         flyalone(p_r, phasePercentage, dis);
       }
 
-      var newlst = [[lat_old, lng_old], p_r];
+      point.attr("transform", function(d) { //rotate the nodes
+        return "translate(" + projection(d.value) + ")";
+      });
+
+
+
+      var closeRate = Math.abs(0.5 - phasePercentage);
+
+      var newlst = [
+        [lat_old, lng_old], p_r
+      ];
 
       if (lat_old < 0 && p_r[0] > 0 && p_r[0] - lat_old < 180) {
 
@@ -740,12 +776,12 @@ d3.tsv("new_monitor_sim.tsv", function(error, data) {
       context.strokeStyle = "rgb(25,25,25)";
       context.stroke();
 
-/*      context.beginPath(); //grid
-      path(grid);
-      context.lineWidth = .2;
-      context.strokeStyle = "rgba(119,119,119,.5)";
-      context.stroke();
-*/
+      /*      context.beginPath(); //grid
+            path(grid);
+            context.lineWidth = .2;
+            context.strokeStyle = "rgba(119,119,119,.5)";
+            context.stroke();
+      */
 
     });
   });
