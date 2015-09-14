@@ -177,17 +177,17 @@ body {
   color:rgb(80,80,80);
   position: absolute;
   left:500px;
-  width: 300px;
+  width: 270px;
   display: none;
   border-bottom-style: solid;
   border-bottom-color: rgb(150,150,150);
   border-bottom-width:1px;
   padding-bottom: 10px;
-
 }
 
 #distance p {
   float: left;
+  padding-left: 0px;
 }
 
 #days {
@@ -201,6 +201,8 @@ body {
 
 #days p {
   float: left;
+  padding-left: 0px;
+
 }
 
 .keynum {
