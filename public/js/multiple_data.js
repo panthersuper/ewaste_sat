@@ -116,7 +116,7 @@ $(".mitlogo")
 
 var toptitle = d3.select("#draw").append("div").append("p").attr("class", "toptitle")
   .text("MONITOUR")
-  .attr("style", "left:" + (mapw / 2 - 50) + "px");
+  .attr("style", "left:" + (mapw / 2 - 60) + "px");
 
 var toptitle = d3.select("#draw").append("div").append("p").attr("class", "menu")
   .text("About")
@@ -438,7 +438,7 @@ d3.tsv("new_monitor_sim.tsv", function(error, data) {
   d3.select(".xaxis").append("rect")
     .attr("x", mapw * 0.4)
     .attr("y", 5)
-    .attr("width", mapw * 0.65)
+    .attr("width", mapw * 0.55)
     .attr("height", 40)
     .attr("stroke", "none")
     .attr("fill", "rgb(50,50,50)");
