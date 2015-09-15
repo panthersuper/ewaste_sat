@@ -175,6 +175,7 @@ var main = function() {
   var localcontrol = true;
   $("#nowpath_title").click(
     function() {
+      
       if (localcontrol) {
         $("#tablepath").fadeIn(100);
         localcontrol = false;

@@ -1,5 +1,6 @@
 var switchDetail = function(show) {
 
+
   var dis = 150 * show;
   var dur = 1000;
   if (show) {
@@ -12,6 +13,7 @@ var switchDetail = function(show) {
 
 
   } else {
+
     d3.select("#detail_button p").text("Show Detail");
     d3.select("#detail_button img").attr("src", "img/up_arrow.png");
     $('#device_icon').fadeOut(1000);
@@ -66,6 +68,12 @@ var switchDetail = function(show) {
     .style("top", (maph + 75 - dis) + "px")
     .duration(dur);
 
+  d3.select('#tablepath').transition()
+    .style("top", (maph - 650 - dis) + "px")
+    .duration(dur);
+
+
+  //$("#nowpath_title").css("top", maph - 75-dis);
 
 }
 
