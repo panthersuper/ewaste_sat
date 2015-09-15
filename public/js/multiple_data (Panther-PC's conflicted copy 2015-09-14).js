@@ -522,58 +522,23 @@ d3.tsv("new_monitor_sim.tsv", function(error, data) {
         countmove = 1;
       }
 
-      var pre_num;
-      var next_num;
-
-      if (nowNum === 0) {
-        pre_num = 0;
-        next_num = 1;
-      } else if (nowNum + 1 === nodeNum) {
-        pre_num = nowNum - 1;
-        next_num = 0;
-
-      } else {
-        pre_num = nowNum - 1;
-        next_num = nowNum + 1;
-
-      }
-
-      var keys = Object.keys(places);
-      var pre_important;
-      var next_important;
-      var important = places[keys[nowNum]][3].length + places[keys[nowNum]][4].length + places[keys[nowNum]][5].length;
-      if (pre_num != 0 && next_num != 0) { //those that are in the middle
-        pre_important = places[keys[pre_num]][3].length + places[keys[pre_num]][4].length + places[keys[nowNum - 1]][5].length;
-        next_important = places[keys[nowNum + 1]][3].length + places[keys[nowNum + 1]][4].length + places[keys[nowNum + 1]][5].length;
-      } else if (pre_num === 0) { //the first one
-        pre_important = true;
-        next_important = places[keys[nowNum + 1]][3].length + places[keys[nowNum + 1]][4].length + places[keys[nowNum + 1]][5].length;
-      } else { //the last one
-        pre_important = places[keys[pre_num]][3].length + places[keys[pre_num]][4].length + places[keys[nowNum - 1]][5].length;
-        important = true;
-      }
-
       var local_scale = 1;
       if (count / oneMove <= 0.01 || count / oneMove >= 0.99) { //start and end
         if (dis >= 100) { //long distance path
 
           //local_scale = (0.5-Math.abs(0.5-count / oneMove))*19/20+1/20;
-          if (important && count / oneMove >= 0.99)local_scale = 1 / 25;
-          else if (pre_important && count / oneMove <= 0.01)local_scale = 1 / 25;
-          else
-          local_scale = 1 / 10; //move slow
+          local_scale = 1 / 25; //move slow
         } else  local_scale = 1/25; //move slow
       } else { //interval path
-        if (dis >= 100) local_scale = 2; //regular speed
+        if (dis >= 100) local_scale = 4; //regular speed
         else if (dis > 0.1)
-          local_scale = 4;
+          local_scale = 8;
         else
           local_scale = 50;
       }
 
-
       if (moveToggle) {
-        if (Math.abs(count - oneMove) <= countmove * local_scale) { //one move is finished, start the next one
+        if (Math.abs(count - oneMove) < countmove * local_scale) { //one move is finished, start the next one
           //if next one have notes, stop there,otherwise keep moving
 
           if (finishsign === 0) {
@@ -698,6 +663,9 @@ d3.tsv("new_monitor_sim.tsv", function(error, data) {
         [mylat, mylng]
       );
 
+      var pre_num;
+      var next_num;
+
       if (nowNum === 0) {
         pre_num = 0;
         next_num = 1;
@@ -712,13 +680,14 @@ d3.tsv("new_monitor_sim.tsv", function(error, data) {
       }
 
       keys = Object.keys(places);
+      var pre_important;
+      var next_important;
       important = places[keys[nowNum]][3].length + places[keys[nowNum]][4].length + places[keys[nowNum]][5].length;
       if (pre_num != 0 && next_num != 0) { //those that are in the middle
         pre_important = places[keys[pre_num]][3].length + places[keys[pre_num]][4].length + places[keys[nowNum - 1]][5].length;
-        next_important = places[keys[nowNum + 1]][3].length + places[keys[nowNum + 1]][4].length + places[keys[nowNum + 1]][5].length;
+        //next_important = places[keys[nowNum + 1]][3].length + places[keys[nowNum + 1]][4].length + places[keys[nowNum + 1]][5].length;
       } else if (pre_num === 0) { //the first one
         pre_important = true;
-        next_important = places[keys[nowNum + 1]][3].length + places[keys[nowNum + 1]][4].length + places[keys[nowNum + 1]][5].length;
       } else { //the last one
         pre_important = places[keys[pre_num]][3].length + places[keys[pre_num]][4].length + places[keys[nowNum - 1]][5].length;
         important = true;
