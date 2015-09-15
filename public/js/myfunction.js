@@ -103,7 +103,7 @@ function reptojectMap(lst) {
   return mylst;
 }
 
-function flyZoomin(tgt, ratio, dis) {
+function flyNozoom(tgt, ratio, dis) {
   var zoomspan = 6;
   var mypitch = 0;
 
@@ -111,10 +111,7 @@ function flyZoomin(tgt, ratio, dis) {
 
   if (dis < 1000) zoomspan = 3 + dis / 1000 * 5;
 
-  if (ratio < 0.01) {
-    myzoom = 10 - ratio / 0.01 * zoomspan;
-    //mypitch = (0.005-Math.abs(ratio - 0.005))/0.005*60;
-  } else myzoom = 10 - zoomspan;
+  myzoom = 4;
 
   map.jumpTo({
     // These options control the ending camera position: centered at
@@ -146,7 +143,44 @@ function flyZoomout(tgt, ratio, dis) {
 
   //var myzoom = Math.pow((Math.abs(ratio - 0.5)), 8) * 128 * 2 * 2 * 2 * 2 + 3; //[3,10]
 
-  if (dis < 1000) zoomspan = 3 + dis / 1000 * 5;
+  //if (dis < 1000) zoomspan = 3 + dis / 1000 * 5;
+
+  if (ratio < 0.01) {
+    myzoom = 10 - ratio / 0.01 * zoomspan;
+    //mypitch = (0.005-Math.abs(ratio - 0.005))/0.005*60;
+  } else myzoom = 10 - zoomspan;
+
+  map.jumpTo({
+    // These options control the ending camera position: centered at
+    // the target, at zoom level 9, and north up.
+
+    center: tgt,
+    zoom: myzoom,
+    //zoom:1,
+    bearing: 0,
+    pitch: 0,
+
+    // These options control the flight curve, making it move
+    // slowly and zoom out almost completely before starting
+    // to pan.
+    // This can be any easing function: it takes a number between
+    // 0 and 1 and returns another number between 0 and 1.
+
+
+    easing: function(t) {
+
+      return t;
+    }
+  });
+}
+
+function flyZoomin(tgt, ratio, dis) {
+  var zoomspan = 6;
+  var mypitch = 0;
+
+  //var myzoom = Math.pow((Math.abs(ratio - 0.5)), 8) * 128 * 2 * 2 * 2 * 2 + 3; //[3,10]
+
+  //if (dis < 1000) zoomspan = 3 + dis / 1000 * 5;
 
 
 

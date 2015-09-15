@@ -146,7 +146,7 @@ var sphere = {
 };
 var nodeNum; //total node amount
 var nowNum = 1; //current node to target to
-var oneMove_default = 200;
+var oneMove_default = 400;
 var oneMove = oneMove_default; //the interval for each focus
 var countmove = 1;
 var count = 0; //to measure the interval
@@ -528,14 +528,13 @@ d3.tsv("new_monitor_sim.tsv", function(error, data) {
 
           //local_scale = (0.5-Math.abs(0.5-count / oneMove))*19/20+1/20;
           local_scale = 1 / 25; //move slow
-        } else if (dis > 0.1) local_scale = 1; //move slow
-        else local_scale = 10; //move fast
+        } else  local_scale = 1/25; //move slow
       } else { //interval path
         if (dis >= 100) local_scale = 1; //regular speed
         else if (dis > 0.1)
-          local_scale = 1;
+          local_scale = 4;
         else
-          local_scale = 10;
+          local_scale = 50;
       }
 
       if (moveToggle) {
@@ -684,23 +683,56 @@ d3.tsv("new_monitor_sim.tsv", function(error, data) {
       var pre_important;
       var next_important;
       important = places[keys[nowNum]][3].length + places[keys[nowNum]][4].length + places[keys[nowNum]][5].length;
-      if(pre_num!=0 && next_num!=0){
-        pre_important = places[keys[pre_num]][3].length + places[keys[pre_num]][4].length + places[keys[nowNum-1]][5].length;
-        next_important = places[keys[nowNum+1]][3].length + places[keys[nowNum+1]][4].length + places[keys[nowNum+1]][5].length;
-        console.log(pre_important+","+important+","+next_important);
+      if (pre_num != 0 && next_num != 0) { //those that are in the middle
+        pre_important = places[keys[pre_num]][3].length + places[keys[pre_num]][4].length + places[keys[nowNum - 1]][5].length;
+        next_important = places[keys[nowNum + 1]][3].length + places[keys[nowNum + 1]][4].length + places[keys[nowNum + 1]][5].length;
+      } else if (pre_num === 0) { //the first one
+        pre_important = true;
+        next_important = places[keys[nowNum + 1]][3].length + places[keys[nowNum + 1]][4].length + places[keys[nowNum + 1]][5].length;
+      } else { //the last one
+        pre_important = places[keys[pre_num]][3].length + places[keys[pre_num]][4].length + places[keys[nowNum - 1]][5].length;
+        next_important = true;
+      }
 
-/////////////////////////////////////////////change fly option based on important
+
+      console.log(phasePercentage);
+      if (pre_important &&(!important)){//need to zoom out and stay zooming out
+        console.log("zoomout");
+        flyZoomout(p_r, phasePercentage, dis);
+
+      }else if (pre_important&&important){//need to zoom out and then zoom in
+        console.log("zoomout and in");
+
+        if (dis < 100) {
+          flyZoomed(p_r, phasePercentage, dis);
+        } else {
+          flyalone(p_r, phasePercentage, dis);
+        }
+
+      }else if ((!pre_important)&&important){//need to zoom in from out
+        console.log("zoomin");
+        flyZoomin(p_r, phasePercentage, dis);
 
 
+      }else if ((!pre_important)&&(!important)){//need to stay zoom out
+        console.log("stayout");
+        flyNozoom(p_r, phasePercentage, dis);
 
       }
 
 
-      if (dis < 100) {
-        flyZoomed(p_r, phasePercentage, dis);
-      } else {
-        flyalone(p_r, phasePercentage, dis);
-      }
+
+
+
+
+
+
+
+
+
+
+
+
 
       point.attr("transform", function(d) { //rotate the nodes
         return "translate(" + projection(d.value) + ")";
