@@ -749,7 +749,7 @@ d3.tsv("new_monitor_sim.tsv", function(error, data) {
           .attr("d", linedata);
       }
 
-      track.attr("r", 4 * (trackscale % 1) + 2); //change the tracker's r according to closerate
+      track.attr("r", 1 * (trackscale % 4) + 1); //change the tracker's r according to closerate
       track_f.attr("r", 2 * (trackscale % 4) + 4); //change the tracker's r according to closerate
 
       context.beginPath(); //draw the outbound of the sphere

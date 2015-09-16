@@ -712,7 +712,7 @@ p {
   cursor: pointer;
 }
 
-.timeid circle:hover {
+.timeid:hover {
   fill: rgba(206, 18, 18, 0.8);
   r:3;
   cursor: pointer;
