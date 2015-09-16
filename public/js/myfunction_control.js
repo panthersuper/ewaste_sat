@@ -1,40 +1,44 @@
 var switchDetail = function(show) {
 
-
-  var dis = 150 * show;
-  var dur = 1000;
   if (show) {
     d3.select("#detail_button p").text("Hide Detail");
     d3.select("#detail_button img").attr("src", "img/down_arrow.png");
+    detail_control = false;
+
     $('#device_icon').show();
     $('#distance').show();
     $('#days').show();
-    detail_control = false;
+    $(".underbar").css("bottom",0);
 
 
   } else {
 
     d3.select("#detail_button p").text("Show Detail");
     d3.select("#detail_button img").attr("src", "img/up_arrow.png");
-    $('#device_icon').fadeOut(1000);
-    $('#distance').fadeOut(1000);
-    $('#days').fadeOut(1000);
     detail_control = true;
+    $(".underbar").css("bottom",-150);
+
 
   }
+
+
+
+/*  var dis = 150 * show;
+  var dur = 1000;
+
 
   d3.select("#detail_button").transition()
     .style("top", (maph - 73 - dis) + "px").duration(dur);
 
-  underbar.transition()
+/*  underbar.transition()
     .attr("y", maph - 100 - dis)
     .attr("height", 100 + dis)
     .duration(dur);
   underbar_mark.transition()
     .attr("y", maph - 100 - dis)
     .duration(dur);
-
-  d3.select(".mycanvas").transition()
+*/
+/*  d3.select(".mycanvas").transition()
     .attr("style", "transform: translate(20px," + (maph - height - 60 - dis) + "px)").duration(dur);
 
   d3.select(".globe").transition()
@@ -70,8 +74,7 @@ var switchDetail = function(show) {
 
   d3.select('#tablepath').transition()
     .style("top", (maph - 650 - dis) + "px")
-    .duration(dur);
-
+    .duration(dur);*/
 
   //$("#nowpath_title").css("top", maph - 75-dis);
 
@@ -80,7 +83,7 @@ var switchDetail = function(show) {
 
 var initContent = function() {
   timeMark
-    .attr("transform", "translate(" + xScale(getNode(places, nowNum)[2]) + "," + (maph - margin.top - margin.bottom + 2.5) + ")");
+    .attr("transform", "translate(" + xScale(getNode(places, nowNum)[2]) + "," + (20 + 2.5) + ")");
 
   d3.select("#number")
     .append("p")
@@ -164,9 +167,7 @@ var updateContent = function(num) {
   }
 
   timeMark
-    .attr("transform", "translate(" + xScale(getNode(places, nowNum)[2]) + "," + (maph - margin.top - margin.bottom + 2.5) + ")");
-
-  switchDetail(0);
+    .attr("transform", "translate(" + xScale(getNode(places, nowNum)[2]) + "," + (20 + 2.5) + ")");
 
   $(".keynum").fadeOut(500, function() {
     d3.select("#distance .keynum")

@@ -18,38 +18,66 @@
 <body>
 
   <div id ="map"></div>
-  <div id="page">
-  </div>
-  <div id="draw">
+  <div id="page"></div>
+
+  <div class="draw">
+    <svg class = "svgmap draw"></svg>
+    <div class = "divtrack"><svg class = "svgtrack draw"></svg></div>
+
+    <svg class = "svgpage"></svg>
+    <div class = "underbar">
+      <div class="underbar_mark"></div>
+      <canvas id = "mycanvas" width = "250" height = "250"></canvas>
+      <svg id = "globe" width = "250" height = "250"></svg>
+      <svg class = "mysvg"></svg>
+
+      <div id="tablepath">
+        <p><strong>Paths</strong></p>
+      </div>
+
+      <div id = "nowpath_title">
+      </div>
+
+      <div id = "device_icon">
+        <img src="img/tv_icon.png">
+        <p>MONITOR</p>
+      </div>
+
+      <div id = "distance">
+        <p>DISTANCE OF TRAVEL: </p>
+        <p class = "keynum">0</p>
+        <p>km</p>
+      </div>
+      
+      <div id = "days">
+        <p>DURATION OF TRAVEL: </p>
+        <p class = "keynum">0</p>
+        <p>days</p>
+      </div>
+
+      <div id = "detail_button">
+        <img src="img/up_arrow.png">
+        <p>Show Detail</p>
+      </div>
+
+    </div>
+
+
+    <div class = "topbar">
+      <img src="img/mit_logo.png" class = "mitlogo">
+      <div class = "toptitle"><p>MONITOUR</p></div>
+      <div class = "menu"><p>About</p></div>
+
+
+    </div>
+
+
+
+
   </div>
 
-  <div id="tablepath">
-    <p><strong>Paths</strong></p>
-  </div>
-
-  <div id = "nowpath_title">
-  </div>
-  <div id = "device_icon">
-    <img src="img/tv_icon.png">
-    <p>MONITOR</p>
-  </div>
-  <div id = "distance">
-    <p>DISTANCE OF TRAVEL: </p>
-    <p class = "keynum">0</p>
-    <p>km</p>
-
-  </div>
-  <div id = "days">
-    <p>DURATION OF TRAVEL: </p>
-    <p class = "keynum">0</p>
-    <p>days</p>
-  </div>
 
 
-  <div id = "detail_button">
-    <img src="img/up_arrow.png">
-    <p>Show Detail</p>
-  </div>
 
   <div id="control">
     <div id="mark_control"></div>

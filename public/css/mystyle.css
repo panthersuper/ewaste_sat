@@ -1,13 +1,13 @@
 * {
   margin:0px;
+
 }
 
-body,html {
+html,body {
   background: black;
-  position: relative;
-  margin:0;
   width: 100%;
   height: 100%;
+  overflow: hidden;
 }
 
 a:link {color: rgb(180,180,180); text-decoration: none }
@@ -21,7 +21,6 @@ a:active {text-decoration: none}
   height: 100%;
   background-image: url(home_background_3.jpg);
   background-size: cover;
-
 }
 
 .home_tb {
@@ -106,19 +105,18 @@ a:active {text-decoration: none}
   font-size: 20px;
 }
 
-#draw {
+.draw {
   display: none;
   background: none;
-  //width: 100%;
-  //height:100%;
+  width: 100%;
+  height:100%;
   float: left;
-  position: absolute;
+  position: relative;
   top:0px;
   left: 0%;
 }
 
 #map {
-  //display: none;
   background: none;
   width: 100%;
   height:100%;
@@ -138,21 +136,20 @@ a:active {text-decoration: none}
 
 #tablepath {
   display: none;
-  position: relative;
-  float: left;        
+  position: absolute;
   width: 130px;
-  height: 100%;
+  height: 530px;
   background-color: rgba(30,30,30,0.9);
   color:none;
   left: 300px;
-  margin-left: 0px;
-  bottom:-175px;
+  bottom:265px;
 }
 
 #nowpath_title {
   color:rgb(80,80,80);
   position: absolute;
-  left:300px;
+  left:270px;
+  top:27px;
   width: 175px;
   cursor: pointer;
   height:40px;
@@ -173,7 +170,7 @@ a:active {text-decoration: none}
   position: absolute;
   left:40px;
   width: 175px;
-  display: none;
+  top:90px;
 }
 
 #device_icon img{
@@ -192,9 +189,9 @@ a:active {text-decoration: none}
 #distance {
   color:rgb(80,80,80);
   position: absolute;
-  left:500px;
+  left:280px;
   width: 270px;
-  display: none;
+  top:100px;
   border-bottom-style: solid;
   border-bottom-color: rgb(50,50,50);
   border-bottom-width:1px;
@@ -209,10 +206,9 @@ a:active {text-decoration: none}
 #days {
   color:rgb(80,80,80);
   position: absolute;
-  left:500px;
+  left:280px;
+  top:166px;
   width: 300px;
-  display: none;
-
 }
 
 #days p {
@@ -230,13 +226,12 @@ a:active {text-decoration: none}
 }
 
 #detail_button {
-  display: none;
   color:rgb(80,80,80);
   position: absolute;
   left:15px;
   width: 105px;
   height:40px;
-  bottom: 10px;
+  top: 29px;
 }
 
 #detail_button p{
@@ -321,6 +316,8 @@ a:active {text-decoration: none}
   position: absolute;
   top:0px;
   left: 0px;
+  width: 100%;
+  height: 100%;
 
 }
 
@@ -328,21 +325,61 @@ a:active {text-decoration: none}
   position: absolute;
   top:0px;
   left: 0px;
+  width: 100%;
+  height: 100%;
 }
 
 .svgmap {
   position: absolute;
   top:0px;
   left: 0px;
+  width: 100%;
+  height: 100%;
 }
 
-.mycanvas  {
+.divtrack {
   position: absolute;
+  margin: auto;
+  width: 50px;
+  height: 50px;
+  display: block;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+}
+
+.svgtrack {
+  position: absolute;
+  margin: auto;
+  width: 50px;
+  height: 50px;
+  display: block;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
 
 }
 
-.globe  {
+#mycanvas  {
+  background: none;
   position: absolute;
+  width: 250px;
+  height: 250px;
+  top:-210px;
+  left:20px;
+
+
+}
+
+#globe  {
+  background: none;
+  position: absolute;
+  width: 250px;
+  height: 250px;
+  top:-210px;
+  left:20px;
 
 }
 
@@ -703,29 +740,42 @@ p {
 
 .mitlogo {
   z-index: 1; position:relative;
-  left:30px;
-  top:15px;
-  width:40px;
-
+  position: relative;
+  margin-left: 30px;
+  margin-top: 15px;
+  width: 40px;
 }
 
 .toptitle {
-  z-index: 1; position:relative;
-  top:-25px;
-  width:40px;
-  font-size: 20px;
+  z-index: 1; 
+  position:absolute;
+  margin: auto;
+  display: inline-block;
   color:rgb(150,150,150);
-
+  left: 0px;
+  right: 0px;
+  text-align: center;
+  top:5px;
 }
 
+.toptitle p {
+  font-size: 20px;
+}
 
 .menu {
-  z-index: 1; position:relative;
-  top:-70px;
-  width:40px;
-  font-size: 16px;
+  z-index: 1; 
+  position:absolute;
+  margin: auto;
+  display: inline-block;
   color:rgb(150,150,150);
+  right: 15px;
+  top:6px;
 }
+
+.menu p {
+  font-size: 16px;
+}
+
 
 .menu:hover {
   cursor: pointer;
@@ -793,4 +843,36 @@ cursor: pointer;
   font-size: 8px;
   width: 300px;
   margin-left:calc(10px);
+}
+
+.underbar {
+  width: 100%;
+  height: 250px;
+  position: absolute;
+  bottom: -150px;
+  //bottom: 0px;
+
+  background-color: rgb(20,20,20);
+  transition: all 0.3s ease-in-out;
+  -webkit-transition: all 0.3s ease-in-out;
+  -moz-transition: all 0.3s ease-in-out;
+  -o-transition: all 0.3s ease-in-out;
+
+}
+
+.underbar_mark {
+  width:280px;
+  height:4.5px;
+  background-color: #39a4e8;
+
+
+}
+
+.topbar {
+    position: relative;
+    width: 100%;
+    height: 60px;
+    background-color: rgb(20,20,20);
+
+
 }

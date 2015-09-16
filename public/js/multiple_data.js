@@ -2,25 +2,12 @@ var mapw = $(window).width(),
   maph = $(window).height();
 var width = mapw / 6,
   height = mapw / 6;
-$("#tablepath").css("height", 550);
 $("#abouttb").css("top", maph + 100);
 $("#teamtb").css("top", maph + 100);
 
-$("#tablepath").css("left", mapw / 6 + 30);
-$("#tablepath").css("top", maph - 650);
 $(".menucontent").css("left", mapw - 200);
 $("#teamtb").css("top", maph / 3);
 $("#abouttb").css("top", maph / 7);
-$("#detail_button").css("top", maph - 73);
-
-$("#nowpath_title").css("top", maph - 75);
-$("#nowpath_title").css("left", mapw / 6 + 30);
-$("#device_icon").css("top", maph - 10);
-$("#distance").css("top", maph + 10);
-$("#distance").css("left", mapw / 6 + 30);
-$("#days").css("top", maph + 75);
-$("#days").css("left", mapw / 6 + 30);
-
 
 var margin = {
   top: 40,
@@ -34,8 +21,8 @@ var route_multi = {};
 
 var curPath = 0; //the path that is currently showing
 var projection = d3.geo.orthographic()
-  .scale(width / 2.1)
-  .translate([width / 2, height / 2])
+  .scale(250/2.1)
+  .translate([125, 125])
   .precision(2);
 var graticule = d3.geo.graticule();
 var myroute;
@@ -55,65 +42,21 @@ var pastRoute_map;
 var route_map_blur; //svg path
 var pastRoute_map_blur;
 
-var svgmap = d3.select("#draw").append("svg").attr("class", "svgmap")
-  .attr("width", mapw)
-  .attr("height", maph);
+var svgmap = d3.select(".svgmap");
 
-var svgpage = d3.select("#draw").append("svg").attr("class", "svgpage")
-  .attr("width", mapw)
-  .attr("height", maph);
+var svgtrack = d3.select(".svgtrack");
 
-var canvas = d3.select("#draw").append("canvas").attr("class", "mycanvas")
-  .attr("width", width)
-  .attr("height", height);
+var svgpagsvgtracke = d3.select(".svgpage");
 
-d3.select(".mycanvas").attr("style", "transform: translate(20px," + (maph - height - 60) + "px)");
+var canvas = d3.select("#mycanvas");
+
+var svg = d3.select("#globe");
 
 var context = canvas.node().getContext("2d");
 
+var svg0 = d3.select(".mysvg");
 
-
-var svg0 = d3.select("#draw").append("svg").attr("class", "mysvg")
-  .attr("width", mapw)
-  .attr("height", maph);
-var svg = svg0.append("g").attr("class", "globe");
-d3.select(".globe").attr("style", "transform: translate(20px," + (maph - height - 60) + "px)");
-
-var underbar = svgpage.append("rect")
-  .attr("id", "underbar")
-  .attr("x", 0)
-  .attr("y", maph - 100)
-  .attr("width", mapw)
-  .attr("height", 100)
-  .attr("fill", "rgb(20,20,20)");
-
-var underbar_mark = svgpage.append("rect")
-  .attr("x", 0)
-  .attr("y", maph - 100)
-  .attr("width", mapw / 6 + 30)
-  .attr("height", 4.5)
-  .attr("fill", "#39a4e8");
-
-
-var topbar = svgpage.append("rect")
-  .attr("x", 0)
-  .attr("y", 0)
-  .attr("width", mapw)
-  .attr("height", 60)
-  .attr("fill", "rgb(20,20,20)");
-
-var mitlogo = d3.select("#draw").append("img").attr("class", "mitlogo");
-
-$(".mitlogo")
-  .attr("src", "img/mit_logo.png");
-
-var toptitle = d3.select("#draw").append("div").append("p").attr("class", "toptitle")
-  .text("MONITOUR")
-  .attr("style", "left:" + (mapw / 2 - 60) + "px");
-
-var toptitle = d3.select("#draw").append("div").append("p").attr("class", "menu")
-  .text("About")
-  .attr("style", "left:" + (mapw - 100) + "px");
+var topbar = d3.select(".topbar");
 
 var path = d3.geo.path()
   .projection(projection)
@@ -241,7 +184,6 @@ d3.tsv("new_monitor_sim.tsv", function(error, data) {
 
   var id = 0;
   for (key in places_multi) {
-
     d3.select("#tablepath")
       .append("div")
       .attr("class", "thepaths")
@@ -357,7 +299,7 @@ d3.tsv("new_monitor_sim.tsv", function(error, data) {
     .attr("stroke-width", "3px")
     .attr("transform", "translate(100,100)");
 
-  track_f = svg0.append("g") //red circle
+  track_f = svgtrack.append("g") //red circle
     .append("circle")
     .attr("class", "track")
     .attr("id", "fake_track2")
@@ -365,9 +307,9 @@ d3.tsv("new_monitor_sim.tsv", function(error, data) {
     .attr("fill", "none")
     .attr("stroke", "#39a4e8")
     .attr("stroke-width", "3px")
-    .attr("transform", "translate(" + mapw / 2 + "," + maph / 2 + ")");
+    .attr("transform", "translate(" + 25 + "," + 25 + ")");
 
-  track_ff = svg0.append("g") //red circle
+  track_ff = svgtrack.append("g") //red circle
     .append("circle")
     .attr("class", "track")
     .attr("id", "fake_track1")
@@ -375,11 +317,11 @@ d3.tsv("new_monitor_sim.tsv", function(error, data) {
     .attr("fill", "white")
     .attr("stroke", "white")
     .attr("stroke-width", "3px")
-    .attr("transform", "translate(" + mapw / 2 + "," + maph / 2 + ")");
+    .attr("transform", "translate(" + 25 + "," + 25 + ")");
 
   svg0.append('g')
     .attr('class', 'xaxis')
-    .attr('transform', 'translate(' + margin.left + ', ' + (maph - margin.top - margin.bottom) + ')')
+    .attr('transform', 'translate(' + margin.left + ', ' + (20) + ')')
     .call(xAxis);
 
 
@@ -393,7 +335,7 @@ d3.tsv("new_monitor_sim.tsv", function(error, data) {
     })
     .attr("transform", function(d) {
       var myx = xScale(d.value[2]);
-      return "translate(" + myx + "," + (maph - margin.top - margin.bottom + 2.5) + ")";
+      return "translate(" + myx + "," + (20 + 2.5) + ")";
     })
     .on("click", function(d, i) {
       nowNum = i;
@@ -491,7 +433,7 @@ d3.tsv("new_monitor_sim.tsv", function(error, data) {
       else
         mediah = $("#media img").height();
       $("#control").css("height", (mediah + storyh + 200));
-      $("#control").css("top", (60 + (maph - 60 - underbar.attr("height")) / 2 - $("#control").height() / 2));
+      //$("#control").css("top", (60 + (maph - 60 - underbar.attr("height")) / 2 - $("#control").height() / 2));
       $("#story").css("top", (mediah + 120));
 
 
@@ -716,9 +658,9 @@ d3.tsv("new_monitor_sim.tsv", function(error, data) {
       }
 
 
-      console.log(phasePercentage);
+      //console.log(phasePercentage);
       if (pre_important &&(!important)){//need to zoom out and stay zooming out
-        console.log("zoomout");
+        //console.log("zoomout");
         flyZoomout(p_r, phasePercentage, dis);
 
       }else if (pre_important&&important){//need to zoom out and then zoom in
@@ -899,7 +841,7 @@ var update = function(current) {
     .attr("stroke-width", "3px")
     .attr("transform", "translate(100,100)");
 
-  track_f = svg0.append("g") //red circle
+  track_f = svgtrack.append("g") //red circle
     .append("circle")
     .attr("class", "track")
     .attr("id", "fake_track2")
@@ -907,9 +849,9 @@ var update = function(current) {
     .attr("fill", "none")
     .attr("stroke", "#39a4e8")
     .attr("stroke-width", "3px")
-    .attr("transform", "translate(" + mapw / 2 + "," + maph / 2 + ")");
+    .attr("transform", "translate(" + 25 + "," + 25 + ")");
 
-  track_ff = svg0.append("g") //red circle
+  track_ff = svgtrack.append("g") //red circle
     .append("circle")
     .attr("class", "track")
     .attr("id", "fake_track1")
@@ -917,7 +859,7 @@ var update = function(current) {
     .attr("fill", "white")
     .attr("stroke", "white")
     .attr("stroke-width", "3px")
-    .attr("transform", "translate(" + mapw / 2 + "," + maph / 2 + ")");
+    .attr("transform", "translate(" + 25 + "," + 25 + ")");
 
   $(".timeid").remove();
 
@@ -927,7 +869,7 @@ var update = function(current) {
     .enter().append("g")
     .attr("transform", function(d) {
       var myx = xScale(d.value[2]);
-      return "translate(" + myx + "," + (maph - margin.top - margin.bottom + 2.5) + ")";
+      return "translate(" + myx + "," + (20 + 2.5) + ")";
     })
     .attr("class", "timeid")
     .attr("id", function(d, i) {

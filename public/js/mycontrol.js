@@ -34,7 +34,7 @@ var main = function() {
   $("#tablepath div").mouseover( //hover the new route, will show the preview of this one
     function(event) {
 
-      d3.select("#pre").attr("style", "width:300px; display:block;left: " + (mapw / 6 + 160) + "px;"); //
+      d3.select("#pre").attr("style", "width:300px; display:block;left: " + (430) + "px;"); //
 
       var precanvas = d3.select("#pre").append("svg")
         .attr("id", "preview");
@@ -88,11 +88,6 @@ var main = function() {
 
   $("#next").click(
     function() {
-      detail_control = true;
-      switchDetail(0);
-
-
-
       if (moveToggle) {
         count = 0;
         nowNum = nowNum + 1; //next node to target
@@ -175,7 +170,6 @@ var main = function() {
   var localcontrol = true;
   $("#nowpath_title").click(
     function() {
-      
       if (localcontrol) {
         $("#tablepath").fadeIn(100);
         localcontrol = false;
@@ -269,7 +263,6 @@ var main = function() {
 
 var inithome = function(time) {
 
-  $("#tablepath").fadeOut(time);
   $("#draw").fadeOut(time);
   $("#map").fadeOut(time);
   $("#control").fadeOut(time);
@@ -292,7 +285,7 @@ var changePage = function(page) {
       scrollTop: 0
     }, "fast");
 
-    $("#draw").fadeIn(500);
+    $(".draw").fadeIn(500);
     $("#map").fadeIn(500);
     $("#control").fadeIn(500);
     $("#pre").fadeIn(500);
