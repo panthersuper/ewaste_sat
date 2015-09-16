@@ -1,7 +1,7 @@
 var mapw = $(window).width(),
   maph = $(window).height();
-var width = mapw / 6,
-  height = mapw / 6;
+var width = 250,
+  height = 250;
 $("#abouttb").css("top", maph + 100);
 $("#teamtb").css("top", maph + 100);
 
@@ -424,6 +424,8 @@ d3.tsv("new_monitor_sim.tsv", function(error, data) {
     //////the timmer//////////////////////////////////////////////////////////////////////////////////////////////
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////
     d3.timer(function() {
+      context.clearRect(0, 0, width, height);
+
       //auto adjust control menu
       var mediah = 0;
       var storyh = $("#story p").height();
@@ -433,11 +435,8 @@ d3.tsv("new_monitor_sim.tsv", function(error, data) {
       else
         mediah = $("#media img").height();
       $("#control").css("height", (mediah + storyh + 200));
-      //$("#control").css("top", (60 + (maph - 60 - underbar.attr("height")) / 2 - $("#control").height() / 2));
-      $("#control").css("top", (60 + (maph - 60 - (250-detail_control*150)) / 2 - $("#control").height() / 2));
+      $("#control").css("top", (60 + ($("#map").height() - 60 - (250-detail_control*150)) / 2 - $("#control").height() / 2));
       $("#story").css("top", (mediah + 120));
-
-
 
       trackscale += 0.2;
       lat_old = getNode(places, (nowNum - 1 + nodeNum) % nodeNum)[0];
@@ -548,7 +547,6 @@ d3.tsv("new_monitor_sim.tsv", function(error, data) {
 
       if (moveToggle)
         if (phasePercentage === 0) phasePercentage = 1;
-      context.clearRect(0, 0, width, height);
 
       //rate the closeness to nodes
       //0.5: close! at nodes
@@ -771,6 +769,7 @@ d3.tsv("new_monitor_sim.tsv", function(error, data) {
       context.lineWidth = .5;
       context.strokeStyle = "rgb(25,25,25)";
       context.stroke();
+
 
       /*      context.beginPath(); //grid
             path(grid);
