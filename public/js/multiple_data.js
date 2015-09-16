@@ -5,19 +5,12 @@ var width = mapw / 6,
 $("#tablepath").css("height", 550);
 $("#abouttb").css("top", maph + 100);
 $("#teamtb").css("top", maph + 100);
-$("#map").css("width", mapw);
-$("#map").css("height", maph);
-$("#map").css("top", "0px");
 
 $("#tablepath").css("left", mapw / 6 + 30);
 $("#tablepath").css("top", maph - 650);
-$("#page").css("height", maph);
-$("#page").css("width", mapw);
 $(".menucontent").css("left", mapw - 200);
 $("#teamtb").css("top", maph / 3);
 $("#abouttb").css("top", maph / 7);
-$("#aboutbk").css("width", mapw);
-$("#aboutbk").css("height", maph);
 $("#detail_button").css("top", maph - 73);
 
 $("#nowpath_title").css("top", maph - 75);
@@ -27,8 +20,6 @@ $("#distance").css("top", maph + 10);
 $("#distance").css("left", mapw / 6 + 30);
 $("#days").css("top", maph + 75);
 $("#days").css("left", mapw / 6 + 30);
-$("#hometb").css("height", maph);
-
 
 
 var margin = {

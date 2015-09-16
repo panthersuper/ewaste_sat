@@ -271,15 +271,9 @@ var inithome = function(time) {
 
   $("#tablepath").fadeOut(time);
   $("#draw").fadeOut(time);
-
   $("#map").fadeOut(time);
   $("#control").fadeOut(time);
   $("#pre").fadeOut(time);
-
-  //$("#abouttb").fadeOut(time);
-
-  //$("#teamtb").fadeOut(time);
-
   $("#hometb").fadeIn(500);
   $("#nowpath_title").fadeOut(time);
 
@@ -298,51 +292,15 @@ var changePage = function(page) {
       scrollTop: 0
     }, "fast");
 
-
-    //$("#tablepath").fadeIn(500);
     $("#draw").fadeIn(500);
     $("#map").fadeIn(500);
     $("#control").fadeIn(500);
     $("#pre").fadeIn(500);
 
-
-    //$("#abouttb").fadeOut(500);
-
-    //$("#teamtb").fadeOut(500);
-
-    $("#hometb").fadeOut(500);
+    $(".home").fadeOut(0);
     $("#nowpath_title").fadeIn(500);
     $("#detail_button").show();
 
   }
-  /*else if (page === 2) {
-      $("#tablepath").fadeOut(500);
-      $("#draw").fadeOut(500);
-      $("#control").fadeOut(500);
-      $("#pre").fadeOut(500);
 
-      $("#teamtb").fadeOut(500);
-
-      $("#abouttb").fadeIn(500);
-
-      $("#hometb").fadeOut(500);
-
-
-
-    } else if (page === 3) {
-        $("#tablepath").fadeOut(500);
-        $("#draw").fadeOut(500);
-        $("#control").fadeOut(500);
-        $("#pre").fadeOut(500);
-
-        $("#abouttb").fadeOut(500);
-
-        $("#teamtb").fadeIn(500);
-
-        $("#hometb").fadeOut(500);
-
-
-
-      }
-*/
 }
