@@ -65,14 +65,6 @@ var path = d3.geo.path()
 var patho = d3.geo.path()
   .projection(projection);
 
-var lineFunction = d3.svg.line()
-  .x(function(d) {
-    return d.x;
-  })
-  .y(function(d) {
-    return d.y;
-  })
-  .interpolate("linear");
 
 
 var sphere = {
@@ -108,6 +100,14 @@ var cont = false;
 var nowMedia = 0;
 var finishsign = 0;
 
+var lineFunction = d3.svg.line()
+  .x(function(d) {
+    return d.x;
+  })
+  .y(function(d) {
+    return d.y;
+  })
+  .interpolate("linear");
 //addPoly([]);
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////

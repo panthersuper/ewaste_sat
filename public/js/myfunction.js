@@ -1,3 +1,6 @@
+
+
+
 function getDistanceFromLatLonInKm(lat1, lon1, lat2, lon2) {
   var R = 6371; // Radius of the earth in km
   var dLat = deg2rad(lat2 - lat1); // deg2rad below
@@ -84,8 +87,8 @@ function fixloop(lst) {
   } else {
 
     for (var i = 0; i < lst.length; i++) {
+      //mynew.push([(lst[i][0] + 360) % 360, lst[i][1]]);
       mynew.push([(lst[i][0] + 360) % 360, lst[i][1]]);
-
     }
 
     return mynew;
@@ -93,6 +96,57 @@ function fixloop(lst) {
 
 }
 
+function fixloop2(lst) {
+  //fix the loop error for path on globe by adding an additional point in the middle, or by offset the path to next cycle
+  var mynew = [];
+
+  var left_right;
+  var index = null;
+
+  for (var i = 0; i < lst.length - 1; i++) {
+
+    if (lst[i][0] < 0 && lst[i + 1][0] > 0 && lst[i + 1][0] - lst[i][0] < 180) {
+
+      left_right = true;
+      index = i;
+
+      break;
+    } else if (lst[i][0] < 0 && lst[i + 1][0] > 0 && lst[i + 1][0] - lst[i][0] > 180) {
+      left_right = false;
+      index = i;
+
+      break;
+    }
+    left_right = -1;
+  }
+
+  if (left_right === -1) {
+    return lst;
+  } else if (left_right === true) {
+    for (var i = 0; i < lst.length; i++) {
+      if (i === index) {
+        var newpt = [0, -lst[i][0] / (lst[i + 1][0] - lst[i][0]) * (lst[i + 1][1] - lst[i][1]) + lst[i][1]];
+        //var newpt = [360, 1];
+        mynew.push(lst[i]);
+        mynew.push(newpt);
+
+      } else {
+        mynew.push(lst[i]);
+      }
+    }
+
+    return mynew;
+  } else {
+
+    for (var i = 0; i < lst.length; i++) {
+      //mynew.push([(lst[i][0] + 360) % 360, lst[i][1]]);
+      mynew.push([(lst[i][0] + 360) % 360-360, lst[i][1]]);
+    }
+
+    return mynew;
+  }
+
+}
 
 function reptojectMap(lst) {
   var mylst = []
