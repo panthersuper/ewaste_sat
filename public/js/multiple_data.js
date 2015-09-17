@@ -434,7 +434,7 @@ d3.tsv("new_monitor_sim.tsv", function(error, data) {
         mediah = $("#media iframe").height();
       else
         mediah = $("#media img").height();
-      $("#control").css("height", (mediah + storyh + 200));
+      $("#control").css("height", (mediah + storyh + 220));
       $("#control").css("top", (60 + ($("#map").height() - 60 - (250-detail_control*150)) / 2 - $("#control").height() / 2));
       $("#story").css("top", (mediah + 120));
 

@@ -549,6 +549,12 @@ p {
   width:290px;
   word-wrap:break-word;
   line-height: 150%;
+  max-height: 180px;
+  overflow: scroll;
+  overflow-y:auto;
+  overflow-x:auto;
+  margin-top: 20px;
+
 }
 
 #mark_control {
