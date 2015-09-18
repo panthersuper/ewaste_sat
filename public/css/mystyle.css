@@ -988,6 +988,6 @@ cursor: pointer;
   }
 
   .citynames p{
-    color: white;
+    color: rgb(203,184,203) !important;
     font-size: 8px !important;
   }
