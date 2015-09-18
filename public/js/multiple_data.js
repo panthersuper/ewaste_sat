@@ -425,7 +425,7 @@ d3.tsv("new_monitor_sim.tsv", function(error, data) {
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////
     d3.timer(function() {
       context.clearRect(0, 0, width, height);
-
+      console
       //auto adjust control menu
       var mediah = 0;
       var storyh = $("#story p").height();

@@ -18,7 +18,6 @@
 <body>
 
   <div id ="map"></div>
-  <div id="page"></div>
 
   <div class="draw">
     <svg class = "svgmap draw"></svg>
@@ -136,6 +135,13 @@
 
   <div id="pre"></div>
   
+
+  <div class = "overall_map">
+    <div class = "overlay"></div>
+    <div id='map0'></div>
+    <svg class = "allroutes"></svg>
+    <div class = "extra_info"></div>
+  </div>
 
 
   <div class = "home">
@@ -259,12 +265,6 @@
     </table>
   </div>
 
-  <script src ="js/myfunction.js"></script>
-  <script src ="js/myfunction_control.js"></script>
-
-  <script src ="js/multiple_data.js"></script>
-  <script src ="js/mycontrol.js"></script>
-
   <script type="text/javascript">
   mapboxgl.accessToken = 'pk.eyJ1IjoicGFudGhlcnN1cGVyIiwiYSI6Il9JRlBXMkkifQ.4VOcpN_xI1jf1XxjnIZHmw';
   var map = new mapboxgl.Map({
@@ -276,9 +276,32 @@
 
   d3.select(".mapboxgl-control-container").remove();
 
+  var start = [-70,33.928033];
+  var bound = [[-270,-30],[140,50]];
 
+//var start = [-122.486052, 37.830348];
+  var map0 = new mapboxgl.Map({
+    container: 'map0',
+    style: 'mapbox://styles/mapbox/satellite-v8',
+    center: start,
+    zoomControl: false,
+    zoom: 1.7
+  }).fitBounds(bound);
+
+
+
+  d3.select(".mapboxgl-control-container").remove();
+
+  var isAtStart = true;
 
 
   </script>
+
+  <script src ="js/myfunction.js"></script>
+  <script src ="js/myfunction_control.js"></script>
+  <script src ="js/worldapp.js"></script>
+
+  <script src ="js/multiple_data.js"></script>
+  <script src ="js/mycontrol.js"></script>
 
 </body>

@@ -1,3 +1,12 @@
+function reptojectMap0(lst) {
+  var mylst = []
+  for (k in lst) {
+    mylst.push(map0.project(lst[k]));
+  }
+
+  return mylst;
+}
+
 Object.size = function(obj) {
   var size = 0,
     key;
@@ -21,7 +30,7 @@ var curvePath = function(lst) {
 		var totalY = (pt1[1] + pt2[1]) / 2;
 		var disY = R - Math.sqrt(R * R - (dist / 2) * (dist / 2));
 
-		var zeroY = map.project([-70, 33.928033]).y;
+		var zeroY = map0.project([-70, 33.928033]).y;
 		if (totalY < zeroY) disY = -disY;
 
 		newlst.push(lst[i]);
@@ -124,36 +133,36 @@ d3.tsv("new_monitor_sim.tsv", function(error, data) {
 	}
 
 	d3.select(window).on('resize', function(){
-		count = 0;
+		count1 = 0;
 
 	});
 
 	function resize() {
 		// update width
-		map.fitBounds(bound);
+		map0.fitBounds(bound);
 
-		d3.selectAll("path").remove();
-		d3.selectAll("circle").remove();
+		d3.selectAll(".overall_path").remove();
+		d3.selectAll(".mapnodes").remove();
 
-		var count = 0;
+		var count1 = 0;
 		for (k in route_multi) { //add paths
 
 			var name = k.toString();
 			var newlst = fixloop2(route_multi[k].coordinates);
-			var lstprojected = reptojectMap(newlst);
+			var lstprojected = reptojectMap0(newlst);
 
 			var linedata = lineFunction(curvePath(curvePath(curvePath(curvePath(curvePath(lstprojected))))));
 
-			d3.select(".allroutes").append("path") //current route
+			d3.select(".allroutes").append("path").attr("class", "overall_path") //current route
 				.attr("stroke", "white")
 				.attr("stroke-width", "1px")
-				.attr("fill", "none").attr("d", linedata).attr("opacity", 1).style("position", "relative").attr("id", count).attr("name", name);
-			count++;
+				.attr("fill", "none").attr("d", linedata).attr("opacity", 1).style("position", "relative").attr("id", count1).attr("name", name);
+			count1++;
 
 		}
 
 		for (k in route_multi) { //add nodes
-			var nodes = reptojectMap(fixloop2(route_multi[k].coordinates));
+			var nodes = reptojectMap0(fixloop2(route_multi[k].coordinates));
 			for (j in nodes) {
 				d3.select(".allroutes").append("circle").attr("class", "mapnodes") //current route
 					.attr("cx", nodes[j].x).attr("cy", nodes[j].y)
@@ -163,7 +172,9 @@ d3.tsv("new_monitor_sim.tsv", function(error, data) {
 			}
 		}
 
-		d3.selectAll("path").on("mouseover", function() {
+		d3.selectAll(".overall_path").on("mouseover", function() {
+			console.log("......");
+
 			var myid = +d3.select(this).attr("id");
 			var myinfo = getNode(route_multi,myid).coordinates;
 			d3.select(this).attr("stroke", "#fc9003").attr("stroke-width", "3.5px").style("z-index", 1);
@@ -188,26 +199,54 @@ d3.tsv("new_monitor_sim.tsv", function(error, data) {
 
 			;
 
-
-
-
-
-
 		});
+
 
 		d3.selectAll("path").on("mouseout", function() {
 			d3.select(this).attr("stroke", "white").attr("stroke-width", "1px");
 			d3.selectAll(".info").remove();
+		});
+
+		d3.selectAll(".overall_path").on("click", function() {
+			console.log("clicked");
+			var myid = +d3.select(this).attr("id");
+
+
+			changePage(1);
+			
+//////////////////////////////////////////////////////////////////update path number
+
+	      $("#tablepath div").removeClass("active");
+	      $(this).addClass("active");
+
+	      var thisid = $(this).attr("id");
+	      curPath = +thisid;
+	      update(myid);
+	      moveToggle = false;
+	      cont = false; //loop not started
+	      $("#tablepath").fadeOut(100);
+
+	      d3.select("#nowpath_title")
+	        .select("p").remove();
+
+	      d3.select("#nowpath_title")
+	        .append("p")
+	        .text(Object.keys(places_multi)[curPath].toUpperCase());
+
+	      localcontrol = true;
+
+
 
 		});
 
-	}
 
-		var count = 0;
+
+	}
+		var count1 = 0;
 		d3.timer(function() {
-				if(count<5){
+				if(count1<5){
 					resize();
-					count++;
+					count1++;
 
 				}
 

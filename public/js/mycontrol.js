@@ -240,24 +240,13 @@ var main = function() {
 
   $("#explore").click(
     function() {
-      changePage(1);
+      //$(".overall_map").fadeIn(500);
+      $(".home").fadeOut(1000);
+
+      //changePage(1);
 
     }
   );
-
-
-/*  $(window).bind('mousewheel DOMMouseScroll', function(event) {
-    if (event.originalEvent.wheelDelta > 0 || event.originalEvent.detail < 0) {
-      // scroll up
-
-    } else {
-      // scroll down
-      nowPage++;
-      if (nowPage == 3) nowPage = 2;
-
-      changePage(nowPage);
-    }
-  });*/
 
 };
 
@@ -276,7 +265,7 @@ var inithome = function(time) {
 }
 
 var changePage = function(page) {
-
+  console.log("init");
   if (page === 0) {
     inithome(500);
     $("#map").fadeOut(0);
@@ -289,7 +278,7 @@ var changePage = function(page) {
     $("#map").fadeIn(500);
     $("#control").fadeIn(500);
     $("#pre").fadeIn(500);
-
+    $(".overall_map").fadeOut(0);
     $(".home").fadeOut(0);
     $("#nowpath_title").fadeIn(500);
     $("#detail_button").show();
