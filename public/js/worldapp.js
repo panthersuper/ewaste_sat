@@ -1,19 +1,19 @@
 function reptojectMap0(lst) {
-  var mylst = []
-  for (k in lst) {
-    mylst.push(map0.project(lst[k]));
-  }
+	var mylst = []
+	for (k in lst) {
+		mylst.push(map0.project(lst[k]));
+	}
 
-  return mylst;
+	return mylst;
 }
 
 Object.size = function(obj) {
-  var size = 0,
-    key;
-  for (key in obj) {
-    if (obj.hasOwnProperty(key)) size++;
-  }
-  return size;
+	var size = 0,
+		key;
+	for (key in obj) {
+		if (obj.hasOwnProperty(key)) size++;
+	}
+	return size;
 };
 
 var curvePath = function(lst) {
@@ -62,31 +62,31 @@ var curvePath = function(lst) {
 }
 
 function Dis_w(lst) {
-  //calculate the travel distanse from the beginning to the current note
-  var mydis = 0;
-  for (var i = 0; i < lst.length - 1; i++) {
+	//calculate the travel distanse from the beginning to the current note
+	var mydis = 0;
+	for (var i = 0; i < lst.length - 1; i++) {
 
-    mydis += getDistanceFromLatLonInKm(lst[i][0], lst[i][1], lst[i + 1][0], lst[i + 1][1]);
-  }
+		mydis += getDistanceFromLatLonInKm(lst[i][0], lst[i][1], lst[i + 1][0], lst[i + 1][1]);
+	}
 
 
-  mydis = Math.round(mydis * 10) / 10;
+	mydis = Math.round(mydis * 10) / 10;
 
-  return mydis;
+	return mydis;
 }
 
 function allDays_w(Num) {
-  //calculate the days taveled 
-  var place = getNode(places_multi, Num);
-  var length = Object.size(place);
+	//calculate the days taveled 
+	var place = getNode(places_multi, Num);
+	var length = Object.size(place);
 
-  var firstDate = getNode(place,0)[2];
-  var oneDay = 24 * 60 * 60 * 1000; // hours*minutes*seconds*milliseconds
-  var secondDate = getNode(place,length-1)[2];
+	var firstDate = getNode(place, 0)[2];
+	var oneDay = 24 * 60 * 60 * 1000; // hours*minutes*seconds*milliseconds
+	var secondDate = getNode(place, length - 1)[2];
 
-  var diffDays = Math.round(Math.abs((firstDate.getTime() - secondDate.getTime()) / (oneDay)));
+	var diffDays = Math.round(Math.abs((firstDate.getTime() - secondDate.getTime()) / (oneDay)));
 
-  return diffDays;
+	return diffDays;
 }
 
 var places_multi = {};
@@ -132,7 +132,7 @@ d3.tsv("new_monitor_sim.tsv", function(error, data) {
 			route_multi[k].coordinates.push(places_multi[k][m]);
 	}
 
-	d3.select(window).on('resize', function(){
+	d3.select(window).on('resize', function() {
 		count1 = 0;
 
 	});
@@ -176,11 +176,11 @@ d3.tsv("new_monitor_sim.tsv", function(error, data) {
 			console.log("......");
 
 			var myid = +d3.select(this).attr("id");
-			var myinfo = getNode(route_multi,myid).coordinates;
+			var myinfo = getNode(route_multi, myid).coordinates;
 			d3.select(this).attr("stroke", "#fc9003").attr("stroke-width", "3.5px").style("z-index", 1);
-			var info = d3.select(".extra_info").append("div").attr("class", "info").attr("style","width:200px;background:rgba(255,255,255,0.8);position:absolute;border-radius: 10px;left:"+(d3.mouse(this)[0]+20)+"px;top:"+(d3.mouse(this)[1]+10)+"px ");
-			info.append("h4").text(""+d3.select(this).attr("name").toUpperCase());
-			
+			var info = d3.select(".extra_info").append("div").attr("class", "info").attr("style", "width:200px;background:rgba(255,255,255,0.8);position:absolute;border-radius: 10px;left:" + (d3.mouse(this)[0] + 20) + "px;top:" + (d3.mouse(this)[1] + 10) + "px ");
+			info.append("h4").text("" + d3.select(this).attr("name").toUpperCase());
+
 			var duration = info.append("div").attr("class", "departure");
 			duration.append("strong").append("p").text("DEPARTURE");
 			duration.append("p").text("...");
@@ -191,11 +191,11 @@ d3.tsv("new_monitor_sim.tsv", function(error, data) {
 
 			var duration = info.append("div").attr("class", "duration");
 			duration.append("strong").append("p").text("DURATION");
-			duration.append("p").text(allDays_w(myid)+" days");
+			duration.append("p").text(allDays_w(myid) + " days");
 
 			var distance = info.append("div").attr("class", "distance");
 			distance.append("strong").append("p").text("DISTANCE");
-			distance.append("p").text(Dis_w(getNode(route_multi,myid).coordinates)+" km");
+			distance.append("p").text(Dis_w(getNode(route_multi, myid).coordinates) + " km");
 
 			;
 
@@ -213,27 +213,27 @@ d3.tsv("new_monitor_sim.tsv", function(error, data) {
 
 
 			changePage(1);
-			
-//////////////////////////////////////////////////////////////////update path number
 
-	      $("#tablepath div").removeClass("active");
-	      $(this).addClass("active");
+			//////////////////////////////////////////////////////////////////update path number
 
-	      var thisid = $(this).attr("id");
-	      curPath = +thisid;
-	      update(myid);
-	      moveToggle = false;
-	      cont = false; //loop not started
-	      $("#tablepath").fadeOut(100);
+			$("#tablepath div").removeClass("active");
+			$(this).addClass("active");
 
-	      d3.select("#nowpath_title")
-	        .select("p").remove();
+			var thisid = $(this).attr("id");
+			curPath = +thisid;
+			update(myid);
+			moveToggle = false;
+			cont = false; //loop not started
+			$("#tablepath").fadeOut(100);
 
-	      d3.select("#nowpath_title")
-	        .append("p")
-	        .text(Object.keys(places_multi)[curPath].toUpperCase());
+			d3.select("#nowpath_title")
+				.select("p").remove();
 
-	      localcontrol = true;
+			d3.select("#nowpath_title")
+				.append("p")
+				.text(Object.keys(places_multi)[curPath].toUpperCase());
+
+			localcontrol = true;
 
 
 
@@ -242,15 +242,15 @@ d3.tsv("new_monitor_sim.tsv", function(error, data) {
 
 
 	}
-		var count1 = 0;
-		d3.timer(function() {
-				if(count1<5){
-					resize();
-					count1++;
+	var count1 = 0;
+	d3.timer(function() {
+		if (count1 < 5) {
+			resize();
+			count1++;
 
-				}
+		}
 
-		});
+	});
 
 
 });

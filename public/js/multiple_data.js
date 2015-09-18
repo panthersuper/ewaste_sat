@@ -133,6 +133,12 @@ d3.tsv("new_monitor_sim.tsv", function(error, data) {
     var story = data[i]["story"];
     var media = data[i]["media"];
 
+    if(title===undefined) title = "";
+    if(video===undefined) video = "";
+    if(story===undefined) story = "";
+    if(media===undefined) media = "";
+
+
     var lat = +data[i]["latitude"],
       lng = +data[i]["longitude"];
 
@@ -647,7 +653,7 @@ d3.tsv("new_monitor_sim.tsv", function(error, data) {
       important = places[keys[nowNum]][3].length + places[keys[nowNum]][4].length + places[keys[nowNum]][5].length;
       if (pre_num != 0 && next_num != 0) { //those that are in the middle
         pre_important = places[keys[pre_num]][3].length + places[keys[pre_num]][4].length + places[keys[nowNum - 1]][5].length;
-        next_important = places[keys[nowNum + 1]][3].length + places[keys[nowNum + 1]][4].length + places[keys[nowNum + 1]][5].length;
+        next_important = places[keys[nowNum + 1]][3].length || places[keys[nowNum + 1]][4].length || places[keys[nowNum + 1]][5].length;
       } else if (pre_num === 0) { //the first one
         pre_important = true;
         next_important = places[keys[nowNum + 1]][3].length + places[keys[nowNum + 1]][4].length + places[keys[nowNum + 1]][5].length;

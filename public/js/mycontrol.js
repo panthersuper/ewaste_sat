@@ -289,14 +289,14 @@ var changePage = function(page) {
       scrollTop: 0
     }, "fast");
 
-    $(".draw").fadeIn(500);
-    $("#map").fadeIn(500);
-    $("#control").fadeIn(500);
-    $("#pre").fadeIn(500);
+    $(".draw").fadeOut(0).fadeIn(1000);
+    $("#map").fadeOut(0).fadeIn(1000);
+    $("#control").fadeOut(0).fadeIn(1000);
+    $("#pre").fadeOut(0).fadeIn(1000);
     $(".overall_map").fadeOut(0);
     $(".home").fadeOut(0);
-    $("#nowpath_title").fadeIn(500);
-    $("#detail_button").show();
+    $("#nowpath_title").fadeOut(0).fadeIn(1000);
+    $("#detail_button").fadeOut(0).fadeIn(1000);
 
   }
 
