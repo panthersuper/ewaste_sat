@@ -242,7 +242,7 @@ var main = function() {
     function() {
       //$(".overall_map").fadeIn(500);
       $(".home").fadeOut(1000);
-
+      $(".underbar_back").fadeIn(1000);
       //changePage(1);
 
     }
@@ -255,6 +255,8 @@ var main = function() {
       $("#map").fadeOut(0);
       $("#control").fadeOut(0);
       $("#pre").fadeOut(0);
+      $(".underbar_back").fadeIn(1000);
+      console.log("33333");
 
       //changePage(1);
 
@@ -293,6 +295,7 @@ var changePage = function(page) {
     $("#control").fadeOut(0).fadeIn(1000);
     $(".overall_map").fadeOut(0);
     $(".home").fadeOut(0);
+    $(".underbar_back").fadeOut(0);
 
   }
 
