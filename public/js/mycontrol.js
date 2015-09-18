@@ -263,6 +263,28 @@ var main = function() {
     }
   );
 
+  $(".underbar_back div").click(
+    function() {
+
+      for (k in route_multi) { //add paths
+        var name = k.toString();
+        var newlst = fixloop2(route_multi[k].coordinates);
+        var lstprojected = reptojectMap0(newlst);
+
+        var lineraw = curvePath(curvePath(curvePath(curvePath(curvePath(lstprojected)))));
+        console.log(".overall_path_"+name);
+
+        d3.select(".overall_path_"+name).transition()
+                       .delay(0)
+                       .duration(10000)
+                       .attrTween("d", getSmoothInterpolation(lineraw));//need a reference to the function
+
+      }
+    }
+  );
+
+
+
 };
 
 var inithome = function(time) {

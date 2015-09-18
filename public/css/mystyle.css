@@ -873,26 +873,48 @@ cursor: pointer;
 
 }
 
-.underbar_back{
-  position: absolute;
-
-  width: 100%;
-  height: 250px;
-  bottom: -150px;
-
-  left: 0px;
-  z-index: 10;
-
-  background-color: rgb(20,20,20);
-
-}
-
 .underbar_mark {
   width:280px;
   height:4.5px;
   background-color: #39a4e8;
 
 
+}
+
+.underbar_back{
+  position: absolute;
+
+  width: 100%;
+  height: 100px;
+  bottom: 0px;
+
+  left: 0px;
+  z-index: 15;
+
+  background-color: rgb(20,20,20);
+}
+
+.underbar_back div{
+  position: relative;
+  margin: 0 auto;
+  margin-top: 15px;
+  width: 20%;
+  height: 50px;
+  background-color: rgb(80,80,80);
+  border-radius: 5px;
+}
+
+.underbar_back div:hover{
+  background-color: rgb(120,120,120);
+  cursor: pointer;
+}
+
+.underbar_back p{
+  position: relative;
+  text-align: center;
+  padding-top:13px; 
+  font-size: 20px;
+  color: rgb(180,180,180);
 }
 
 .topbar {
@@ -1005,3 +1027,4 @@ cursor: pointer;
     color: rgb(203,184,203) !important;
     font-size: 8px !important;
   }
+

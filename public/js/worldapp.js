@@ -1,3 +1,43 @@
+   var lineFunction0 = d3.svg.line()
+     .x(function(d) {
+       return d[0];
+     })
+     .y(function(d) {
+       return d[1];
+     })
+     .interpolate("linear");
+
+
+function getSmoothInterpolation(data) {
+    return function(){//return a reference to this function
+  var interpolate = d3.scale.linear()
+      .domain([0, 1])
+      .range([1, data.length + 1]);
+
+  return function(t) {
+
+      var flooredX = Math.floor(interpolate(t));
+      var interpolatedLine = data.slice(0, flooredX);//previous segments
+          
+      if(flooredX > 0 && flooredX < data.length) {//iteration is not done
+          var weight = interpolate(t) - flooredX;//calculate the weight on this segment
+          var myY = data[flooredX].y * weight + data[flooredX-1].y * (1-weight);
+          var myX = data[flooredX].x * weight + data[flooredX-1].x * (1-weight);
+          
+          interpolatedLine.push({"x": myX,"y": myY });//add the current segment
+  	   	console.log(interpolatedLine);
+
+          }
+
+      return lineFunction(interpolatedLine);
+      }
+    }
+  }
+
+
+
+
+
 var cleanlst_dis = function(lst) {
 	//clean lst based on overall distance
 	var orilst = lst;
@@ -219,17 +259,28 @@ d3.tsv("new_monitor_sim.tsv", function(error, data) {
 
 		var count1 = 0;
 		for (k in route_multi) { //add paths
-
 			var name = k.toString();
 			var newlst = fixloop2(route_multi[k].coordinates);
 			var lstprojected = reptojectMap0(newlst);
 
-			var linedata = lineFunction(curvePath(curvePath(curvePath(curvePath(curvePath(lstprojected))))));
+			var lineraw = curvePath(curvePath(curvePath(curvePath(curvePath(lstprojected)))));
+			var linedata = lineFunction(lineraw);
+			var linedata0 = lineFunction(lineraw.slice(0, 1));
 
-			d3.select(".allroutes").append("path").attr("class", "overall_path") //current route
+			lineGraph = d3.select(".allroutes").append("path").attr("class", "overall_path overall_path_"+name)
 				.attr("stroke", "rgba(255,255,255,0.3)")
 				.attr("stroke-width", "1.5px")
-				.attr("fill", "none").attr("d", linedata).attr("opacity", 1).style("position", "relative").attr("id", count1).attr("name", name) /*.style("display","none")*/ ;
+				.attr("fill", "none").attr("d", linedata0).attr("opacity", 1).style("position", "relative").attr("id", count1).attr("name", name) /*.style("display","none")*/ ;
+
+
+
+
+/*			d3.selectAll(".overall_path").transition()
+			         .delay(0)
+			         .duration(50000)
+			         .attrTween("d", getSmoothInterpolation(lineraw));//need a reference to the function
+
+*/
 
 			count1++;
 
