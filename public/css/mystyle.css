@@ -981,3 +981,13 @@ cursor: pointer;
     cursor: pointer;
 
   }
+
+  .citynames{
+    position: absolute;
+    z-index: 20;
+  }
+
+  .citynames p{
+    color: white;
+    font-size: 8px !important;
+  }

@@ -1,33 +1,73 @@
+var cleanlst_dis = function(lst) {
+	//clean lst based on overall distance
+	var orilst = lst;
+	for (var i = 0; i < orilst.length; i++) {
+		var pt1 = orilst[i]
+
+		var mark = 0;
+
+
+		for (var j = 0; j < orilst.length; j++) {
+			if (i != j) {
+				var pt2 = orilst[j];
+				var dis = getDistanceFromLatLonInKm(pt1[0],pt1[1], pt2[0],pt2[1]);
+				if (dis < 300){
+					mark = 1;
+					
+				}
+			}
+		}
+		if (mark != 0) {
+			orilst.splice(i, 1);
+			i--;
+
+
+
+		}
+	}
+
+	return orilst;
+
+
+}
 
 var revGeocoding_class = function(lat, lng, myclass) {
-  var returnvalue = null;
-  var mystr = 'https://maps.googleapis.com/maps/api/geocode/json?latlng=' + lat + ',' + lng + '&key=AIzaSyBG1a8rdla5buwncdaUp8gQCKp_ePgI6wA&language=en';
+	var returnvalue = null;
+	if (lng<-180) lng = lng+360;
 
-  $.when($.getJSON(mystr)).done(function(data) {
-    var country = null;
-    var state = null;
-    var city = null;
-    var addr = data.results[0].address_components;
+	var mystr = 'https://maps.googleapis.com/maps/api/geocode/json?latlng=' + lat + ',' + lng + '&key=AIzaSyBG1a8rdla5buwncdaUp8gQCKp_ePgI6wA&language=en';
 
-    for (i in addr) {
-      var type = addr[i].types[0]
-      if (type === "country") country = addr[i].short_name;
-      if (type === "administrative_area_level_1") state = addr[i].short_name;
-      if (type === "locality") city = addr[i].short_name;
-    }
+	$.when($.getJSON(mystr)).done(function(data) {
+		var country = null;
+		var state = null;
+		var city = null;
+		var addr = null;
+		if(data.results[0]!=undefined)
+			addr = data.results[0].address_components;
+		else{
+			//console.log(lng, lat);
 
-    returnvalue = city + ", " + state + ", " + country;
+		}
 
-    if (city === null) returnvalue = state + ", " + country;
-    if (state === null) returnvalue = country;
+		for (i in addr) {
+			var type = addr[i].types[0]
+			if (type === "country") country = addr[i].short_name;
+			if (type === "administrative_area_level_1") state = addr[i].short_name;
+			if (type === "locality") city = addr[i].short_name;
+		}
+		if(country==="US")
+			returnvalue = city + ", " + state;
+		else returnvalue = city + ", " + state + ", " + country;
 
-    returnvalue = returnvalue.toUpperCase();
-    d3.select("." + myclass).append("p") //show text on each point
-      .attr("class", "locName")
-      .text(function(d) {
-        return returnvalue;
-      });
-  });
+		if (city === null) returnvalue = state + ", " + country;
+		if (state === null) returnvalue = country;
+		if (returnvalue===null) returnvalue="";
+
+		returnvalue = returnvalue.toUpperCase();
+		d3.select("." + myclass).append("p") //show text on each point
+			.attr("class", "locName")
+			.text(returnvalue);
+	});
 }
 
 function reptojectMap0(lst) {
@@ -169,6 +209,7 @@ d3.tsv("new_monitor_sim.tsv", function(error, data) {
 
 	});
 
+
 	function resize() {
 		// update width
 		map0.fitBounds(bound);
@@ -194,14 +235,20 @@ d3.tsv("new_monitor_sim.tsv", function(error, data) {
 
 		}
 
-		for (k in route_multi) { //add nodes
-			var nodes = reptojectMap0(fixloop2(route_multi[k].coordinates)); //each path node list
-			for (var j = 1; j < nodes.length - 1; j++) {
+		var lstImp = []; //starting and ending node list
 
+		for (k in route_multi) { //add nodes
+			var nodes0 = fixloop2(route_multi[k].coordinates);
+			var nodes = reptojectMap0(nodes0); //each path node list
+
+			for (var j = 1; j < nodes.length - 1; j++) {
 				d3.select(".allroutes").append("circle").attr("class", "mapnodes") //current route
 					.attr("cx", nodes[j].x).attr("cy", nodes[j].y)
 					.attr("r", 1).attr("fill", "rgb(150,150,150)");
 			}
+
+			lstImp.push(nodes0[0]);
+			lstImp.push(nodes0[nodes.length - 1]);
 
 			d3.select(".allroutes").append("circle").attr("class", "mapnodes") //current route
 				.attr("cx", nodes[0].x).attr("cy", nodes[0].y)
@@ -213,6 +260,26 @@ d3.tsv("new_monitor_sim.tsv", function(error, data) {
 
 
 		}
+
+		//add city name with cleaned list
+		var citylst = cleanlst_dis(lstImp);
+		//var citylst = lstImp;
+
+		d3.selectAll(".citynames").remove();
+		for (k in citylst) {
+			var loc = citylst[k];
+
+			loc = map0.project(loc);
+			var key = k;
+			//console.log(key);
+			d3.select(".extra_info").append("div").attr("class", "citynames citynames"+key).attr("style", "position:absolute;left:"+(loc.x-5)+"px;top:"+(loc.y-10)+"px;"); //current route
+
+
+			revGeocoding_class(citylst[k][1], citylst[k][0], "citynames"+key);
+
+		}
+
+
 
 		d3.selectAll(".overall_path").on("mouseover", function() {
 
@@ -230,7 +297,7 @@ d3.tsv("new_monitor_sim.tsv", function(error, data) {
 			var arrival = info.append("div").attr("class", "arrival");
 			arrival.append("strong").append("p").text("ARRIVAL");
 			var llst = getNode(route_multi, myid).coordinates;
-			var pos2 = llst[llst.length-1];
+			var pos2 = llst[llst.length - 1];
 			revGeocoding_class(pos2[1], pos2[0], "arrival");
 
 			var duration = info.append("div").attr("class", "duration");
