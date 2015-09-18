@@ -927,10 +927,21 @@ cursor: pointer;
     z-index: 0;
   }
 
+  .overall_path{
+    position: absolute;
+    z-index: 15;
+    cursor: pointer;
+  }
+
+  .mapnodes {
+    position: absolute;
+    z-index: 16;
+
+  }
+
   .overall_path:hover {
     position: absolute;
     cursor: pointer;
-    z-index: 11;
   }
 
   .extra_info {

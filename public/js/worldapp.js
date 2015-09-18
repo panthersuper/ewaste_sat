@@ -156,21 +156,31 @@ d3.tsv("new_monitor_sim.tsv", function(error, data) {
 			d3.select(".allroutes").append("path").attr("class", "overall_path") //current route
 				.attr("stroke", "rgba(255,255,255,0.3)")
 				.attr("stroke-width", "1px")
-				.attr("fill", "none").attr("d", linedata).attr("opacity", 1).style("position", "relative").attr("id", count1).attr("name", name)/*.style("display","none")*/;
-			
+				.attr("fill", "none").attr("d", linedata).attr("opacity", 1).style("position", "relative").attr("id", count1).attr("name", name) /*.style("display","none")*/ ;
+
 			count1++;
 
 		}
 
 		for (k in route_multi) { //add nodes
-			var nodes = reptojectMap0(fixloop2(route_multi[k].coordinates));
-			for (j in nodes) {
+			var nodes = reptojectMap0(fixloop2(route_multi[k].coordinates)); //each path node list
+			for (var j = 1; j < nodes.length - 1; j++) {
+
 				d3.select(".allroutes").append("circle").attr("class", "mapnodes") //current route
 					.attr("cx", nodes[j].x).attr("cy", nodes[j].y)
-					.attr("r", 2).attr("fill", "#39a4e8");
-
-
+					.attr("r", 1).attr("fill", "rgb(150,150,150)");
 			}
+
+			d3.select(".allroutes").append("circle").attr("class", "mapnodes") //current route
+				.attr("cx", nodes[0].x).attr("cy", nodes[0].y)
+				.attr("r", 3).attr("fill", "#39a4e8");
+
+			d3.select(".allroutes").append("circle").attr("class", "mapnodes") //current route
+				.attr("cx", nodes[nodes.length - 1].x).attr("cy", nodes[nodes.length - 1].y)
+				.attr("r", 3).attr("fill", "#ace25a");
+
+
+
 		}
 
 		d3.selectAll(".overall_path").on("mouseover", function() {
@@ -178,7 +188,7 @@ d3.tsv("new_monitor_sim.tsv", function(error, data) {
 
 			var myid = +d3.select(this).attr("id");
 			var myinfo = getNode(route_multi, myid).coordinates;
-			d3.select(this).attr("stroke", "#fc9003").attr("stroke-width", "3.5px").style("z-index", 11);
+			d3.select(this).attr("stroke", "white").attr("stroke-width", "3.5px").style("z-index", 11);
 			var info = d3.select(".extra_info").append("div").attr("class", "info").attr("style", "width:200px;background:rgba(255,255,255,0.8);position:absolute;border-radius: 10px;left:" + (d3.mouse(this)[0] + 20) + "px;top:" + (d3.mouse(this)[1] + 10) + "px ");
 			info.append("h4").text("" + d3.select(this).attr("name").toUpperCase());
 
@@ -204,7 +214,7 @@ d3.tsv("new_monitor_sim.tsv", function(error, data) {
 
 
 		d3.selectAll(".overall_path").on("mouseout", function() {
-			d3.select(this).attr("stroke", "rgba(255,255,255,0.3)").attr("stroke-width", "1px");
+			d3.select(this).attr("stroke", "rgb(100,100,100)").attr("stroke-width", "1px");
 			d3.selectAll(".info").remove();
 		});
 
