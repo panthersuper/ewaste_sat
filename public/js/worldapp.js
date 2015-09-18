@@ -155,7 +155,7 @@ d3.tsv("new_monitor_sim.tsv", function(error, data) {
 
 			d3.select(".allroutes").append("path").attr("class", "overall_path") //current route
 				.attr("stroke", "rgba(255,255,255,0.3)")
-				.attr("stroke-width", "1px")
+				.attr("stroke-width", "1.5px")
 				.attr("fill", "none").attr("d", linedata).attr("opacity", 1).style("position", "relative").attr("id", count1).attr("name", name) /*.style("display","none")*/ ;
 
 			count1++;
@@ -214,7 +214,7 @@ d3.tsv("new_monitor_sim.tsv", function(error, data) {
 
 
 		d3.selectAll(".overall_path").on("mouseout", function() {
-			d3.select(this).attr("stroke", "rgb(100,100,100)").attr("stroke-width", "1px");
+			d3.select(this).attr("stroke", "rgba(255,255,255,0.3)").attr("stroke-width", "1.5px");
 			d3.selectAll(".info").remove();
 		});
 
