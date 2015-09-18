@@ -270,7 +270,6 @@ var inithome = function(time) {
   $("#control").fadeOut(time);
   $("#pre").fadeOut(time);
   $("#hometb").fadeIn(500);
-  $("#nowpath_title").fadeOut(time);
 
 
   nowPage = 0;
