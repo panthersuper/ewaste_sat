@@ -46,6 +46,7 @@ a:active {text-decoration: none}
   position: absolute;
   left: 25%;
   background-color: rgba(20,20,20,0.9);
+  z-index: 30;
 }
 
 #teamtb table {
@@ -83,6 +84,7 @@ a:active {text-decoration: none}
   left: 25%;
   top:50px;
   background-color: rgba(20,20,20,0.9);
+  z-index: 30;
 }
 
 #abouttb table {
@@ -809,6 +811,7 @@ p {
   height:80px;
   top:60px;
   color: rgb(140,140,140);
+  z-index: 20;
 }
 
 .menucontent p {
@@ -879,10 +882,11 @@ cursor: pointer;
 }
 
 .topbar {
-    position: relative;
+    position: absolute;
     width: 100%;
     height: 60px;
     background-color: rgb(20,20,20);
+    z-index: 20;
 
 
 }

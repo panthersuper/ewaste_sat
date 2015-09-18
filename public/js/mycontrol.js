@@ -255,8 +255,6 @@ var main = function() {
       $("#map").fadeOut(0);
       $("#control").fadeOut(0);
       $("#pre").fadeOut(0);
-      $("#nowpath_title").fadeOut(0);
-      $("#detail_button").hide();
 
       //changePage(1);
 
@@ -290,13 +288,12 @@ var changePage = function(page) {
     }, "fast");
 
     $(".draw").fadeOut(0).fadeIn(1000);
+    $("#pre").fadeOut(0).fadeIn(1000);
+
     $("#map").fadeOut(0).fadeIn(1000);
     $("#control").fadeOut(0).fadeIn(1000);
-    $("#pre").fadeOut(0).fadeIn(1000);
     $(".overall_map").fadeOut(0);
     $(".home").fadeOut(0);
-    $("#nowpath_title").fadeOut(0).fadeIn(1000);
-    $("#detail_button").fadeOut(0).fadeIn(1000);
 
   }
 
