@@ -626,6 +626,7 @@ var revGeocoding = function(lat, lng, id) {
   });
 }
 
+
 var removetext = function(id) {
   d3.selectAll(".mypoints" + " text")
     .remove();

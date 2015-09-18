@@ -1,3 +1,35 @@
+
+var revGeocoding_class = function(lat, lng, myclass) {
+  var returnvalue = null;
+  var mystr = 'https://maps.googleapis.com/maps/api/geocode/json?latlng=' + lat + ',' + lng + '&key=AIzaSyBG1a8rdla5buwncdaUp8gQCKp_ePgI6wA&language=en';
+
+  $.when($.getJSON(mystr)).done(function(data) {
+    var country = null;
+    var state = null;
+    var city = null;
+    var addr = data.results[0].address_components;
+
+    for (i in addr) {
+      var type = addr[i].types[0]
+      if (type === "country") country = addr[i].short_name;
+      if (type === "administrative_area_level_1") state = addr[i].short_name;
+      if (type === "locality") city = addr[i].short_name;
+    }
+
+    returnvalue = city + ", " + state + ", " + country;
+
+    if (city === null) returnvalue = state + ", " + country;
+    if (state === null) returnvalue = country;
+
+    returnvalue = returnvalue.toUpperCase();
+    d3.select("." + myclass).append("p") //show text on each point
+      .attr("class", "locName")
+      .text(function(d) {
+        return returnvalue;
+      });
+  });
+}
+
 function reptojectMap0(lst) {
 	var mylst = []
 	for (k in lst) {
@@ -180,11 +212,9 @@ d3.tsv("new_monitor_sim.tsv", function(error, data) {
 				.attr("r", 3).attr("fill", "#ace25a");
 
 
-
 		}
 
 		d3.selectAll(".overall_path").on("mouseover", function() {
-			console.log("......");
 
 			var myid = +d3.select(this).attr("id");
 			var myinfo = getNode(route_multi, myid).coordinates;
@@ -192,13 +222,16 @@ d3.tsv("new_monitor_sim.tsv", function(error, data) {
 			var info = d3.select(".extra_info").append("div").attr("class", "info").attr("style", "width:200px;background:rgba(255,255,255,0.8);position:absolute;border-radius: 10px;left:" + (d3.mouse(this)[0] + 20) + "px;top:" + (d3.mouse(this)[1] + 10) + "px ");
 			info.append("h4").text("" + d3.select(this).attr("name").toUpperCase());
 
-			var duration = info.append("div").attr("class", "departure");
-			duration.append("strong").append("p").text("DEPARTURE");
-			duration.append("p").text("...");
-			var duration = info.append("div").attr("class", "arrival");
-			duration.append("strong").append("p").text("ARRIVAL");
-			duration.append("p").text("...");
+			var departure = info.append("div").attr("class", "departure");
+			departure.append("strong").append("p").text("DEPARTURE");
+			var pos = getNode(route_multi, myid).coordinates[0];
+			revGeocoding_class(pos[1], pos[0], "departure");
 
+			var arrival = info.append("div").attr("class", "arrival");
+			arrival.append("strong").append("p").text("ARRIVAL");
+			var llst = getNode(route_multi, myid).coordinates;
+			var pos2 = llst[llst.length-1];
+			revGeocoding_class(pos2[1], pos2[0], "arrival");
 
 			var duration = info.append("div").attr("class", "duration");
 			duration.append("strong").append("p").text("DURATION");
