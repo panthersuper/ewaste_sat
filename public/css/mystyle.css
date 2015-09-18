@@ -961,3 +961,8 @@ cursor: pointer;
     margin-left: 13px;
     margin-bottom: 10px;
   }
+
+  #overall_button {
+    cursor: pointer;
+
+  }

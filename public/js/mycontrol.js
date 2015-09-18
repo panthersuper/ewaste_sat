@@ -248,6 +248,21 @@ var main = function() {
     }
   );
 
+  $("#overall_button").click(
+    function() {
+      $(".overall_map").fadeIn(1000);
+      $(".draw").fadeOut(0);
+      $("#map").fadeOut(0);
+      $("#control").fadeOut(0);
+      $("#pre").fadeOut(0);
+      $("#nowpath_title").fadeOut(0);
+      $("#detail_button").hide();
+
+      //changePage(1);
+
+    }
+  );
+
 };
 
 var inithome = function(time) {
