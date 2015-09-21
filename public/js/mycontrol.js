@@ -273,8 +273,9 @@ var main = function() {
     $("#pre").fadeOut(0);
     $(".underbar_back").fadeIn(1000);
     resize();
+      animate_path();
 
-    for (k in route_multi) { //add paths
+/*    for (k in route_multi) { //add paths
       var name = k.toString();
       var newlst = fixloop2(route_multi[k].coordinates);
       var lstprojected = reptojectMap0(newlst);
@@ -286,7 +287,7 @@ var main = function() {
         .duration(15000)
         .attrTween("d", getSmoothInterpolation(lineraw)); //need a reference to the function
 
-    }
+    }*/
   });
 
 
@@ -294,9 +295,10 @@ var main = function() {
   $(".underbar_back div").click( //the "go" button
     function() {
       resize();
+      animate_path();
 
       //map0.fitBounds(bound1);
-      for (k in route_multi) { //add paths
+/*      for (k in route_multi) { //add paths
         var name = k.toString();
         var newlst = fixloop2(route_multi[k].coordinates);
         var lstprojected = reptojectMap0(newlst);
@@ -308,7 +310,7 @@ var main = function() {
           .duration(15000)
           .attrTween("d", getSmoothInterpolation(lineraw)); //need a reference to the function
 
-      }
+      }*/
     }
   );
 
