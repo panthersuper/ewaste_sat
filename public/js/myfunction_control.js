@@ -168,7 +168,7 @@ var myloop = function() {
       var name = k.toString();
       d3.select(".overall_path_circle_" + name).transition()
         .ease("linear")
-        .duration(1000)
+        .duration(2000)
         .attrTween("transform", translateAlong(d3.select(".overall_path_" + name).node()))
         .each("end", loop);
 
