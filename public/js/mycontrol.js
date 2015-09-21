@@ -265,20 +265,35 @@ var main = function() {
     }
   );
 
-  $("#globe").click(function(){
-      $(".overall_map").fadeIn(1000);
-      $(".draw").fadeOut(0);
-      $("#map").fadeOut(0);
-      $("#control").fadeOut(0);
-      $("#pre").fadeOut(0);
-      $(".underbar_back").fadeIn(1000);
-      animate_path();
+  $("#globe").click(function() {
+    $(".overall_map").fadeIn(1000);
+    $(".draw").fadeOut(0);
+    $("#map").fadeOut(0);
+    $("#control").fadeOut(0);
+    $("#pre").fadeOut(0);
+    $(".underbar_back").fadeIn(1000);
+    resize();
+
+    for (k in route_multi) { //add paths
+      var name = k.toString();
+      var newlst = fixloop2(route_multi[k].coordinates);
+      var lstprojected = reptojectMap0(newlst);
+
+      var lineraw = curvePath(curvePath(curvePath(curvePath(curvePath(lstprojected)))));
+
+      d3.select(".overall_path_" + name).transition()
+        .delay(0)
+        .duration(15000)
+        .attrTween("d", getSmoothInterpolation(lineraw)); //need a reference to the function
+
+    }
   });
 
 
 
-  $(".underbar_back div").click(//the "go" button
+  $(".underbar_back div").click( //the "go" button
     function() {
+      resize();
 
       //map0.fitBounds(bound1);
       for (k in route_multi) { //add paths
@@ -287,12 +302,11 @@ var main = function() {
         var lstprojected = reptojectMap0(newlst);
 
         var lineraw = curvePath(curvePath(curvePath(curvePath(curvePath(lstprojected)))));
-        console.log(".overall_path_"+name);
 
-        d3.select(".overall_path_"+name).transition()
-                       .delay(0)
-                       .duration(15000)
-                       .attrTween("d", getSmoothInterpolation(lineraw));//need a reference to the function
+        d3.select(".overall_path_" + name).transition()
+          .delay(0)
+          .duration(15000)
+          .attrTween("d", getSmoothInterpolation(lineraw)); //need a reference to the function
 
       }
     }

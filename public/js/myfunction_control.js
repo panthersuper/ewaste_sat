@@ -1,17 +1,212 @@
-var myloop = function(){
+    function resize() {
+      // update width
+      map0.fitBounds(bound);
+
+      d3.selectAll(".overall_path").remove();
+      d3.selectAll(".mapnodes").remove();
+      d3.selectAll(".mapnodes_first").remove();
+
+      var count1 = 0;
+      for (k in route_multi) { //add paths
+        var name = k.toString();
+        var newlst = fixloop2(route_multi[k].coordinates);
+        var lstprojected = reptojectMap0(newlst);
+
+        var lineraw = curvePath(curvePath(curvePath(curvePath(curvePath(lstprojected)))));
+        var linedata = lineFunction(lineraw);
+        var linedata0 = lineFunction(lineraw.slice(0, 1));
+
+        lineGraph = d3.select(".allroutes").append("path").attr("class", "overall_path overall_path_" + name)
+          .attr("stroke", "rgba(255,255,255,0.3)")
+          .attr("stroke-width", "1.5px")
+          .attr("fill", "none").attr("d", linedata0).attr("opacity", 1).style("position", "relative").attr("id", count1).attr("name", name) /*.style("display","none")*/ ;
+
+        count1++;
+
+        d3.select(".allroutes").append("circle").attr("class", "overall_path overall_path_circle_" + name)//add animation circle on each path
+          .attr("r", 1)
+          .attr("cx", lineraw[0].x)
+          .attr("cy", lineraw[0].y)
+          .attr("fill", "rgba(255,255,255,0.8)");
+
+
+      }
+
+
+
+
+      //var lstImp = []; //starting and ending node list
+
+      for (k in route_multi) { //add nodes
+        var nodes0 = fixloop2(route_multi[k].coordinates);
+        var nodes = reptojectMap0(nodes0); //each path node list
+
+/*        for (var j = 1; j < nodes.length - 1; j++) {
+          d3.select(".allroutes").append("circle").attr("class", "mapnodes") //add all nodes
+            .attr("cx", nodes[j].x).attr("cy", nodes[j].y)
+            .attr("r", 1.5).attr("fill", "rgb(150,150,150)");
+        }*/
+
+        /*      lstImp.push(nodes0[0]);
+              lstImp.push(nodes0[nodes.length - 1]);
+        */
+        d3.select(".allroutes").append("circle").attr("class", "mapnodes_first") //add all first nodes
+          .attr("cx", nodes[0].x).attr("cy", nodes[0].y).attr("ox", nodes0[0][0]).attr("oy", nodes0[0][1])
+          .attr("r", 3).attr("fill", "#39a4e8")
+          .on("mouseover", function() {
+
+            d3.select(this).attr("r", 6);
+            var info = d3.select(".extra_info").append("div").attr("class", "info").attr("style", "background:rgba(255,255,255,0.8);position:absolute;border-radius: 10px;left:" + (d3.mouse(this)[0] + 20) + "px;top:" + (d3.mouse(this)[1] + 10) + "px ");
+            info.append("div").attr("class", "pop_city_name");
+            revGeocoding_class(d3.select(this).attr("oy"), d3.select(this).attr("ox"), "pop_city_name");
+
+          })
+          .on("mouseout", function() {
+            d3.select(this).attr("r", 3);
+            d3.selectAll(".info").remove();
+          });
+
+      }
+
+      //add city name with cleaned list
+      /*    var citylst = cleanlst_dis(lstImp);
+       */
+      d3.selectAll(".citynames").remove();
+      /*    for (k in citylst) {
+            var loc = citylst[k];
+
+            loc = map0.project(loc);
+            var key = k;
+            //console.log(key);
+            d3.select(".extra_info").append("div").attr("class", "citynames citynames"+key).attr("style", "position:absolute;left:"+(loc.x-5)+"px;top:"+(loc.y-10)+"px;"); //current route
+
+            //if($(".citynames"+key).find("p").length === 0)
+            //revGeocoding_class(citylst[k][1], citylst[k][0], "citynames"+key);
+
+          }*/
+
+
+
+      d3.selectAll(".overall_path").on("mouseover", function() {
+
+        var myid = +d3.select(this).attr("id");
+        var myinfo = getNode(route_multi, myid).coordinates;
+        d3.select(this).attr("stroke", "white").attr("stroke-width", "3.5px").style("z-index", 11);
+        var info = d3.select(".extra_info").append("div").attr("class", "info").attr("style", "width:200px;background:rgba(255,255,255,0.8);position:absolute;border-radius: 10px;left:" + (d3.mouse(this)[0] + 20) + "px;top:" + (d3.mouse(this)[1] + 10) + "px ");
+        info.append("h4").text("" + d3.select(this).attr("name").toUpperCase());
+
+        var departure = info.append("div").attr("class", "departure");
+        departure.append("strong").append("p").text("DEPARTURE");
+        var pos = getNode(route_multi, myid).coordinates[0];
+        revGeocoding_class(pos[1], pos[0], "departure");
+
+        var arrival = info.append("div").attr("class", "arrival");
+        arrival.append("strong").append("p").text("ARRIVAL");
+        var llst = getNode(route_multi, myid).coordinates;
+        var pos2 = llst[llst.length - 1];
+        revGeocoding_class(pos2[1], pos2[0], "arrival");
+
+        var duration = info.append("div").attr("class", "duration");
+        duration.append("strong").append("p").text("DURATION");
+        duration.append("p").text(allDays_w(myid) + " days");
+
+        var distance = info.append("div").attr("class", "distance");
+        distance.append("strong").append("p").text("DISTANCE");
+        distance.append("p").text(Dis_w(getNode(route_multi, myid).coordinates) + " km");
+
+        ;
+
+      });
+
+
+      d3.selectAll(".overall_path").on("mouseout", function() {
+        d3.select(this).attr("stroke", "rgba(255,255,255,0.3)").attr("stroke-width", "1.5px");
+        d3.selectAll(".info").remove();
+      });
+
+      d3.selectAll(".overall_path").on("click", function() {
+        console.log("clicked");
+        var myid = +d3.select(this).attr("id");
+
+
+        changePage(1);
+
+        //////////////////////////////////////////////////////////////////update path number
+
+        $("#tablepath div").removeClass("active");
+        $(this).addClass("active");
+
+        var thisid = $(this).attr("id");
+        curPath = +thisid;
+        update(myid);
+        moveToggle = false;
+        cont = false; //loop not started
+        $("#tablepath").fadeOut(100);
+
+        d3.select("#nowpath_title")
+          .select("p").remove();
+
+        d3.select("#nowpath_title")
+          .append("p")
+          .text(Object.keys(places_multi)[curPath].toUpperCase());
+
+        localcontrol = true;
+
+
+
+      });
+
+
+
+    }
+
+
+var myloop = function() {
   ! function loop() {
     for (k in route_multi) { //add paths
       var name = k.toString();
-      console.log(k);
-
       d3.select(".overall_path_circle_" + name).transition()
         .ease("linear")
         .duration(1000)
         .attrTween("transform", translateAlong(d3.select(".overall_path_" + name).node()))
         .each("end", loop);
+
+
+
     }
   }();
 
+
+
+  for (k in route_multi) { //add paths
+    var nodes0 = fixloop2(route_multi[k].coordinates);
+    var nodes = reptojectMap0(nodes0); //each path node list
+
+
+    d3.select(".allroutes").append("circle").attr("class", "mapnodes") //add all last nodes
+      .attr("cx", nodes[nodes.length - 1].x).attr("cy", nodes[nodes.length - 1].y).attr("ox", nodes0[nodes0.length - 1][0]).attr("oy", nodes0[nodes0.length - 1][1])
+      .attr("r", 3).attr("fill", "#ace25a")
+      .on("mouseover", function() {
+        d3.select(this).attr("r", 6);
+        var info = d3.select(".extra_info").append("div").attr("class", "info").attr("style", "background:rgba(255,255,255,0.8);position:absolute;border-radius: 10px;left:" + (d3.mouse(this)[0] + 20) + "px;top:" + (d3.mouse(this)[1] + 10) + "px ");
+        info.append("div").attr("class", "pop_city_name");
+
+        var lx = d3.select(this).attr("ox");
+        var ly = d3.select(this).attr("oy");
+        if (lx < -180) {
+          revGeocoding_class(ly, (+lx + 360), "pop_city_name");
+
+        } else
+          revGeocoding_class(ly, lx, "pop_city_name");
+
+      })
+      .on("mouseout", function() {
+        d3.select(this).attr("r", 3);
+        d3.selectAll(".info").remove();
+
+      });
+
+  }
 }
 
 
@@ -29,7 +224,7 @@ var animate_path = function() {
       .delay(0)
       .duration(12000)
       .attrTween("d", getSmoothInterpolation(lineraw)) //need a reference to the function
-      .each("end",myloop);
+      .each("end", myloop);
 
   }
 
