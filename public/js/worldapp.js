@@ -25,7 +25,6 @@ function getSmoothInterpolation(data) {
           var myX = data[flooredX].x * weight + data[flooredX-1].x * (1-weight);
           
           interpolatedLine.push({"x": myX,"y": myY });//add the current segment
-  	   	console.log(interpolatedLine);
 
           }
 
@@ -245,8 +244,8 @@ d3.tsv("new_monitor_sim.tsv", function(error, data) {
 	}
 
 	d3.select(window).on('resize', function() {
+		console.log("...");
 		count1 = 0;
-
 	});
 
 
@@ -271,9 +270,6 @@ d3.tsv("new_monitor_sim.tsv", function(error, data) {
 				.attr("stroke", "rgba(255,255,255,0.3)")
 				.attr("stroke-width", "1.5px")
 				.attr("fill", "none").attr("d", linedata0).attr("opacity", 1).style("position", "relative").attr("id", count1).attr("name", name) /*.style("display","none")*/ ;
-
-
-
 
 /*			d3.selectAll(".overall_path").transition()
 			         .delay(0)
@@ -308,7 +304,6 @@ d3.tsv("new_monitor_sim.tsv", function(error, data) {
 			d3.select(".allroutes").append("circle").attr("class", "mapnodes") //current route
 				.attr("cx", nodes[nodes.length - 1].x).attr("cy", nodes[nodes.length - 1].y)
 				.attr("r", 3).attr("fill", "#ace25a");
-
 
 		}
 
@@ -409,7 +404,6 @@ d3.tsv("new_monitor_sim.tsv", function(error, data) {
 		if (count1 < 5) {
 			resize();
 			count1++;
-
 		}
 
 	});

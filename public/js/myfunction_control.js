@@ -7,7 +7,6 @@ var animate_path = function(){
         var lstprojected = reptojectMap0(newlst);
 
         var lineraw = curvePath(curvePath(curvePath(curvePath(curvePath(lstprojected)))));
-        console.log(".overall_path_"+name);
 
         d3.select(".overall_path_"+name).transition()
                        .delay(0)
@@ -16,7 +15,7 @@ var animate_path = function(){
 
       }
 
-  
+
 }
 
 
