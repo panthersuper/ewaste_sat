@@ -196,35 +196,40 @@ var main = function() {
 
   $("#team").click(
     function() {
+      $(".hidden_info").show();
       $(".menucontent").fadeOut(100);
       localcontrol2 = true;
 
-      $("#aboutbk").css("display", "inline").fadeOut(0).fadeIn(200);
-      $("#teamtb").css("display", "inline").fadeOut(0).fadeIn(200);
+      $("#aboutbk").fadeOut(0).fadeIn(200);
+      $("#teamtb").fadeOut(0).fadeIn(200);
     }
   );
 
   $("#teamtb img").click(
     function() {
-      $("#aboutbk").css("display", "inline").fadeOut(0);
+      $(".hidden_info").hide();
+      $("#aboutbk").fadeOut(0);
       $("#teamtb").css("display", "inline").fadeOut(0);
     }
   );
 
   $("#intro").click(
     function() {
+      $(".hidden_info").show();
+
       $(".menucontent").fadeOut(100);
       localcontrol2 = true;
 
-      $("#aboutbk").css("display", "inline").fadeOut(0).fadeIn(200);
-      $("#abouttb").css("display", "inline").fadeOut(0).fadeIn(200);
+      $("#aboutbk").fadeOut(0).fadeIn(200);
+      $("#abouttb").fadeOut(0).fadeIn(200);
     }
   );
 
   $("#abouttb img").click(
     function() {
-      $("#aboutbk").css("display", "inline").fadeOut(0);
-      $("#abouttb").css("display", "inline").fadeOut(0);
+      $(".hidden_info").hide();
+      $("#aboutbk").fadeOut(0);
+      $("#abouttb").fadeOut(0);
     }
   );
 

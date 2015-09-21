@@ -2,13 +2,6 @@ var mapw = $(window).width(),
   maph = $(window).height();
 var width = 250,
   height = 250;
-$("#abouttb").css("top", maph + 100);
-$("#teamtb").css("top", maph + 100);
-
-$(".menucontent").css("left", mapw - 200);
-$("#teamtb").css("top", maph / 3);
-$("#abouttb").css("top", maph / 7);
-
 var margin = {
   top: 40,
   right: 40,
