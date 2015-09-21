@@ -160,9 +160,10 @@
 
     }
 
-
+var locloop = true;
 var myloop = function() {
   ! function loop() {
+    if(locloop)
     for (k in route_multi) { //add paths
       var name = k.toString();
       d3.select(".overall_path_circle_" + name).transition()
@@ -220,11 +221,24 @@ var animate_path = function() {
 
     var lineraw = curvePath(curvePath(curvePath(curvePath(curvePath(lstprojected)))));
 
+    console.log(locloop);
+    if(locloop === true)
     d3.select(".overall_path_" + name).transition()
       .delay(0)
       .duration(12000)
       .attrTween("d", getSmoothInterpolation(lineraw)) //need a reference to the function
       .each("end", myloop);
+    
+    else
+    d3.select(".overall_path_" + name).transition()
+      .delay(0)
+      .duration(12000)
+      .attrTween("d", getSmoothInterpolation(lineraw)) //need a reference to the function
+      .each("end", function(){
+        locloop = true;
+        myloop();
+      });
+
 
   }
 
