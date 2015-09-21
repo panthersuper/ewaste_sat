@@ -430,8 +430,19 @@ d3.tsv("new_monitor_sim.tsv", function(error, data) {
     //////the timmer//////////////////////////////////////////////////////////////////////////////////////////////
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////
     d3.timer(function() {
+
+
+
+
+
+
+
+
+
+
+
       context.clearRect(0, 0, width, height);
-      console
+      
       //auto adjust control menu
       var mediah = 0;
       var storyh = $("#story p").height();
@@ -620,6 +631,35 @@ d3.tsv("new_monitor_sim.tsv", function(error, data) {
 
       //console.log("Current Path:" + curPath + "||Current Node:" + nowNum + "||Total Node:" + nodeNum);
       //console.log(phasePercentage);
+
+
+
+
+
+      //update the duration and time information
+      d3.select("#distance .keynum")
+      .text(Math.round((nowDis(pastData.coordinates)+nowDis(curData.coordinates))*10)/10);
+
+/*    d3.select("#days .keynum")
+      .text(nowDays(nowNum));
+*/
+
+
+    
+    console.log();
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
       track

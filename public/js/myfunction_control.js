@@ -191,13 +191,13 @@ var updateContent = function(num) {
   timeMark
     .attr("transform", "translate(" + xScale(getNode(places, nowNum)[2]) + "," + (20 + 2.5) + ")");
 
-  $(".keynum").fadeOut(500, function() {
+  $(".keynum").fadeOut(0, function() {
     d3.select("#distance .keynum")
       .text(nowDis(pastData.coordinates));
     d3.select("#days .keynum")
       .text(nowDays(nowNum));
 
-    $(".keynum").fadeOut(0).fadeIn(500);
+    $(".keynum").fadeOut(0).fadeIn(0);
   });
 
 
