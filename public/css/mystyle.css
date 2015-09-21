@@ -256,9 +256,11 @@ a:active {text-decoration: none}
   color:rgb(80,80,80);
   position: absolute;
   left:15px;
-  width: 105px;
+  width: 110px;
   height:40px;
   top: 29px;
+
+
 }
 
 #detail_button p{
@@ -483,14 +485,11 @@ a:active {text-decoration: none}
 
 
 
-h1,h2,h3,h4,h5,h6 {
-  font-family: roboto;
-}
+
 
 p {
   margin-top:5px ;
   margin-bottom:1px;
-  font-family: roboto;
   font-size: 12px;
   padding:9px;
 }
@@ -606,7 +605,7 @@ p {
   width:180px;
   word-wrap:break-word;
   padding-left: 0px;
-  font-family: 'Open Sans', sans-serif,roboto;
+  font-family: 'Open Sans', sans-serif;
 }
 
 #number {
@@ -628,7 +627,6 @@ p {
   top:55px;
   color:rgb(150,150,150);
   left: 30px;
-  font-family: roboto;
   font-size: 7px;
   width:240px;
   word-wrap:break-word;
@@ -646,7 +644,6 @@ p {
   top:55px;
   color:rgb(150,150,150);
   left: 80px;
-  font-family: roboto;
   font-size: 7px;
   width:240px;
   word-wrap:break-word;
@@ -662,7 +659,6 @@ p {
   top:50px;
   color:rgb(150,150,150);
   left: 90px;
-  font-family: roboto;
   font-size: 12px;
   width:240px;
   word-wrap:break-word;
@@ -876,7 +872,7 @@ cursor: pointer;
 #copyright p{
   color: rgb(200,200,200);
   font-size: 8px;
-  width: 300px;
+  width: 310px;
   margin-left:calc(10px);
 }
 
@@ -1050,3 +1046,9 @@ cursor: pointer;
     font-size: 8px !important;
   }
 
+  .pop_city_name p{
+    width: 100% !important;
+    padding: 0px !important;
+    margin-top: 3px !important;
+    margin-bottom: 3px !important;
+  }

@@ -287,24 +287,55 @@ d3.tsv("new_monitor_sim.tsv", function(error, data) {
 					.attr("r", 1).attr("fill", "rgb(150,150,150)");
 			}
 
-			lstImp.push(nodes0[0]);
+/*			lstImp.push(nodes0[0]);
 			lstImp.push(nodes0[nodes.length - 1]);
-
+*/
 			d3.select(".allroutes").append("circle").attr("class", "mapnodes") //add all first nodes
-				.attr("cx", nodes[0].x).attr("cy", nodes[0].y)
-				.attr("r", 3).attr("fill", "#39a4e8");
+				.attr("cx", nodes[0].x).attr("cy", nodes[0].y).attr("ox", nodes0[0][0]).attr("oy", nodes0[0][1])
+				.attr("r", 3).attr("fill", "#39a4e8")
+				.on("mouseover", function(){
+
+					d3.select(this).attr("r", 6);
+					var info = d3.select(".extra_info").append("div").attr("class", "info").attr("style", "background:rgba(255,255,255,0.8);position:absolute;border-radius: 10px;left:" + (d3.mouse(this)[0] + 20) + "px;top:" + (d3.mouse(this)[1] + 10) + "px ");
+					info.append("div").attr("class", "pop_city_name");
+					revGeocoding_class(d3.select(this).attr("oy"), d3.select(this).attr("ox"), "pop_city_name");
+
+				})
+				.on("mouseout", function(){
+					d3.select(this).attr("r", 3);
+					d3.selectAll(".info").remove();
+				});
 
 			d3.select(".allroutes").append("circle").attr("class", "mapnodes") //add all last nodes
-				.attr("cx", nodes[nodes.length - 1].x).attr("cy", nodes[nodes.length - 1].y)
-				.attr("r", 3).attr("fill", "#ace25a");
+				.attr("cx", nodes[nodes.length - 1].x).attr("cy", nodes[nodes.length - 1].y).attr("ox", nodes0[nodes0.length-1][0]).attr("oy", nodes0[nodes0.length-1][1])
+				.attr("r", 3).attr("fill", "#ace25a")
+				.on("mouseover", function(){
+					d3.select(this).attr("r", 6);
+					var info = d3.select(".extra_info").append("div").attr("class", "info").attr("style", "background:rgba(255,255,255,0.8);position:absolute;border-radius: 10px;left:" + (d3.mouse(this)[0] + 20) + "px;top:" + (d3.mouse(this)[1] + 10) + "px ");
+					info.append("div").attr("class", "pop_city_name");
+
+
+					var lx = d3.select(this).attr("ox");
+					var ly = d3.select(this).attr("oy");
+					if (lx<-180) {
+						revGeocoding_class(ly, (+lx+360), "pop_city_name");
+
+					}else 
+						revGeocoding_class(ly, lx, "pop_city_name");
+
+				})
+				.on("mouseout", function(){
+					d3.select(this).attr("r", 3);
+					d3.selectAll(".info").remove();
+
+				});
 		}
 
 		//add city name with cleaned list
-		var citylst = cleanlst_dis(lstImp);
-		//var citylst = lstImp;
-
+/*		var citylst = cleanlst_dis(lstImp);
+*/
 		d3.selectAll(".citynames").remove();
-		for (k in citylst) {
+/*		for (k in citylst) {
 			var loc = citylst[k];
 
 			loc = map0.project(loc);
@@ -312,10 +343,10 @@ d3.tsv("new_monitor_sim.tsv", function(error, data) {
 			//console.log(key);
 			d3.select(".extra_info").append("div").attr("class", "citynames citynames"+key).attr("style", "position:absolute;left:"+(loc.x-5)+"px;top:"+(loc.y-10)+"px;"); //current route
 
-			if($(".citynames"+key).find("p").length === 0)
-				revGeocoding_class(citylst[k][1], citylst[k][0], "citynames"+key);
+			//if($(".citynames"+key).find("p").length === 0)
+			//revGeocoding_class(citylst[k][1], citylst[k][0], "citynames"+key);
 
-		}
+		}*/
 
 
 

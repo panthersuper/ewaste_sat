@@ -27,7 +27,7 @@ function nowDis(lst) {
   }
 
 
-  mydis = Math.round(mydis * 10) / 10;
+  mydis = Math.round(mydis);
 
   return mydis;
 }
