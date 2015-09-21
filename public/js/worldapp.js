@@ -320,8 +320,8 @@ d3.tsv("new_monitor_sim.tsv", function(error, data) {
 			//console.log(key);
 			d3.select(".extra_info").append("div").attr("class", "citynames citynames"+key).attr("style", "position:absolute;left:"+(loc.x-5)+"px;top:"+(loc.y-10)+"px;"); //current route
 
-
-			revGeocoding_class(citylst[k][1], citylst[k][0], "citynames"+key);
+			if($(".citynames"+key).find("p").length === 0)
+				revGeocoding_class(citylst[k][1], citylst[k][0], "citynames"+key);
 
 		}
 
