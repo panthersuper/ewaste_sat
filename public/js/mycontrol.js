@@ -262,11 +262,20 @@ var main = function() {
       $("#pre").fadeOut(0);
       $(".underbar_back").fadeIn(1000);
       animate_path();
-
-      //changePage(1);
-
     }
   );
+
+  $("#globe").click(function(){
+      $(".overall_map").fadeIn(1000);
+      $(".draw").fadeOut(0);
+      $("#map").fadeOut(0);
+      $("#control").fadeOut(0);
+      $("#pre").fadeOut(0);
+      $(".underbar_back").fadeIn(1000);
+      animate_path();
+  });
+
+
 
   $(".underbar_back div").click(//the "go" button
     function() {

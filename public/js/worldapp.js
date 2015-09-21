@@ -271,13 +271,6 @@ d3.tsv("new_monitor_sim.tsv", function(error, data) {
 				.attr("stroke-width", "1.5px")
 				.attr("fill", "none").attr("d", linedata0).attr("opacity", 1).style("position", "relative").attr("id", count1).attr("name", name) /*.style("display","none")*/ ;
 
-/*			d3.selectAll(".overall_path").transition()
-			         .delay(0)
-			         .duration(50000)
-			         .attrTween("d", getSmoothInterpolation(lineraw));//need a reference to the function
-
-*/
-
 			count1++;
 
 		}
@@ -289,7 +282,7 @@ d3.tsv("new_monitor_sim.tsv", function(error, data) {
 			var nodes = reptojectMap0(nodes0); //each path node list
 
 			for (var j = 1; j < nodes.length - 1; j++) {
-				d3.select(".allroutes").append("circle").attr("class", "mapnodes") //current route
+				d3.select(".allroutes").append("circle").attr("class", "mapnodes") //add all nodes
 					.attr("cx", nodes[j].x).attr("cy", nodes[j].y)
 					.attr("r", 1).attr("fill", "rgb(150,150,150)");
 			}
@@ -297,14 +290,13 @@ d3.tsv("new_monitor_sim.tsv", function(error, data) {
 			lstImp.push(nodes0[0]);
 			lstImp.push(nodes0[nodes.length - 1]);
 
-			d3.select(".allroutes").append("circle").attr("class", "mapnodes") //current route
+			d3.select(".allroutes").append("circle").attr("class", "mapnodes") //add all first nodes
 				.attr("cx", nodes[0].x).attr("cy", nodes[0].y)
 				.attr("r", 3).attr("fill", "#39a4e8");
 
-			d3.select(".allroutes").append("circle").attr("class", "mapnodes") //current route
+			d3.select(".allroutes").append("circle").attr("class", "mapnodes") //add all last nodes
 				.attr("cx", nodes[nodes.length - 1].x).attr("cy", nodes[nodes.length - 1].y)
 				.attr("r", 3).attr("fill", "#ace25a");
-
 		}
 
 		//add city name with cleaned list
