@@ -254,6 +254,7 @@ var main = function() {
       //map0.fitBounds(bound1);
       animate_path();
 
+      locreplay = false;
 
     }
   );
@@ -262,37 +263,42 @@ var main = function() {
     function() {
       $(".overall_map").fadeIn(1000);
       $(".draw").fadeOut(0);
-      $("#map").fadeOut(0);
+      //$("#map").fadeOut(0);
       $("#control").fadeOut(0);
       $("#pre").fadeOut(0);
       $(".underbar_back").fadeIn(1000);
       locloop = false;//to stop the loop
       resize();
       animate_path();
+
+      locreplay = false;
     }
   );
 
   $("#globe").click(function() {
     $(".overall_map").fadeIn(1000);
     $(".draw").fadeOut(0);
-    $("#map").fadeOut(0);
+    //$("#map").fadeOut(0);
     $("#control").fadeOut(0);
     $("#pre").fadeOut(0);
     $(".underbar_back").fadeIn(1000);
     locloop = false;//to stop the loop
     resize();
     animate_path();
+      locreplay = false;
 
   });
 
 
-
-  $(".underbar_back div").click( //the "go" button
+  $(".underbar_back div").click( //the "replay" button
     function() {
+      console.log(locreplay);
+      if(locreplay){
+        locreplay = false;
       locloop = false;//to stop the loop
       resize();
       animate_path();
-
+      }
     }
   );
 
@@ -303,7 +309,7 @@ var main = function() {
 var inithome = function(time) {
 
   $("#draw").fadeOut(time);
-  $("#map").fadeOut(time);
+  //$("#map").fadeOut(time);
   $("#control").fadeOut(time);
   $("#pre").fadeOut(time);
   $("#hometb").fadeIn(500);
@@ -317,7 +323,7 @@ var changePage = function(page) {
   console.log("init");
   if (page === 0) {
     inithome(500);
-    $("#map").fadeOut(0);
+    //$("#map").fadeOut(0);
   } else if (page === 1) {
     $("html, body").animate({
       scrollTop: 0
@@ -326,7 +332,7 @@ var changePage = function(page) {
     $(".draw").fadeOut(0).fadeIn(1000);
     $("#pre").fadeOut(0).fadeIn(1000);
 
-    $("#map").fadeOut(0).fadeIn(1000);
+    //$("#map").fadeOut(0).fadeIn(1000);
     $("#control").fadeOut(0).fadeIn(1000);
     $(".overall_map").fadeOut(0);
     $(".home").fadeOut(0);

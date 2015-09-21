@@ -1,5 +1,6 @@
     function resize() {
       // update width
+
       map0.fitBounds(bound);
 
       d3.selectAll(".overall_path").remove();
@@ -162,6 +163,7 @@
 
 var locloop = true;
 var myloop = function() {
+  locreplay = true;
   ! function loop() {
     if(locloop)
     for (k in route_multi) { //add paths
@@ -221,7 +223,6 @@ var animate_path = function() {
 
     var lineraw = curvePath(curvePath(curvePath(curvePath(curvePath(lstprojected)))));
 
-    console.log(locloop);
     if(locloop === true)
     d3.select(".overall_path_" + name).transition()
       .delay(0)

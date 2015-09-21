@@ -257,6 +257,7 @@
    	d3.select(window).on('resize', function() {
    		console.log("...");
    		count1 = 0;
+
    	});
 
 
