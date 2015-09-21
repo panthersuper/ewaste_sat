@@ -245,6 +245,11 @@ var main = function() {
       $(".underbar_back").fadeIn(1000);
       //changePage(1);
 
+      //animation
+      //map0.fitBounds(bound1);
+      animate_path();
+
+
     }
   );
 
@@ -256,16 +261,17 @@ var main = function() {
       $("#control").fadeOut(0);
       $("#pre").fadeOut(0);
       $(".underbar_back").fadeIn(1000);
-      console.log("33333");
+      animate_path();
 
       //changePage(1);
 
     }
   );
 
-  $(".underbar_back div").click(
+  $(".underbar_back div").click(//the "go" button
     function() {
 
+      //map0.fitBounds(bound1);
       for (k in route_multi) { //add paths
         var name = k.toString();
         var newlst = fixloop2(route_multi[k].coordinates);
@@ -276,7 +282,7 @@ var main = function() {
 
         d3.select(".overall_path_"+name).transition()
                        .delay(0)
-                       .duration(10000)
+                       .duration(15000)
                        .attrTween("d", getSmoothInterpolation(lineraw));//need a reference to the function
 
       }
