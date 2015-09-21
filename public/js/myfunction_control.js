@@ -1,20 +1,37 @@
+var myloop = function(){
+  ! function loop() {
+    for (k in route_multi) { //add paths
+      var name = k.toString();
+      console.log(k);
 
-var animate_path = function(){
+      d3.select(".overall_path_circle_" + name).transition()
+        .ease("linear")
+        .duration(1000)
+        .attrTween("transform", translateAlong(d3.select(".overall_path_" + name).node()))
+        .each("end", loop);
+    }
+  }();
 
-      for (k in route_multi) { //add paths
-        var name = k.toString();
-        var newlst = fixloop2(route_multi[k].coordinates);
-        var lstprojected = reptojectMap0(newlst);
+}
 
-        var lineraw = curvePath(curvePath(curvePath(curvePath(curvePath(lstprojected)))));
 
-        d3.select(".overall_path_"+name).transition()
-                       .delay(0)
-                       .duration(15000)
-                       .attrTween("d", getSmoothInterpolation(lineraw));//need a reference to the function
 
-      }
+var animate_path = function() {
 
+  for (k in route_multi) { //add paths
+    var name = k.toString();
+    var newlst = fixloop2(route_multi[k].coordinates);
+    var lstprojected = reptojectMap0(newlst);
+
+    var lineraw = curvePath(curvePath(curvePath(curvePath(curvePath(lstprojected)))));
+
+    d3.select(".overall_path_" + name).transition()
+      .delay(0)
+      .duration(12000)
+      .attrTween("d", getSmoothInterpolation(lineraw)) //need a reference to the function
+      .each("end",myloop);
+
+  }
 
 }
 
@@ -30,7 +47,7 @@ var switchDetail = function(show) {
     $('#device_icon').show();
     $('#distance').show();
     $('#days').show();
-    $(".underbar").css("bottom",0);
+    $(".underbar").css("bottom", 0);
 
 
   } else {
@@ -38,65 +55,65 @@ var switchDetail = function(show) {
     d3.select("#detail_button p").text("Show Detail");
     d3.select("#detail_button img").attr("src", "img/up_arrow.png");
     detail_control = true;
-    $(".underbar").css("bottom",-150);
+    $(".underbar").css("bottom", -150);
 
 
   }
 
 
 
-/*  var dis = 150 * show;
-  var dur = 1000;
+  /*  var dis = 150 * show;
+    var dur = 1000;
 
 
-  d3.select("#detail_button").transition()
-    .style("top", (maph - 73 - dis) + "px").duration(dur);
+    d3.select("#detail_button").transition()
+      .style("top", (maph - 73 - dis) + "px").duration(dur);
 
-/*  underbar.transition()
-    .attr("y", maph - 100 - dis)
-    .attr("height", 100 + dis)
-    .duration(dur);
-  underbar_mark.transition()
-    .attr("y", maph - 100 - dis)
-    .duration(dur);
-*/
-/*  d3.select(".mycanvas").transition()
-    .attr("style", "transform: translate(20px," + (maph - height - 60 - dis) + "px)").duration(dur);
+  /*  underbar.transition()
+      .attr("y", maph - 100 - dis)
+      .attr("height", 100 + dis)
+      .duration(dur);
+    underbar_mark.transition()
+      .attr("y", maph - 100 - dis)
+      .duration(dur);
+  */
+  /*  d3.select(".mycanvas").transition()
+      .attr("style", "transform: translate(20px," + (maph - height - 60 - dis) + "px)").duration(dur);
 
-  d3.select(".globe").transition()
-    .attr("style", "transform: translate(20px," + (maph - height - 60 - dis) + "px)").duration(dur);
+    d3.select(".globe").transition()
+      .attr("style", "transform: translate(20px," + (maph - height - 60 - dis) + "px)").duration(dur);
 
-  d3.select("#nowpath_title").transition()
-    .style("top", (maph - 75 - dis) + "px").duration(dur);
+    d3.select("#nowpath_title").transition()
+      .style("top", (maph - 75 - dis) + "px").duration(dur);
 
-  timeBase.transition()
-    .attr("transform", function(d) {
-      var myx = xScale(d.value[2]);
-      return "translate(" + myx + "," + (maph - margin.top - margin.bottom + 2.5 - dis) + ")";
-    }).duration(dur);
+    timeBase.transition()
+      .attr("transform", function(d) {
+        var myx = xScale(d.value[2]);
+        return "translate(" + myx + "," + (maph - margin.top - margin.bottom + 2.5 - dis) + ")";
+      }).duration(dur);
 
-  timeMark.transition()
-    .attr("transform", "translate(" + xScale(getNode(places, nowNum)[2]) + "," + (maph - margin.top - margin.bottom + 2.5 - dis) + ")")
-    .duration(dur);
+    timeMark.transition()
+      .attr("transform", "translate(" + xScale(getNode(places, nowNum)[2]) + "," + (maph - margin.top - margin.bottom + 2.5 - dis) + ")")
+      .duration(dur);
 
-  d3.select('.xaxis').transition()
-    .attr('transform', 'translate(' + margin.left + ', ' + (maph - margin.top - margin.bottom - dis) + ')')
-    .duration(dur);
+    d3.select('.xaxis').transition()
+      .attr('transform', 'translate(' + margin.left + ', ' + (maph - margin.top - margin.bottom - dis) + ')')
+      .duration(dur);
 
-  d3.select('#device_icon').transition()
-    .style("top", (maph - 10 - dis) + "px")
-    .duration(dur);
-  d3.select('#distance').transition()
-    .style("top", (maph + 10 - dis) + "px")
-    .duration(dur);
+    d3.select('#device_icon').transition()
+      .style("top", (maph - 10 - dis) + "px")
+      .duration(dur);
+    d3.select('#distance').transition()
+      .style("top", (maph + 10 - dis) + "px")
+      .duration(dur);
 
-  d3.select('#days').transition()
-    .style("top", (maph + 75 - dis) + "px")
-    .duration(dur);
+    d3.select('#days').transition()
+      .style("top", (maph + 75 - dis) + "px")
+      .duration(dur);
 
-  d3.select('#tablepath').transition()
-    .style("top", (maph - 650 - dis) + "px")
-    .duration(dur);*/
+    d3.select('#tablepath').transition()
+      .style("top", (maph - 650 - dis) + "px")
+      .duration(dur);*/
 
   //$("#nowpath_title").css("top", maph - 75-dis);
 
