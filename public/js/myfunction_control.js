@@ -84,22 +84,10 @@
 
       }
 
-
-      //var lstImp = []; //starting and ending node list
-
       for (k in route_multi) { //add nodes
         var nodes0 = fixloop2(route_multi[k].coordinates);
         var nodes = reptojectMap0(nodes0); //each path node list
 
-        /*        for (var j = 1; j < nodes.length - 1; j++) {
-                  d3.select(".allroutes").append("circle").attr("class", "mapnodes") //add all nodes
-                    .attr("cx", nodes[j].x).attr("cy", nodes[j].y)
-                    .attr("r", 1.5).attr("fill", "rgb(150,150,150)");
-                }*/
-
-        /*      lstImp.push(nodes0[0]);
-              lstImp.push(nodes0[nodes.length - 1]);
-        */
         d3.select(".allroutes").append("circle").attr("class", "mapnodes_first") //add all first nodes
           .attr("cx", nodes[0].x).attr("cy", nodes[0].y).attr("ox", nodes0[0][0]).attr("oy", nodes0[0][1])
           .attr("r", 3).attr("fill", "#ace25a")
@@ -118,32 +106,13 @@
 
       }
 
-      //add city name with cleaned list
-      /*    var citylst = cleanlst_dis(lstImp);
-       */
       d3.selectAll(".citynames").remove();
-      /*    for (k in citylst) {
-            var loc = citylst[k];
-
-            loc = map0.project(loc);
-            var key = k;
-            //console.log(key);
-            d3.select(".extra_info").append("div").attr("class", "citynames citynames"+key).attr("style", "position:absolute;left:"+(loc.x-5)+"px;top:"+(loc.y-10)+"px;"); //current route
-
-            //if($(".citynames"+key).find("p").length === 0)
-            //revGeocoding_class(citylst[k][1], citylst[k][0], "citynames"+key);
-
-          }*/
-
-
 
       d3.selectAll(".overall_path").on("mouseover", function() {
 
         var haveinfo = d3.select(this).attr("haveinfo");
 
         console.log(haveinfo);
-
-
 
         var myid = +d3.select(this).attr("id");
         var myinfo = getNode(route_multi, myid).coordinates;
@@ -334,64 +303,6 @@
 
 
       }
-
-
-
-      /*  var dis = 150 * show;
-        var dur = 1000;
-
-
-        d3.select("#detail_button").transition()
-          .style("top", (maph - 73 - dis) + "px").duration(dur);
-
-      /*  underbar.transition()
-          .attr("y", maph - 100 - dis)
-          .attr("height", 100 + dis)
-          .duration(dur);
-        underbar_mark.transition()
-          .attr("y", maph - 100 - dis)
-          .duration(dur);
-      */
-      /*  d3.select(".mycanvas").transition()
-          .attr("style", "transform: translate(20px," + (maph - height - 60 - dis) + "px)").duration(dur);
-
-        d3.select(".globe").transition()
-          .attr("style", "transform: translate(20px," + (maph - height - 60 - dis) + "px)").duration(dur);
-
-        d3.select("#nowpath_title").transition()
-          .style("top", (maph - 75 - dis) + "px").duration(dur);
-
-        timeBase.transition()
-          .attr("transform", function(d) {
-            var myx = xScale(d.value[2]);
-            return "translate(" + myx + "," + (maph - margin.top - margin.bottom + 2.5 - dis) + ")";
-          }).duration(dur);
-
-        timeMark.transition()
-          .attr("transform", "translate(" + xScale(getNode(places, nowNum)[2]) + "," + (maph - margin.top - margin.bottom + 2.5 - dis) + ")")
-          .duration(dur);
-
-        d3.select('.xaxis').transition()
-          .attr('transform', 'translate(' + margin.left + ', ' + (maph - margin.top - margin.bottom - dis) + ')')
-          .duration(dur);
-
-        d3.select('#device_icon').transition()
-          .style("top", (maph - 10 - dis) + "px")
-          .duration(dur);
-        d3.select('#distance').transition()
-          .style("top", (maph + 10 - dis) + "px")
-          .duration(dur);
-
-        d3.select('#days').transition()
-          .style("top", (maph + 75 - dis) + "px")
-          .duration(dur);
-
-        d3.select('#tablepath').transition()
-          .style("top", (maph - 650 - dis) + "px")
-          .duration(dur);*/
-
-      //$("#nowpath_title").css("top", maph - 75-dis);
-
     }
 
 
@@ -476,9 +387,9 @@
 
     var updateContent = function(num) {
 
-      if (num != 0 && cont === true) {
+/*      if (num != 0 && cont === true) {
         cont === true;
-      }
+      }*/
 
       timeMark
         .attr("transform", "translate(" + xScale(getNode(places, nowNum)[2]) + "," + (20 + 2.5) + ")");
