@@ -183,11 +183,18 @@ d3.tsv("new_monitor_sim.tsv", function(error, data) {
 
   var id = 0;
   for (key in places_multi) {
-    d3.select("#tablepath")
+    var addpath = d3.select("#tablepath")
       .append("div")
       .attr("class", "thepaths")
-      .attr("id", id).append("p")
+      .attr("id", id);
+
+    addpath.append("p")
       .text(key.toString().toUpperCase());
+
+    if(importantPath(places_multi[key]))
+    addpath.append("img").attr("class", "infoicon")
+      .attr("src", "img/info_icon.png");
+
     id++;
   }
 

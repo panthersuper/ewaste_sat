@@ -208,16 +208,20 @@ a:active {text-decoration: none}
   top: 0px;
   width: 270px;
   cursor: pointer;
-  height: 50px;
+  height: 47px;
   border-right: 1px rgb(50,50,50) solid;
+  border-left: 1px rgb(50,50,50) solid;
   //border-top: 1px rgb(50,50,50) solid;
   padding: 25px;
   padding-left:20px; 
+  padding-top: 28px;
 }
 
 #nowpath_title:hover {
   cursor: pointer;
   color:rgb(250,250,250);
+  background-color: rgb(28,33,40);
+
 }
 
 #nowpath_title p{
@@ -450,8 +454,6 @@ a:active {text-decoration: none}
 
 }
 
-
-
 .route {
   fill: none;
   stroke: white;
@@ -506,14 +508,15 @@ a:active {text-decoration: none}
   padding-left: 8px !important;
   font-size: 24px !important;
   font-weight: bold;
-
+  display: inline;
+  padding-top: 10px;
 }
 #tablepath div {
     height: 50px;
     background-color: rgba(18,23,27,0.9);
     color: #a1a1a1;
     padding-left: 23px;
-    padding-top: 5px;
+    padding-top: 15px;
     border-bottom: 1px rgb(40,40,40) solid;
 
 
@@ -1084,8 +1087,10 @@ p {
 }
 
 .myinfo p {
-  width: 150px !important;
-  color: #39a4e8 !important;
+width: 75px !important;
+    color: #39a4e8 !important;
+    float: right;
+    transform: translate(8px,-17px);
 
 }
 
@@ -1093,6 +1098,7 @@ p {
   position: relative;
   margin-left: 13px;
   margin-bottom: 10px;
+  display: inline;
 }
 
 #overall_button {
@@ -1120,3 +1126,20 @@ p {
 .right {
   float: right !important;
 }
+
+.infoicon {
+    width: 20px;
+    float: right;
+    margin-right: 20px;
+    margin-top: 7px;
+    position: relative;
+  }
+
+
+.infoicon2 {
+    width: 20px;
+    float: right;
+    margin-right: 2px;
+    margin-top: -20px;
+    position: relative;
+  }

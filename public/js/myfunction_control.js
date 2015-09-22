@@ -115,15 +115,18 @@
         var myid = +d3.select(this).attr("id");
         var myinfo = getNode(route_multi, myid).coordinates;
         d3.select(this).attr("stroke-width", "3.5px");
+
+
+
         var info = d3.select(".extra_info").append("div").attr("class", "info").attr("style", "width:200px;background:rgba(255,255,255,0.8);position:absolute;border-radius: 10px;left:" + (d3.mouse(this)[0] + 20) + "px;top:" + (d3.mouse(this)[1] + 10) + "px ");
         info.append("h4").text("" + d3.select(this).attr("name").toUpperCase());
 
         if(haveinfo === "true"){
-
-        var myinfo = info.append("div").attr("class", "myinfo");
-        myinfo.append("strong").append("p").text("Narrative Path");
-
-
+          info.append("img").attr("class", "infoicon2")
+            .attr("src", "img/info_icon.png");
+            
+          var myinfo = info.append("div").attr("class", "myinfo");
+          myinfo.append("strong").append("p").text("Narrative Path");
         }
 
         var departure = info.append("div").attr("class", "departure");
