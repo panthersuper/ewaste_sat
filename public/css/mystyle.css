@@ -62,25 +62,26 @@ a:active {text-decoration: none}
 #teamtb {
   display: none;
   color:white;
-  width:670px;
+  width:700px;
   position: relative;
   margin: 0 auto;
   background-color: rgba(20,20,20,0.9);
-  padding: 20px;
+  padding: 10px;
   top: 50%;
   transform: translateY(-50%);
 
 }
 
 #teamtb table {
-  margin: 20px;
-  margin-left: 50px;
+  margin: 0px;
+  margin-left: 40px;
+  margin-bottom: 40px;
   border-spacing: 50px 10px;
 }
 
 #teamtb img {
   position: relative;
-  left: 640px;
+  left: 10px;
   top:10px;
   width:20px;
   cursor: pointer;
@@ -111,7 +112,8 @@ a:active {text-decoration: none}
 #abouttb {
   display: none;
   color:white;
-  width:670px;
+  width:500px;
+  height:600px;
   position: relative;
   margin: 0 auto;
   background-color: rgba(20,20,20,0.9);
@@ -120,6 +122,16 @@ a:active {text-decoration: none}
   transform: translateY(-50%);
 }
 
+#abouttb>div {
+  overflow: scroll;
+  overflow-y:auto;
+  overflow-x: hidden;
+  width:100%;
+  height:calc(100% - 40px);
+
+}
+
+
 #abouttb table {
   margin: 20px;
   margin-left: 20px;
@@ -127,9 +139,9 @@ a:active {text-decoration: none}
 
 }
 
-#abouttb img {
+#abouttb>img {
   position: relative;
-  left: 640px;
+  left: 10px;
   top:10px;
   width:20px;
   cursor: pointer;
