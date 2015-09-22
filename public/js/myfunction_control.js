@@ -1,3 +1,22 @@
+    var importantPath = function(lst) {
+      //var important = places[keys[nowNum]][3].length + places[keys[nowNum]][4].length + places[keys[nowNum]][5].length;
+      var myvar = 0;
+
+      for (k in lst) {
+        var a = lst[k][3];
+        var b = lst[k][4];
+        var c = lst[k][5];
+        myvar += (a + b + c).length;
+      }
+
+      if (myvar > 0) return true;
+      else return false;
+
+
+
+    }
+
+
     function resize() {
       // update width
 
@@ -10,6 +29,8 @@
       var count1 = 0;
       for (k in route_multi) { //add paths
         var name = k.toString();
+        var testlst = route_multi[k].coordinates;
+
         var newlst = fixloop2(route_multi[k].coordinates);
         var lstprojected = reptojectMap0(newlst);
 
@@ -17,23 +38,51 @@
         var linedata = lineFunction(lineraw);
         var linedata0 = lineFunction(lineraw.slice(0, 1));
 
-        lineGraph = d3.select(".allroutes").append("path").attr("class", "overall_path overall_path_" + name)
-          .attr("stroke", "rgba(255,255,255,0.3)")
-          .attr("stroke-width", "1.5px")
-          .attr("fill", "none").attr("d", linedata0).attr("opacity", 1).style("position", "relative").attr("id", count1).attr("name", name) /*.style("display","none")*/ ;
+        if (!importantPath(testlst)) {//add the path that don't have additional information
+          lineGraph = d3.select(".allroutes").append("path").attr("class", "overall_path overall_path_" + name).attr("haveinfo", false)
+            .attr("stroke", "rgba(255,255,255,0.3)")
+            .attr("stroke-width", "1.5px")
+            .attr("fill", "none").attr("d", linedata0).attr("opacity", 1).style("position", "absolute").attr("id", count1).attr("name", name);
 
+
+          d3.select(".allroutes").append("circle").attr("class", "overall_path overall_path_circle_" + name) //add animation circle on each path
+            .attr("r", 1)
+            .attr("cx", lineraw[0].x)
+            .attr("cy", lineraw[0].y)
+            .attr("fill", "rgba(255,255,255,0.8)");
+        }
         count1++;
-
-        d3.select(".allroutes").append("circle").attr("class", "overall_path overall_path_circle_" + name)//add animation circle on each path
-          .attr("r", 1)
-          .attr("cx", lineraw[0].x)
-          .attr("cy", lineraw[0].y)
-          .attr("fill", "rgba(255,255,255,0.8)");
-
 
       }
 
+      count1 = 0;
+      for (k in route_multi) { //add paths
+        var name = k.toString();
+        var testlst = route_multi[k].coordinates;
 
+        var newlst = fixloop2(route_multi[k].coordinates);
+        var lstprojected = reptojectMap0(newlst);
+
+        var lineraw = curvePath(curvePath(curvePath(curvePath(curvePath(lstprojected)))));
+        var linedata = lineFunction(lineraw);
+        var linedata0 = lineFunction(lineraw.slice(0, 1));
+
+        if (importantPath(testlst)) {//add path that have information
+          lineGraph = d3.select(".allroutes").append("path").attr("class", "overall_path overall_path_" + name).attr("haveinfo", true)
+            .attr("stroke", "#39a4e8")
+            .attr("stroke-width", "1.5px")
+            .attr("fill", "none").attr("d", linedata0).attr("opacity", 1).style("position", "absolute").attr("id", count1).attr("name", name);
+
+
+          d3.select(".allroutes").append("circle").attr("class", "overall_path overall_path_circle_" + name) //add animation circle on each path
+            .attr("r", 1)
+            .attr("cx", lineraw[0].x)
+            .attr("cy", lineraw[0].y)
+            .attr("fill", "rgba(255,255,255,0.8)");
+        }
+        count1++;
+
+      }
 
 
       //var lstImp = []; //starting and ending node list
@@ -42,18 +91,18 @@
         var nodes0 = fixloop2(route_multi[k].coordinates);
         var nodes = reptojectMap0(nodes0); //each path node list
 
-/*        for (var j = 1; j < nodes.length - 1; j++) {
-          d3.select(".allroutes").append("circle").attr("class", "mapnodes") //add all nodes
-            .attr("cx", nodes[j].x).attr("cy", nodes[j].y)
-            .attr("r", 1.5).attr("fill", "rgb(150,150,150)");
-        }*/
+        /*        for (var j = 1; j < nodes.length - 1; j++) {
+                  d3.select(".allroutes").append("circle").attr("class", "mapnodes") //add all nodes
+                    .attr("cx", nodes[j].x).attr("cy", nodes[j].y)
+                    .attr("r", 1.5).attr("fill", "rgb(150,150,150)");
+                }*/
 
         /*      lstImp.push(nodes0[0]);
               lstImp.push(nodes0[nodes.length - 1]);
         */
         d3.select(".allroutes").append("circle").attr("class", "mapnodes_first") //add all first nodes
           .attr("cx", nodes[0].x).attr("cy", nodes[0].y).attr("ox", nodes0[0][0]).attr("oy", nodes0[0][1])
-          .attr("r", 3).attr("fill", "#39a4e8")
+          .attr("r", 3).attr("fill", "#ace25a")
           .on("mouseover", function() {
 
             d3.select(this).attr("r", 6);
@@ -90,11 +139,25 @@
 
       d3.selectAll(".overall_path").on("mouseover", function() {
 
+        var haveinfo = d3.select(this).attr("haveinfo");
+
+        console.log(haveinfo);
+
+
+
         var myid = +d3.select(this).attr("id");
         var myinfo = getNode(route_multi, myid).coordinates;
-        d3.select(this).attr("stroke", "white").attr("stroke-width", "3.5px").style("z-index", 11);
+        d3.select(this).attr("stroke-width", "3.5px");
         var info = d3.select(".extra_info").append("div").attr("class", "info").attr("style", "width:200px;background:rgba(255,255,255,0.8);position:absolute;border-radius: 10px;left:" + (d3.mouse(this)[0] + 20) + "px;top:" + (d3.mouse(this)[1] + 10) + "px ");
         info.append("h4").text("" + d3.select(this).attr("name").toUpperCase());
+
+        if(haveinfo === "true"){
+
+        var myinfo = info.append("div").attr("class", "myinfo");
+        myinfo.append("strong").append("p").text("Narrative Path");
+
+
+        }
 
         var departure = info.append("div").attr("class", "departure");
         departure.append("strong").append("p").text("DEPARTURE");
@@ -120,8 +183,14 @@
       });
 
 
+
+
+
+
+
+
       d3.selectAll(".overall_path").on("mouseout", function() {
-        d3.select(this).attr("stroke", "rgba(255,255,255,0.3)").attr("stroke-width", "1.5px");
+        d3.select(this).attr("stroke-width", "1.5px");
         d3.selectAll(".info").remove();
       });
 
@@ -153,389 +222,385 @@
 
         localcontrol = true;
 
-
-
       });
-
-
 
     }
 
-var locloop = true;
-var myloop = function() {
-  locreplay = true;
-  ! function loop() {
-    if(locloop)
-    for (k in route_multi) { //add paths
-      var name = k.toString();
-      d3.select(".overall_path_circle_" + name).transition()
-        .ease("linear")
-        .duration(2000)
-        .attrTween("transform", translateAlong(d3.select(".overall_path_" + name).node()))
-        .each("end", loop);
+    var locloop = true;
+    var myloop = function() {
+      locreplay = true;
+      ! function loop() {
+        if (locloop)
+          for (k in route_multi) { //add paths
+            var name = k.toString();
+            d3.select(".overall_path_circle_" + name).transition()
+              .ease("linear")
+              .duration(2000)
+              .attrTween("transform", translateAlong(d3.select(".overall_path_" + name).node()))
+              .each("end", loop);
 
 
 
-    }
-  }();
+          }
+      }();
 
 
 
-  for (k in route_multi) { //add paths
-    var nodes0 = fixloop2(route_multi[k].coordinates);
-    var nodes = reptojectMap0(nodes0); //each path node list
+      for (k in route_multi) { //add paths
+        var nodes0 = fixloop2(route_multi[k].coordinates);
+        var nodes = reptojectMap0(nodes0); //each path node list
 
 
-    d3.select(".allroutes").append("circle").attr("class", "mapnodes") //add all last nodes
-      .attr("cx", nodes[nodes.length - 1].x).attr("cy", nodes[nodes.length - 1].y).attr("ox", nodes0[nodes0.length - 1][0]).attr("oy", nodes0[nodes0.length - 1][1])
-      .attr("r", 3).attr("fill", "#ace25a")
-      .on("mouseover", function() {
-        d3.select(this).attr("r", 6);
-        var info = d3.select(".extra_info").append("div").attr("class", "info").attr("style", "background:rgba(255,255,255,0.8);position:absolute;border-radius: 10px;left:" + (d3.mouse(this)[0] + 20) + "px;top:" + (d3.mouse(this)[1] + 10) + "px ");
-        info.append("div").attr("class", "pop_city_name");
+        d3.select(".allroutes").append("circle").attr("class", "mapnodes") //add all last nodes
+          .attr("cx", nodes[nodes.length - 1].x).attr("cy", nodes[nodes.length - 1].y).attr("ox", nodes0[nodes0.length - 1][0]).attr("oy", nodes0[nodes0.length - 1][1])
+          .attr("r", 3).attr("fill", "#fff780")
+          .on("mouseover", function() {
+            d3.select(this).attr("r", 6);
+            var info = d3.select(".extra_info").append("div").attr("class", "info").attr("style", "background:rgba(255,255,255,0.8);position:absolute;border-radius: 10px;left:" + (d3.mouse(this)[0] + 20) + "px;top:" + (d3.mouse(this)[1] + 10) + "px ");
+            info.append("div").attr("class", "pop_city_name");
 
-        var lx = d3.select(this).attr("ox");
-        var ly = d3.select(this).attr("oy");
-        if (lx < -180) {
-          revGeocoding_class(ly, (+lx + 360), "pop_city_name");
+            var lx = d3.select(this).attr("ox");
+            var ly = d3.select(this).attr("oy");
+            if (lx < -180) {
+              revGeocoding_class(ly, (+lx + 360), "pop_city_name");
 
-        } else
-          revGeocoding_class(ly, lx, "pop_city_name");
+            } else
+              revGeocoding_class(ly, lx, "pop_city_name");
 
-      })
-      .on("mouseout", function() {
-        d3.select(this).attr("r", 3);
-        d3.selectAll(".info").remove();
+          })
+          .on("mouseout", function() {
+            d3.select(this).attr("r", 3);
+            d3.selectAll(".info").remove();
 
-      });
+          });
 
-  }
-}
-
-
-
-var animate_path = function() {
-
-  for (k in route_multi) { //add paths
-    var name = k.toString();
-    var newlst = fixloop2(route_multi[k].coordinates);
-    var lstprojected = reptojectMap0(newlst);
-
-    var lineraw = curvePath(curvePath(curvePath(curvePath(curvePath(lstprojected)))));
-
-    if(locloop === true)
-    d3.select(".overall_path_" + name).transition()
-      .delay(0)
-      .duration(12000)
-      .attrTween("d", getSmoothInterpolation(lineraw)) //need a reference to the function
-      .each("end", myloop);
-    
-    else
-    d3.select(".overall_path_" + name).transition()
-      .delay(0)
-      .duration(12000)
-      .attrTween("d", getSmoothInterpolation(lineraw)) //need a reference to the function
-      .each("end", function(){
-        locloop = true;
-        myloop();
-      });
-
-
-  }
-
-}
-
-
-
-var switchDetail = function(show) {
-
-  if (show) {
-    d3.select("#detail_button p").text("Hide Detail");
-    d3.select("#detail_button img").attr("src", "img/down_arrow.png");
-    detail_control = false;
-
-    $('#device_icon').show();
-    $('#distance').show();
-    $('#days').show();
-    $(".underbar").css("bottom", 0);
-
-
-  } else {
-
-    d3.select("#detail_button p").text("Show Detail");
-    d3.select("#detail_button img").attr("src", "img/up_arrow.png");
-    detail_control = true;
-    $(".underbar").css("bottom", -150);
-
-
-  }
-
-
-
-  /*  var dis = 150 * show;
-    var dur = 1000;
-
-
-    d3.select("#detail_button").transition()
-      .style("top", (maph - 73 - dis) + "px").duration(dur);
-
-  /*  underbar.transition()
-      .attr("y", maph - 100 - dis)
-      .attr("height", 100 + dis)
-      .duration(dur);
-    underbar_mark.transition()
-      .attr("y", maph - 100 - dis)
-      .duration(dur);
-  */
-  /*  d3.select(".mycanvas").transition()
-      .attr("style", "transform: translate(20px," + (maph - height - 60 - dis) + "px)").duration(dur);
-
-    d3.select(".globe").transition()
-      .attr("style", "transform: translate(20px," + (maph - height - 60 - dis) + "px)").duration(dur);
-
-    d3.select("#nowpath_title").transition()
-      .style("top", (maph - 75 - dis) + "px").duration(dur);
-
-    timeBase.transition()
-      .attr("transform", function(d) {
-        var myx = xScale(d.value[2]);
-        return "translate(" + myx + "," + (maph - margin.top - margin.bottom + 2.5 - dis) + ")";
-      }).duration(dur);
-
-    timeMark.transition()
-      .attr("transform", "translate(" + xScale(getNode(places, nowNum)[2]) + "," + (maph - margin.top - margin.bottom + 2.5 - dis) + ")")
-      .duration(dur);
-
-    d3.select('.xaxis').transition()
-      .attr('transform', 'translate(' + margin.left + ', ' + (maph - margin.top - margin.bottom - dis) + ')')
-      .duration(dur);
-
-    d3.select('#device_icon').transition()
-      .style("top", (maph - 10 - dis) + "px")
-      .duration(dur);
-    d3.select('#distance').transition()
-      .style("top", (maph + 10 - dis) + "px")
-      .duration(dur);
-
-    d3.select('#days').transition()
-      .style("top", (maph + 75 - dis) + "px")
-      .duration(dur);
-
-    d3.select('#tablepath').transition()
-      .style("top", (maph - 650 - dis) + "px")
-      .duration(dur);*/
-
-  //$("#nowpath_title").css("top", maph - 75-dis);
-
-}
-
-
-var initContent = function() {
-  timeMark
-    .attr("transform", "translate(" + xScale(getNode(places, nowNum)[2]) + "," + (20 + 2.5) + ")");
-
-  d3.select("#number")
-    .append("p")
-    .text("01");
-
-
-  d3.select("#story")
-    .append("p")
-    .text(getNode(places, 0)[4]);
-
-  d3.select("#title")
-    .append("p")
-    .text(getNode(places, 0)[3].toUpperCase());
-
-  d3.select("#Coordnum")
-    .append("p")
-    .text(getNode(places, 0)[0] + "  |  " + getNode(places, 0)[1]);
-
-  d3.select("#nowpath_title")
-    .append("p")
-    .text(Object.keys(places_multi)[0].toUpperCase());
-
-  revGeocoding(getNode(places, 0)[1], getNode(places, 0)[0], "location");
-
-  var media = getNode(places, 0)[5].split(",");
-  var img = [];
-  var video = [];
-  for (k in media) {
-    if (media[k].indexOf(".jpg") > -1 || media[k].indexOf(".png") > -1 || media[k].indexOf(".gif") > -1) {
-      img.push(media[k]);
-    } else if (media[k].indexOf("youtube") > -1 || media[k].indexOf("vimeo") > -1) {
-      video.push(media[k]);
-    }
-  }
-
-  if (img.length === 0) img = [""];
-  if (video.length === 0) video = [""];
-
-  for (k in img)
-    d3.select("#media_update")
-    .append("img")
-    .attr("id", "media" + k)
-    .attr("class", "media_in")
-    .attr("src", img[k]);
-
-  for (k in video) {
-    var thisnum = (+k + img.length);
-    d3.select("#media_update")
-      .append("iframe")
-      .attr("id", "media" + thisnum)
-      .attr("class", "media_in")
-      .attr("src", video[k])
-      .attr("width", 240)
-      .attr("height", 240)
-      .attr("allowfullscreen", "")
-      .attr("webkitallowfullscreen", "")
-      .attr("mozallowfullscreen", "");
-  }
-
-  $("#story p").fadeOut(0).fadeIn(1000);
-  $("#title p").fadeOut(0).fadeIn(1000);
-  $(".media_in").hide();
-  $("#media0").show();
-
-  $("#media_update").fadeOut(0).fadeIn(1000);
-
-  $(".arrow").fadeOut(0);
-  if ($("#media0").attr("src").length > 0 || $("#media1").attr("src").length > 0) { //have content
-    $(".arrow").fadeIn(500);
-  }
-
-
-}
-
-
-
-var updateContent = function(num) {
-
-  if (num != 0 && cont === true) {
-    cont === true;
-  }
-
-  timeMark
-    .attr("transform", "translate(" + xScale(getNode(places, nowNum)[2]) + "," + (20 + 2.5) + ")");
-
-
-
-  $(".keynum").fadeOut(0, function() {
-    d3.select("#distance .keynum")
-      .text(nowDis(pastData.coordinates));
-    d3.select("#days .keynum")
-      .text(nowDays(nowNum));
-
-    $(".keynum").fadeOut(0).fadeIn(0);
-  });
-
-
-  $("#Coord p").fadeOut(500, function() {
-    $(this).remove()
-    d3.select("#Coord")
-      .append("p")
-      .text("Coord");
-    $("#Coord p").fadeOut(0).fadeIn(500);
-  });
-
-  $("#Coordnum p").fadeOut(500, function() {
-    $(this).remove()
-    d3.select("#Coordnum")
-      .append("p")
-      .text(getNode(places, num)[0] + "  |  " + getNode(places, num)[1]);
-    $("#Coordnum p").fadeOut(0).fadeIn(500);
-  });
-
-  $("#number p").fadeOut(500, function() {
-    var strnum = nowNum;
-    if (strnum.toString().length === 1) strnum = "0" + strnum.toString();
-
-    $(this).remove()
-    d3.select("#number")
-      .append("p")
-      .text(strnum);
-    $("#number p").fadeOut(0).fadeIn(500);
-  });
-
-  $("#story p").fadeOut(500, function() {
-    $(this).remove()
-    d3.select("#story")
-      .append("p")
-      .text(getNode(places, num)[4]);
-    $("#story p").fadeOut(0).fadeIn(500);
-  });
-
-  $("#title p").fadeOut(500, function() {
-    $(this).remove()
-    d3.select("#title")
-      .append("p")
-      .text(getNode(places, num)[3].toUpperCase());
-    $("#title p").fadeOut(0).fadeIn(500);
-
-  });
-
-  $("#location").fadeOut(500, function() {
-    $(this).remove();
-    d3.select("#control").append("div").attr("id", "location");
-    revGeocoding(getNode(places, num)[1], getNode(places, num)[0], "location");
-    $("#location").fadeIn(500);
-  })
-
-  $("#media_update").fadeOut(500, function() {
-    $(this).remove();
-    d3.select("#media").append("div").attr("id", "media_update")
-    var media = getNode(places, num)[5].split(",");
-    var img = [];
-    var video = [];
-    for (k in media) {
-      if (media[k].indexOf(".jpg") > -1 || media[k].indexOf(".png") > -1 || media[k].indexOf(".gif") > -1) {
-        img.push(media[k]);
-      }
-      if (media[k].indexOf("youtube") > -1 || media[k].indexOf("vimeo") > -1) {
-        video.push(media[k]);
       }
     }
 
-    if (img.length === 0) img = [""];
-    if (video.length === 0) video = [""];
 
-    for (k in img) {
-      d3.select("#media_update")
+
+    var animate_path = function() {
+
+      for (k in route_multi) { //add paths
+        var name = k.toString();
+        var newlst = fixloop2(route_multi[k].coordinates);
+        var lstprojected = reptojectMap0(newlst);
+
+        var lineraw = curvePath(curvePath(curvePath(curvePath(curvePath(lstprojected)))));
+
+        if (locloop === true)
+          d3.select(".overall_path_" + name).transition()
+          .delay(0)
+          .duration(12000)
+          .attrTween("d", getSmoothInterpolation(lineraw)) //need a reference to the function
+          .each("end", myloop);
+
+        else
+          d3.select(".overall_path_" + name).transition()
+          .delay(0)
+          .duration(12000)
+          .attrTween("d", getSmoothInterpolation(lineraw)) //need a reference to the function
+          .each("end", function() {
+            locloop = true;
+            myloop();
+          });
+
+
+      }
+
+    }
+
+
+
+    var switchDetail = function(show) {
+
+      if (show) {
+        d3.select("#detail_button p").text("Hide Detail");
+        d3.select("#detail_button img").attr("src", "img/down_arrow.png");
+        detail_control = false;
+
+        $('#device_icon').show();
+        $('#distance').show();
+        $('#days').show();
+        $(".underbar").css("bottom", 0);
+
+
+      } else {
+
+        d3.select("#detail_button p").text("Show Detail");
+        d3.select("#detail_button img").attr("src", "img/up_arrow.png");
+        detail_control = true;
+        $(".underbar").css("bottom", -150);
+
+
+      }
+
+
+
+      /*  var dis = 150 * show;
+        var dur = 1000;
+
+
+        d3.select("#detail_button").transition()
+          .style("top", (maph - 73 - dis) + "px").duration(dur);
+
+      /*  underbar.transition()
+          .attr("y", maph - 100 - dis)
+          .attr("height", 100 + dis)
+          .duration(dur);
+        underbar_mark.transition()
+          .attr("y", maph - 100 - dis)
+          .duration(dur);
+      */
+      /*  d3.select(".mycanvas").transition()
+          .attr("style", "transform: translate(20px," + (maph - height - 60 - dis) + "px)").duration(dur);
+
+        d3.select(".globe").transition()
+          .attr("style", "transform: translate(20px," + (maph - height - 60 - dis) + "px)").duration(dur);
+
+        d3.select("#nowpath_title").transition()
+          .style("top", (maph - 75 - dis) + "px").duration(dur);
+
+        timeBase.transition()
+          .attr("transform", function(d) {
+            var myx = xScale(d.value[2]);
+            return "translate(" + myx + "," + (maph - margin.top - margin.bottom + 2.5 - dis) + ")";
+          }).duration(dur);
+
+        timeMark.transition()
+          .attr("transform", "translate(" + xScale(getNode(places, nowNum)[2]) + "," + (maph - margin.top - margin.bottom + 2.5 - dis) + ")")
+          .duration(dur);
+
+        d3.select('.xaxis').transition()
+          .attr('transform', 'translate(' + margin.left + ', ' + (maph - margin.top - margin.bottom - dis) + ')')
+          .duration(dur);
+
+        d3.select('#device_icon').transition()
+          .style("top", (maph - 10 - dis) + "px")
+          .duration(dur);
+        d3.select('#distance').transition()
+          .style("top", (maph + 10 - dis) + "px")
+          .duration(dur);
+
+        d3.select('#days').transition()
+          .style("top", (maph + 75 - dis) + "px")
+          .duration(dur);
+
+        d3.select('#tablepath').transition()
+          .style("top", (maph - 650 - dis) + "px")
+          .duration(dur);*/
+
+      //$("#nowpath_title").css("top", maph - 75-dis);
+
+    }
+
+
+    var initContent = function() {
+      timeMark
+        .attr("transform", "translate(" + xScale(getNode(places, nowNum)[2]) + "," + (20 + 2.5) + ")");
+
+      d3.select("#number")
+        .append("p")
+        .text("01");
+
+
+      d3.select("#story")
+        .append("p")
+        .text(getNode(places, 0)[4]);
+
+      d3.select("#title")
+        .append("p")
+        .text(getNode(places, 0)[3].toUpperCase());
+
+      d3.select("#Coordnum")
+        .append("p")
+        .text(getNode(places, 0)[0] + "  |  " + getNode(places, 0)[1]);
+
+      d3.select("#nowpath_title")
+        .append("p")
+        .text(Object.keys(places_multi)[0].toUpperCase());
+
+      revGeocoding(getNode(places, 0)[1], getNode(places, 0)[0], "location");
+
+      var media = getNode(places, 0)[5].split(",");
+      var img = [];
+      var video = [];
+      for (k in media) {
+        if (media[k].indexOf(".jpg") > -1 || media[k].indexOf(".png") > -1 || media[k].indexOf(".gif") > -1) {
+          img.push(media[k]);
+        } else if (media[k].indexOf("youtube") > -1 || media[k].indexOf("vimeo") > -1) {
+          video.push(media[k]);
+        }
+      }
+
+      if (img.length === 0) img = [""];
+      if (video.length === 0) video = [""];
+
+      for (k in img)
+        d3.select("#media_update")
         .append("img")
         .attr("id", "media" + k)
         .attr("class", "media_in")
         .attr("src", img[k]);
+
+      for (k in video) {
+        var thisnum = (+k + img.length);
+        d3.select("#media_update")
+          .append("iframe")
+          .attr("id", "media" + thisnum)
+          .attr("class", "media_in")
+          .attr("src", video[k])
+          .attr("width", 240)
+          .attr("height", 240)
+          .attr("allowfullscreen", "")
+          .attr("webkitallowfullscreen", "")
+          .attr("mozallowfullscreen", "");
+      }
+
+      $("#story p").fadeOut(0).fadeIn(1000);
+      $("#title p").fadeOut(0).fadeIn(1000);
+      $(".media_in").hide();
+      $("#media0").show();
+
+      $("#media_update").fadeOut(0).fadeIn(1000);
+
+      $(".arrow").fadeOut(0);
+      if ($("#media0").attr("src").length > 0 || $("#media1").attr("src").length > 0) { //have content
+        $(".arrow").fadeIn(500);
+      }
+
+
     }
 
-    for (k in video) {
-      var cnum = +k + img.length;
-      d3.select("#media_update")
-        .append("iframe")
-        .attr("id", "media" + cnum)
-        .attr("class", "media_in")
-        .attr("src", video[k])
-        .attr("width", 240)
-        .attr("height", 240)
-        .attr("allowfullscreen", "")
-        .attr("webkitallowfullscreen", "")
-        .attr("mozallowfullscreen", "");
+
+
+    var updateContent = function(num) {
+
+      if (num != 0 && cont === true) {
+        cont === true;
+      }
+
+      timeMark
+        .attr("transform", "translate(" + xScale(getNode(places, nowNum)[2]) + "," + (20 + 2.5) + ")");
+
+
+
+      $(".keynum").fadeOut(0, function() {
+        d3.select("#distance .keynum")
+          .text(nowDis(pastData.coordinates));
+        d3.select("#days .keynum")
+          .text(nowDays(nowNum));
+
+        $(".keynum").fadeOut(0).fadeIn(0);
+      });
+
+
+      $("#Coord p").fadeOut(500, function() {
+        $(this).remove()
+        d3.select("#Coord")
+          .append("p")
+          .text("Coord");
+        $("#Coord p").fadeOut(0).fadeIn(500);
+      });
+
+      $("#Coordnum p").fadeOut(500, function() {
+        $(this).remove()
+        d3.select("#Coordnum")
+          .append("p")
+          .text(getNode(places, num)[0] + "  |  " + getNode(places, num)[1]);
+        $("#Coordnum p").fadeOut(0).fadeIn(500);
+      });
+
+      $("#number p").fadeOut(500, function() {
+        var strnum = nowNum;
+        if (strnum.toString().length === 1) strnum = "0" + strnum.toString();
+
+        $(this).remove()
+        d3.select("#number")
+          .append("p")
+          .text(strnum);
+        $("#number p").fadeOut(0).fadeIn(500);
+      });
+
+      $("#story p").fadeOut(500, function() {
+        $(this).remove()
+        d3.select("#story")
+          .append("p")
+          .text(getNode(places, num)[4]);
+        $("#story p").fadeOut(0).fadeIn(500);
+      });
+
+      $("#title p").fadeOut(500, function() {
+        $(this).remove()
+        d3.select("#title")
+          .append("p")
+          .text(getNode(places, num)[3].toUpperCase());
+        $("#title p").fadeOut(0).fadeIn(500);
+
+      });
+
+      $("#location").fadeOut(500, function() {
+        $(this).remove();
+        d3.select("#control").append("div").attr("id", "location");
+        revGeocoding(getNode(places, num)[1], getNode(places, num)[0], "location");
+        $("#location").fadeIn(500);
+      })
+
+      $("#media_update").fadeOut(500, function() {
+        $(this).remove();
+        d3.select("#media").append("div").attr("id", "media_update")
+        var media = getNode(places, num)[5].split(",");
+        var img = [];
+        var video = [];
+        for (k in media) {
+          if (media[k].indexOf(".jpg") > -1 || media[k].indexOf(".png") > -1 || media[k].indexOf(".gif") > -1) {
+            img.push(media[k]);
+          }
+          if (media[k].indexOf("youtube") > -1 || media[k].indexOf("vimeo") > -1) {
+            video.push(media[k]);
+          }
+        }
+
+        if (img.length === 0) img = [""];
+        if (video.length === 0) video = [""];
+
+        for (k in img) {
+          d3.select("#media_update")
+            .append("img")
+            .attr("id", "media" + k)
+            .attr("class", "media_in")
+            .attr("src", img[k]);
+        }
+
+        for (k in video) {
+          var cnum = +k + img.length;
+          d3.select("#media_update")
+            .append("iframe")
+            .attr("id", "media" + cnum)
+            .attr("class", "media_in")
+            .attr("src", video[k])
+            .attr("width", 240)
+            .attr("height", 240)
+            .attr("allowfullscreen", "")
+            .attr("webkitallowfullscreen", "")
+            .attr("mozallowfullscreen", "");
+        }
+
+
+        $("#media_update").fadeOut(0);
+        $(".media_in").hide();
+        $("#media0").show();
+        $("#media_update").fadeIn(500);
+
+        if ($("#media0").attr("src").length > 0 || $("#media1").attr("src").length > 0) { //have content
+          $(".arrow").fadeIn(500);
+
+
+
+        } else $(".arrow").fadeOut(0);
+
+      });
+
+
+
     }
-
-
-    $("#media_update").fadeOut(0);
-    $(".media_in").hide();
-    $("#media0").show();
-    $("#media_update").fadeIn(500);
-
-    if ($("#media0").attr("src").length > 0 || $("#media1").attr("src").length > 0) { //have content
-      $(".arrow").fadeIn(500);
-
-
-
-    } else $(".arrow").fadeOut(0);
-
-  });
-
-
-
-}

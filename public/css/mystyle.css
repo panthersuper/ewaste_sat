@@ -1042,6 +1042,12 @@ cursor: pointer;
     color: rgb(50,50,50);
   }
 
+  .myinfo p {
+    width: 110px !important;
+    color: #39a4e8 !important;
+
+  }
+
   .info h4 {
     position: relative;
     margin-left: 13px;
