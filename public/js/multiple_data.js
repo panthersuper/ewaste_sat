@@ -14,7 +14,7 @@ var route_multi = {};
 
 var curPath = 0; //the path that is currently showing
 var projection = d3.geo.orthographic()
-  .scale(250/2.1)
+  .scale(250 / 2.1)
   .translate([125, 125])
   .precision(2);
 var graticule = d3.geo.graticule();
@@ -126,10 +126,10 @@ d3.tsv("new_monitor_sim.tsv", function(error, data) {
     var story = data[i]["story"];
     var media = data[i]["media"];
 
-    if(title===undefined) title = "";
-    if(video===undefined) video = "";
-    if(story===undefined) story = "";
-    if(media===undefined) media = "";
+    if (title === undefined) title = "";
+    if (video === undefined) video = "";
+    if (story === undefined) story = "";
+    if (media === undefined) media = "";
 
 
     var lat = +data[i]["latitude"],
@@ -427,7 +427,7 @@ d3.tsv("new_monitor_sim.tsv", function(error, data) {
 
 
       context.clearRect(0, 0, width, height);
-      
+
       //auto adjust control menu
       var mediah = 0;
       var storyh = $("#story p").height();
@@ -437,7 +437,7 @@ d3.tsv("new_monitor_sim.tsv", function(error, data) {
       else
         mediah = $("#media img").height();
       $("#control").css("height", (mediah + storyh + 220));
-      $("#control").css("top", (60 + ($("#map").height() - 60 - (250-detail_control*150)) / 2 - $("#control").height() / 2));
+      $("#control").css("top", (60 + ($("#map").height() - 60 - (250 - detail_control * 150)) / 2 - $("#control").height() / 2));
       $("#story").css("top", (mediah + 120));
 
       trackscale += 0.2;
@@ -493,11 +493,11 @@ d3.tsv("new_monitor_sim.tsv", function(error, data) {
         if (dis >= 100) { //long distance path
 
           //local_scale = (0.5-Math.abs(0.5-count / oneMove))*19/20+1/20;
-          if (important && count / oneMove >= 0.99)local_scale = 1 / 25;
-          else if (pre_important && count / oneMove <= 0.01)local_scale = 1 / 25;
+          if (important && count / oneMove >= 0.99) local_scale = 1 / 25;
+          else if (pre_important && count / oneMove <= 0.01) local_scale = 1 / 25;
           else
-          local_scale = 1 / 10; //move slow
-        } else  local_scale = 1/25; //move slow
+            local_scale = 1 / 10; //move slow
+        } else local_scale = 1 / 25; //move slow
       } else { //interval path
         if (dis >= 100) local_scale = 2; //regular speed
         else if (dis > 0.1)
@@ -550,9 +550,9 @@ d3.tsv("new_monitor_sim.tsv", function(error, data) {
       if (moveToggle)
         if (phasePercentage === 0) phasePercentage = 1;
 
-      //rate the closeness to nodes
-      //0.5: close! at nodes
-      //0: far! at the middle of two nodes
+        //rate the closeness to nodes
+        //0.5: close! at nodes
+        //0: far! at the middle of two nodes
 
       var intertarget = interPt([lat_old, lng_old], [lat, lng], phasePercentage);
 
@@ -661,12 +661,12 @@ d3.tsv("new_monitor_sim.tsv", function(error, data) {
 
 
       //console.log(phasePercentage);
-      if (pre_important &&(!important)){//need to zoom out and stay zooming out
+      if (pre_important && (!important)) { //need to zoom out and stay zooming out
         //console.log("zoomout");
         flyZoomout(p_r, phasePercentage, dis);
 
-      }else if (pre_important&&important){//need to zoom out and then zoom in
-        console.log("zoomout and in");
+      } else if (pre_important && important) { //need to zoom out and then zoom in
+        //console.log("zoomout and in");
 
         if (dis < 100) {
           flyZoomed(p_r, phasePercentage, dis);
@@ -674,28 +674,16 @@ d3.tsv("new_monitor_sim.tsv", function(error, data) {
           flyalone(p_r, phasePercentage, dis);
         }
 
-      }else if ((!pre_important)&&important){//need to zoom in from out
-        console.log("zoomin");
+      } else if ((!pre_important) && important) { //need to zoom in from out
+        //console.log("zoomin");
         flyZoomin(p_r, phasePercentage, dis);
 
 
-      }else if ((!pre_important)&&(!important)){//need to stay zoom out
-        console.log("stayout");
+      } else if ((!pre_important) && (!important)) { //need to stay zoom out
+        //console.log("stayout");
         flyNozoom(p_r, phasePercentage, dis);
 
       }
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

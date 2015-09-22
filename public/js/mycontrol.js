@@ -292,7 +292,7 @@ var main = function() {
 
   $(".underbar_back div").click( //the "replay" button
     function() {
-      console.log(locreplay);
+      //console.log(locreplay);
       if(locreplay){
         locreplay = false;
       locloop = false;//to stop the loop
@@ -320,7 +320,7 @@ var inithome = function(time) {
 }
 
 var changePage = function(page) {
-  console.log("init");
+  //console.log("init");
   if (page === 0) {
     inithome(500);
     //$("#map").fadeOut(0);

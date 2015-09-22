@@ -112,8 +112,6 @@
 
         var haveinfo = d3.select(this).attr("haveinfo");
 
-        console.log(haveinfo);
-
         var myid = +d3.select(this).attr("id");
         var myinfo = getNode(route_multi, myid).coordinates;
         d3.select(this).attr("stroke-width", "3.5px");
@@ -164,7 +162,6 @@
       });
 
       d3.selectAll(".overall_path").on("click", function() {
-        console.log("clicked");
         var myid = +d3.select(this).attr("id");
 
 
