@@ -190,25 +190,29 @@ a:active {text-decoration: none}
 #tablepath {
   display: none;
   position: absolute;
-  width: 315px;
+  width: 314px;
   height: 530px;
   background-color: rgba(18,23,27,0.9);
   left: 280px;
-  bottom:252px;
+  bottom:250px;
   overflow-y:scroll; 
+  border-right: 1px rgb(50,50,50) solid;
+  border-left: 1px rgb(50,50,50) solid;
+  border-top: 1px rgb(50,50,50) solid;
 }
 
 #nowpath_title {
   color: rgb(150,150,150);
   position: absolute;
-  left: 300px;
+  left: 280px;
   top: 0px;
   width: 270px;
   cursor: pointer;
   height: 50px;
   border-right: 1px rgb(50,50,50) solid;
+  //border-top: 1px rgb(50,50,50) solid;
   padding: 25px;
-  padding-left:0px; 
+  padding-left:20px; 
 }
 
 #nowpath_title:hover {
@@ -370,7 +374,7 @@ a:active {text-decoration: none}
   width:100%;
   height:155px;
   border-style: solid;
-  border-color: #a1a1a1;
+  border-color: rgb(40,40,40);
   border-width:1px;
 }
 
@@ -509,7 +513,11 @@ a:active {text-decoration: none}
     background-color: rgba(18,23,27,0.9);
     color: #a1a1a1;
     padding-left: 23px;
-    padding-top: 5px;}
+    padding-top: 5px;
+    border-bottom: 1px rgb(40,40,40) solid;
+
+
+  }
 
 #tablepath div:hover {
   background-color: rgba(50,50,50,0.9);
