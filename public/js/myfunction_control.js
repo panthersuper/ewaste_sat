@@ -386,14 +386,11 @@
 
 
 
-      $(".keynum").fadeOut(0, function() {
         d3.select("#distance .keynum")
           .text(nowDis(pastData.coordinates));
         d3.select("#days .keynum")
           .text(nowDays(nowNum));
 
-        $(".keynum").fadeOut(0).fadeIn(0);
-      });
 
 
       $("#Coord p").fadeOut(500, function() {

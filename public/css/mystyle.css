@@ -25,7 +25,7 @@
 
 html,body {
   font-family: 'Open Sans',sans-serif ;
-  background: black;
+  background: rgb(18,23,22);
   width: 100%;
   height: 100%;
   overflow: hidden;
@@ -65,7 +65,7 @@ a:active {text-decoration: none}
   width:700px;
   position: relative;
   margin: 0 auto;
-  background-color: rgba(20,20,20,0.9);
+  background-color: rgba(18,23,22,0.9);
   padding: 10px;
   top: 50%;
   transform: translateY(-50%);
@@ -105,6 +105,7 @@ a:active {text-decoration: none}
     z-index: 15;
     width: 100%;
     height: 100%;
+    top: 0px;
 
 
 }
@@ -114,12 +115,12 @@ a:active {text-decoration: none}
   color:white;
   width:500px;
   height:600px;
-  position: relative;
-  margin: 0 auto;
-  background-color: rgba(20,20,20,0.9);
+  position: absolute;
+  background-color: rgba(18,23,22,0.9);
   padding: 20px;
   top: 50%;
-  transform: translateY(-50%);
+  left: 50%;
+  transform: translate(-50%,-50%);
 }
 
 #abouttb>div {
@@ -191,7 +192,7 @@ a:active {text-decoration: none}
   position: absolute;
   width: 130px;
   height: 530px;
-  background-color: rgba(30,30,30,0.9);
+  background-color: rgba(18,23,22,0.9);
   color:none;
   left: 300px;
   bottom:252px;
@@ -200,7 +201,7 @@ a:active {text-decoration: none}
 #nowpath_title {
   color:rgb(80,80,80);
   position: absolute;
-  left:270px;
+  left:300px;
   top:27px;
   width: 175px;
   cursor: pointer;
@@ -213,16 +214,16 @@ a:active {text-decoration: none}
 }
 
 #nowpath_title p{
-  font-size: 34px;
-  margin-top: -10px;
+  font-size: 24px;
+  margin-top: -4px;
 }
 
 #device_icon {
   color:rgb(80,80,80);
   position: absolute;
-  left:40px;
+  left:90px;
   width: 175px;
-  top:85px;
+  top:105px;
 }
 
 #device_icon img{
@@ -241,9 +242,9 @@ a:active {text-decoration: none}
 #distance {
   color:rgb(80,80,80);
   position: absolute;
-  left:280px;
+  left:310px;
   width: 270px;
-  top:100px;
+  top:120px;
   border-bottom-style: solid;
   border-bottom-color: rgb(50,50,50);
   border-bottom-width:1px;
@@ -258,9 +259,9 @@ a:active {text-decoration: none}
 #days {
   color:rgb(80,80,80);
   position: absolute;
-  left:280px;
-  top:166px;
-  width: 300px;
+  left:310px;
+  top:186px;
+  width: 270px;
 }
 
 #days p {
@@ -306,7 +307,7 @@ a:active {text-decoration: none}
 #control {
   display: none;
   position:relative;
-  background-color: rgba(20,20,20,0.9);
+  background-color: rgba(18,23,22,0.9);
   width:350px;
   left: calc(100% - 400px);
   top:120px;
@@ -356,7 +357,7 @@ a:active {text-decoration: none}
 }
 
 #preview {
-  background-color: rgba(30,30,30,0.9);
+  background-color: rgba(18,23,22,0.9);
   position: absolute;
   left: 0px;
   width:100%;
@@ -496,7 +497,7 @@ a:active {text-decoration: none}
 }
 #tablepath div {
   height:22px;
-  background-color: rgba(20,20,20,0.9);
+  background-color: rgba(18,23,22,0.9);
   color:#a1a1a1;
 }
 
@@ -562,7 +563,7 @@ p {
 
 #next {
   position: absolute;
-  background-color: rgba(20,20,20,0.8);
+  background-color: rgba(18,23,22,0.8);
   width:50%;
   left: 50%;
   bottom: 0px;
@@ -578,7 +579,7 @@ p {
 
 #stop {
   position: absolute;
-  background-color: rgba(20,20,20,0.8);
+  background-color: rgba(18,23,22,0.8);
   width:50%;
   left: 0%;
   bottom: 0px;
@@ -770,18 +771,6 @@ p {
   cursor: pointer;
 }
 
-.timeid:hover {
-  fill: rgba(206, 18, 18, 0.8);
-  r:3;
-  cursor: pointer;
-}
-
-.mypoints circle:hover {
-  fill: rgba(206, 18, 18, 0.8);
-  r:3;
-  cursor: pointer;
-}
-
 .timemark {
   y:15;
   x:-1.5;
@@ -852,7 +841,7 @@ p {
 .menucontent {
   position:absolute;
   display: none;
-  background-color: rgba(20,20,20,0.9);
+  background-color: rgba(18,23,22,0.9);
   width:200px;
   height:80px;
   top:60px;
@@ -912,7 +901,7 @@ cursor: pointer;
   bottom: -150px;
   //bottom: 0px;
   //z-index: 20;
-  background-color: rgb(20,20,20);
+  background-color: rgb(18,23,22);
   transition: all 0.3s ease-in-out;
   -webkit-transition: all 0.3s ease-in-out;
   -moz-transition: all 0.3s ease-in-out;
@@ -924,9 +913,29 @@ cursor: pointer;
   width:280px;
   height:4.5px;
   background-color: #39a4e8;
-
-
 }
+
+.underbar_line {
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  width:100%;
+  height:100px;
+  background-color: none;
+  border-bottom: 1px rgb(50,50,50) solid;
+}
+
+.underbar_line2 {
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  width:280px;
+  height:100%;
+  background-color: none;
+  border-right: 1px rgb(50,50,50) solid;
+}
+
+
 
 .underbar_back{
   position: absolute;
@@ -968,7 +977,7 @@ cursor: pointer;
     position: absolute;
     width: 100%;
     height: 60px;
-    background-color: rgb(20,20,20);
+    background-color: rgb(18,23,22);
     z-index: 20;
 
 
@@ -987,7 +996,7 @@ cursor: pointer;
   height: 100%;
   left: 0px;
   top: 0px;
-  background-color: rgba(0,0,0,0.5);
+  background-color: rgba(18,23,22,0.5);
   z-index: 1;
 }
 
@@ -1086,4 +1095,8 @@ cursor: pointer;
     padding: 0px !important;
     margin-top: 3px !important;
     margin-bottom: 3px !important;
+  }
+
+  .right {
+    float: right !important;
   }
