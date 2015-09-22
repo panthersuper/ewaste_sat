@@ -135,7 +135,7 @@ var main = function() {
   );
 
 
-  $("#prev_c").click(
+  $(".prev_c").click(
     function() {
       var len = $(".media_in").length
 
@@ -151,7 +151,7 @@ var main = function() {
     }
   );
 
-  $("#next_c").click(
+  $(".next_c").click(
     function() {
       var len = $(".media_in").length
 

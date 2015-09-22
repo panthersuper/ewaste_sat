@@ -702,14 +702,14 @@ p {
   top:120px;
   left: 30px;
   width:290px;
-  height:290px;
+  height:200px;
   overflow:hidden;
   border: none;
 }
 
 #media img{
   min-width:290px;
-  max-height:290px;
+  max-height:200px;
   border: none;
   border-color: none;
 }
@@ -723,10 +723,10 @@ p {
 
 #overlap1 {
   position: absolute;
-  top:110px;
+  top:120px;
   left: 30px;
   width:30px;
-  height:290px;
+  height:200px;
   border: none;
 }
 
@@ -735,17 +735,17 @@ p {
   stroke-width:5;
   fill:none;
 }
-#overlap1 path:hover {
+#overlap1:hover {
   stroke:#a1a1a1;
   cursor: pointer;
 }
 
 #overlap2 {
   position: absolute;
-  top:110px;
+  top:120px;
   left: 290px;
   width:30px;
-  height:290px;
+  height:200px;
   border: none;
 }
 
@@ -755,7 +755,7 @@ p {
   fill:none;
 }
 
-#overlap2 path:hover {
+#overlap2:hover {
   stroke:#a1a1a1;
   cursor: pointer;
 }
@@ -987,7 +987,7 @@ cursor: pointer;
   height: 100%;
   left: 0px;
   top: 0px;
-  background-color: rgba(0,0,0,0.7);
+  background-color: rgba(0,0,0,0.5);
   z-index: 1;
 }
 
