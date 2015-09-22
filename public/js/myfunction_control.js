@@ -124,9 +124,17 @@
         if(haveinfo === "true"){
           info.append("img").attr("class", "infoicon2")
             .attr("src", "img/info_icon.png");
-            
+
           var myinfo = info.append("div").attr("class", "myinfo");
           myinfo.append("strong").append("p").text("Narrative Path");
+        }
+        else {
+          var myinfo = info.append("div").attr("class", "myinfo");
+          myinfo.append("strong").append("p").text("");
+
+
+
+
         }
 
         var departure = info.append("div").attr("class", "departure");
