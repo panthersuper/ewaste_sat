@@ -191,9 +191,9 @@ d3.tsv("new_monitor_sim.tsv", function(error, data) {
     id++;
   }
 
-  var localnum = ($("#tablepath").height()) / (id) * 0.76;
+/*  var localnum = ($("#tablepath").height()) / (id) * 0.76;
   $("#tablepath div").css("height", localnum + "px");
-
+*/
   $(document).ready(main); //run jquery after csv loaded so path button initialized
 
   nodeNum = route.coordinates.length //the total number of nodes
@@ -375,7 +375,7 @@ d3.tsv("new_monitor_sim.tsv", function(error, data) {
     .attr("width", mapw * 0.55)
     .attr("height", 40)
     .attr("stroke", "none")
-    .attr("fill", "rgb(50,50,50)");
+    .attr("fill", "rgb(22,27,33)");
 
 
   d3.select(".xaxis").append("line")

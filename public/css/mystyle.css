@@ -25,7 +25,7 @@
 
 html,body {
   font-family: 'Open Sans',sans-serif ;
-  background: rgb(18,23,22);
+  background: rgb(18,23,27);
   width: 100%;
   height: 100%;
   overflow: hidden;
@@ -65,7 +65,7 @@ a:active {text-decoration: none}
   width:700px;
   position: relative;
   margin: 0 auto;
-  background-color: rgba(18,23,22,0.9);
+  background-color: rgba(18,23,27,0.9);
   padding: 10px;
   top: 50%;
   transform: translateY(-50%);
@@ -100,12 +100,12 @@ a:active {text-decoration: none}
 }
 
 .hidden_info {
-    display: none;
-    position: absolute;
-    z-index: 15;
-    width: 100%;
-    height: 100%;
-    top: 0px;
+  display: none;
+  position: absolute;
+  z-index: 15;
+  width: 100%;
+  height: 100%;
+  top: 0px;
 
 
 }
@@ -116,7 +116,7 @@ a:active {text-decoration: none}
   width:500px;
   height:600px;
   position: absolute;
-  background-color: rgba(18,23,22,0.9);
+  background-color: rgba(18,23,27,0.9);
   padding: 20px;
   top: 50%;
   left: 50%;
@@ -190,32 +190,36 @@ a:active {text-decoration: none}
 #tablepath {
   display: none;
   position: absolute;
-  width: 130px;
+  width: 315px;
   height: 530px;
-  background-color: rgba(18,23,22,0.9);
-  color:none;
-  left: 300px;
+  background-color: rgba(18,23,27,0.9);
+  left: 280px;
   bottom:252px;
+  overflow-y:scroll; 
 }
 
 #nowpath_title {
-  color:rgb(80,80,80);
+  color: rgb(150,150,150);
   position: absolute;
-  left:300px;
-  top:27px;
-  width: 175px;
+  left: 300px;
+  top: 0px;
+  width: 270px;
   cursor: pointer;
-  height:40px;
+  height: 50px;
+  border-right: 1px rgb(50,50,50) solid;
+  padding: 25px;
+  padding-left:0px; 
 }
 
 #nowpath_title:hover {
   cursor: pointer;
-  color:rgb(150,150,150);
+  color:rgb(250,250,250);
 }
 
 #nowpath_title p{
   font-size: 24px;
   margin-top: -4px;
+  font-weight: bold;
 }
 
 #device_icon {
@@ -234,26 +238,28 @@ a:active {text-decoration: none}
 
 #device_icon p{
   position: relative;
-  left:15px;
+  left:13px;
   top:-20px;
   width: 100px;
+  font-weight: bold;
 }
 
 #distance {
-  color:rgb(80,80,80);
+  color: rgb(80,80,80);
   position: absolute;
-  left:310px;
+  left: 310px;
   width: 270px;
-  top:120px;
+  top: 120px;
   border-bottom-style: solid;
-  border-bottom-color: rgb(50,50,50);
-  border-bottom-width:1px;
-  padding-bottom: 10px;
+  border-bottom-color: rgb(100,100,100);
+  border-bottom-width: 3px;
+  padding-bottom: 8px;
 }
 
 #distance p {
   float: left;
   padding-left: 0px;
+  font-weight: bold;
 }
 
 #days {
@@ -267,6 +273,7 @@ a:active {text-decoration: none}
 #days p {
   float: left;
   padding-left: 0px;
+  font-weight: bold;
 
 }
 
@@ -307,7 +314,7 @@ a:active {text-decoration: none}
 #control {
   display: none;
   position:relative;
-  background-color: rgba(18,23,22,0.9);
+  background-color: rgba(18,23,27,0.9);
   width:350px;
   left: calc(100% - 400px);
   top:120px;
@@ -350,14 +357,14 @@ a:active {text-decoration: none}
 #pre {
   //display: none;
   height:960px;
-  //left:430px;
+  left:595px;
   top:0px;
   margin-left: 0px;
   position:absolute;
 }
 
 #preview {
-  background-color: rgba(18,23,22,0.9);
+  background-color: rgba(18,23,27,0.9);
   position: absolute;
   left: 0px;
   width:100%;
@@ -398,10 +405,10 @@ a:active {text-decoration: none}
   width: 50px;
   height: 50px;
   display: block;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
 }
 
 .svgtrack {
@@ -410,10 +417,10 @@ a:active {text-decoration: none}
   width: 50px;
   height: 50px;
   display: block;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
 
 }
 
@@ -493,13 +500,16 @@ a:active {text-decoration: none}
   left:10px;
   padding:2px !important;
   padding-left: 8px !important;
+  font-size: 24px !important;
+  font-weight: bold;
 
 }
 #tablepath div {
-  height:22px;
-  background-color: rgba(18,23,22,0.9);
-  color:#a1a1a1;
-}
+    height: 50px;
+    background-color: rgba(18,23,27,0.9);
+    color: #a1a1a1;
+    padding-left: 23px;
+    padding-top: 5px;}
 
 #tablepath div:hover {
   background-color: rgba(50,50,50,0.9);
@@ -563,7 +573,7 @@ p {
 
 #next {
   position: absolute;
-  background-color: rgba(18,23,22,0.8);
+  background-color: rgba(18,23,27,0.8);
   width:50%;
   left: 50%;
   bottom: 0px;
@@ -579,7 +589,7 @@ p {
 
 #stop {
   position: absolute;
-  background-color: rgba(18,23,22,0.8);
+  background-color: rgba(18,23,27,0.8);
   width:50%;
   left: 0%;
   bottom: 0px;
@@ -635,20 +645,22 @@ p {
   word-wrap:break-word;
   padding-left: 0px;
   font-family: 'Open Sans', sans-serif;
+  font-weight: 600;
 }
 
 #number {
   position: absolute;
   top:10px;
   color:white;
-  left: 30px;
+  left: 24px;
 }
 
 #number p{
-  font-size: 35px;
-  width:180px;
-  word-wrap:break-word;
-  padding-left: 0px;
+    font-size: 40px;
+    word-wrap: break-word;
+    padding-left: 0px;
+    font-weight: bold;
+    padding-top: 3px;
 }
 
 #Coord {
@@ -841,7 +853,7 @@ p {
 .menucontent {
   position:absolute;
   display: none;
-  background-color: rgba(18,23,22,0.9);
+  background-color: rgba(18,23,27,0.9);
   width:200px;
   height:80px;
   top:60px;
@@ -873,18 +885,18 @@ p {
 }
 
 #explore {
-border-width:2px;
-border-color: rgb(100,100,100);
-background-color: rgba(30,30,30,0.9);
-border-style: solid;
-width:100px;
-margin-left:calc(50% - 50px);
-border-radius: 4px;
+  border-width:2px;
+  border-color: rgb(100,100,100);
+  background-color: rgba(30,30,30,0.9);
+  border-style: solid;
+  width:100px;
+  margin-left:calc(50% - 50px);
+  border-radius: 4px;
 }
 
 #explore:hover {
-background-color: rgba(100,100,100,0.6);
-cursor: pointer;
+  background-color: rgba(100,100,100,0.6);
+  cursor: pointer;
 }
 
 #copyright p{
@@ -901,7 +913,7 @@ cursor: pointer;
   bottom: -150px;
   //bottom: 0px;
   //z-index: 20;
-  background-color: rgb(18,23,22);
+  background-color: rgb(18,23,27);
   transition: all 0.3s ease-in-out;
   -webkit-transition: all 0.3s ease-in-out;
   -moz-transition: all 0.3s ease-in-out;
@@ -974,11 +986,11 @@ cursor: pointer;
 }
 
 .topbar {
-    position: absolute;
-    width: 100%;
-    height: 60px;
-    background-color: rgb(18,23,22);
-    z-index: 20;
+  position: absolute;
+  width: 100%;
+  height: 60px;
+  background-color: rgb(18,23,27);
+  z-index: 20;
 
 
 }
@@ -996,7 +1008,7 @@ cursor: pointer;
   height: 100%;
   left: 0px;
   top: 0px;
-  background-color: rgba(18,23,22,0.5);
+  background-color: rgba(18,23,27,0.5);
   z-index: 1;
 }
 
@@ -1008,95 +1020,95 @@ cursor: pointer;
 }
 
 .allroutes {
-    width: 100%;
-    height: 100%;
-    top:0px;
+  width: 100%;
+  height: 100%;
+  top:0px;
 
-    z-index: 10;position: absolute;
+  z-index: 10;position: absolute;
 
 }
-  .map0nodes {
-    z-index: 0;
-  }
+.map0nodes {
+  z-index: 0;
+}
 
-  .overall_path{
-    position: absolute;
-    z-index: 15;
-    cursor: pointer;
-  }
+.overall_path{
+  position: absolute;
+  z-index: 15;
+  cursor: pointer;
+}
 
-  .mapnodes {
-    position: absolute;
-    z-index: 16;
+.mapnodes {
+  position: absolute;
+  z-index: 16;
 
-  }
+}
 
-  .overall_path:hover {
-    position: absolute;
-    cursor: pointer;
-  }
+.overall_path:hover {
+  position: absolute;
+  cursor: pointer;
+}
 
-  .extra_info {
-    position: absolute;
-    left: 0px;
-    top: 0px;
-    width: 100%;
-    height: 100%;
-  }
+.extra_info {
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  width: 100%;
+  height: 100%;
+}
 
-  .info {
-    z-index: 30;
-    position: absolute;
-    padding-bottom:10px; 
-    padding: 15px;
+.info {
+  z-index: 30;
+  position: absolute;
+  padding-bottom:10px; 
+  padding: 15px;
 
-  }
+}
 
-  .info p {
-    position: relative;
-    margin-left: 5px;
-    font-size: 10px;
-    margin-top: -10px;
-    margin-right: 20px;
-    float: left;
-    width: 55px;
-    color: rgb(50,50,50);
-  }
+.info p {
+  position: relative;
+  margin-left: 5px;
+  font-size: 10px;
+  margin-top: -10px;
+  margin-right: 20px;
+  float: left;
+  width: 55px;
+  color: rgb(50,50,50);
+}
 
-  .myinfo p {
-    width: 150px !important;
-    color: #39a4e8 !important;
+.myinfo p {
+  width: 150px !important;
+  color: #39a4e8 !important;
 
-  }
+}
 
-  .info h4 {
-    position: relative;
-    margin-left: 13px;
-    margin-bottom: 10px;
-  }
+.info h4 {
+  position: relative;
+  margin-left: 13px;
+  margin-bottom: 10px;
+}
 
-  #overall_button {
-    cursor: pointer;
+#overall_button {
+  cursor: pointer;
 
-  }
+}
 
-  .citynames{
-    position: absolute;
-    z-index: 20;
-  }
+.citynames{
+  position: absolute;
+  z-index: 20;
+}
 
-  .citynames p{
-    color: rgb(203,184,203) !important;
-    font-size: 8px !important;
-  }
+.citynames p{
+  color: rgb(203,184,203) !important;
+  font-size: 8px !important;
+}
 
-  .pop_city_name p{
-    width: 100% !important;
-    padding: 0px !important;
-    margin-top: 3px !important;
-    margin-bottom: 3px !important;
-  }
+.pop_city_name p{
+  width: 100% !important;
+  padding: 0px !important;
+  margin-top: 3px !important;
+  margin-bottom: 3px !important;
+}
 
-  .right {
-    float: right !important;
-  }
+.right {
+  float: right !important;
+}

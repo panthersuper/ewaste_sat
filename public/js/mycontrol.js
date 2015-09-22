@@ -34,7 +34,7 @@ var main = function() {
   $("#tablepath div").mouseover( //hover the new route, will show the preview of this one
     function(event) {
 
-      d3.select("#pre").attr("style", "width:300px; display:block;left: " + (430) + "px;"); //
+      d3.select("#pre").attr("style", "width:300px; display:block;"); //
 
       var precanvas = d3.select("#pre").append("svg")
         .attr("id", "preview");
