@@ -542,8 +542,8 @@ var randomDir = function(nodeA, nodeB) {
   num = 8;
   var ratio = num / 30;
 
-  if (num < 8) {
-    num = 8;
+  if (num < 10) {
+    num = 10;
   }
   /*  if (dis < threshA || dis > threshB) {
    */
