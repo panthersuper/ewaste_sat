@@ -256,8 +256,15 @@ var main = function() {
                     $("#info_3").fadeIn(2000, function() {
                       $(this).fadeOut(2000, function() {
                         $("#info_4").fadeIn(2000, function() {
-                            $(".underbar_back div").fadeIn(1000);
-                          $(this).fadeOut(2000);
+                          $(this).fadeOut(1000, function() {
+                            //$(".underbar_back div").fadeIn(1000);
+
+                            locreplay = false;
+                            locloop = false; //to stop the loop
+                            resize();
+                            animate_path();
+                            //$($(".underbar_back")).fadeOut(1000);
+                          });
                         });
                       });
                     });
