@@ -41,7 +41,7 @@ var main = function() {
       var myY = null
       myY = event.pageY - 160;
 
-      precanvas.attr("style", "top:" + myY + "px;");
+      precanvas.attr("style", "top:" + (myY + 24) + "px;");
 
       var pre_id = $(this).attr("id"); //the id for the preview
       var pre_places = getNode(places_multi, +pre_id);
@@ -245,59 +245,57 @@ var main = function() {
 
   $("#explore").click(
     function() {
-      //$(".overall_map").fadeIn(500);
-      $(".home").fadeOut(1000);
+      $(".home").fadeOut(1000, function() {
+
+        $("#info_0").fadeIn(2000, function() {
+          $(this).fadeOut(2000, function() {
+            $("#info_1").fadeIn(2000, function() {
+              $(this).fadeOut(2000, function() {
+                $("#info_2").fadeIn(3000, function() {
+                  $(this).fadeOut(3000, function() {
+                    $("#info_3").fadeIn(2000, function() {
+                      $(this).fadeOut(2000, function() {
+                        $("#info_4").fadeIn(2000, function() {
+                            $(".underbar_back div").fadeIn(1000);
+                          $(this).fadeOut(2000);
+                        });
+                      });
+                    });
+                  });
+                });
+              });
+            });
+          });
+        });
+      });
+
       $(".underbar_back").fadeIn(1000);
-      //changePage(1);
-
-      //animation
-      //map0.fitBounds(bound1);
-      animate_path();
-
-      locreplay = false;
-
-    }
-  );
-
-  $("#overall_button").click(
-    function() {
-      $(".overall_map").fadeIn(1000);
-      $(".draw").fadeOut(0);
-      //$("#map").fadeOut(0);
-      $("#control").fadeOut(0);
-      $("#pre").fadeOut(0);
-      $(".underbar_back").fadeIn(1000);
-      locloop = false;//to stop the loop
-      resize();
-      animate_path();
-
-      locreplay = false;
     }
   );
 
   $("#globe").click(function() {
     $(".overall_map").fadeIn(1000);
     $(".draw").fadeOut(0);
-    //$("#map").fadeOut(0);
     $("#control").fadeOut(0);
     $("#pre").fadeOut(0);
-    $(".underbar_back").fadeIn(1000);
-    locloop = false;//to stop the loop
+    //$(".underbar_back").fadeIn(1000);
+    locloop = false; //to stop the loop
     resize();
     animate_path();
-      locreplay = false;
+    locreplay = false;
+
 
   });
 
 
   $(".underbar_back div").click( //the "replay" button
     function() {
-      //console.log(locreplay);
-      if(locreplay){
+      if (locreplay) {
         locreplay = false;
-      locloop = false;//to stop the loop
-      resize();
-      animate_path();
+        locloop = false; //to stop the loop
+        resize();
+        animate_path();
+        $($(".underbar_back")).fadeOut(1000);
       }
     }
   );
@@ -309,7 +307,6 @@ var main = function() {
 var inithome = function(time) {
 
   $("#draw").fadeOut(time);
-  //$("#map").fadeOut(time);
   $("#control").fadeOut(time);
   $("#pre").fadeOut(time);
   $("#hometb").fadeIn(500);
@@ -320,10 +317,8 @@ var inithome = function(time) {
 }
 
 var changePage = function(page) {
-  //console.log("init");
   if (page === 0) {
     inithome(500);
-    //$("#map").fadeOut(0);
   } else if (page === 1) {
     $("html, body").animate({
       scrollTop: 0
@@ -331,8 +326,6 @@ var changePage = function(page) {
 
     $(".draw").fadeOut(0).fadeIn(1000);
     $("#pre").fadeOut(0).fadeIn(1000);
-
-    //$("#map").fadeOut(0).fadeIn(1000);
     $("#control").fadeOut(0).fadeIn(1000);
     $(".overall_map").fadeOut(0);
     $(".home").fadeOut(0);

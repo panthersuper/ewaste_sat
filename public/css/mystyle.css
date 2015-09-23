@@ -57,35 +57,48 @@ a:active {text-decoration: none}
   margin: 0 auto;
   text-align: center;
   background-repeat: no-repeat;
+  top:50%;
+  transform: translateY(-50%);
 }
 
-#teamtb {
-  display: none;
-  color:white;
-  width:700px;
-  position: relative;
-  margin: 0 auto;
-  background-color: rgba(18,23,27,0.9);
-  padding: 10px;
-  top: 50%;
-  transform: translateY(-50%);
+.subtitle {
+  margin-top: 30px;
+}
 
+.subtitle p {
+  margin-top: 0px !important;
+  padding: 0px !important;
+  font-size: 16px;
+}
+
+
+
+#teamtb {
+    display: none;
+    color: white;
+    width: 100%;
+    height: 100%;
+    position: relative;
+    margin: 0 auto;
+    background-color: rgba(18,23,27,0.9);
+    padding: 10px;
+    top: 50%;
+    transform: translateY(-50%);
 }
 
 #teamtb table {
-  margin: 0px;
-  margin-left: 40px;
-  margin-bottom: 40px;
-  border-spacing: 50px 10px;
-}
+border-spacing: 50px 10px;
+    margin: 0 auto;
+    top: 50%;
+    position: relative;
+    transform: translateY(-50%);}
 
 #teamtb img {
-  position: relative;
-  left: 10px;
-  top:10px;
-  width:20px;
-  cursor: pointer;
-
+position: absolute;
+    left: calc(50% + 326px);
+    top: calc(50% - 190px);
+    width: 20px;
+    cursor: pointer;
 }
 
 #aboutbk {
@@ -113,8 +126,8 @@ a:active {text-decoration: none}
 #abouttb {
   display: none;
   color:white;
-  width:500px;
-  height:600px;
+  width:100%;
+  height:100%;
   position: absolute;
   background-color: rgba(18,23,27,0.9);
   padding: 20px;
@@ -134,25 +147,27 @@ a:active {text-decoration: none}
 
 
 #abouttb table {
-  margin: 20px;
-  margin-left: 20px;
-  border-spacing: 10px 0px;
+    border-spacing: 10px 0px;
+    margin: 0 auto;
+    width: 700px;
+    margin-top: 120px;
 
 }
 
 #abouttb>img {
-  position: relative;
-  left: 10px;
-  top:10px;
-  width:20px;
-  cursor: pointer;
-
-}
+position: absolute;
+    left: calc(50% + 311px);
+    top: calc(50% - 376px);
+    width: 20px;
+    cursor: pointer;}
 
 #abouttb p {
   font-size: 11px;
 }
 
+#abouttb h4 {
+  text-align: center;
+}
 
 .head p{
   font-size: 20px;
@@ -190,7 +205,7 @@ a:active {text-decoration: none}
 #tablepath {
   display: none;
   position: absolute;
-  width: 314px;
+  width: 315px;
   height: 530px;
   background-color: rgba(18,23,27,0.9);
   left: 280px;
@@ -523,7 +538,7 @@ a:active {text-decoration: none}
   }
 
 #tablepath div:hover {
-  background-color: rgba(50,50,50,0.9);
+  background-color: rgb(28,33,40);
   cursor: pointer;
   color:white;
 }
@@ -866,7 +881,6 @@ p {
   display: none;
   background-color: rgba(18,23,27,0.9);
   width:200px;
-  height:80px;
   top:60px;
   left: calc(100% - 200px);
   color: rgb(140,140,140);
@@ -874,7 +888,15 @@ p {
 }
 
 .menucontent p {
-  font-size: 13px;
+    font-size: 13px;
+    border-top: 1px rgb(50,50,50) solid;
+    border-bottom: 1px rgb(50,50,50) solid;
+    margin: 0px;
+}
+
+.menucontent p:hover {
+  background-color: rgb(28,33,40);
+
 }
 
 #team:hover {
@@ -903,6 +925,7 @@ p {
   width:100px;
   margin-left:calc(50% - 50px);
   border-radius: 4px;
+  margin-top: 100px;
 }
 
 #explore:hover {
@@ -910,11 +933,25 @@ p {
   cursor: pointer;
 }
 
+.home_links {
+  margin-top: 50px;
+
+}
+.home_links p {
+  padding: 0px;
+}
+
+#copyright{
+    bottom: 0px;
+    position: absolute;
+    width: 100%;
+}
+
 #copyright p{
-  color: rgb(200,200,200);
-  font-size: 8px;
-  width: 310px;
-  margin-left:calc(10px);
+    color: rgb(200,200,200);
+    font-size: 8px;
+    width: 310px;
+    float: right;
 }
 
 .underbar {
@@ -965,7 +1002,8 @@ p {
 
   width: 100%;
   height: 100px;
-  bottom: 0px;
+  bottom: 50%;
+  transform: translateY(50%);
 
   left: 0px;
   z-index: 15;
@@ -974,6 +1012,7 @@ p {
 }
 
 .underbar_back div{
+  display: none;
   position: relative;
   margin: 0 auto;
   margin-top: 15px;
@@ -993,7 +1032,7 @@ p {
   text-align: center;
   padding-top:11px; 
   font-size: 20px;
-  color: rgb(180,180,180);
+  color: white;
 }
 
 .topbar {
@@ -1142,4 +1181,30 @@ width: 75px !important;
     margin-right: 2px;
     margin-top: -20px;
     position: relative;
+  }
+
+
+  .overall_info {
+    //display: none;
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 70%;
+    margin: 0 auto;
+    background: none;
+    z-index: 10;
+
+  }
+
+  .overall_info p{
+    display: none;
+    position: absolute;
+    width: 100%;
+    top: 0px;
+
+    text-align:center; 
+
+    color: white;
+    font-size: 20px;
+    font-weight: 600;
   }

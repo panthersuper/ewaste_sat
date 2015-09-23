@@ -90,7 +90,7 @@
 
         d3.select(".allroutes").append("circle").attr("class", "mapnodes_first") //add all first nodes
           .attr("cx", nodes[0].x).attr("cy", nodes[0].y).attr("ox", nodes0[0][0]).attr("oy", nodes0[0][1])
-          .attr("r", 3).attr("fill", "#ace25a")
+          .attr("r", 3).attr("fill", "rgb(22, 160, 133)")
           .on("mouseover", function() {
 
             d3.select(this).attr("r", 6);
@@ -223,7 +223,7 @@
 
         d3.select(".allroutes").append("circle").attr("class", "mapnodes") //add all last nodes
           .attr("cx", nodes[nodes.length - 1].x).attr("cy", nodes[nodes.length - 1].y).attr("ox", nodes0[nodes0.length - 1][0]).attr("oy", nodes0[nodes0.length - 1][1])
-          .attr("r", 3).attr("fill", "#fb8237")
+          .attr("r", 3).attr("fill", "rgb(211, 84, 0)")
           .on("mouseover", function() {
             d3.select(this).attr("r", 6);
             var info = d3.select(".extra_info").append("div").attr("class", "info").attr("style", "background:rgba(255,255,255,0.8);position:absolute;border-radius: 10px;left:" + (d3.mouse(this)[0] + 20) + "px;top:" + (d3.mouse(this)[1] + 10) + "px ");
