@@ -257,16 +257,23 @@
    	d3.select(window).on('resize', function() {
    		console.log("...");
    		count1 = 0;
+         count2 = 0;
 
    	});
 
 
    	var count1 = 0;
+      var count2 = 1;
    	d3.timer(function() {
    		if (count1 < 5) {
    			resize();
    			count1++;
-   		}
+
+   		}else if(count2===0){
+            animate_path();
+            count2 = 1;
+         }
+
 
    	});
 

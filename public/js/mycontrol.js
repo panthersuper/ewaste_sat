@@ -265,7 +265,7 @@ var main = function() {
         });
       });
 
-      $(".underbar_back").fadeIn(1000);
+      //$(".underbar_back").fadeIn(1000);
     }
   );
 
@@ -291,7 +291,7 @@ var main = function() {
         locloop = false; //to stop the loop
         resize();
         animate_path();
-        $($(".underbar_back")).fadeOut(1000);
+        //$($(".underbar_back")).fadeOut(1000);
       }
     }
   );
@@ -325,7 +325,7 @@ var changePage = function(page) {
     $("#control").fadeOut(0).fadeIn(1000);
     $(".overall_map").fadeOut(0);
     $(".home").fadeOut(0);
-    $(".underbar_back").fadeOut(0);
+    //$(".underbar_back").fadeOut(0);
 
   }
 
