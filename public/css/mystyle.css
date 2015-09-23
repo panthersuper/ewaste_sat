@@ -207,7 +207,7 @@ position: absolute;
   position: absolute;
   width: 315px;
   height: 530px;
-  background-color: rgba(18,23,27,0.9);
+  background-color: rgba(18,23,27,0.6);
   left: 280px;
   bottom:250px;
   overflow-y:scroll; 
@@ -322,6 +322,7 @@ position: absolute;
 #detail_button p{
   font-size: 14px;
   float: right;
+  margin-top: 3px;
 }
 
 #detail_button img{
@@ -538,7 +539,7 @@ position: absolute;
   }
 
 #tablepath div:hover {
-  background-color: rgb(28,33,40);
+  background-color: rgba(28,33,40,0.9);
   cursor: pointer;
   color:white;
 }
@@ -845,6 +846,8 @@ p {
 
 .toptitle p {
   font-size: 20px;
+  font-weight: bold;
+  margin-top: 1px;
 }
 
 .menu {
@@ -859,6 +862,7 @@ p {
 
 .menu p {
   font-size: 16px;
+  font-weight: 600;
 }
 
 
