@@ -145,7 +145,6 @@ position: absolute;
 
 }
 
-
 #abouttb table {
     border-spacing: 10px 0px;
     margin: 0 auto;
@@ -156,8 +155,8 @@ position: absolute;
 
 #abouttb>img {
 position: absolute;
-    left: calc(50% + 311px);
-    top: calc(50% - 376px);
+    left: calc(50% + 335px);
+    top: 120px;
     width: 20px;
     cursor: pointer;}
 
