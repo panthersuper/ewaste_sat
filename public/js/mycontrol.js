@@ -247,27 +247,16 @@ var main = function() {
     function() {
       $(".home").fadeOut(1000, function() {
 
-        $("#info_0").fadeIn(2000, function() {
-          $(this).fadeOut(2000, function() {
-            $("#info_1").fadeIn(2000, function() {
-              $(this).fadeOut(2000, function() {
-                $("#info_2").fadeIn(3000, function() {
-                  $(this).fadeOut(3000, function() {
-                    $("#info_3").fadeIn(2000, function() {
-                      $(this).fadeOut(2000, function() {
-                        $("#info_4").fadeIn(2000, function() {
-                          $(this).fadeOut(1000, function() {
-                            //$(".underbar_back div").fadeIn(1000);
-
-                            locreplay = false;
-                            locloop = false; //to stop the loop
-                            resize();
-                            animate_path();
-                            //$($(".underbar_back")).fadeOut(1000);
-                          });
-                        });
-                      });
-                    });
+        $("#info_0").fadeIn(1000, function() {
+          $(this).fadeOut(3000, function() {
+            $("#info_1").fadeIn(1000, function() {
+              $(this).fadeOut(5000, function() {
+                $("#info_2").fadeIn(1000, function() {
+                  $(this).fadeOut(2500, function() {
+                    locreplay = false;
+                    locloop = false; //to stop the loop
+                    resize();
+                    animate_path();
                   });
                 });
               });
