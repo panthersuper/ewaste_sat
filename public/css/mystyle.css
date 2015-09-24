@@ -36,6 +36,15 @@ a:visited {color: rgb(180,180,180); text-decoration: none}
 a:hover {text-decoration: underline}
 a:active {text-decoration: none}
 
+    p {
+      margin-top:5px ;
+      margin-bottom:1px;
+      font-size: 12px;
+      padding:9px;
+       
+
+    }
+
 .home {
   //display: none;
   position: absolute;
@@ -69,7 +78,8 @@ a:active {text-decoration: none}
   margin-top: 0px !important;
   padding: 0px !important;
   font-size: 16px;
-}
+  text-shadow: 1px 1px 1px white !important;
+     }
 
 
 
@@ -552,12 +562,7 @@ a:active {text-decoration: none}
 
 
 
-    p {
-      margin-top:5px ;
-      margin-bottom:1px;
-      font-size: 12px;
-      padding:9px;
-    }
+
 
 
     .thepaths:hover{
@@ -1212,6 +1217,7 @@ a:active {text-decoration: none}
     color: white;
     font-size: 20px;
     font-weight: 600;
+    text-shadow: 1px 1px 1px white;     
   }
 
   .hint {
@@ -1244,7 +1250,7 @@ a:active {text-decoration: none}
   }
   .control {
     right: 2%;
-    bottom: 30%;
+    bottom: 42%;
   }
   .timeline {
     right: 100px;

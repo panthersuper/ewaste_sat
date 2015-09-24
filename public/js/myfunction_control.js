@@ -189,13 +189,10 @@
 
         localcontrol = true;
 
-        if(pathview === 0){
-          pathview++;
-
+          $(".overall").remove();
           $(".individual").fadeIn(1000);
 
 
-        }
 
 
       });
