@@ -166,7 +166,6 @@
       d3.selectAll(".overall_path").on("click", function() {
         var myid = +d3.select(this).attr("id");
 
-
         changePage(1);
 
         //////////////////////////////////////////////////////////////////update path number
