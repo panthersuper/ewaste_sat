@@ -1213,3 +1213,51 @@ width: 75px !important;
     font-size: 20px;
     font-weight: 600;
   }
+
+  .hint {
+    display: none;
+  position: absolute;
+  background-image: url(dialog_opacity.png);
+  background-size:100% 100%;
+  cursor: pointer;
+  z-index: 20;
+}
+
+  .hint p {
+    padding: 23px;
+    padding-bottom: 29px;
+    padding-top: 13px;
+  }
+
+  .overall {
+    left: 20%;
+    top:18%;
+
+  }
+  .globe {
+    left: 143px;
+    bottom: 294px;  
+  }
+  .changepath {
+    left: 429px;
+    bottom: 60px;
+  }
+  .control {
+    right: 2%;
+    bottom: 30%;
+  }
+  .timeline {
+    right: 100px;
+    bottom: 60px;
+
+  }
+  .detail {
+    left: 115px;
+    bottom: 58px;
+  }
+
+
+
+
+
+

@@ -269,6 +269,12 @@ var main = function() {
     }
   );
 
+
+$(".hint").click(function(){
+  $(this).remove();
+
+})
+
   $("#globe").click(function() {
     $(".overall_map").fadeIn(1000);
     $(".draw").fadeOut(0);

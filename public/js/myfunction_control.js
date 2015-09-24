@@ -106,7 +106,7 @@
 
       }
 
-      d3.selectAll(".citynames").remove();
+      //d3.selectAll(".citynames").remove();
 
       d3.selectAll(".overall_path").on("mouseover", function() {
 
@@ -156,8 +156,6 @@
         distance.append("strong").append("p").text("DISTANCE");
         distance.append("p").text(Dis_w(getNode(route_multi, myid).coordinates) + " km");
 
-        ;
-
       });
 
       d3.selectAll(".overall_path").on("mouseout", function() {
@@ -192,6 +190,15 @@
 
         localcontrol = true;
 
+        if(pathview === 0){
+          pathview++;
+
+          $(".individual").fadeIn(1000);
+
+
+        }
+
+
       });
 
     }
@@ -214,6 +221,7 @@
           }
       }();
 
+      $(".overall").fadeIn(1000);
 
 
       for (k in route_multi) { //add paths

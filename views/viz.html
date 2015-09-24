@@ -272,9 +272,16 @@
 
       </table>
     </div>
+
   </div>
 
 
+      <div class="hint overall"><p>Hint: Try to click/hover the paths or nodes</p></div>
+      <div class="hint globe individual"><p>Hint: You can go back to the overall map by clicking the globe</p></div>
+      <div class="hint changepath individual"><p>Hint: You can switch to other paths here.</p></div>
+      <div class="hint control individual"><p>Hint: Let's click next/stop to control the journey.</p></div>
+      <div class="hint timeline individual"><p>Hint: clickable timeline here.</p></div>
+      <div class="hint detail individual"><p>Hint: Try to show detail.</p></div>
 
 
   <script type="text/javascript">
@@ -308,7 +315,7 @@ d3.select(".mapboxgl-control-container").remove();
 
 var isAtStart = true;
 var locreplay = true;
-
+var pathview = 0;//total path viewed amount
 
 </script>
 
