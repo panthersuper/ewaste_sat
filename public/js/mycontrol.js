@@ -88,9 +88,8 @@ var main = function() {
 
   $("#next").click(
     function() {
-
+      //if(next_control)
       if (next_control) {
-        console.log(444444444);
         next_control = false;
         switchDetail(0);
 
@@ -114,6 +113,7 @@ var main = function() {
           moveToggle = false;
           //cont = false;
           updateContent(0);
+        next_control = true;
 
         } else {
 
