@@ -89,43 +89,51 @@ var main = function() {
   $("#next").click(
     function() {
 
-      switchDetail(0);
+      if (next_control) {
+        console.log(444444444);
+        next_control = false;
+        switchDetail(0);
 
-      if (moveToggle) {
-        count = 0;
-        nowNum = nowNum + 1; //next node to target
+        if (moveToggle) {
+          count = 0;
+          nowNum = nowNum + 1; //next node to target
 
 
-        //nowNum = nowNum % nodeNum; //cycle the loop
+          //nowNum = nowNum % nodeNum; //cycle the loop
 
-        /*if (nowNum === 0) {
-          nowNum = 1;
+          /*if (nowNum === 0) {
+            nowNum = 1;
+            moveToggle = false;
+          }*/
+
+        }
+
+        if (nowNum === nodeNum) { //about to finish the last loop
+          count = 0;
+          nowNum = 1; //skip the first move
           moveToggle = false;
-        }*/
+          //cont = false;
+          updateContent(0);
+
+        } else {
+
+          moveToggle = true;
+
+        }
+
+        //animations when next button is clicked
+
+
+
+        updateContent(nowNum);
+        cont = true; //loop starts
+
+        finishsign = 0;
+
 
       }
 
-      if (nowNum === nodeNum) { //about to finish the last loop
-        count = 0;
-        nowNum = 1; //skip the first move
-        moveToggle = false;
-        //cont = false;
-        updateContent(0);
 
-      } else {
-
-        moveToggle = true;
-
-      }
-
-      //animations when next button is clicked
-
-
-
-      updateContent(nowNum);
-      cont = true; //loop starts
-
-      finishsign = 0;
     }
   );
 
@@ -134,6 +142,7 @@ var main = function() {
       cont = false; //loop starts
       moveToggle = false;
       finishsign = 0;
+      next_control = true;
     }
   );
 
@@ -251,15 +260,16 @@ var main = function() {
       $(".home").fadeOut(1000, function() {
 
         $("#info_0").fadeIn(1000, function() {
-          $(this).fadeOut(3000, function() {
+          $(this).fadeOut(5000, function() {
             $("#info_1").fadeIn(1000, function() {
-              $(this).fadeOut(5000, function() {
+              $(this).fadeOut(8000, function() {
                 $("#info_2").fadeIn(1000, function() {
-                  $(this).fadeOut(2500, function() {
+                  $(this).fadeOut(3000, function() {
                     locreplay = false;
                     locloop = false; //to stop the loop
                     resize();
                     animate_path();
+                    $("#info_3").fadeIn(5000);
                   });
                 });
               });
@@ -273,10 +283,10 @@ var main = function() {
   );
 
 
-$(".hint").click(function(){
-  $(this).remove();
+  $(".hint").click(function() {
+    $(this).remove();
 
-})
+  })
 
   $("#globe").click(function() {
     $(".overall_map").fadeIn(1000);

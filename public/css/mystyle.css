@@ -68,6 +68,9 @@ a:active {text-decoration: none}
   background-repeat: no-repeat;
   top:50%;
   transform: translateY(-50%);
+  -ms-transform: translateY(-50%); /* IE 9 */
+  -webkit-transform: translateY(-50%); /* Safari */
+
 }
 
 .subtitle {
@@ -94,6 +97,8 @@ a:active {text-decoration: none}
   padding: 10px;
   top: 50%;
   transform: translateY(-50%);
+  -ms-transform: translateY(-50%); /* IE 9 */
+  -webkit-transform: translateY(-50%); /* Safari */
 }
 
 #teamtb table {
@@ -101,7 +106,12 @@ a:active {text-decoration: none}
   margin: 0 auto;
   top: 50%;
   position: relative;
-  transform: translateY(-50%);}
+  transform: translateY(-50%);
+  -ms-transform: translateY(-50%); /* IE 9 */
+  -webkit-transform: translateY(-50%); /* Safari */
+
+
+}
 
   #teamtb img {
     position: absolute;
@@ -144,6 +154,10 @@ a:active {text-decoration: none}
     top: 50%;
     left: 50%;
     transform: translate(-50%,-50%);
+    -ms-transform: translate(-50%,-50%); /* IE 9 */
+    -webkit-transform: translate(-50%,-50%); /* Safari */
+
+
   }
 
   #abouttb>div {
@@ -920,6 +934,8 @@ a:active {text-decoration: none}
 
   #moveY {
     transform: translate(0px,-200px);
+    -ms-transform: translate(0px,-200px); /* IE 9 */
+    -webkit-transform: translate(0px,-200px); /* Safari */
   }
 
   .timebase {
@@ -1014,6 +1030,8 @@ a:active {text-decoration: none}
     height: 100px;
     bottom: 50%;
     transform: translateY(50%);
+    -ms-transform: translateY(50%); /* IE 9 */
+    -webkit-transform: translateY(50%); /* Safari */
 
     left: 0px;
     z-index: 15;
@@ -1140,6 +1158,8 @@ a:active {text-decoration: none}
     color: #39a4e8 !important;
     float: right;
     transform: translate(8px,-17px);
+    -ms-transform: translate(8px,-17px); /* IE 9 */
+    -webkit-transform: translate(8px,-17px); /* Safari */
 
   }
 
@@ -1199,6 +1219,10 @@ a:active {text-decoration: none}
     position: relative;
     top: 50%;
     transform: translateY(-50%);
+    -ms-transform: translateY(-50%); /* IE 9 */
+    -webkit-transform: translateY(-50%); /* Safari */
+
+    
     width: 50%;
     min-width: 500px;
     margin: 0 auto;
@@ -1220,6 +1244,22 @@ a:active {text-decoration: none}
     font-weight: 600;
     text-shadow: 1px 1px 1px white;     
   }
+
+  #info_3 {
+    display: none;
+    position: absolute;
+    width: 70%;
+    top: 100px;
+    right:-170px;
+
+    text-align:left; 
+
+    color: white;
+    font-size: 20px;
+    font-weight: 600;
+    text-shadow: 1px 1px 1px white;     
+  }
+
 
   .myhint {
     display: none;

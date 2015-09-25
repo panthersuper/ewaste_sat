@@ -435,7 +435,7 @@ d3.tsv("new_monitor_sim.tsv", function(error, data) {
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////
     d3.timer(function() {
 
-
+      console.log(next_control);
 
       context.clearRect(0, 0, width, height);
 
@@ -543,8 +543,10 @@ d3.tsv("new_monitor_sim.tsv", function(error, data) {
 
 
           } else if (cont) { //have information, need to stop there and zoom in
+            console.log("important");
             updateContent(nowNum);
             cont = false;
+
             //moveToggle = false;
           }
 
@@ -685,10 +687,12 @@ d3.tsv("new_monitor_sim.tsv", function(error, data) {
           flyalone(p_r, phasePercentage, dis);
         }
 
+        next_control = true;
+
       } else if ((!pre_important) && important) { //need to zoom in from out
         //console.log("zoomin");
         flyZoomin(p_r, phasePercentage, dis);
-
+        next_control = true;
 
       } else if ((!pre_important) && (!important)) { //need to stay zoom out
         //console.log("stayout");
@@ -884,6 +888,8 @@ var update = function(current) {
       cont = false; //loop not started
       count = oneMove_default - 0.01; //to measure the interval
       flyto(getNode(places, nowNum), 3);
+      next_control = true;
+
 
       if (nowNum === 0) {
         nowNum = 1;

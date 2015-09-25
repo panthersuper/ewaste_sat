@@ -38,7 +38,7 @@
         var linedata = lineFunction(lineraw);
         var linedata0 = lineFunction(lineraw.slice(0, 1));
 
-        if (!importantPath(testlst)) {//add the path that don't have additional information
+        if (!importantPath(testlst)) { //add the path that don't have additional information
           lineGraph = d3.select(".allroutes").append("path").attr("class", "overall_path overall_path_" + name).attr("haveinfo", false)
             .attr("stroke", "rgba(255,255,255,0.3)")
             .attr("stroke-width", "1.5px")
@@ -67,7 +67,7 @@
         var linedata = lineFunction(lineraw);
         var linedata0 = lineFunction(lineraw.slice(0, 1));
 
-        if (importantPath(testlst)) {//add path that have information
+        if (importantPath(testlst)) { //add path that have information
           lineGraph = d3.select(".allroutes").append("path").attr("class", "overall_path overall_path_" + name).attr("haveinfo", true)
             .attr("stroke", "#39a4e8")
             .attr("stroke-width", "1.5px")
@@ -121,17 +121,15 @@
         var info = d3.select(".extra_info").append("div").attr("class", "info").attr("style", "width:200px;background:rgba(255,255,255,0.8);position:absolute;border-radius: 10px;left:" + (d3.mouse(this)[0] + 20) + "px;top:" + (d3.mouse(this)[1] + 10) + "px ");
         info.append("h4").text("" + d3.select(this).attr("name").toUpperCase());
 
-        if(haveinfo === "true"){
+        if (haveinfo === "true") {
           info.append("img").attr("class", "infoicon2")
             .attr("src", "img/info_icon.png");
 
           var myinfo = info.append("div").attr("class", "myinfo");
           myinfo.append("strong").append("p").text("Narrative Path");
-        }
-        else {
+        } else {
           var myinfo = info.append("div").attr("class", "myinfo");
           myinfo.append("strong").append("p").text("");
-
 
 
 
@@ -191,13 +189,15 @@
 
         localcontrol = true;
 
-          $(".overall").remove();
-          $(".individual").fadeIn(1000);
+        $(".overall").remove();
+        $(".individual").fadeIn(1000);
+        $("#info_3").remove();
 
-          $(".myhint").click(function(){
-            $(this).remove();
 
-          });
+        $(".myhint").click(function() {
+          $(this).remove();
+
+        });
 
 
 
@@ -399,19 +399,19 @@
 
     var updateContent = function(num) {
 
-/*      if (num != 0 && cont === true) {
-        cont === true;
-      }*/
+      /*      if (num != 0 && cont === true) {
+              cont === true;
+            }*/
 
       timeMark
         .attr("transform", "translate(" + xScale(getNode(places, nowNum)[2]) + "," + (20 + 2.5) + ")");
 
 
 
-        d3.select("#distance .keynum")
-          .text(nowDis(pastData.coordinates));
-        d3.select("#days .keynum")
-          .text(nowDays(nowNum));
+      d3.select("#distance .keynum")
+        .text(nowDis(pastData.coordinates));
+      d3.select("#days .keynum")
+        .text(nowDays(nowNum));
 
 
 
@@ -520,7 +520,4 @@
         } else $(".arrow").fadeOut(0);
 
       });
-
-
-
     }
