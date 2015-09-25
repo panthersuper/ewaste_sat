@@ -88,6 +88,9 @@ var main = function() {
 
   $("#next").click(
     function() {
+
+      switchDetail(0);
+
       if (moveToggle) {
         count = 0;
         nowNum = nowNum + 1; //next node to target

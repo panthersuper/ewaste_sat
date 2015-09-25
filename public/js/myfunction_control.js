@@ -187,11 +187,17 @@
           .append("p")
           .text(Object.keys(places_multi)[curPath].toUpperCase());
 
+
+
         localcontrol = true;
 
           $(".overall").remove();
           $(".individual").fadeIn(1000);
 
+          $(".myhint").click(function(){
+            $(this).remove();
+
+          });
 
 
 
@@ -217,6 +223,7 @@
           }
       }();
 
+      $(".myhint").fadeIn(1000);
       $(".overall").fadeIn(1000);
 
 
