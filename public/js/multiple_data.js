@@ -398,7 +398,9 @@ d3.tsv("new_monitor_sim.tsv", function(error, data) {
 
   timeMark = svg0.append("g") //time mark
     .append("rect")
-    .attr("class", "timemark");
+    .attr("class", "timemark")
+    .attr("width", 3)
+    .attr("height", 15);
 
   initContent();
 
