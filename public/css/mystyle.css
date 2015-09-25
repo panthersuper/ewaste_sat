@@ -829,10 +829,6 @@ a:active {text-decoration: none}
   }
 
   .timemark {
-    y:15;
-    x:-1.5;
-    width:3px;
-    height:15px;
     fill:#39a4e8;
     z-index: 30;
   }
@@ -1222,7 +1218,7 @@ a:active {text-decoration: none}
     -ms-transform: translateY(-50%); /* IE 9 */
     -webkit-transform: translateY(-50%); /* Safari */
 
-    
+
     width: 50%;
     min-width: 500px;
     margin: 0 auto;

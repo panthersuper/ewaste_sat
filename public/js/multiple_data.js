@@ -400,7 +400,8 @@ d3.tsv("new_monitor_sim.tsv", function(error, data) {
     .append("rect")
     .attr("class", "timemark")
     .attr("width", 3)
-    .attr("height", 15);
+    .attr("height", 15)    .attr("y", 15)
+    .attr("x", -1.5);
 
   initContent();
 
