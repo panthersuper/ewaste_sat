@@ -820,6 +820,7 @@ a:active {text-decoration: none}
     width:3px;
     height:15px;
     fill:#39a4e8;
+    z-index: 30;
   }
 
   .domain {
