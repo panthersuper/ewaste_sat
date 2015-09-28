@@ -112,7 +112,6 @@ NProgress.start();
 
 d3.tsv("http://cors.io/?u=https://docs.google.com/spreadsheets/d/1nrsZSqrpaUkYec4MyDfBDqp61ciClA-sKUAAxGClYrg/pub?output=tsv", function(error, data) {
     if (error) {
-
       console.log("errorloading google sheet");
       d3.tsv("new_monitor_sim.tsv", function(error, data2) {
         //d3.csv("test.csv", function(error, data) {
@@ -124,7 +123,6 @@ d3.tsv("http://cors.io/?u=https://docs.google.com/spreadsheets/d/1nrsZSqrpaUkYec
       });
 
 } else {
-  console.log(data)
   mymain(data);
 }
 });
