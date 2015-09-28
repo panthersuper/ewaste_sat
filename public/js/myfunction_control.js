@@ -9,6 +9,8 @@
         myvar += (a + b + c).length;
       }
 
+      if (myvar > 0) console.log(lst);
+
       if (myvar > 0) return true;
       else return false;
 
@@ -66,6 +68,10 @@
         var lineraw = curvePath(curvePath(curvePath(curvePath(curvePath(lstprojected)))));
         var linedata = lineFunction(lineraw);
         var linedata0 = lineFunction(lineraw.slice(0, 1));
+
+
+
+
 
         if (importantPath(testlst)) { //add path that have information
           lineGraph = d3.select(".allroutes").append("path").attr("class", "overall_path overall_path_" + name).attr("haveinfo", true)
