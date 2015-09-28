@@ -628,8 +628,8 @@ d3.tsv("new_monitor_sim.tsv", function(error, data) {
         .attr("class", "curroute_blur")
         .attr("d", patho);
 
-      //console.log("Current Path:" + curPath + "||Current Node:" + nowNum + "||Total Node:" + nodeNum);
-      //console.log(phasePercentage);
+      console.log("Current Path:" + curPath + "||Current Node:" + nowNum + "||Total Node:" + nodeNum);
+      console.log(phasePercentage);
 
 
 
