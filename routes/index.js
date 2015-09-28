@@ -38,3 +38,8 @@ exports.map = function(req, res) {
 	console.log('map page requested');
 	res.render('map.html');
 }
+
+exports.sheet = function(req, res) {
+	console.log('sheet page requested');
+	res.render('googlesheet.html');
+}

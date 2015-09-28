@@ -107,13 +107,31 @@ var lineFunction = d3.svg.line()
 
 
 NProgress.start();
-d3.tsv("new_monitor_sim.tsv", function(error, data) {
-  //d3.csv("test.csv", function(error, data) {
-  //data is numbered by the row number... 
-  //head is not counted as a row.
-  //each item in the data list is a dictionary, key is indicated by the head
 
 
+
+d3.tsv("http://cors.io/?u=https://docs.google.com/spreadsheets/d/1nrsZSqrpaUkYec4MyDfBDqp61ciClA-sKUAAxGClYrg/pub?output=tsv", function(error, data) {
+    if (error) {
+
+      console.log("errorloading google sheet");
+      d3.tsv("new_monitor_sim.tsv", function(error, data2) {
+        //d3.csv("test.csv", function(error, data) {
+        //data is numbered by the row number... 
+        //head is not counted as a row.
+        //each item in the data list is a dictionary, key is indicated by the head
+        mymain(data2);
+
+      });
+
+} else {
+  console.log(data)
+  mymain(data);
+}
+});
+
+
+
+var mymain = function(data) {
 
   var num = data.length;
   for (var i = 0; i < num; i++) {
@@ -193,29 +211,29 @@ d3.tsv("new_monitor_sim.tsv", function(error, data) {
     addpath.append("p")
       .text(key.toString().toUpperCase());
 
-    if(importantPath(places_multi[key]))
-    addpath.append("img").attr("class", "infoicon")
+    if (importantPath(places_multi[key]))
+      addpath.append("img").attr("class", "infoicon")
       .attr("src", "img/info_icon.png");
 
     id++;
   }
 
-/*  var localnum = ($("#tablepath").height()) / (id) * 0.76;
-  $("#tablepath div").css("height", localnum + "px");
-*/
+  /*  var localnum = ($("#tablepath").height()) / (id) * 0.76;
+    $("#tablepath div").css("height", localnum + "px");
+  */
   $(document).ready(main); //run jquery after csv loaded so path button initialized
 
   nodeNum = route.coordinates.length //the total number of nodes
 
-/*  svg.append("filter")
-    .attr("id", "blur-effect-1")
-    .append("feGaussianBlur")
-    .attr("stdDeviation", 1);
-  svg.append("filter")
-    .attr("id", "blur-effect-2")
-    .append("feGaussianBlur")
-    .attr("stdDeviation", 1.5);
-*/
+  /*  svg.append("filter")
+      .attr("id", "blur-effect-1")
+      .append("feGaussianBlur")
+      .attr("stdDeviation", 1);
+    svg.append("filter")
+      .attr("id", "blur-effect-2")
+      .append("feGaussianBlur")
+      .attr("stdDeviation", 1.5);
+  */
   myroute = svg.append("path")
     .datum(routeRam)
     .attr("class", "route")
@@ -228,35 +246,36 @@ d3.tsv("new_monitor_sim.tsv", function(error, data) {
     .attr("stroke", "white")
     .attr("stroke-width", "3px")
     .attr("fill", "none");
-/*  route_map_blur = svgmap.append("path")
-    .attr("class", "route_map_blur")
-    .attr("d", lineFunction(route_m.coordinates))
-    .attr("stroke", "white")
-    .attr("stroke-width", "3px")
-    .attr("fill", "none");
-*/
+  /*  route_map_blur = svgmap.append("path")
+      .attr("class", "route_map_blur")
+      .attr("d", lineFunction(route_m.coordinates))
+      .attr("stroke", "white")
+      .attr("stroke-width", "3px")
+      .attr("fill", "none");
+  */
 
   CuRoute = svg.append("path") //current route
     .attr("class", "curroute")
-/*  CuRoute_blur = svg.append("path") //current route
-    .attr("class", "curroute_blur")
-*/
+    /*  CuRoute_blur = svg.append("path") //current route
+        .attr("class", "curroute_blur")
+    */
 
   pastRoute = svg.append("path") //current route
     .attr("class", "pastroute")
-/*  pastRoute_blur = svg.append("path") //current route
-    .attr("class", "pastroute_blur")
-*/  pastRoute_map = svgmap.append("path") //current route
+    /*  pastRoute_blur = svg.append("path") //current route
+        .attr("class", "pastroute_blur")
+    */
+  pastRoute_map = svgmap.append("path") //current route
     .attr("class", "pastroute_map")
     .attr("stroke", "white")
     .attr("stroke-width", "3px")
     .attr("fill", "none");
-/*  pastRoute_map_blur = svgmap.append("path") //current route
-    .attr("class", "pastRoute_map_blur")
-    .attr("stroke", "white")
-    .attr("stroke-width", "3px")
-    .attr("fill", "none");
-*/
+  /*  pastRoute_map_blur = svgmap.append("path") //current route
+      .attr("class", "pastRoute_map_blur")
+      .attr("stroke", "white")
+      .attr("stroke-width", "3px")
+      .attr("fill", "none");
+  */
 
   point = svg.append("g")
     .attr("class", "points")
@@ -400,7 +419,7 @@ d3.tsv("new_monitor_sim.tsv", function(error, data) {
     .append("rect")
     .attr("class", "timemark")
     .attr("width", 3)
-    .attr("height", 15)    .attr("y", 15)
+    .attr("height", 15).attr("y", 15)
     .attr("x", -1.5);
 
   initContent();
@@ -544,7 +563,6 @@ d3.tsv("new_monitor_sim.tsv", function(error, data) {
 
 
           } else if (cont) { //have information, need to stop there and zoom in
-            console.log("important");
             updateContent(nowNum);
             cont = false;
 
@@ -594,11 +612,11 @@ d3.tsv("new_monitor_sim.tsv", function(error, data) {
         .datum(pastData)
         .attr("class", "pastroute")
         .attr("d", patho);
-/*      pastRoute_blur //create current route
-        .datum(pastData)
-        .attr("class", "pastroute_blur")
-        .attr("d", patho);
-*/
+      /*      pastRoute_blur //create current route
+              .datum(pastData)
+              .attr("class", "pastroute_blur")
+              .attr("d", patho);
+      */
       var myD = patho(routeRam); //redo the projection
 
       myroute //reset the route drawn on the map
@@ -623,13 +641,13 @@ d3.tsv("new_monitor_sim.tsv", function(error, data) {
         .datum(curData)
         .attr("class", "curroute")
         .attr("d", patho);
-/*      CuRoute_blur //create current route
-        .datum(curData)
-        .attr("class", "curroute_blur")
-        .attr("d", patho);
-*/
-      console.log("Current Path:" + curPath + "||Current Node:" + nowNum + "||Total Node:" + nodeNum);
-      console.log(phasePercentage);
+      /*      CuRoute_blur //create current route
+              .datum(curData)
+              .attr("class", "curroute_blur")
+              .attr("d", patho);
+      */
+      //console.log("Current Path:" + curPath + "||Current Node:" + nowNum + "||Total Node:" + nodeNum);
+      //console.log(phasePercentage);
 
 
 
@@ -736,25 +754,26 @@ d3.tsv("new_monitor_sim.tsv", function(error, data) {
       var linedata = lineFunction(reptojectMap(newlst));
       route_map
         .attr("d", linedata);
-/*      route_map_blur
-        .attr("d", linedata);
-*/
+      /*      route_map_blur
+              .attr("d", linedata);
+      */
 
       if (nowNum != 1) {
 
         var linedata = lineFunction(reptojectMap(fixloop(pastData.coordinates)));
         pastRoute_map //create current route
           .attr("d", linedata);
-/*        pastRoute_map_blur //create current route
-          .attr("d", linedata);
-*/
+        /*        pastRoute_map_blur //create current route
+                  .attr("d", linedata);
+        */
       } else {
         var linedata = lineFunction([]);
         pastRoute_map //create current route
           .attr("d", linedata);
-/*        pastRoute_map_blur //create current route
-          .attr("d", linedata);
-*/      }
+        /*        pastRoute_map_blur //create current route
+                  .attr("d", linedata);
+        */
+      }
 
       track.attr("r", 1 * (trackscale % 4) + 1); //change the tracker's r according to closerate
       track_f.attr("r", 2 * (trackscale % 4) + 4); //change the tracker's r according to closerate
@@ -788,7 +807,8 @@ d3.tsv("new_monitor_sim.tsv", function(error, data) {
     });
   });
 
-});
+}
+
 
 
 //update content after selecting a specific path
@@ -805,9 +825,9 @@ var update = function(current) {
 
   CuRoute
     .attr("class", "curroute")
-/*  CuRoute_blur
-    .attr("class", "curroute_blur")
-*/
+    /*  CuRoute_blur
+        .attr("class", "curroute_blur")
+    */
 
   $(".points").remove();
   point = svg.append("g")
