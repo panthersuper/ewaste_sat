@@ -290,34 +290,36 @@
   var map = new mapboxgl.Map({
     container: 'map',
     style: 'mapbox://styles/mapbox/satellite-v8',
-    center: [-71.093613,42.360277],
+    center: [-71.093613, 42.360277],
     zoom: 5
   });
 
   d3.select(".mapboxgl-control-container").remove();
 
-  var start = [-70,33.928033];
+  var start = [-70, 33.928033];
 
   //var bound = [[-120,10],[-60,60]];
-  var bound = [[-270,-20],[140,50]];
+  var bound = [
+    [-270, -20],
+    [140, 50]
+  ];
 
-//var start = [-122.486052, 37.830348];
-var map0 = new mapboxgl.Map({
-  container: 'map0',
-  style: 'mapbox://styles/mapbox/satellite-v8',
-  center: start,
-  zoomControl: false,
-  zoom: 1.7
-}).fitBounds(bound);
+  //var start = [-122.486052, 37.830348];
+  var map0 = new mapboxgl.Map({
+    container: 'map0',
+    style: 'mapbox://styles/mapbox/satellite-v8',
+    center: start,
+    zoomControl: false,
+    zoom: 1.7
+  }).fitBounds(bound);
 
 
 
-d3.select(".mapboxgl-control-container").remove();
+  d3.select(".mapboxgl-control-container").remove();
 
-var isAtStart = true;
-var locreplay = true;
-var next_control = true;
-
+  var isAtStart = true;
+  var locreplay = true;
+  var next_control = true;
 /*map0.getBounds = function () {
     var bounds = getPxBounds.call(this);
     // ... extend the bounds

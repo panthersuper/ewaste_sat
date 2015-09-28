@@ -438,8 +438,6 @@ d3.tsv("new_monitor_sim.tsv", function(error, data) {
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////
     d3.timer(function() {
 
-      console.log(next_control);
-
       context.clearRect(0, 0, width, height);
 
       //auto adjust control menu
