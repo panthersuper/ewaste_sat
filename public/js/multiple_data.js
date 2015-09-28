@@ -20,9 +20,9 @@ var projection = d3.geo.orthographic()
 var graticule = d3.geo.graticule();
 var myroute;
 var CuRoute;
-var CuRoute_blur;
+//var CuRoute_blur;
 var pastRoute;
-var pastRoute_blur;
+//var pastRoute_blur;
 var places;
 var route;
 var routeRam; //route after randomness
@@ -32,8 +32,8 @@ var timeBase;
 var route_m; //data
 var route_map; //svg path
 var pastRoute_map;
-var route_map_blur; //svg path
-var pastRoute_map_blur;
+//var route_map_blur; //svg path
+//var pastRoute_map_blur;
 
 var svgmap = d3.select(".svgmap");
 
@@ -207,7 +207,7 @@ d3.tsv("new_monitor_sim.tsv", function(error, data) {
 
   nodeNum = route.coordinates.length //the total number of nodes
 
-  svg.append("filter")
+/*  svg.append("filter")
     .attr("id", "blur-effect-1")
     .append("feGaussianBlur")
     .attr("stdDeviation", 1);
@@ -215,7 +215,7 @@ d3.tsv("new_monitor_sim.tsv", function(error, data) {
     .attr("id", "blur-effect-2")
     .append("feGaussianBlur")
     .attr("stdDeviation", 1.5);
-
+*/
   myroute = svg.append("path")
     .datum(routeRam)
     .attr("class", "route")
@@ -228,35 +228,35 @@ d3.tsv("new_monitor_sim.tsv", function(error, data) {
     .attr("stroke", "white")
     .attr("stroke-width", "3px")
     .attr("fill", "none");
-  route_map_blur = svgmap.append("path")
+/*  route_map_blur = svgmap.append("path")
     .attr("class", "route_map_blur")
     .attr("d", lineFunction(route_m.coordinates))
     .attr("stroke", "white")
     .attr("stroke-width", "3px")
     .attr("fill", "none");
-
+*/
 
   CuRoute = svg.append("path") //current route
     .attr("class", "curroute")
-  CuRoute_blur = svg.append("path") //current route
+/*  CuRoute_blur = svg.append("path") //current route
     .attr("class", "curroute_blur")
-
+*/
 
   pastRoute = svg.append("path") //current route
     .attr("class", "pastroute")
-  pastRoute_blur = svg.append("path") //current route
+/*  pastRoute_blur = svg.append("path") //current route
     .attr("class", "pastroute_blur")
-  pastRoute_map = svgmap.append("path") //current route
+*/  pastRoute_map = svgmap.append("path") //current route
     .attr("class", "pastroute_map")
     .attr("stroke", "white")
     .attr("stroke-width", "3px")
     .attr("fill", "none");
-  pastRoute_map_blur = svgmap.append("path") //current route
+/*  pastRoute_map_blur = svgmap.append("path") //current route
     .attr("class", "pastRoute_map_blur")
     .attr("stroke", "white")
     .attr("stroke-width", "3px")
     .attr("fill", "none");
-
+*/
 
   point = svg.append("g")
     .attr("class", "points")
@@ -594,11 +594,11 @@ d3.tsv("new_monitor_sim.tsv", function(error, data) {
         .datum(pastData)
         .attr("class", "pastroute")
         .attr("d", patho);
-      pastRoute_blur //create current route
+/*      pastRoute_blur //create current route
         .datum(pastData)
         .attr("class", "pastroute_blur")
         .attr("d", patho);
-
+*/
       var myD = patho(routeRam); //redo the projection
 
       myroute //reset the route drawn on the map
@@ -623,11 +623,11 @@ d3.tsv("new_monitor_sim.tsv", function(error, data) {
         .datum(curData)
         .attr("class", "curroute")
         .attr("d", patho);
-      CuRoute_blur //create current route
+/*      CuRoute_blur //create current route
         .datum(curData)
         .attr("class", "curroute_blur")
         .attr("d", patho);
-
+*/
       console.log("Current Path:" + curPath + "||Current Node:" + nowNum + "||Total Node:" + nodeNum);
       console.log(phasePercentage);
 
@@ -736,25 +736,25 @@ d3.tsv("new_monitor_sim.tsv", function(error, data) {
       var linedata = lineFunction(reptojectMap(newlst));
       route_map
         .attr("d", linedata);
-      route_map_blur
+/*      route_map_blur
         .attr("d", linedata);
-
+*/
 
       if (nowNum != 1) {
 
         var linedata = lineFunction(reptojectMap(fixloop(pastData.coordinates)));
         pastRoute_map //create current route
           .attr("d", linedata);
-        pastRoute_map_blur //create current route
+/*        pastRoute_map_blur //create current route
           .attr("d", linedata);
-
+*/
       } else {
         var linedata = lineFunction([]);
         pastRoute_map //create current route
           .attr("d", linedata);
-        pastRoute_map_blur //create current route
+/*        pastRoute_map_blur //create current route
           .attr("d", linedata);
-      }
+*/      }
 
       track.attr("r", 1 * (trackscale % 4) + 1); //change the tracker's r according to closerate
       track_f.attr("r", 2 * (trackscale % 4) + 4); //change the tracker's r according to closerate
@@ -762,7 +762,7 @@ d3.tsv("new_monitor_sim.tsv", function(error, data) {
       context.beginPath(); //draw the outbound of the sphere
       path(sphere);
       context.lineWidth = 1;
-      context.strokeStyle = "#999";
+      context.strokeStyle = "none";
       context.stroke();
       context.fillStyle = "rgba(50,50,50,0.9)";
       context.fill();
@@ -805,9 +805,9 @@ var update = function(current) {
 
   CuRoute
     .attr("class", "curroute")
-  CuRoute_blur
+/*  CuRoute_blur
     .attr("class", "curroute_blur")
-
+*/
 
   $(".points").remove();
   point = svg.append("g")
