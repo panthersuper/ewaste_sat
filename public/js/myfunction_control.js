@@ -7,9 +7,16 @@
         var b = lst[k][4];
         var c = lst[k][5];
         myvar += (a + b + c).length;
+
+        var mmm = (a + b + c).length;
+      if(mmm>0){console.log("--------------");
+
+        console.log(mmm);
+        console.log(a+b+c);
+      }
       }
 
-      if (myvar > 0) console.log(lst);
+
 
       if (myvar > 0) return true;
       else return false;
