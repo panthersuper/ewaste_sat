@@ -228,7 +228,7 @@ a:active {text-decoration: none}
     #tablepath {
       display: none;
       position: absolute;
-      width: 315px;
+      width: calc(15% + 45px);
       height: 530px;
       background-color: rgba(18,23,27,0.6);
       left: 280px;
@@ -244,7 +244,7 @@ a:active {text-decoration: none}
       position: absolute;
       left: 280px;
       top: 0px;
-      width: 270px;
+      width: 15%;
       cursor: pointer;
       height: 47px;
       border-right: 1px rgb(50,50,50) solid;
@@ -1238,7 +1238,6 @@ a:active {text-decoration: none}
     color: white;
     font-size: 20px;
     font-weight: 600;
-    text-shadow: 1px 1px 1px white;     
   }
 
   #info_3 {
