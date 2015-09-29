@@ -257,6 +257,7 @@ var main = function() {
 
   $("#explore").click(
     function() {
+
       $(".home").fadeOut(1000, function() {
 
         $("#info_0").fadeIn(1000, function() {
