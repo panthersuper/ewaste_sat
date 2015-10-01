@@ -3,6 +3,7 @@
 
 * {
   margin:0px;
+  -webkit-font-smoothing: antialiased;
 
 }
 
@@ -1310,8 +1311,25 @@ a:active {text-decoration: none}
     bottom: 58px;
   }
 
+.change_Map {
+    display: inline;
+    position: absolute;
+    right: 38px;
+    top: 100px;
+    background-color: rgb(18,23,27);
+    padding: 7px;
+    border-radius: 2px;
+    border: 1px rgb(50,50,50) solid;
+    font-size: 14px;
+    font-weight: 600;
+    color: white;
+  }
 
-
+.change_Map:hover {
+    //color: rgb(200,200,200);
+    background-color: rgb(28,33,40);
+    cursor: pointer;
+}
 
 
 

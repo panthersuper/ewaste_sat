@@ -113,7 +113,7 @@ var main = function() {
           moveToggle = false;
           //cont = false;
           updateContent(0);
-        next_control = true;
+          next_control = true;
 
         } else {
 
@@ -258,27 +258,27 @@ var main = function() {
   $("#explore").click(
     function() {
 
-      $(".home").fadeOut(1000, function() {
+      /*      $(".home").fadeOut(1000, function() {
 
-        $("#info_0").fadeIn(1000, function() {
-          $(this).fadeOut(5000, function() {
-            $("#info_1").fadeIn(1000, function() {
-              $(this).fadeOut(8000, function() {
-                $("#info_2").fadeIn(1000, function() {
-                  $(this).fadeOut(3000, function() {
-                    locreplay = false;
-                    locloop = false; //to stop the loop
-                    resize();
-                    animate_path();
-                    $("#info_3").fadeIn(5000);
+              $("#info_0").fadeIn(1000, function() {
+                $(this).fadeOut(5000, function() {
+                  $("#info_1").fadeIn(1000, function() {
+                    $(this).fadeOut(8000, function() {
+                      $("#info_2").fadeIn(1000, function() {
+                        $(this).fadeOut(3000, function() {
+                          locreplay = false;
+                          locloop = false; //to stop the loop
+                          resize();
+                          animate_path();
+                          $("#info_3").fadeIn(5000);
+                        });
+                      });
+                    });
                   });
                 });
               });
-            });
-          });
-        });
-      });
-/*
+            });*/
+
       $(".home").fadeOut(1000, function() {
 
         $("#info_0").fadeIn(0, function() {
@@ -299,16 +299,39 @@ var main = function() {
           });
         });
       });
-*/
-
-
-
 
 
 
       //$(".underbar_back").fadeIn(1000);
     }
   );
+
+  var mystyle = true;
+  $(".change_Map").click(function() {
+    console.log("change map style");
+    if (mystyle) {
+      mystyle = false;
+
+      map = new mapboxgl.Map({
+        container: 'map', // container id
+        style: 'mapbox://styles/mapbox/dark-v8', //hosted style id
+      });
+
+    } else {
+      mystyle = true;
+
+      map = new mapboxgl.Map({
+        container: 'map',
+        style: 'mapbox://styles/mapbox/satellite-v8',
+      });
+
+      console.log(map.style);
+
+    }
+
+
+
+  });
 
 
   $(".hint").click(function() {
