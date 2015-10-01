@@ -261,11 +261,11 @@ var main = function() {
             $(".home").fadeOut(1000, function() {
 
               $("#info_0").fadeIn(1000, function() {
-                $(this).fadeOut(5000, function() {
+                $(this).delay(4000).fadeOut(1000, function() {
                   $("#info_1").fadeIn(1000, function() {
-                    $(this).fadeOut(8000, function() {
+                    $(this).delay(7000).fadeOut(1000, function() {
                       $("#info_2").fadeIn(1000, function() {
-                        $(this).fadeOut(3000, function() {
+                        $(this).delay(2000).fadeOut(1000, function() {
                           locreplay = false;
                           locloop = false; //to stop the loop
                           resize();
