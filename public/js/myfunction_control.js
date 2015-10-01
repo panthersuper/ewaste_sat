@@ -404,13 +404,10 @@
 
     var updateContent = function(num) {
 
-      /*      if (num != 0 && cont === true) {
-              cont === true;
-            }*/
 
-      timeMark
+/*      timeMark
         .attr("transform", "translate(" + xScale(getNode(places, nowNum)[2]) + "," + (20 + 2.5) + ")");
-
+*/
 
 
       d3.select("#distance .keynum")

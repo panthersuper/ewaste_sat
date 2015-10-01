@@ -119,7 +119,6 @@ d3.tsv("http://cors.io/?u=https://docs.google.com/spreadsheets/d/1nrsZSqrpaUkYec
         //head is not counted as a row.
         //each item in the data list is a dictionary, key is indicated by the head
         mymain(data2);
-
       });
 
 } else {
@@ -675,6 +674,20 @@ var mymain = function(data) {
         next_num = nowNum + 1;
 
       }
+
+      var pretime = xScale(getNode(places, pre_num)[2]);
+      var nextime = xScale(getNode(places, nowNum)[2]);
+
+      var thisratio = phasePercentage;
+      if (thisratio === 1) thisratio = 0;
+      var nowtime = pretime + (nextime-pretime)*thisratio;
+
+      timeMark
+        .attr("transform", "translate(" + nowtime + "," + (20 + 2.5) + ")");
+
+
+
+
 
       keys = Object.keys(places);
       important = places[keys[nowNum]][3].length + places[keys[nowNum]][4].length + places[keys[nowNum]][5].length;

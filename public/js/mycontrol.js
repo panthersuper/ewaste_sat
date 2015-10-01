@@ -258,7 +258,7 @@ var main = function() {
   $("#explore").click(
     function() {
 
-      $(".home").fadeOut(1000, function() {
+/*      $(".home").fadeOut(1000, function() {
 
         $("#info_0").fadeIn(1000, function() {
           $(this).fadeOut(5000, function() {
@@ -277,7 +277,34 @@ var main = function() {
             });
           });
         });
+      });*/
+
+      $(".home").fadeOut(1000, function() {
+
+        $("#info_0").fadeIn(0, function() {
+          $(this).fadeOut(0, function() {
+            $("#info_1").fadeIn(0, function() {
+              $(this).fadeOut(0, function() {
+                $("#info_2").fadeIn(0, function() {
+                  $(this).fadeOut(0, function() {
+                    locreplay = false;
+                    locloop = false; //to stop the loop
+                    resize();
+                    animate_path();
+                    $("#info_3").fadeIn(0);
+                  });
+                });
+              });
+            });
+          });
+        });
       });
+
+
+
+
+
+
 
       //$(".underbar_back").fadeIn(1000);
     }
