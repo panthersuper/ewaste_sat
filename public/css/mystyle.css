@@ -1,5 +1,5 @@
 @import url(https://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700);
-
+@import url(https://fonts.googleapis.com/css?family=Merriweather+Sans:400,700,800);
 
 * {
   margin:0px;
@@ -61,7 +61,7 @@ a:active {text-decoration: none}
 .home_tb {
   display: block;
   color:white;
-  width:700px;
+  width:800px;
   height: 80%;
   max-height: 650px;
   position: relative;
@@ -83,6 +83,7 @@ a:active {text-decoration: none}
   margin-top: 0px !important;
   padding: 0px !important;
   font-size: 20px;
+      font-weight: 700;
   color:white !important;
      }
 
@@ -1338,7 +1339,14 @@ a:active {text-decoration: none}
 
 #home_title {
   font-size: 100px;
-  -webkit-text-stroke: 2px rgb(80,80,80);
+  font-family: 'Merriweather Sans', sans-serif;
+  font-weight: 800;
+}
+
+#home_title span {
+  font-size: 70px;
+  font-family: 'Merriweather Sans', sans-serif;
+  font-weight: 800;
 }
 
 .home_links p {
