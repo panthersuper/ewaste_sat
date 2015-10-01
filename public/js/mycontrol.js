@@ -308,7 +308,6 @@ var main = function() {
 
   var mystyle = true;
   $(".change_Map").click(function() {
-    console.log("change map style");
     if (mystyle) {
       mystyle = false;
 
@@ -325,7 +324,6 @@ var main = function() {
         style: 'mapbox://styles/mapbox/satellite-v8',
       });
 
-      console.log(map.style);
 
     }
 

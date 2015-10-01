@@ -283,7 +283,6 @@ d3.tsv("http://cors.io/?u=https://docs.google.com/spreadsheets/d/1nrsZSqrpaUkYec
       }
 
       d3.select(window).on('resize', function() {
-         console.log("...");
          count1 = 0;
          count2 = 0;
 
