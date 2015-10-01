@@ -258,7 +258,7 @@ var main = function() {
   $("#explore").click(
     function() {
 
-      /*      $(".home").fadeOut(1000, function() {
+            $(".home").fadeOut(1000, function() {
 
               $("#info_0").fadeIn(1000, function() {
                 $(this).fadeOut(5000, function() {
@@ -277,8 +277,8 @@ var main = function() {
                   });
                 });
               });
-            });*/
-
+            });
+/*
       $(".home").fadeOut(1000, function() {
 
         $("#info_0").fadeIn(0, function() {
@@ -299,7 +299,7 @@ var main = function() {
           });
         });
       });
-
+*/
 
 
       //$(".underbar_back").fadeIn(1000);
