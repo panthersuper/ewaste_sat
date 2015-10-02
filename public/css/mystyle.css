@@ -1319,21 +1319,28 @@ a:active {text-decoration: none}
 .change_Map {
     display: inline;
     position: absolute;
-    right: 38px;
+    left: 38px;
     top: 100px;
-    background-color: rgb(18,23,27);
+    background-color: none;
     padding: 7px;
-    border-radius: 2px;
-    border: 1px rgb(50,50,50) solid;
     font-size: 14px;
     font-weight: 600;
     color: white;
     opacity: 0.9;
   }
 
+  .change_Map p{
+    width: 76px;
+    text-align: center;
+    font-size: 14px;
+    float: left;
+    padding: 5px;
+    margin: 0px;
+  }
+
 .change_Map:hover {
     //color: rgb(200,200,200);
-    background-color: rgb(28,33,40);
+    background-color: none;
     cursor: pointer;
 }
 
@@ -1351,4 +1358,21 @@ a:active {text-decoration: none}
 
 .home_links p {
   font-size: 15px;
+}
+
+.change_map_mark {
+  position: absolute;
+  width: 50%;
+  left: 0%;
+  height: 3px;
+  bottom: 0px;
+  background-color: #39a4e8;
+      transition: all 0.3s ease-in-out;
+      -webkit-transition: all 0.3s ease-in-out;
+      -moz-transition: all 0.3s ease-in-out;
+      -o-transition: all 0.3s ease-in-out;
+
+
+
+
 }

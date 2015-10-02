@@ -258,7 +258,7 @@ var main = function() {
   $("#explore").click(
     function() {
 
-            $(".home").fadeOut(1000, function() {
+/*            $(".home").fadeOut(1000, function() {
 
               $("#info_0").fadeIn(1000, function() {
                 $(this).delay(4000).fadeOut(1000, function() {
@@ -277,8 +277,8 @@ var main = function() {
                   });
                 });
               });
-            });
-/*
+            });*/
+
       $(".home").fadeOut(1000, function() {
 
         $("#info_0").fadeIn(0, function() {
@@ -299,7 +299,7 @@ var main = function() {
           });
         });
       });
-*/
+
 
 
       //$(".underbar_back").fadeIn(1000);
@@ -311,6 +311,8 @@ var main = function() {
     if (mystyle) {
       mystyle = false;
 
+      $(".change_map_mark").css("left", "50%");
+
       map = new mapboxgl.Map({
         container: 'map', // container id
         style: 'mapbox://styles/mapbox/dark-v8', //hosted style id
@@ -318,6 +320,8 @@ var main = function() {
 
     } else {
       mystyle = true;
+
+      $(".change_map_mark").css("left", "0%");
 
       map = new mapboxgl.Map({
         container: 'map',
