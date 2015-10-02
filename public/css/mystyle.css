@@ -85,6 +85,7 @@ a:active {text-decoration: none}
   font-size: 20px;
       font-weight: 700;
   color:white !important;
+  text-shadow: 0px 0px 1px #000, 0px 0px 2px rgba(0, 0, 0, .5), 0px 0px 3px rgba(0, 0, 0, .25);
      }
 
 
@@ -963,6 +964,7 @@ a:active {text-decoration: none}
     bottom: 0px;
     left: 50%;
     transform: translateX(-50%);
+    text-shadow: 0px 0px 1px #000, 0px 0px 2px rgba(0, 0, 0, .5), 0px 0px 3px rgba(0, 0, 0, .25);
   }
   .home_links p {
     padding: 0px;
@@ -1243,6 +1245,7 @@ a:active {text-decoration: none}
     color: white;
     font-size: 20px;
     font-weight: 600;
+    text-shadow: 0px 0px 1px #000, 0px 0px 2px rgba(0, 0, 0, .5), 0px 0px 3px rgba(0, 0, 0, .25);
   }
 
   #info_3 {
@@ -1347,10 +1350,11 @@ a:active {text-decoration: none}
   font-size: 100px;
   font-family: 'Merriweather Sans', sans-serif;
   font-weight: 800;
+  text-shadow: 0px 0px 1px #000, 0px 0px 2px rgba(0, 0, 0, .5), 0px 0px 3px rgba(0, 0, 0, .25);
 }
 
 #home_title span {
-  font-size: 70px;
+  font-size: 80px;
   font-family: 'Merriweather Sans', sans-serif;
   font-weight: 800;
 }
@@ -1374,4 +1378,10 @@ a:active {text-decoration: none}
 
 
 
+}
+
+
+#explore p {
+  margin: 0px;
+  font-size: 14px;
 }
