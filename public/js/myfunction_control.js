@@ -378,8 +378,8 @@
           .attr("id", "media" + thisnum)
           .attr("class", "media_in")
           .attr("src", video[k])
-          .attr("width", 240)
-          .attr("height", 240)
+          .attr("width", 290)
+          .attr("height", 200)
           .attr("allowfullscreen", "")
           .attr("webkitallowfullscreen", "")
           .attr("mozallowfullscreen", "");
@@ -501,8 +501,8 @@
             .attr("id", "media" + cnum)
             .attr("class", "media_in")
             .attr("src", video[k])
-            .attr("width", 240)
-            .attr("height", 240)
+            .attr("width", 290)
+            .attr("height", 200)
             .attr("allowfullscreen", "")
             .attr("webkitallowfullscreen", "")
             .attr("mozallowfullscreen", "");
